@@ -1,0 +1,7 @@
+{
+	"description": "Sistema Unico de Comedores",
+	"name": "caeceteam/suc_web",
+	"require": {
+		"php": ">=5.5.0"
+	}
+}
