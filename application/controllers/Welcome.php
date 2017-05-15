@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use GuzzleHttp\Client;
+
 class Welcome extends CI_Controller {
 
 	/**
@@ -21,5 +23,18 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('welcome_message');
+	}
+	
+	public function test_composer()
+	{
+		$client = new Client([
+				// Base URI is used with relative requests
+				'base_uri' => 'https://httpbin.org',
+				// You can set any number of default request options.
+				'timeout'  => 2.0,
+		]);
+		$response = $client->request('GET', 'get');
+		$body = $response->getBody();
+		echo $body;
 	}
 }
