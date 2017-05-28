@@ -29,13 +29,8 @@ class Input_type extends CI_Controller {
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Torneo_model');
 		$this->datos_formulario = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
-		$this->variables['includes']='<script src="'.base_url('js/bootstrapValidator.js').'"></script>';
-		$this->variables['includes']= $this->variables['includes'].'<script src="'.base_url('js/jquery.easy-autocomplete.js').'"></script>';
-		$this->variables['includes']= $this->variables['includes'].'<script src="'.base_url('js/valida_torneo.js').'"></script>';
-		$this->variables['includes']= $this->variables['includes'].'<link rel="stylesheet" href="'.base_url('css/easy-autocomplete.min.css').'" />';
-		$this->variables['includes']= $this->variables['includes'].'<link rel="stylesheet" href="'.base_url('css/easy-autocomplete.themes.min.css').'" />';
 		$this->variables['accion'] = site_url('persona/alta');
-		$this->variables['id_torneo'] = '';
+		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->_setear_campos();
 	}
@@ -46,10 +41,8 @@ class Input_type extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('templates/header', $this->variables);
 		$this->_renderizar_torneos();
 		$this->load->view('torneos/principal_torneo', $this->variables);
-		$this->load->view('templates/footer');
 	}
 	
 	/**
@@ -154,7 +147,7 @@ class Input_type extends CI_Controller {
 	 * @param 		integer 	$id_torneo id del torneo para cuando se trata de una edición
 	 * @return		object		$persona
 	 */
-	private function _obtener_post($id_torneo=NULL)
+	private function _obtener_post($id=NULL)
 	{
 		$fecha = getdate();
 		$torneo = new stdClass();
@@ -193,22 +186,32 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que renderiza los ultimos torneos creados
-	 * 
+	 * Renderiza una tabla en base a un template HTML y un object|array
+	 * @param		string		$template
+	 * @param		mixed 		object|array Puede recibir un objeto de una persona o un array de varias
+	 * @return		void
 	 */
-	private function _renderizar_torneos()
+	private function _renderizar_tabla($template=NULL, $datos)
 	{
-		$fecha = getdate();
-		$torneos = $this->Torneo_model->consulta(NULL, $fecha['year']);
-		$link_torneo = site_url('torneo/editar');
-		$html = '';
-		foreach ($torneos as $i)
+		//Si los datos a renderizar son un objeto, es porque vino un único registro, se convierte a array para poder iterar el el foreach de mas abajo
+		if(is_object($datos))
 		{
-			$link_torneo = $link_torneo . '/' . $i['id_torneo'];
-			$html = $html . '<div class="form-group col-md-4"><a href="' . $link_torneo . '" class="btn btn-link">' . $i['nombre'] . '</a></div>';
-			$link_torneo = site_url('torneo/editar');
+			$array[0] = get_object_vars($datos);
+			$datos = $array;
 		}
-		$this->variables['torneos']=$html;
+		$template = isset($template) ? $template : array('table_open' => '<table border="0" cellpadding="4" cellspacing="0" class="table table-striped">');
+		$this->load->library('table');
+		$this->table->set_template($template);
+		$this->table->set_heading(lang('html_persona_label_cuil'), lang('html_persona_label_nombre'), lang('html_persona_label_apellido'), lang('html_persona_label_mail'), lang('html_grilla_acciones'));
+		foreach ($datos as $persona)
+		{
+			$this->table->add_row($persona['cuil'], $persona['nombre'], $persona['apellido'], $persona['mail'],
+					anchor('persona/ver/'.$persona['cuil'],lang('html_persona_button_ver'),array('class'=>'view')).' '.
+					anchor('persona/editar/'.$persona['cuil'],lang('html_persona_button_modificar'),array('class'=>'update')).' '.
+					anchor('persona/baja/'.$persona['cuil'],lang('html_persona_button_eliminar'),array('class'=>'delete','onclick'=>"return confirm('".lang('html_persona_mensaje_confirmacion')."')"))
+					);
+		}
+		$this->variables['tabla'] = $this->table->generate();
 	}
 	
 	/**
@@ -225,22 +228,5 @@ class Input_type extends CI_Controller {
 		$this->variables['eliminar']	= $eliminar;
 		$this->variables['modalidades']	= '';
 		$this->variables['modalidad']	= '';
-	}
-		
-	/**
-	 * Funcion que completa el combo de modalidades si no recibe ningún parametro, sino muestra el combo con el id que recibe
-	 * @param 		integer 	$id_tipo_modalidad
-	 * @return void
-	 */
-	private function _obtener_combo_modalidad($id_tipo_modalidad=NULL)
-	{
-		$modalidades = $this->Torneo_model->consulta_tipo_modalidad();
-		$descripcion[''] = "[SELECCIONE]";
-		foreach ($modalidades as $i)
-		{
-			$descripcion[$i['id_tipo_modalidad']] = $i['descripcion'];
-		}
-		$this->variables['modalidades']=$descripcion;
-		$this->variables['modalidad']= isset($id_tipo_modalidad) ? $id_tipo_modalidad : '';
 	}
 }
