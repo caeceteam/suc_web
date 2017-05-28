@@ -7,7 +7,8 @@ class Input_type_model extends CI_Model {
 	 * Variables para el rest client
 	 * @var string
 	 */
-	private $base_uri 	= '';
+	private $base_uri 	= 'http://demo2175273.mockable.io/input_type';
+	private $client;
 	
 	/**
 	 * Variables para los atributos del modelo
@@ -20,34 +21,26 @@ class Input_type_model extends CI_Model {
 	
 	public function __construct()
 	{
-		$this->load->database();
+		$this->client = new Client([
+			// Base URI is used with relative requests
+			'base_uri' => $base_uri,
+			// You can set any number of default request options.
+			'timeout'  => 2.0,
+			]);
 	}
 	
 	/**
 	 * Consulta de tipo de insumo
 	 * 
 	 * Consulta personas por cuil o devuelve toda la tabla
-	 * @param 		string 		$cuil
-	 * @return 		mixed 		object|array Devuelve un objeto Persona si se consulta por un CUIL, sino devuelve un array
+	 * @param 		string 		$name
+	 * @return 		mixed 		array Devuelve un array
 	 */
-	public function consulta($cuil=NULL)
+	public function consulta($name=NULL)
 	{
-		$query = $this->db->query($this->sp_consulta, array('cuil' => $cuil));
-		if($cuil)
-		{
-			if ($query->num_rows() > 0) {
-				$row=$query->row_array();
-				$this->cuil=$row["cuil"];
-				$this->nombre=$row["nombre"];
-				$this->apellido=$row["apellido"];
-				$this->mail=$row["mail"];
-			}
-			return $this;
-		}
-		else
-		{
-			return $query->result_array();
-		}
+		$response = $client->request('GET', 'input_type');
+		$body = $response->getBody();
+		echo $body;
 	}
 	
 	/**
