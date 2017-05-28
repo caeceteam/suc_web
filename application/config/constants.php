@@ -83,3 +83,18 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+/*
+ |--------------------------------------------------------------------------
+ | Códigos de status HTTP
+ |--------------------------------------------------------------------------
+ |
+ | Usados para validar las llamadas a la API.
+ |
+ */
+defined('HTTP_OK')      		OR define('HTTP_OK', 200);
+defined('HTTP_CREATED')      	OR define('HTTP_CREATED', 201);
+defined('HTTP_ACCEPTED')      	OR define('HTTP_ACCEPTED', 202);
+defined('HTTP_NO_CONTENT')      OR define('HTTP_NO_CONTENT', 204);
+defined('HTTP_BAD_REQUEST')     OR define('HTTP_BAD_REQUEST', 400);
+defined('HTTP_FORBIDDEN')     	OR define('HTTP_FORBIDDEN', 403);

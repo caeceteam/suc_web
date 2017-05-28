@@ -402,33 +402,7 @@
 							</div>
 						</div>
 
-                        <table id="data-table-command" class="table table-striped table-vmiddle">
-                            <thead>
-                                <tr>
-                                    <th data-column-id="id" data-order="desc">Código</th>
-                                    <th data-column-id="name">Nombre</th>
-                                    <th data-column-id="desc">Descripción</th>
-                                    <th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ALIM</td>
-                                    <td>Alimento</td>
-                                    <td>Todo tipo de alimento</td>
-                                </tr>
-                                <tr>
-                                    <td>PAPH</td>
-                                    <td>Papel Higiénico</td>
-                                    <td>Papel higiénico</td>
-                                </tr>
-                                <tr>
-                                    <td>COCINA</td>
-                                    <td>Elementos de cocina</td>
-                                    <td>Cuchillo, tenedor, cuchara, etc</td>
-                                </tr>
-                            </tbody>
-                        </table>
+						<?php echo $table ?>
                     </div>
                 </div>
             </section>
