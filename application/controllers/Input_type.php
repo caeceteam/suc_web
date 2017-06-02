@@ -89,7 +89,7 @@ class Input_type extends CI_Controller {
 				array('data' => 'Descripción', 'data-column-id' => 'Descripcion'), 
 				array('data' => 'Modificar/Borrar', 'data-column-id' => 'commands', 'data-formatter' => 'commands', 'data-sortable' => 'false') 
 				);
-		foreach ($data['input_type'] as $input_type)
+		foreach ($data as $input_type)
 		{
 			$this->table->add_row($input_type['code'], $input_type['name'], $input_type['description']);
 		}

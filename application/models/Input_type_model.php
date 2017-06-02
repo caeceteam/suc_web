@@ -8,7 +8,7 @@ class Input_type_model extends CI_Model {
 	 * Variables para el rest client
 	 * @var string
 	 */
-	private $base_uri 	= 'http://demo2175273.mockable.io';
+	private $base_uri 	= 'http://localhost:3000';
 	private $client;
 	private $timeout = 5.0;
 	
@@ -39,7 +39,7 @@ class Input_type_model extends CI_Model {
 	 */
 	public function search($id=NULL)
 	{
-		$response = $this->client->request('GET', 'input_type');
+		$response = $this->client->request('GET', 'api/inputtypes');
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();

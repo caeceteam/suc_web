@@ -97,4 +97,7 @@ defined('HTTP_CREATED')      	OR define('HTTP_CREATED', 201);
 defined('HTTP_ACCEPTED')      	OR define('HTTP_ACCEPTED', 202);
 defined('HTTP_NO_CONTENT')      OR define('HTTP_NO_CONTENT', 204);
 defined('HTTP_BAD_REQUEST')     OR define('HTTP_BAD_REQUEST', 400);
+defined('HTTP_UNAUTHORIZED')    OR define('HTTP_UNAUTHORIZED', 401);
 defined('HTTP_FORBIDDEN')     	OR define('HTTP_FORBIDDEN', 403);
+defined('HTTP_NOT_FOUND')     	OR define('HTTP_NOT_FOUND', 404);
+defined('HTTP_INTERNAL_SERVER') OR define('HTTP_INTERNAL_SERVER', 500);

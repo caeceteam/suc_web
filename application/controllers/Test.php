@@ -15,7 +15,7 @@ class Test extends CI_Controller {
 	 * Variables para el rest client
 	 * @var string
 	 */
-	private $base_uri 	= 'http://demo2175273.mockable.io';
+	private $base_uri 	= 'http://localhost:3000';
 	private $client;
 	private $timeout = 5.0;
 	
@@ -46,7 +46,7 @@ class Test extends CI_Controller {
 	
 	public function search($name=NULL)
 	{
-		$response = $this->client->request('GET', 'input_type');
+		$response = $this->client->request('GET', 'api/inputtypes');
 		$status = $response->getStatusCode();
 		$body = $response->getBody();
 		echo 'respuesta normal' . $body;
@@ -55,6 +55,6 @@ class Test extends CI_Controller {
 		var_dump($body2);
 		$body3 = json_decode($body, TRUE);
 		echo 'json decode asociativo';
-		var_dump($body3);		
+		var_dump($body3);
 	}
 }
