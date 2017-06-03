@@ -76,7 +76,7 @@ class Input_type extends CI_Controller {
 		}
 		else
 		{
-			if($this->Input_type_model->add($this->_get_post()!=NULL))
+			if(($this->Input_type_model->add($this->_get_post()))!=NULL)
 			{
 				$this->variables['message'] = 'Datos grabados!';
 				$this->variables['reset'] = TRUE;
