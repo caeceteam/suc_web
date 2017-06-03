@@ -153,20 +153,21 @@
 										</br>
 										<div class="form-group fg-float">
 											<div class="fg-line">
-												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->name); ?>">
+												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
 												<label class="fg-label">Código</label>
 											</div>
 										</div>
 										</br>
 										<div class="form-group fg-float">
 											<div class="fg-line">
-												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->name); ?></textarea>
+												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
 												<label class="fg-label">Descripción</label>
 											</div>
 										</div>
 
-										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Crear</button>
+										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
 										<a href="<?php echo site_url('input_type'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
+										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
 									</form>								
                                 </div>
                             </div>

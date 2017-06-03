@@ -35,22 +35,24 @@ class Input_type_model extends CI_Model {
 	 * 
 	 * Consulta tipos de insumo por id o devuelve toda la tabla
 	 * @param 		string 		$id
-	 * @return 		array 		Devuelve un array
+	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
 	public function search($id=NULL)
 	{
-		$response = $this->client->request('GET', 'api/inputtypes');
+		$response = $this->client->request('GET', $id != NULL ? 'api/inputtypes/' . $id : 'api/inputtypes/');
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
 			return json_decode($body,TRUE);
 		}
+		else
+			return NULL;
 	}
 	
 	/**
 	 * Alta de input type
 	 * @param		object	$input_type
-	 * @return 		array Devuelve un array con la la clave 'resultado', OK en caso de alta exitosa y sino ERROR
+	 * @return 		array   Si el alta fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function add($input_type)
 	{
@@ -59,12 +61,29 @@ class Input_type_model extends CI_Model {
 					]);
 		if($response->getStatusCode()==HTTP_CREATED)
 		{
-			$resultado['resultado']='OK';
-			//$resultado['id']=$query->row_array()["id_torneo"];
+			$body = $response->getBody();
+			return json_decode($body,TRUE);
 		}
-		else{
-			$resultado['resultado']='ERROR';
-		}
-		return $resultado;
+		else
+			return NULL;
 	}
-}
+	
+	/**
+	 * Edición de input type
+	 * @param		object	$input_type
+	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 */
+	public function edit($input_type)
+	{
+		$response = $this->client->request('PUT', 'api/inputtypes/' . $input_type->id, [
+				    'json' => $input_type
+					]);
+		if($response->getStatusCode()==HTTP_ACCEPTED)
+		{
+			$body = $response->getBody();
+			return json_decode($body,TRUE);
+		}
+		else
+			return NULL;
+	}
+};

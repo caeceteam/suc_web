@@ -27,7 +27,6 @@ class Input_type extends CI_Controller {
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Input_type_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
-		$this->variables['action'] = site_url('input_type/add');
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->_initialize_fields();
@@ -62,27 +61,67 @@ class Input_type extends CI_Controller {
 			$this->index();
 	}
 	
+	/**
+	 * Funcion que muestra el formulario de alta y guarda la misma cuando la validacion del formulario no arroja errores
+	 * @return void
+	 */
 	public function add()
 	{
-		//$this->_setear_variables('', '', site_url('torneo/alta'), site_url('torneo'), '', '');
+		$this->variables['action'] = site_url('input_type/add');
 		$this->_set_rules();
 		if($this->form_validation->run() == FALSE)
 		{
-			$this->variables['mensaje']= validation_errors();
+			$this->variables['message']= validation_errors();
 		}
 		else
 		{
-			if($this->Input_type_model->add($this->_get_post()))
+			if($this->Input_type_model->add($this->_get_post()!=NULL))
 			{
-				$this->variables['mensaje'] = 'Datos grabados!';
+				$this->variables['message'] = 'Datos grabados!';
 				$this->variables['reset'] = TRUE;
 			}
 			else
 			{
-				$this->variables['mensaje'] = 'Error al guardar';
+				$this->variables['message'] = 'Error al guardar';
 			}
 		}
-		//$this->_renderizar_torneos();
+		$this->load->view('input_type/save', $this->variables);
+	}
+	
+	/**
+	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
+	 * @return void
+	 */
+	public function edit($id=NULL)
+	{
+		$this->variables['action'] = site_url('input_type/edit');
+		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
+		if(!$this->input->post('name'))
+		{
+			$input_type = $this->Input_type_model->search($id)['inputType'];
+			$this->form_data->id = $input_type['idInputType'];
+			$this->form_data->code = $input_type['code'];
+			$this->form_data->name = $input_type['name'];
+			$this->form_data->description = $input_type['description'];
+		}
+		else
+		{
+			$this->_initialize_fields();
+			$this->_set_rules();
+			$input_type = new stdClass();
+			if($this->form_validation->run() == FALSE)
+			{
+				$this->variables['message']= validation_errors();
+			}
+			else if($this->Input_type_model->edit($this->_get_post())!=NULL)
+			{
+				$this->variables['message'] = 'Datos editados!';
+			}
+			else
+			{
+				$this->variables['message'] = 'Error al editar';
+			}
+		}
 		$this->load->view('input_type/save', $this->variables);
 	}
 	
@@ -119,7 +158,7 @@ class Input_type extends CI_Controller {
 	private function _get_post($id=NULL)
 	{
 		$input_type = new stdClass();
-		$input_type->id 			= $id = '' ? $id : $this->input->post('id');
+		$input_type->id 			= $id != NULL ? $id : $this->input->post('id');
 		$input_type->code 			= $this->input->post('code');
 		$input_type->name 			= $this->input->post('name');
 		$input_type->description 	= $this->input->post('description');
