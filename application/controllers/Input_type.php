@@ -172,7 +172,7 @@ class Input_type extends CI_Controller {
 	private function _get_post($id=NULL)
 	{
 		$input_type = new stdClass();
-		//$input_type->id 			= $id != NULL ? $id : $this->input->post('id');
+		$input_type->id 			= $id != NULL ? $id : $this->input->post('id');
 		$input_type->code 			= $this->input->post('code');
 		$input_type->name 			= $this->input->post('name');
 		$input_type->description 	= $this->input->post('description');
