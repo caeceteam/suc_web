@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Input_type extends CI_Controller {
 
-	
 	/**
 	 * Array para guardar todas las variables de la pagina
 	 * @var array
@@ -14,11 +13,10 @@ class Input_type extends CI_Controller {
 	 * Array para guardar exclusivamente los values del formulario
 	 * @var array
 	 */
-	public $datos_formulario;
+	public $form_data;
 	
 	/**
 	 * Constructor de clase
-	 *
 	 * Se encarga de hacer el load de los modulos necesarios
 	 * @return void
 	 */
@@ -28,12 +26,11 @@ class Input_type extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Input_type_model');
-		/*
-		$this->datos_formulario = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
-		$this->variables['accion'] = site_url('persona/alta');
+		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
+		$this->variables['action'] = site_url('input_type/add');
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
-		$this->_setear_campos();*/
+		$this->_initialize_fields();
 	}
 	
 	/**
@@ -65,6 +62,30 @@ class Input_type extends CI_Controller {
 			$this->index();
 	}
 	
+	public function add()
+	{
+		//$this->_setear_variables('', '', site_url('torneo/alta'), site_url('torneo'), '', '');
+		$this->_set_rules();
+		if($this->form_validation->run() == FALSE)
+		{
+			$this->variables['mensaje']= validation_errors();
+		}
+		else
+		{
+			if($this->Input_type_model->add($this->_get_post()))
+			{
+				$this->variables['mensaje'] = 'Datos grabados!';
+				$this->variables['reset'] = TRUE;
+			}
+			else
+			{
+				$this->variables['mensaje'] = 'Error al guardar';
+			}
+		}
+		//$this->_renderizar_torneos();
+		$this->load->view('input_type/save', $this->variables);
+	}
+	
 	/**
 	 * Renderiza una tabla en base a un template HTML y un object|array
 	 * @param		string		$template
@@ -73,12 +94,6 @@ class Input_type extends CI_Controller {
 	 */
 	public function render_table($template=NULL, $data)
 	{
-		//Si los datos a renderizar son un objeto, es porque vino un único registro, se convierte a array para poder iterar el el foreach de mas abajo
-		/*if(is_object($data))
-		{
-			$array[0] = get_object_vars($data);
-			$data = $array;
-		}*/
 		$template = isset($template) ? $template : array(
 				'table_open' => '<table id="data-table-command" class="table table-striped table-vmiddle">');
 		$this->load->library('table');
@@ -94,5 +109,43 @@ class Input_type extends CI_Controller {
 			$this->table->add_row($input_type['code'], $input_type['name'], $input_type['description']);
 		}
 		$this->variables['table'] = $this->table->generate();
+	}
+	
+	/**
+	 * Obtiene los datos del post y los devuelve en forma de objeto
+	 * @param 		integer 	$id id del input type para cuando se trata de una edición
+	 * @return		object		$input_type
+	 */
+	private function _get_post($id=NULL)
+	{
+		$input_type = new stdClass();
+		$input_type->id 			= $id = '' ? $id : $this->input->post('id');
+		$input_type->code 			= $this->input->post('code');
+		$input_type->name 			= $this->input->post('name');
+		$input_type->description 	= $this->input->post('description');
+		return $input_type;
+	}
+	
+	/**
+	 * Funcion que inicializa las variables de los campos del formulario para la edición
+	 * @return void
+	 */
+	private function _initialize_fields()
+	{
+		$this->form_data->id = '';
+		$this->form_data->code = '';
+		$this->form_data->name = '';
+		$this->form_data->description = '';
+	}
+	
+	/**
+	 * Funcion que setea las reglas de validacion del formulario y sus mensajes de errores
+	 * @return void
+	 */
+	private function _set_rules()
+	{
+		$this->form_validation->set_rules('code', 'Código', 'trim|required');
+		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
+		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}
 }

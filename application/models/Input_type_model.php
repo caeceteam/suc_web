@@ -46,4 +46,25 @@ class Input_type_model extends CI_Model {
 			return json_decode($body,TRUE);
 		}
 	}
+	
+	/**
+	 * Alta de input type
+	 * @param		object	$input_type
+	 * @return 		array Devuelve un array con la la clave 'resultado', OK en caso de alta exitosa y sino ERROR
+	 */
+	public function add($input_type)
+	{
+		$response = $this->client->request('POST', 'api/inputtypes', [
+				    'json' => $input_type
+					]);
+		if($response->getStatusCode()==HTTP_CREATED)
+		{
+			$resultado['resultado']='OK';
+			//$resultado['id']=$query->row_array()["id_torneo"];
+		}
+		else{
+			$resultado['resultado']='ERROR';
+		}
+		return $resultado;
+	}
 }
