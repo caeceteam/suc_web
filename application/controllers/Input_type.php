@@ -151,6 +151,7 @@ class Input_type extends CI_Controller {
 		$this->load->library('table');
 		$this->table->set_template($template);
 		$this->table->set_heading(
+				array('data' => 'Id', 'data-column-id' => 'id', 'data-visible' => 'false'),
 				array('data' => 'Código', 'data-column-id' => 'Codigo', 'data-order' => 'desc'), 
 				array('data' => 'Nombre', 'data-column-id' => 'Nombre'), 
 				array('data' => 'Descripción', 'data-column-id' => 'Descripcion'), 
@@ -158,7 +159,7 @@ class Input_type extends CI_Controller {
 				);
 		foreach ($data as $input_type)
 		{
-			$this->table->add_row($input_type['code'], $input_type['name'], $input_type['description']);
+			$this->table->add_row($input_type['idInputType'], $input_type['code'], $input_type['name'], $input_type['description']);
 		}
 		$this->variables['table'] = $this->table->generate();
 	}

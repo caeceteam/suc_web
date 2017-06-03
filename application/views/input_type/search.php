@@ -241,8 +241,8 @@
                     },
                     formatters: {
                         "commands": function(column, row) {
-                            return "<a type=\"button\" href=\"HU010.editor.ejemplo" + row.id + ".html\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
-                                "<a class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
+                            return "<a type=\"button\" href=\"" + "<?php echo site_url('input_type/edit/') ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
+                                "<a href=\"" + "<?php echo site_url('input_type/delete/') ?>" + row.id + "\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
                         }
                     }
                 });
