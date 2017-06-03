@@ -86,4 +86,20 @@ class Input_type_model extends CI_Model {
 		else
 			return NULL;
 	}
+	
+	/**
+	 * Delete de input type
+	 * @param		string	$id
+	 * @return 		bool   Si la baja fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 */
+	public function delete($id)
+	{
+		$response = $this->client->request('DELETE', 'api/inputtypes/' . $id);
+		if($response->getStatusCode()==HTTP_OK)
+		{
+			return TRUE;
+		}
+		else
+			return FALSE;
+	}
 };

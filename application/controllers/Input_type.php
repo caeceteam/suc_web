@@ -44,6 +44,7 @@ class Input_type extends CI_Controller {
 	
 	/**
 	 * Funcion de consulta
+	 * @param		string	$name
 	 * @return void
 	 */
 	public function search($name=NULL)
@@ -90,6 +91,7 @@ class Input_type extends CI_Controller {
 	
 	/**
 	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
+	 * @param		string	$id
 	 * @return void
 	 */
 	public function edit($id=NULL)
@@ -123,6 +125,17 @@ class Input_type extends CI_Controller {
 			}
 		}
 		$this->load->view('input_type/save', $this->variables);
+	}
+	
+	/**
+	 * Funcion de baja
+	 * @param		string	$id
+	 * @return void
+	 */
+	public function delete($id = NULL)
+	{
+		$this->Input_type_model->delete($id);
+		$this->index();
 	}
 	
 	/**
