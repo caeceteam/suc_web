@@ -69,20 +69,20 @@ class Diner extends CI_Controller {
 		if(!$this->input->post('name'))
 		{
 			$diner = $this->Diner_model->search($id)['diner'];
-			$this->form_data->id = $diner["idDiner"];
-			$this->form_data->name = $diner["name"];
-			$this->form_data->street = $diner["street"];
-			$this->form_data->streetNumber = $diner["streetNumber"];
-			$this->form_data->floor = $diner["floor"];
-			$this->form_data->door = $diner["door"];
-			$this->form_data->latitude = $diner["latitude"];
-			$this->form_data->longitude = $diner["longitude"];
-			$this->form_data->zipCode = $diner["zipCode"];
-			$this->form_data->phone = $diner["phone"];
-			$this->form_data->description = $diner["description"];
-			$this->form_data->link = $diner["link"];
-			$this->form_data->mail = $diner["mail"];
-			$this->form_data->idCity = $diner["idCity"];
+			$this->form_data->id = $diner['idDiner'];
+			$this->form_data->name = $diner['name'];
+			$this->form_data->street = $diner['street'];
+			$this->form_data->streetNumber = $diner['streetNumber'];
+			$this->form_data->floor = $diner['floor'];
+			$this->form_data->door = $diner['door'];
+			$this->form_data->latitude = $diner ['latitude'];
+			$this->form_data->longitude = $diner['longitude'];
+			$this->form_data->zipCode = $diner['zipCode'];
+			$this->form_data->phone = $diner['phone'];
+			$this->form_data->description = $diner['description'];
+			$this->form_data->link = $diner['link'];
+			$this->form_data->mail = $diner['mail'];
+			$this->form_data->idCity = $diner['idCity'];
 		}
 		else
 		{
