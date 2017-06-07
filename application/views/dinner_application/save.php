@@ -329,7 +329,7 @@
 		  // parameter when you first load the API. For example:
 		  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-		  var placeSearch, autocomplete;
+		  var placeSearch, autocomplete, geocoder;
 		  var componentForm = {
 			street_number: 'short_name',
 			route: 'long_name',
@@ -340,27 +340,39 @@
 		  };
 
 		  function initAutocomplete() {
-			// Create the autocomplete object, restricting the search to geographical
-			// location types.
-			autocomplete = new google.maps.places.Autocomplete(
-				/** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
-				{types: ['geocode']});
+				geocoder = new google.maps.Geocoder;
+				  
+				// Create the autocomplete object, restricting the search to geographical
+				// location types.
+				autocomplete = new google.maps.places.Autocomplete(
+					/** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+					{types: ['geocode']});
+	
+				// When the user selects an address from the dropdown, populate the address
+				// fields in the form.
+				autocomplete.addListener('place_changed', fillInAddress);
 
-			// When the user selects an address from the dropdown, populate the address
-			// fields in the form.
-			autocomplete.addListener('place_changed', fillInAddress);
+				getAddressDescription();
 	      }
 
 		  function fillInAddress() {
-			// Get the place details from the autocomplete object.
-			var place = autocomplete.getPlace();
+				// Get the place details from the autocomplete object.
+				var place = autocomplete.getPlace();
 
-			$("#street").val(place.address_components[1].long_name);
-			$("#streetNumber").val(place.address_components[0].long_name);
-			$("#zipCode").val(place.address_components[7].long_name);
-			$("#longitude").val(place.geometry.location.lng());
-			$("#latitude").val(place.geometry.location.lat());
-		  }
+				var addressComponentsByType = {};
+				for (var i = 0; i < place.address_components.length; i++) {
+				  var c = place.address_components[i];
+				  addressComponentsByType[c.types[0]] = c;
+				}
+				$('input[name="street"]').val(addressComponentsByType["route"].short_name);
+				$('input[name="streetNumber"]').val(addressComponentsByType["street_number"].short_name);
+				if (addressComponentsByType["postal_code"])
+				{
+					$('input[name="zipCode"]').val(addressComponentsByType["postal_code"].short_name);
+				}	
+				$('input[name="longitude"]').val(place.geometry.location.lng());
+				$('input[name="latitude"]').val(place.geometry.location.lat());
+			}
 
 		  // Bias the autocomplete object to the user's geographical location,
 		  // as supplied by the browser's 'navigator.geolocation' object.
@@ -379,7 +391,21 @@
 			  <!-- }); -->
 			<!-- } -->
 		  <!-- } -->
-		  
+
+		  	function getAddressDescription() {
+		  		latitude=$('input[name="latitude"]').val();               
+		  		longitude=$('input[name="longitude"]').val();
+		  		var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+
+		  		geocoder.geocode({'location': latlng}, function(results, status) {
+		  			if (status === google.maps.GeocoderStatus.OK) {
+		  		    	if (results[0]) {
+			  		    	$('#autocomplete').val(results[0].formatted_address);
+			  		    	$($("#autocomplete")[0].parentNode).addClass("fg-toggled")
+		  		      	}
+		  		    } 
+		  		});
+			};		  
 		</script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQI7u6RI5Mtxh6FFqgPY9eMccFYmxLVzU&libraries=places&callback=initAutocomplete" async defer></script>
 		
