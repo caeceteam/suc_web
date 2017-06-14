@@ -23,7 +23,9 @@
 <div class="pull-left h-logo">
 <a href="index.html" class="hidden-xs">
 SUC
-<small>Sistema Único de Comedores</small>
+<!-- <small>Sistema Único de Comedores</small> -->
+<small>Concha de tu madre Kun Aguero</small>
+
 </a>
 
 <div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
@@ -373,7 +375,8 @@ SUC
 <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-swap-alt"></i> Mantenimiento SUC</a>
 <ul>
 <li><a href="colors.html">Insumos</a></li>
-<li><a href="HU010.html">Tipo de Insumos</a></li>
+<li><a href="input_type/search">Tipo de Insumos</a></li>
+<li><a href="food_type/search">Tipo de Alimento</a></li>
 <li><a href="animations.html">Asignación de Roles</a></li>
 </ul>
 </li>
