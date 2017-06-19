@@ -23,7 +23,7 @@ class Diner_application extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('form_validation');
+		$this->load->library(array('form_validation', 'email'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Diner_application_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
@@ -59,6 +59,7 @@ class Diner_application extends CI_Controller {
 			{
 				$this->variables['message'] = 'Datos grabados!';
 				$this->variables['reset'] = TRUE;
+				$this->_send_mail($this->form_data->user_mail, $this->variables['password']);
 			}
 			else
 			{
@@ -91,7 +92,7 @@ class Diner_application extends CI_Controller {
 		$diner_application->diner->description	= $this->input->post('description');
 		$diner_application->user->name			= $this->input->post('user_name');
 		$diner_application->user->surname		= $this->input->post('surname');
-		$diner_application->user->pass			= '123456';
+		$diner_application->user->pass			= $this->variables['password'];
 		$diner_application->user->alias 		= 'test' . time();//@TODO Ver como resolvemos esto
 		$diner_application->user->mail			= $this->input->post('user_mail');
 		$diner_application->user->state 		= 1;//@TODO Ver como resolvemos esto
@@ -105,6 +106,7 @@ class Diner_application extends CI_Controller {
 	 */
 	private function _initialize_fields()
 	{
+		$this->variables['password'] = $this->_generate_password();
 		$this->form_data->name = '';
 		$this->form_data->street = '';
 		$this->form_data->streetNumber = '';
@@ -130,6 +132,10 @@ class Diner_application extends CI_Controller {
 		$this->form_data->bornDate = '';
 	}
 	
+	/**
+	 * Funcion que setea las reglas de validacion del formulario y sus mensajes de errores
+	 * @return void
+	 */
 	private function _set_rules()
 	{
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
@@ -147,5 +153,52 @@ class Diner_application extends CI_Controller {
 		$this->form_validation->set_rules('user_name', 'Nombre del solicitante', 'trim|required');
 		$this->form_validation->set_rules('surname', 'Apellido del solicitante', 'trim|required');
 		$this->form_validation->set_rules('user_mail', 'Mail del solicitante', 'trim|required');
+	}
+	
+	/**
+	 * Función que genera una contraseña en forma aleatorio
+	 * @param    $chars_min largo minimo (opcional, default 6)
+	 * @param    $chars_max largo máximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan mayúsuculas (opcional, default false)
+	 * @param    $include_numbers boolean para indicar si se usan números (opcional, default false)
+	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
+	 * @return    string containing a random password
+	 */
+	private function _generate_password($chars_min=6, $chars_max=8, $use_upper_case=false, $include_numbers=false, $include_special_chars=false)
+	{
+		$length = rand($chars_min, $chars_max);
+		$selection = 'aeuoyibcdfghjklmnpqrstvwxz';
+		if($include_numbers) {
+			$selection .= "1234567890";
+		}
+		if($include_special_chars) {
+			$selection .= "!@\"#$%&[]{}?|";
+		}
+		$password = "";
+		for($i=0; $i<$length; $i++) {
+			$current_letter = $use_upper_case ? (rand(0,1) ? strtoupper($selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))];
+			$password .=  $current_letter;
+		}
+		return $password;
+	}
+	
+	/**
+	 * Función que genera una contraseña en forma aleatorio
+	 * @param    $chars_min int largo minimo (opcional, default 6)
+	 * @param    $chars_max int largo máximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan mayúsuculas (opcional, default false)
+	 * @param    $include_numbers boolean para indicar si se usan números (opcional, default false)
+	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
+	 * @return   string containing a random password
+	 */
+	private function _send_mail($to, $password)
+	{
+		$this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
+		$this->email->to($to);
+		$this->email->subject('Solicitud de alta de comedor');
+		$this->email->message('Bienvenido al sistema único de comedores. <br/>
+			Su solicitud de alta se encuetra pendiente, recibirá un mail indicando el resultado de la solicitud. <br/>
+			Su contraseña es' . $password . '<br/>');
+		$this->email->send();
 	}
 }
