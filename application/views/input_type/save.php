@@ -13,8 +13,8 @@
         <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
 
         <!-- CSS -->
-        <link href="<?php echo base_url('css/app.min.1.css" rel="stylesheet')?>">
-        <link href="<?php echo base_url('css/app.min.2.css" rel="stylesheet')?>">
+        <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
     </head>
 
     <body data-ma-header="teal">

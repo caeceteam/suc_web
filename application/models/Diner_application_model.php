@@ -3,7 +3,7 @@
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
 
-class Dinner_application_model extends CI_Model {
+class Diner_application_model extends CI_Model {
 	/**
 	 * Variables para el rest client
 	 * @var string
@@ -30,4 +30,22 @@ class Dinner_application_model extends CI_Model {
 			]);
 	}
 	
+	/**
+	 * Alta de comedor y usuario
+	 * @param		object	$diner_application
+	 * @return 		array   Si el alta fue exitosa, devuelve un array con el comedor y usuario, sino devuelve NULL
+	 */
+	public function add($diner_application)
+	{
+		$response = $this->client->request('POST', 'api/diners', [
+				'json' => $diner_application
+		]);
+		if($response->getStatusCode()==HTTP_CREATED)
+		{
+			$body = $response->getBody();
+			return json_decode($body,TRUE);
+		}
+		else
+			return NULL;
+	}
 };
