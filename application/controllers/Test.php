@@ -41,24 +41,19 @@ class Test extends CI_Controller {
 	}
 	
 	public function index()
-	{
-		$config['protocol'] = 'sendmail';
-		$config['mailpath'] = '/usr/sbin/sendmail';
-		$config['charset'] = 'iso-8859-1';
-		$config['wordwrap'] = TRUE;
-		
-		$this->email->initialize($config);
-		
+	{		
 		$this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
 		$this->email->to('cuttlas88@yahoo.com.ar');
 		$this->email->subject('Solicitud de alta de comedor');
 		$this->email->message('Bienvenido al sistema único de comedores. <br/>
 			Su solicitud de alta se encuetra pendiente, recibirá un mail indicando el resultado de la solicitud. <br/>
-			Su contraseña es' . 'tu vieja' . '<br/>');
-		if($this->email->send())
+			Su contraseña es ' . 'tu vieja' . '<br/>');
+		$this->email->set_newline("\r\n");
+		if($this->email->send(FALSE))
 			echo 'Email enviado';
 		else
 			echo 'Email no enviado';
+		echo $this->email->print_debugger();
 		//$this->search();
 	}
 	

@@ -55,11 +55,14 @@ class Diner_application extends CI_Controller {
 		}
 		else
 		{
-			if(($this->Diner_application_model->add($this->_get_post()))!=NULL)
+			$diner_application = ($this->_get_post());
+			if(($this->Diner_application_model->add($diner_application))!=NULL)
 			{
-				$this->variables['message'] = 'Datos grabados!';
+				if($this->_send_mail($diner_application->user->mail, $this->variables['password']))
+					$this->variables['message'] = 'Se envío un mail con su contraseña!';
+				else 
+					$this->variables['message'] = 'Ocurrio un error al enviar el mail, por favor revise el campo mail!';
 				$this->variables['reset'] = TRUE;
-				$this->_send_mail($this->form_data->user_mail, $this->variables['password']);
 			}
 			else
 			{
@@ -168,12 +171,10 @@ class Diner_application extends CI_Controller {
 	{
 		$length = rand($chars_min, $chars_max);
 		$selection = 'aeuoyibcdfghjklmnpqrstvwxz';
-		if($include_numbers) {
+		if($include_numbers)
 			$selection .= "1234567890";
-		}
-		if($include_special_chars) {
+		if($include_special_chars)
 			$selection .= "!@\"#$%&[]{}?|";
-		}
 		$password = "";
 		for($i=0; $i<$length; $i++) {
 			$current_letter = $use_upper_case ? (rand(0,1) ? strtoupper($selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))];
@@ -183,13 +184,10 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Función que genera una contraseña en forma aleatorio
-	 * @param    $chars_min int largo minimo (opcional, default 6)
-	 * @param    $chars_max int largo máximo (opcional, default 8)
-	 * @param    $use_upper_case boolean para indicar si se usan mayúsuculas (opcional, default false)
-	 * @param    $include_numbers boolean para indicar si se usan números (opcional, default false)
-	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
-	 * @return   string containing a random password
+	 * Función que envia un mail a un destinatario con su contraseña
+	 * @param    $to 		string destinatario
+	 * @param    $password 	string password
+	 * @return   bool 		indica si el mail se pudo enviar
 	 */
 	private function _send_mail($to, $password)
 	{
@@ -197,8 +195,9 @@ class Diner_application extends CI_Controller {
 		$this->email->to($to);
 		$this->email->subject('Solicitud de alta de comedor');
 		$this->email->message('Bienvenido al sistema único de comedores. <br/>
-			Su solicitud de alta se encuetra pendiente, recibirá un mail indicando el resultado de la solicitud. <br/>
-			Su contraseña es' . $password . '<br/>');
-		$this->email->send();
+			Su solicitud de alta se encuetra pendiente, recibirá un mail indicando si fue aprobada o no. <br/>
+			Su contraseña es ' . $password . '<br/>');
+		$this->email->set_newline("\r\n");//Sin esta línea falla el envio
+		return $this->email->send();
 	}
 }
