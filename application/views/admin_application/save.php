@@ -7,15 +7,14 @@
         <title>SUC</title>
     
         <!-- Vendor CSS -->
-        <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">        
-        <link href="vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/google-material-color/dist/palette.css" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
 
         <!-- CSS -->
-        <link href="css/app.min.1.css" rel="stylesheet">
-        <link href="css/app.min.2.css" rel="stylesheet">
+        <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
     </head>
 
     <body data-ma-header="teal">
@@ -41,7 +40,7 @@
                 </li>
                 <li class="dropdown hm-profile">
                     <a data-toggle="dropdown" href="">
-                        <img src="img/profile-pics/1.jpg" alt="">
+                        <img src="<?php echo base_url('img/profile-pics/1.jpg')?>" alt="">
                     </a>
 
                     <ul class="dropdown-menu pull-right dm-icon">
@@ -133,11 +132,11 @@
                         <div class="pm-overview c-overflow">
                             <div class="pmo-pic">
                                 <div class= "animated fadeInDown"><!-- "p-relative"> -->
-                                    <img class="img-responsive" src="img/profile-pics/profile-pic-2.jpg" alt="">
+                                    <img class="img-responsive" src="<?php echo base_url('img/profile-pics/profile-pic-2.jpg')?>" alt="">
                                 </div>
 
                                 <div class="pmo-stat"> <!--pmo-stat-->
-									<h2 class="m-0 c-white">Juana Pérez</h2>
+									<h2 class="m-0 c-white"><?php echo $this->form_data->user_name . ' ' . $this->form_data->surname; ?></h2>
                                 </div>
                             </div>
                         </div>
@@ -151,19 +150,15 @@
 									<div class="pmbb-view">
                                         <dl class="dl-horizontal">
                                             <dt>Nombre Completo</dt>
-                                            <dd>María Juana Pérez</dd>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Usuario</dt>
-                                            <dd>juana.perez</dd>
+                                            <dd><?php echo $this->form_data->user_name . ' ' . $this->form_data->surname; ?></dd>
                                         </dl>
 										<dl class="dl-horizontal">
                                             <dt>Fecha nacimiento</dt>
-                                            <dd>14.03.1990</dd>
+                                            <dd><?php echo $this->form_data->bornDate; ?></dd>
                                         </dl>
                                         <dl class="dl-horizontal">
-                                            <dt>Estado Civil</dt>
-                                            <dd>Soltero/a</dd>
+                                            <dt>Número de documento</dt>
+                                            <dd><?php echo $this->form_data->docNumber; ?></dd>
                                         </dl>
                                     </div>
                                 </div>
@@ -178,27 +173,27 @@
                                 <div class="pmbb-body p-l-30">
                                     <div class="pmbb-view">
                                         <dl class="dl-horizontal">
-                                            <dt>Teléfono</dt>
-                                            <dd>011 1512345678</dd>
+                                            <dt>Teléfono particular</dt>
+                                            <dd><?php echo $this->form_data->user_phone; ?></dd>
                                         </dl>
                                         <dl class="dl-horizontal">
-                                            <dt>Email</dt>
-                                            <dd>juana.perez@gmail.com</dd>
+                                            <dt>Email particular</dt>
+                                            <dd><?php echo $this->form_data->user_mail; ?></dd>
                                         </dl>
                                         <dl class="dl-horizontal">
-                                            <dt>Comedor</dt>
-                                            <dd>Comedor Movimiento Evita</dd>
+                                            <dt>Nombre del Comedor</dt>
+                                            <dd><?php echo $this->form_data->diner_name; ?></dd>
                                         </dl>
                                         <dl class="dl-horizontal">
-                                            <dt>Dirección</dt>
-                                            <dd>Calle Falsa 123</dd>
+                                            <dt>Dirección del comedor</dt>
+                                            <dd><?php echo $this->form_data->street . ' ' . $this->form_data->streetNumber . ' ' . (empty($this->form_data->floor) ? '' : $this->form_data->floor) . ' ' . (empty($this->form_data->door) ? '' : $this->form_data->door); ?></dd>
                                         </dl>
                                     </div>
 								</div>
                             </div>		
 							
 							<div class="pmb-block" id="reject-reason-block" hidden>
-								<form role="form">
+								<form role="form" action="<?php echo $action; ?>" method="POST">
 									<div class="form-group fg-float">
 										<div class="fg-line">
 											<textarea id="reject-reason-textarea" class="form-control auto-size"></textarea>
@@ -245,18 +240,18 @@
         </div>
     
         <!-- Javascript Libraries -->
-        <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
         
-        <script src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
-        <script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-        <script src="vendors/bower_components/moment/min/moment.min.js"></script>
-        <script src="vendors/bower_components/autosize/dist/autosize.min.js"></script>
+		<script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/moment/min/moment.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/autosize/dist/autosize.min.js')?>"></script>
 		
-        <script src="js/functions.js"></script>
-        <script src="js/actions.js"></script>
-        <script src="js/demo.js"></script>
+        <script src="<?php echo base_url('js/functions.js')?>"></script>
+        <script src="<?php echo base_url('js/actions.js')?>"></script>
+        <script src="<?php echo base_url('js/demo.js')?>"></script>
 		
 		<script type="text/javascript">
 			$("#reject-button").click(function() {

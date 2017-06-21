@@ -12,15 +12,6 @@ class Input_type_model extends CI_Model {
 	private $client;
 	private $timeout = 5.0;
 	
-	/**
-	 * Variables para los atributos del modelo
-	 * @var string
-	 */
-	public $id;
-	public $code;
-	public $name;
-	public $description;
-	
 	public function __construct()
 	{
 		parent::__construct();

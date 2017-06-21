@@ -49,14 +49,9 @@ class Input_type extends CI_Controller {
 	 */
 	public function search($name=NULL)
 	{
-		//$this->_setear_variables(lang('html_persona_titulo_consulta'), '', site_url('persona/consulta'), '', '');
-		//$cuil = $this->input->post('cuil');
 		if ($name!=NULL){
 			$input_type = $this->Input_type_model->search($name);
 			$this->render_table(NULL, $input_type);
-			/*$this->load->view('templates/header', $this->variables);
-			$this->load->view('personas/buscar_persona', $this->variables);
-			$this->load->view('templates/footer');*/
 		}
 		else
 			$this->index();

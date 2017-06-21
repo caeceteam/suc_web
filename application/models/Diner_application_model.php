@@ -13,14 +13,10 @@ class Diner_application_model extends CI_Model {
 	private $timeout = 5.0;
 	
 	/**
-	 * Variables para los atributos del modelo
-	 * @var string
+	 * Constructor de clase
+	 * Se encarga de hacer el load de los modulos necesarios
+	 * @return void
 	 */
-	public $id;
-	public $code;
-	public $name;
-	public $description;
-	
 	public function __construct()
 	{
 		parent::__construct();
@@ -28,6 +24,25 @@ class Diner_application_model extends CI_Model {
 			'base_uri' => $this->base_uri,
 			'timeout'  => $this->timeout,
 			]);
+	}
+	
+	/**
+	 * Consulta de diner application
+	 *
+	 * Consulta diner application por id o devuelve todos los que tengan estado pendiente
+	 * @param 		string 		$id
+	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
+	 */
+	public function search($id=NULL)
+	{
+		$response = $this->client->request('GET', $id != NULL ? 'api/diners/' . $id : 'api/diners/');
+		if($response->getStatusCode()==HTTP_OK)
+		{
+			$body = $response->getBody();
+			return json_decode($body,TRUE);
+		}
+		else
+			return NULL;
 	}
 	
 	/**
