@@ -6,128 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
         
-        <!-- Vendor CSS -->
-        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bootgrid/jquery.bootgrid.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
-
-        <!-- CSS -->
-        <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
+		<?php $this->load->view('templates/styles'); ?>
     </head>
 
     <body data-ma-header="teal">
-        <header id="header" class="media">
-            <div class="pull-left h-logo">
-                <a href="index.html" class="hidden-xs">
-                    SUC
-                    <small>Sistema Único de Comedores</small>
-                </a>
 
-                <div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
-                    <div class="mc-wrap">
-                        <div class="mcw-line top palette-White bg"></div>
-                        <div class="mcw-line center palette-White bg"></div>
-                        <div class="mcw-line bottom palette-White bg"></div>
-                    </div>
-                </div>
-            </div>
-
-            <ul class="pull-right h-menu">
-                <li class="hm-alerts" data-user-alert="sua-messages" data-ma-action="sidebar-open" data-ma-target="user-alerts">
-                    <a href=""><i class="hm-icon zmdi zmdi-notifications"></i></a>
-                </li>
-                <li class="dropdown hm-profile">
-                    <a data-toggle="dropdown" href="">
-                        <img src="<?php echo base_url('img/profile-pics/1.jpg')?>" alt="">
-                    </a>
-
-                    <ul class="dropdown-menu pull-right dm-icon">
-                        <li>
-                            <a href="profile-about.html"><i class="zmdi zmdi-account"></i> Mis Datos</a>
-                        </li>
-                        <li>
-                            <a href=""><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-        </header>
+		<?php $this->load->view('templates/header'); ?>
 
         <section id="main">
-            <aside id="s-user-alerts" class="sidebar">
-                <ul class="tab-nav tn-justified tn-icon m-t-10" data-tab-color="teal">
-                    <li><a class="sua-notifications" href="#sua-notifications" data-toggle="tab"><i class="zmdi zmdi-notifications"></i></a></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane fade" id="sua-notifications">
-                        <ul class="sua-menu list-inline list-unstyled palette-Orange bg">
-                            <li><a href=""><i class="zmdi zmdi-volume-off"></i> Mute</a></li>
-                            <li><a href=""><i class="zmdi zmdi-long-arrow-tab"></i> View all</a></li>
-                            <li><a href="" data-ma-action="sidebar-close"><i class="zmdi zmdi-close"></i> Close</a></li>
-                        </ul>
-
-                        <div class="list-group lg-alt c-overflow">
-                            <a href="" class="list-group-item media">
-                                <div class="pull-left">
-                                    <img class="avatar-img" src="http://uoetsylra.org/img/multimedia/Margarita-Barrientos-Retrato-2-e1378332345443.jpg" alt="">
-                                </div>
-
-                                <div class="media-body">
-                                    <div class="lgi-heading">Comedor Los piletones</div>
-                                    <small class="lgi-text">Solicitud de frazadas</small>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-
-            <aside id="s-main-menu" class="sidebar">
-                <div class="smm-header">
-                    <i class="zmdi zmdi-long-arrow-left" data-ma-action="sidebar-close"></i>
-                </div>
-
-                <ul class="smm-alerts" style="margin: 30px 0 60px 120px; padding-left: 0px;"><!-- TODO CC: Add style to css class-->
-                    <li data-user-alert="sua-notifications" data-ma-action="sidebar-open" data-ma-target="user-alerts">
-                        <i class="zmdi zmdi-notifications"></i>
-                    </li>
-                </ul>
-
-                <ul class="main-menu">
-                    <li>
-                        <a href="index.html"><i class="zmdi zmdi-home"></i> Home</a>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> Aprobaciones pendientes</a>
-
-                        <ul>
-                            <li><a href="alternative-header.html"> De comedores</a></li>
-                            <li><a href="HU001.html"> De personas</a></li>
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-						<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-local-dining"></i> Comedores</a>
-						<ul>
-                            <li><a href="index.html"> Eventos</a></li>
-							<li><a href="index.html"> Personal</a></li>
-                        </ul>
-					</li>
-                    
-                    <li class="sub-menu">
-                        <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-swap-alt"></i> Mantenimiento SUC</a>
-                        <ul>
-                            <li><a href="colors.html">Insumos</a></li>
-                            <li><a href="animations.html">Tipo de Insumos</a></li>
-							<li><a href="animations.html">Asignación de Roles</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </aside>
+			
+			<?php $this->load->view('templates/menu'); ?>
 			
             <section id="content">
                 <div class="container">
@@ -152,86 +40,32 @@
                             </form>			
 						</div>
 					</div>					
+                    <input hidden id="success-message" value="<?php echo isset($_ci_vars['success-message']) ? $_ci_vars['success-message'] : '' ?>"></input>
 					
-                    <div class="card">
+					<div class="card">
 						<div class="card-body card-padding" style="padding-bottom:0"></div> <!--TODO CC: Pass style inline to css class-->
 							<?php echo $table?>
                     </div>
                 </div>
+                
             </section>
 
-            <footer id="footer">
-                Copyright &copy; 2015 Material Admin
-
-                <ul class="f-menu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Dashboard</a></li>
-                    <li><a href="">Reports</a></li>
-                    <li><a href="">Support</a></li>
-                    <li><a href="">Contact</a></li>
-                </ul>
-            </footer>
+			<?php $this->load->view('templates/footer'); ?>
 
         </section>
 
-        <!-- Page Loader -->
-        <div class="page-loader palette-Teal bg">
-            <div class="preloader pl-xl pls-white">
-                <svg class="pl-circular" viewBox="25 25 50 50">
-                    <circle class="plc-path" cx="50" cy="50" r="20"/>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Javascript Libraries -->
-        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
-        
-        <script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootgrid/jquery.bootgrid.updated.min.js')?>"></script>
-
-        <!-- Placeholder for IE9 -->
-        <!--[if IE 9 ]>
-            <script src="<?php echo base_url('vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js')?>"></script>
-        <![endif]-->
-        
-        <script src="<?php echo base_url('js/functions.js')?>"></script>
-        <script src="<?php echo base_url('js/actions.js')?>"></script>
-        <script src="<?php echo base_url('js/demo.js')?>"></script>
-
-        <!-- Data Table -->
+		<?php $this->load->view('templates/scripts'); ?>
+		<!-- Data Table -->
         <script type="text/javascript">
             $(document).ready(function(){
-                //Basic Example
-                $("#data-table-basic").bootgrid({
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
+
+				//Command Buttons
+                var grid = $("#data-table-command").bootgrid({
+                	labels: {
+                        noResults: "No hay tipos de insumos cargados",
+                        search: "Buscar",
+                        infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} tipos de insumo"
                     },
-                });
-                
-                //Selection
-                $("#data-table-selection").bootgrid({
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
-                    },
-                    selection: true,
-                    multiSelect: true,
-                    rowSelect: true,
-                    keepSelection: true
-                });
-                
-                //Command Buttons
-                $("#data-table-command").bootgrid({
                     css: {
                         icon: 'zmdi icon',
                         iconColumns: 'zmdi-view-module',
@@ -242,11 +76,78 @@
                     formatters: {
                         "commands": function(column, row) {
                             return "<a type=\"button\" href=\"" + "<?php echo site_url('input_type/edit/') ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
-                                "<a href=\"" + "<?php echo site_url('input_type/delete/') ?>" + row.id + "\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
+                                "<a id=\"sa-warning\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
                         }
                     }
-                });
+	                }).on("loaded.rs.jquery.bootgrid", function () {
+	                	$(this).find(".command-delete").off();
+	                	$(this).find(".command-edit").off();
+    				/* Executes after data is loaded and rendered */
+    				$(this).find(".command-delete").click(function (e) {
+    					var deleteUrl = "<?php echo site_url('input_type/delete/') ?>" + this.getAttribute("data-row-id");
+    					swal({
+    						title: "¿Está seguro en borrar este tipo de insumo?",
+    						text: "El tipo de insumo se borrará permanentemente del sistema",
+    						type: "warning",
+    						showCancelButton: true,
+    						confirmButtonColor: "#DD6B55",
+    						confirmButtonText: "Si",
+    						cancelButtonText: "No",
+    						closeOnConfirm: false,
+    					}, function(isConfirm){
+    						$('#data-table-command').bootgrid('reload');
+    							if (isConfirm) {
+    							  	$.ajax({ 
+    								   type: "DELETE",
+    								   url: deleteUrl,
+    								   success: function(data){
+    									   swal("¡Borrado!", "El tipo de insumo se ha borrado del sistema.", "success");
+    								   }
+    								});
+    						  	}
+    					});
+    				});
+    			});
             });
         </script>
+
+        <script>
+			if ($("#success-message").val() != "") {
+		        $.growl({
+		            title: 'Tipo de insumo: ',
+		            message: $("#success-message").val(),
+		            url: ''
+		        },{
+		            element: 'body',
+		            type: 'success',
+		            allow_dismiss: true,
+		            placement: {
+		                align: 'center'
+		            },
+		            offset: {
+		                x: 30,
+		                y: 30
+		            },
+		            spacing: 10,
+		            z_index: 1031,
+		            delay: 2500,
+		            timer: 1000,
+		            url_target: '_blank',
+		            mouse_over: false,
+		            icon_type: 'class',
+		            template: '<div data-growl="container" class="alert" role="alert">' +
+		            '<button type="button" class="close" data-growl="dismiss">' +
+		            '<span aria-hidden="true">&times;</span>' +
+		            '<span class="sr-only">Close</span>' +
+		            '</button>' +
+		            '<span data-growl="icon"></span>' +
+		            '<span data-growl="title"></span>' +
+		            '<span data-growl="message"></span>' +
+		            '<a href="#" data-growl="url"></a>' +
+		            '</div>'
+		        });
+			}
+        </script>
+
     </body>
   </html>
