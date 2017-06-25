@@ -1,0 +1,9 @@
+.fg-line.has-error > .fg-label {
+	color: red
+}
+
+.user-name {
+	padding-right: 10px;
+	max-width: 100px;
+	overflow: hidden;
+}
