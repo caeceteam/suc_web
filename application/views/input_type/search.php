@@ -155,7 +155,7 @@
 					
                     <div class="card">
 						<div class="card-body card-padding" style="padding-bottom:0"></div> <!--TODO CC: Pass style inline to css class-->
-							<?php echo $table?>
+							<?php echo $table?> 
                     </div>
                 </div>
             </section>

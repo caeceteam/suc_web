@@ -24,7 +24,7 @@
 <a href="index.html" class="hidden-xs">
 SUC
 <!-- <small>Sistema Único de Comedores</small> -->
-<small>Concha de tu madre Kun Aguero</small>
+<small>Sistema Único de Comedores</small>
 
 </a>
 
