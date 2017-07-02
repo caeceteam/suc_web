@@ -5,11 +5,23 @@ class Input_type_test extends CI_Controller {
 	* Liga_prueba se usa para poder probar completo ABM de torneos. Este necesita una Liga.
 	*
 	*/
-	public $code_test = 'PANTALLA';
-	public $name_test = 'Display' ;
-	public $description_test = 'Display' ;
+	public $id_test   = 9;
+	public $id_inc_test = 192;
+	public $id_edit_test = '1';
 	
+	public $code_inc_test = 'EEEAAAA';
+	public $code_dupl_test = 'PAPEL';
+	public $code_test = 'UTILES';
+	public $code_edit_test = 'COM_FID';
+	
+	public $name_test = 'Útiles escolares' ;
+	public $name_edit_test = 'Fideos';
+	public $description_test = 'Útiles escolares' ;
+	public $description_edit_test = 'Fideoooos' ;
+	
+	public $id;
 	public $code;
+	public $code_inc;
 	public $name;
 	public $description;
 	
@@ -26,20 +38,20 @@ class Input_type_test extends CI_Controller {
 	*/
 	public function index()
 	{
-		$this->alta_test();
-		/*$this->consulta_test_por_anio();
-		$this->consulta_test();
-		$this->consulta_test_por_torneo_inexistente();
-		$this->consulta_test_por_nombre();
-		$this->baja_test();
-		$this->consulta_tipo_modalidad();
-		$this->consulta_equipos();
-		*/
+		//$this->alta_test();
+		//$this->alta_dupl_test();
+		//$this->consulta_todos_test();
+		//$this->consulta_codigo_test();
+		//$this->consulta_incorrecta_test();
+		//$this->editar();
+		$this->editar_inc();
+		//$this->baja_test();
+		
 		echo $this->unit->report();
 	}
 	
 	/**
-	* Funcion para testear el alta satisfactoria de una persona
+	* Funcion para testear el alta satisfactoria
 	* @return void
 	*/
 	public function alta_test()
@@ -65,117 +77,152 @@ class Input_type_test extends CI_Controller {
 	}
 	
 	/**
-	* @todo
-	* Funcion para testear el alta de una persona existente
+	* Funcion para testear el alta con código duplicado
 	* @return void
 	*/
-	public function alta_duplicada_test()
+	public function alta_dupl_test()
 	{
+		$input_type = new stdClass();
+
+		$input_type->code             = $this->code_dupl_test;
+		$input_type->name             = $this->name_test;
+		$input_type->description      = $this->description_test;
+		
+		
+		//$resultado['resultado']='OK';
+		
+		$test = $this->Input_type_model->add($input_type);
+		//$this->id_torneo_prueba = $test['id']; 
+		
+		//$resultado['id']=$test['id'];
+		
+		//$expected_result = $resultado;
+		$test_name = 'Alta Input Type';
+		$notes = var_export($test, true);
+		$this->unit->run($test, 'is_array' , $test_name, $notes);
 	}
 	
 	/**
-	* Funcion para testear la consulta satisfactoria de todos los torneos
+	* Funcion para testear la consulta satisfactoria de todos los InputType
 	* @return void
 	*/
-	public function consulta_test()
+	public function consulta_todos_test()
 	{
-	$test = $this->Torneo_model->consulta();
-	$expected_result = 'is_array';
-	$test_name = 'Consulta torneo';
-	$notes = var_export($test, true);
-	$this->unit->run($test, $expected_result, $test_name, $notes);
+		$test = $this->Input_type_model->search();
+		$expected_result = 'is_array';
+		$test_name = 'Consulta tipo de insumo';
+		$notes = var_export($test, true);
+		$this->unit->run($test, $expected_result, $test_name, $notes);
 	}
 	
 	/**
-	* Funcion para testear la consulta satisfactoria del torneo de un anio
+	* Funcion para testear la consulta satisfactoria
 	* @return void
 	*/
-	public function consulta_test_por_anio()
-	{
-	$test = $this->Torneo_model->consulta('', $this->anio_prueba);
-	$expected_result = 'is_array';
-	$test_name = 'Consulta torneos por anio';
-	$notes = var_export($test, true);
-	$this->unit->run($test, $expected_result, $test_name, $notes);
+	public function consulta_codigo_test()
+	{	
+		
+		$test = $this->Input_type_model->search($this->id_test);
+		$expected_result = 'is_array';
+		$test_name = 'Consulta torneos por ID';
+		$notes = var_export($test, true);
+		$this->unit->run($test, $expected_result, $test_name, $notes);
 	}
 	
 	/**
-	* Funcion para testear la consulta de un torneo inexistente
-	* @return void
-	*/
-	public function consulta_test_por_torneo_inexistente()
+	 * Funcion para testear la consulta con código incorrecto
+	 * @return void
+	 */
+	public function consulta_incorrecta_test()
 	{
-	$test = $this->Torneo_model->consulta('','2050');
-	$expected_result = 'is_array'; //Espera un array vacio
-	$test_name = 'Consulta de torneo por anio inexistente';
-	$notes = var_export($test, true);
-	$this->unit->run($test, $expected_result, $test_name, $notes);
+
+		$test = $this->Input_type_model->search($this->id_inc_test);
+		$expected_result = '404';
+		$test_name = 'Consulta torneos por ID incorrecto';
+		$notes = var_export($test, true);
+		$this->unit->run($test, $expected_result, $test_name, $notes);
 	}
-	
 	/**
-	* Funcion para testear la consulta por nombre de torneo
-	* @return void
-	*/
-	public function consulta_test_por_nombre()
+	 * Funcion para testear la edición 
+	 * @return void
+	 */
+	public function editar()
 	{
-	$test = $this->Torneo_model->consulta(NULL, NULL,'Torneo');
-	$expected_result = 'is_array';
-	$test_name = 'Consulta de torneo por nombre. Solo deben aparecer los torneos que empiecen con la palabra Torneo.';
-	$notes = var_export($test, true);
-	$this->unit->run($test, $expected_result, $test_name, $notes);
-	}
+		$input_type = new stdClass();
+
+		$input_type->id               = $this->id_edit_test;
+		$input_type->code             = $this->code_edit_test;
+		$input_type->name             = $this->name_edit_test;
+		$input_type->description      = $this->description_edit_test;
 	
+	
+		//$resultado['resultado']='OK';
+	
+		$test = $this->Input_type_model->edit($input_type);
+		//$this->id_torneo_prueba = $test['id'];
+	
+		//$resultado['id']=$test['id'];
+	
+		//$expected_result = $resultado;
+		$test_name = 'Edit Input Type';
+		$notes = var_export($test, true);
+		$this->unit->run($test, 'is_array' , $test_name, $notes);
+	}
+	/**
+	 * Funcion para testear la edición con código incorrecto
+	 * @return void
+	 */
+	public function editar_inc()
+	{
+		$input_type = new stdClass();
+	
+		$input_type->id               = $this->id_inc_test;
+		$input_type->code             = $this->code_edit_test;
+		$input_type->name             = $this->name_edit_test;
+		$input_type->description      = $this->description_edit_test;
+	
+	
+		//$resultado['resultado']='OK';
+	
+		$test = $this->Input_type_model->edit($input_type);
+		//$this->id_torneo_prueba = $test['id'];
+	
+		//$resultado['id']=$test['id'];
+	
+		//$expected_result = $resultado;
+		$test_name = 'Edit Input Type';
+		$notes = var_export($test, true);
+		$this->unit->run($test, 'is_array' , $test_name, $notes);
+	}
 	/**
 	* Funcion para testear la baja satisfactoria de un torneo.
 	* @return void
 	*/
 	public function baja_test()
 	{
-	
-	$input_type = new stdClass();
-	
-	$input_type->code             = $this->code_test;
-	$input_type->name             = $this->name_test;
-	$input_type->description      = $this->description_test;
-	
-	$test = $this->Input_type_model->baja($input_type);
-	$resultado['resultado']='OK';
-	$expected_result = $resultado;
-	$test_name = 'Baja torneo por cuil';
-	$notes = var_export($test, true);
-	$this->unit->run($test, $expected_result, $test_name, $notes);
+		
+		$test = $this->Input_type_model->delete($this->id_test);
+		$resultado['resultado']='OK';
+		$expected_result = $resultado;
+		$test_name = 'Baja tipo de insumo';
+		$notes = var_export($test, true);
+		$this->unit->run($test, $expected_result, $test_name, $notes);
 	}
 	
 	/**
-	* Funcion para testear la consulta satisfactoria de un torneo
-	* @return void
-	*/
-	public function consulta_tipo_modalidad()
+	 * Funcion para testear la baja satisfactoria de un torneo.
+	 * @return void
+	 */
+	public function baja_inc_test()
 	{
-	$test = $this->Torneo_model->consulta_tipo_modalidad();
-	$expected_result = 'is_array';
-	$test_name = 'Consulta de tipos de modalidad de torneo';
-	$notes = var_export($test, true);
-	$this->unit->run($test, $expected_result, $test_name, $notes);
-	}
 	
-	/**
-	* Funcion para testear la consulta satisfactoria de los equipos participantes en un torneo
-	* @return void
-	*/
-	public function consulta_equipos()
-	{
-	$test = $this->Torneo_model->obtener_equipos(75);
-	$expected_result = 'is_array';
-	$test_name = 'Consulta de equipos participantes en un torneo';
-	$notes = var_export($test, true);
-	$this->unit->run($test, $expected_result, $test_name, $notes);
+		$test = $this->Input_type_model->delete($this->id_inc_test);
+		$resultado['resultado']='OK';
+		$expected_result = $resultado;
+		$test_name = 'Baja tipo de insumo';
+		$notes = var_export($test, true);
+		$this->unit->run($test, $expected_result, $test_name, $notes);
 	}
 	
 	
-	/**
-	* @todo
-	* falta validacion de rega de negocio. .
-	* @return void
-	*/
 }
