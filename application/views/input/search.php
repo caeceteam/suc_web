@@ -20,7 +20,7 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2 style="font-size: 25px;">Tipos de Insumos</h2> <!--TODO CC: Pass style inline to css class-->
+                        <h2 style="font-size: 25px;">Insumos</h2> <!--TODO CC: Pass style inline to css class-->
                     </div>
 
 					<div class="card">
@@ -29,13 +29,13 @@
                                 <div class="col-sm-4">
                                     <div style="position: relative;display: block;margin-top: 10px;margin-bottom: 10px;"> <!--TODO CC: Pass style inline to css class-->
                                         <label>
-                                            ¿Desea crear un nuevo tipo de insumo?
+                                            ¿Desea crear un nuevo insumo?
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <a href="<?php echo base_url('input_type/add');?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
+                                    <a href="<?php echo base_url('input/add');?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
                                 </div>
                             </form>			
 						</div>
@@ -44,7 +44,7 @@
 					
 					<div class="card">
 						<div class="card-body card-padding" style="padding-bottom:0"></div> <!--TODO CC: Pass style inline to css class-->
-							<?php echo $table?> 
+							<?php echo $table?>
                     </div>
                 </div>
                 
@@ -62,9 +62,9 @@
 				//Command Buttons
                 var grid = $("#data-table-command").bootgrid({
                 	labels: {
-                        noResults: "No hay tipos de insumos cargados",
+                        noResults: "No hay insumos cargados",
                         search: "Buscar",
-                        infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} tipos de insumo"
+                        infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} insumos"
                     },
                     css: {
                         icon: 'zmdi icon',
@@ -75,7 +75,7 @@
                     },
                     formatters: {
                         "commands": function(column, row) {
-                            return "<a type=\"button\" href=\"" + "<?php echo site_url('input_type/edit/') ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
+                            return "<a type=\"button\" href=\"" + "<?php echo site_url('input/edit/') ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
                                 "<a id=\"sa-warning\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
                         }
                     }
@@ -84,10 +84,10 @@
 	                	$(this).find(".command-edit").off();
     				/* Executes after data is loaded and rendered */
     				$(this).find(".command-delete").click(function (e) {
-    					var deleteUrl = "<?php echo site_url('input_type/delete/') ?>" + this.getAttribute("data-row-id");
+    					var deleteUrl = "<?php echo site_url('input/delete/') ?>" + this.getAttribute("data-row-id");
     					swal({
-    						title: "¿Está seguro en borrar este tipo de insumo?",
-    						text: "El tipo de insumo se borrará permanentemente del sistema",
+    						title: "¿Está seguro en borrar este insumo?",
+    						text: "El insumo se borrará permanentemente del sistema",
     						type: "warning",
     						showCancelButton: true,
     						confirmButtonColor: "#DD6B55",
@@ -101,7 +101,7 @@
     								   type: "DELETE",
     								   url: deleteUrl,
     								   success: function(data){
-    									   swal("¡Borrado!", "El tipo de insumo se ha borrado del sistema.", "success");
+    									   swal("¡Borrado!", "El insumo se ha borrado del sistema.", "success");
     								   }
     								});
     						  	}
@@ -109,44 +109,6 @@
     				});
     			});
             });
-        </script>
-
-        <script>
-			if ($("#success-message").val() != "") {
-		        $.growl({
-		            title: 'Tipo de insumo: ',
-		            message: $("#success-message").val(),
-		            url: ''
-		        },{
-		            element: 'body',
-		            type: 'success',
-		            allow_dismiss: true,
-		            placement: {
-		                align: 'center'
-		            },
-		            offset: {
-		                x: 30,
-		                y: 30
-		            },
-		            spacing: 10,
-		            z_index: 1031,
-		            delay: 2500,
-		            timer: 1000,
-		            url_target: '_blank',
-		            mouse_over: false,
-		            icon_type: 'class',
-		            template: '<div data-growl="container" class="alert" role="alert">' +
-		            '<button type="button" class="close" data-growl="dismiss">' +
-		            '<span aria-hidden="true">&times;</span>' +
-		            '<span class="sr-only">Close</span>' +
-		            '</button>' +
-		            '<span data-growl="icon"></span>' +
-		            '<span data-growl="title"></span>' +
-		            '<span data-growl="message"></span>' +
-		            '<a href="#" data-growl="url"></a>' +
-		            '</div>'
-		        });
-			}
         </script>
 
     </body>
