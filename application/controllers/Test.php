@@ -31,17 +31,36 @@ class Test extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		
 		$this->client = new Client([
 			// Base URI is used with relative requests
 			'base_uri' => $this->base_uri,
 			// You can set any number of default request options.
 			'timeout'  => $this->timeout,
 			]);
+		
 		$this->load->library('email');
+		
+		\Cloudinary::config(array(
+				"cloud_name" => "caeceteam",
+				"api_key" => "779344883826737",
+				"api_secret" => "A2e2eESuMFPc-fXK9Xz3plHSB2U"
+		));
+		
 	}
 	
 	public function index()
 	{		
+		$this->image_test();
+	}
+	
+	public function image_test()
+	{
+		var_dump(\Cloudinary\Uploader::upload("http://static.lacapital.com.ar/adjuntos/203/imagenes/019/691/0019691416.jpg"));
+	}
+	
+	public function mail_test()
+	{
 		$this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
 		$this->email->to('cuttlas88@yahoo.com.ar');
 		$this->email->subject('Solicitud de alta de comedor');
@@ -51,13 +70,12 @@ class Test extends CI_Controller {
 		$this->email->set_newline("\r\n");
 		if($this->email->send(FALSE))
 			echo 'Email enviado';
-		else
-			echo 'Email no enviado';
-		echo $this->email->print_debugger();
-		//$this->search();
+			else
+				echo 'Email no enviado';
+				echo $this->email->print_debugger();
 	}
 	
-	public function search($name=NULL)
+	public function search_test($name=NULL)
 	{
 		$response = $this->client->request('GET', 'api/inputtypes');
 		$status = $response->getStatusCode();
