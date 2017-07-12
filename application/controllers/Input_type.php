@@ -72,14 +72,15 @@ class Input_type extends CI_Controller {
 	{
 		$this->variables['action'] = site_url('input_type/add');
 		$this->_set_rules();
-		if($this->form_validation->run() == FALSE)
+		if ($this->form_validation->run() == FALSE)
 		{
 			$this->variables['message']= validation_errors();
 			$this->load->view('input_type/save', $this->variables);
 		}
 		else
 		{
-			if(($this->Input_type_model->add($this->_get_post()))!=NULL)
+			$response = $this->Input_type_model->add($this->_get_post());
+			if (!isset($response['errors']))
 			{
 				$this->variables['success-message'] = 'Datos grabados!';
 				$this->variables['reset'] = TRUE;
@@ -162,7 +163,7 @@ class Input_type extends CI_Controller {
 				array('data' => 'Descripción', 'data-column-id' => 'Descripcion'), 
 				array('data' => 'Modificar/Borrar', 'data-column-id' => 'commands', 'data-formatter' => 'commands', 'data-sortable' => 'false') 
 				);
-		foreach ($data as $input_type)
+		foreach ($data['inputTypes'] as $input_type)
 		{
 			$this->table->add_row($input_type['idInputType'], $input_type['code'], $input_type['name'], $input_type['description']);
 		}
