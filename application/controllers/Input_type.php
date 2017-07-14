@@ -30,6 +30,7 @@ class Input_type extends CI_Controller {
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->variables['controller-name'] = 'input_type';
+		$this->variables['success-message'] = NULL;
 		$this->_initialize_fields();
 	}
 	
@@ -39,7 +40,6 @@ class Input_type extends CI_Controller {
 	 */
 	public function index()
 	{
-		//$this->variables['action'] = site_url('input_type');
 		$this->render_table(NULL, $this->Input_type_model->search());
 		$this->load->view('input_type/search', $this->variables);
 	}
@@ -51,14 +51,9 @@ class Input_type extends CI_Controller {
 	 */
 	public function search($name=NULL)
 	{
-		//$this->_setear_variables(lang('html_persona_titulo_consulta'), '', site_url('persona/consulta'), '', '');
-		//$cuil = $this->input->post('cuil');
 		if ($name!=NULL){
 			$input_type = $this->Input_type_model->search($name);
 			$this->render_table(NULL, $input_type);
-			/*$this->load->view('templates/header', $this->variables);
-			$this->load->view('personas/buscar_persona', $this->variables);
-			$this->load->view('templates/footer');*/
 		}
 		else
 			$this->index();
@@ -83,8 +78,8 @@ class Input_type extends CI_Controller {
 			if (!isset($response['errors']))
 			{
 				$this->variables['success-message'] = 'Datos grabados!';
-				$this->variables['reset'] = TRUE;
-				$this->index();
+				//$this->load->view('input_type/save', $this->variables);
+				echo json_encode( $this->variables );
 			}
 			else
 			{

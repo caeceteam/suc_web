@@ -32,7 +32,7 @@
                             <div class="row">
                                 <div class="card-body card-padding">
 								
-									<form role="form" action="<?php echo $action; ?>" method="POST">
+									<form role="form" action="<?php echo $action; ?>" class="input-type-form" method="POST">
 										<div class="form-group fg-float">
 											<div class="fg-line <?php echo form_error('name') == '' ? '' : 'has-error'; ?>">
 												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
@@ -78,6 +78,8 @@
             </section>
 
 			<?php $this->load->view('templates/footer'); ?>
+			
+			<input hidden id="success-message" value="<?php echo isset($_ci_vars['success-message']) ? $_ci_vars['success-message'] : '' ?>"></input>
         </section>
 
         <!-- Page Loader -->
@@ -90,7 +92,39 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
+		
+		<script>
+			$('.input-type-form').submit(function() { 
+				debugger;
+				swal({
+					title: "¿Está seguro grabar este tipo de insumo?",
+					text: "El tipo de insumo se grabará en el sistema",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Si",
+					cancelButtonText: "No",
+					closeOnConfirm: false,
+				}, function(isConfirm){
+					debugger;
+						if (isConfirm) {
+							$.ajax({ 
+							       type : "POST",
+							       //set the data type
+							       dataType:'json',
+							       data: $("form").serializeArray(),
+							       url: $("form")[0].action, // target element(s) to be updated with server response 
+							       cache : false,
+							       //check this in Firefox browser
+							       success : function(response){ 
+							    	   swal("¡Grabado!", "El tipo de insumo se ha grabado en el sistema.", "success");
+							       }
+							   });        
+					  	}
+				});	
+				return false;
+			}); 
+        </script>
         
-
     </body>
 </html>
