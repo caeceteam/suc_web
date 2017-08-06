@@ -66,26 +66,39 @@ class Input_type extends CI_Controller {
 	public function add()
 	{
 		$this->variables['action'] = site_url('input_type/add');
+		$this->variables['redirect-url'] = site_url('input_type');
 		$this->_set_rules();
-		if ($this->form_validation->run() == FALSE)
+		if ($this->input->method() == "get")
 		{
-			$this->variables['message']= validation_errors();
 			$this->load->view('input_type/save', $this->variables);
 		}
 		else
 		{
-			$response = $this->Input_type_model->add($this->_get_post());
-			if (!isset($response['errors']))
+			// Todo esto corresponde al POST
+			if ($this->form_validation->run() == FALSE)
 			{
-				$this->variables['success-message'] = 'Datos grabados!';
-				//$this->load->view('input_type/save', $this->variables);
-				echo json_encode( $this->variables );
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'empty-field';
+				$data = array(
+						'code' => form_error('code'),
+						'name' => form_error('name'));
+				$this->variables['message'] = $data;
 			}
 			else
 			{
-				$this->variables['failed-message'] = 'Ya existe algún tipo de insumo con el mismo código o nombre';
-				$this->load->view('input_type/save', $this->variables);
+				$response = $this->Input_type_model->add($this->_get_post());
+				if (!isset($response['errors']))
+				{
+					$this->variables['message'] = 'Datos grabados!';
+				}
+				else
+				{
+					$this->output->set_status_header('500');
+					$this->variables['error-type'] = 'unique';
+					$this->variables['message'] = $response;
+				}
 			}
+			echo json_encode( $this->variables );
 		}
 	}
 	
@@ -198,7 +211,7 @@ class Input_type extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('code', 'Código', 'trim|required');
+		$this->form_validation->set_rules('code', 'Codigo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}

@@ -7,3 +7,7 @@
 	max-width: 100px;
 	overflow: hidden;
 }
+
+.hide-alert {
+	display: none;
+}

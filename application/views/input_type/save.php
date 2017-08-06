@@ -34,32 +34,35 @@
 								
 									<form role="form" action="<?php echo $action; ?>" class="input-type-form" method="POST">
 										<div class="form-group fg-float">
-											<div class="fg-line <?php echo form_error('name') == '' ? '' : 'has-error'; ?>">
+											<div class="fg-line" data-id="name">
 												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
-												<label class="fg-label"><?php echo form_error('name') == '' ? 'Nombre' : 'El nombre es obligatorio'; ?></label>
+												<label class="fg-label">Nombre</label>
 											</div>
 										</div>
 										</br>
 										<div class="form-group fg-float">
-											<div class="fg-line <?php echo form_error('code') == '' ? '' : 'has-error'; ?>">
+											<div class="fg-line" data-id="code">
 												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
-												<label class="fg-label"><?php echo form_error('code') == '' ? 'Código' : 'El código es obligatorio'; ?></label>
+												<label class="fg-label">Código</label>
 											</div>
 										</div>
 										</br>
 										<div class="form-group fg-float">
-											<div class="fg-line">
+											<div class="fg-line" data-id="description">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
 												<label class="fg-label">Descripción</label>
 											</div>
 										</div>
 										
-										<?php if ( isset($_ci_vars['failed-message']) && $_ci_vars['failed-message'] !== ''): ?>
-										    <div class="alert alert-danger alert-dismissible" role="alert">
-				                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                                <?php echo $_ci_vars['failed-message'] ?>
-				                            </div>
-										<?php endif; ?>
+										<div id="unique-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
+				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				                          	Existe otro tipo de insumo con el mismo codigo
+				                        </div>
+				                        
+										<div id="empty-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
+				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				                          	Por favor ingrese datos en los campos marcados
+				                        </div>				                        
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
 										<a href="<?php echo site_url('input_type'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
@@ -79,7 +82,7 @@
 
 			<?php $this->load->view('templates/footer'); ?>
 			
-			<input hidden id="success-message" value="<?php echo isset($_ci_vars['success-message']) ? $_ci_vars['success-message'] : '' ?>"></input>
+			<input hidden id="redirect-url" value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
         </section>
 
         <!-- Page Loader -->
@@ -95,7 +98,6 @@
 		
 		<script>
 			$('.input-type-form').submit(function() { 
-				debugger;
 				swal({
 					title: "¿Está seguro grabar este tipo de insumo?",
 					text: "El tipo de insumo se grabará en el sistema",
@@ -106,7 +108,6 @@
 					cancelButtonText: "No",
 					closeOnConfirm: false,
 				}, function(isConfirm){
-					debugger;
 						if (isConfirm) {
 							$.ajax({ 
 							       type : "POST",
@@ -115,9 +116,41 @@
 							       data: $("form").serializeArray(),
 							       url: $("form")[0].action, // target element(s) to be updated with server response 
 							       cache : false,
-							       //check this in Firefox browser
 							       success : function(response){ 
-							    	   swal("¡Grabado!", "El tipo de insumo se ha grabado en el sistema.", "success");
+							    	   	swal({
+									   		title: "¡Grabado!", 
+									   		text: "El tipo de insumo se ha grabado en el sistema.", 
+									   		type: "success"},
+									   		function () {
+									   			window.location.href = $("#redirect-url")[0].value;
+									   		}
+									   	);
+							       },
+							       error : function(response){
+							    	   	$(".fg-line").removeClass("has-error");
+							    	   	$(".alert").addClass("hide-alert");   
+								      	var errorType = response.responseJSON["error-type"];
+								      	if (errorType === "unique") {
+											$("#unique-error-alert").removeClass("hide-alert");
+											var errors = response.responseJSON["message"]["errors"];
+											for (var i = 0; i < errors.length; i++) {
+												$("[data-id=" + errors[i].path + "]").addClass("has-error");
+											}
+									    }
+									    if (errorType === "empty-field") {
+									    	$("#empty-error-alert").removeClass("hide-alert");
+									    	var errors = response.responseJSON["message"];
+									    	for (var key in errors) {
+									    		if (errors[key] !== "") {
+									    			$("[data-id=" + key + "]").addClass("has-error");
+									    		}
+									    	}
+										}
+							    	   	swal({
+									   		title: "¡Error!", 
+									   		text: "El tipo de insumo no pudo ser grabado en el sistema.", 
+									   		type: "error"}
+									   	);								       
 							       }
 							   });        
 					  	}
