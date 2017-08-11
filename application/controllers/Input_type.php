@@ -38,7 +38,7 @@ class Input_type extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->render_table(NULL, $this->Input_type_model->search());
+		$this->render_table(NULL, $this->Input_type_model->search()['inputTypes']);
 		$this->load->view('input_type/search', $this->variables);
 	}
 	
@@ -50,7 +50,7 @@ class Input_type extends CI_Controller {
 	public function search($name=NULL)
 	{
 		if ($name!=NULL){
-			$input_type = $this->Input_type_model->search($name);
+			$input_type = $this->Input_type_model->search($name)['inputTypes'];
 			$this->render_table(NULL, $input_type);
 		}
 		else
@@ -95,7 +95,7 @@ class Input_type extends CI_Controller {
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if(!$this->input->post('name'))
 		{
-			$input_type = $this->Input_type_model->search($id)['inputType'];
+			$input_type = $this->Input_type_model->search($id);
 			$this->form_data->id = $input_type['idInputType'];
 			$this->form_data->code = $input_type['code'];
 			$this->form_data->name = $input_type['name'];
