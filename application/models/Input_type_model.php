@@ -39,7 +39,14 @@ class Input_type_model extends CI_Model {
 	 */
 	public function search($id=NULL)
 	{
-		$response = $this->client->request('GET', $id != NULL ? 'api/inputtypes/' . $id : 'api/inputtypes/');
+		try
+		{
+			$response = $this->client->request('GET', $id != NULL ? 'api/inputtypes/' . $id : 'api/inputtypes/');
+		} catch (Exception $e)
+		{
+			if($e->getCode()!=HTTP_OK)
+				return $e->getCode();
+		}		
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -53,7 +60,7 @@ class Input_type_model extends CI_Model {
 	 * Alta de input type
 	 * @param		object	$input_type
 	 * @return 		array   Si el alta fue exitosa, devuelve un array con el input type, sino devuelve NULL
-	 */
+	 
 	public function add($input_type)
 	{
 		$response = $this->client->request('POST', 'api/inputtypes', [
@@ -66,6 +73,37 @@ class Input_type_model extends CI_Model {
 		}
 		else
 			return NULL;
+	}
+	*/
+	public function add($input_type)
+	{
+		try
+		{
+		//$input_type->name = utf8_encode($input_type->name);
+		//$input_type->description = utf8_encode($input_type->description);
+		$response = $this->client->request('POST', 'api/inputTypes', [
+				'json' => $input_type]);
+		
+		} catch (Exception $e)
+			{
+				if( is_null($e) )
+				return NULL;
+		}
+		
+		if ( is_null($response) )
+		{ 
+			return NULL;
+		}
+		else 
+		{
+			if($response->getStatusCode()==HTTP_CREATED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
+		}
 	}
 	
 	/**

@@ -2,22 +2,22 @@
 class Input_type_test extends CI_Controller {
 
 	/**
-	* Liga_prueba se usa para poder probar completo ABM de torneos. Este necesita una Liga.
+	* Input_type_test se usa para probar el ABPM de Tipos de insumos
 	*
 	*/
-	public $id_test   = 9;
+	public $id_test   = 1;
 	public $id_inc_test = 192;
-	public $id_edit_test = '1';
+	public $id_edit_test = 1;
 	
-	public $code_inc_test = 'EEEAAAA';
-	public $code_dupl_test = 'PAPEL';
-	public $code_test = 'UTILES';
-	public $code_edit_test = 'COM_FID';
+	public $code_inc_test = 'EAEAEAEA';
+	public $code_dupl_test = 'UTIL';
+	public $code_test = 'UTIL';
+	public $code_edit_test = 'PAPEL';
 	
-	public $name_test = 'Útiles escolares' ;
-	public $name_edit_test = 'Fideos';
-	public $description_test = 'Útiles escolares' ;
-	public $description_edit_test = 'Fideoooos' ;
+	public $name_test = 'Utiles escolares' ;
+	public $name_edit_test = 'Papel higiénico 3';
+	public $description_test = 'Utiles escolares' ;
+	public $description_edit_test = 'Papel higienico 2' ;
 	
 	public $id;
 	public $code;
@@ -39,13 +39,14 @@ class Input_type_test extends CI_Controller {
 	public function index()
 	{
 		//$this->alta_test();
-		//$this->alta_dupl_test();
+		//$this->alta_dupl_test(); //da error
 		//$this->consulta_todos_test();
 		//$this->consulta_codigo_test();
 		//$this->consulta_incorrecta_test();
-		//$this->editar();
+		//$this->editar(); //da error
 		$this->editar_inc();
 		//$this->baja_test();
+		//$this->baja_inc_test();
 		
 		echo $this->unit->report();
 	}
