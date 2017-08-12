@@ -83,6 +83,7 @@
 			<?php $this->load->view('templates/footer'); ?>
 			
 			<input hidden id="redirect-url" value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
+			<input hidden id="http-verb" value="<?php echo isset($_ci_vars['http-verb']) ? $_ci_vars['http-verb'] : '' ?>"></input>
         </section>
 
         <!-- Page Loader -->
@@ -109,12 +110,18 @@
 					closeOnConfirm: false,
 				}, function(isConfirm){
 						if (isConfirm) {
+							var url;
+							if ($("#http-verb")[0].value === "POST") {
+								url = $("form")[0].action;
+							} else {
+								url = $("form")[0].action + "/" + $("input[name='id']")[0].value;
+							}
 							$.ajax({ 
-							       type : "POST",
+							       type : 'POST',
 							       //set the data type
 							       dataType:'json',
 							       data: $("form").serializeArray(),
-							       url: $("form")[0].action, // target element(s) to be updated with server response 
+							       url: url, // target element(s) to be updated with server response 
 							       cache : false,
 							       success : function(response){ 
 							    	   	swal({
@@ -127,15 +134,11 @@
 									   	);
 							       },
 							       error : function(response){
-							    	   	$(".fg-line").removeClass("has-error");
+								       	$(".fg-line").removeClass("has-error");
 							    	   	$(".alert").addClass("hide-alert");   
 								      	var errorType = response.responseJSON["error-type"];
 								      	if (errorType === "unique") {
 											$("#unique-error-alert").removeClass("hide-alert");
-											var errors = response.responseJSON["message"]["errors"];
-											for (var i = 0; i < errors.length; i++) {
-												$("[data-id=" + errors[i].path + "]").addClass("has-error");
-											}
 									    }
 									    if (errorType === "empty-field") {
 									    	$("#empty-error-alert").removeClass("hide-alert");

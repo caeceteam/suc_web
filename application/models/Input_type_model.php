@@ -72,9 +72,10 @@ class Input_type_model extends CI_Model {
 		}
 		catch (ServerException $e) {
 			$errorResponse = json_decode($e->getResponse()->getBody(), TRUE);
+			$errorResponse['errors'] = TRUE;
 			if($e->getCode() == 500)
 			{
-				return $errorResponse['result'];
+				return $errorResponse;
 			}			
 			return NULL;
 		}
@@ -100,10 +101,13 @@ class Input_type_model extends CI_Model {
 				return NULL;
 		}
 		catch (Exception $e) {
-			if($e->getCode() == 0)
+			$errorResponse = json_decode($e->getResponse()->getBody(), TRUE);
+			$errorResponse['errors'] = TRUE;
+			if($e->getCode() == 500)
 			{
-				return NULL;
-			}
+				return $errorResponse;
+			}			
+			return NULL;
 		}
 	}
 	

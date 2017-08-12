@@ -66,6 +66,7 @@ class Input_type extends CI_Controller {
 	public function add()
 	{
 		$this->variables['action'] = site_url('input_type/add');
+		$this->variables['http-verb'] = 'POST';
 		$this->variables['redirect-url'] = site_url('input_type');
 		$this->_set_rules();
 		if ($this->input->method() == "get")
@@ -110,35 +111,50 @@ class Input_type extends CI_Controller {
 	public function edit($id=NULL)
 	{
 		$this->variables['action'] = site_url('input_type/edit');
+		$this->variables['http-verb'] = 'PUT';
+		$this->variables['redirect-url'] = site_url('input_type');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if(!$this->input->post('name'))
+		if($this->input->method() == "get")
 		{
-			$input_type = $this->Input_type_model->search($id)['inputType'];
+			$input_type = $this->Input_type_model->search($id);
 			$this->form_data->id = $input_type['idInputType'];
 			$this->form_data->code = $input_type['code'];
 			$this->form_data->name = $input_type['name'];
 			$this->form_data->description = $input_type['description'];
+			$this->load->view('input_type/save', $this->variables);
 		}
 		else
 		{
 			$this->_initialize_fields();
 			$this->_set_rules();
 			$input_type = new stdClass();
-			if($this->form_validation->run() == FALSE)
+			// Todo esto corresponde al PUT
+			if ($this->form_validation->run() == FALSE)
 			{
-				$this->variables['message']= validation_errors();
-			}
-			else if($this->Input_type_model->edit($this->_get_post())!=NULL)
-			{
-				$this->variables['success-message'] = 'Datos editados!';
-				$this->variables['reset'] = TRUE;
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'empty-field';
+				$data = array(
+						'code' => form_error('code'),
+						'name' => form_error('name'));
+				$this->variables['message'] = $data;
 			}
 			else
 			{
-				$this->variables['failed-message'] = 'Ya existe algún tipo de insumo con el mismo código o nombre';
+				$response = $this->Input_type_model->edit($this->_get_post());
+				if (!isset($response['errors']))
+				{
+					$this->variables['message'] = 'Datos grabados!';
+				}
+				else
+				{
+					$this->output->set_status_header('500');
+					$this->variables['error-type'] = 'unique';
+					$this->variables['message'] = $response['result'];
+				}
 			}
+			echo json_encode( $this->variables );
 		}
-		$this->load->view('input_type/save', $this->variables);
+		
 	}
 	
 	/**
