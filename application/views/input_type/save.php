@@ -1,20 +1,12 @@
 <!DOCTYPE html>
-    <!--[if IE 9 ]><html class="ie9"><![endif]-->
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
     <head>
         <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
-
-        <!-- Vendor CSS -->
-        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
-
-        <!-- CSS -->
-        <link href="<?php echo base_url('css/app.min.1.css" rel="stylesheet')?>">
-        <link href="<?php echo base_url('css/app.min.2.css" rel="stylesheet')?>">
+        
+		<?php $this->load->view('templates/styles'); ?>
     </head>
 
     <body data-ma-header="teal">
@@ -22,7 +14,7 @@
             <div class="pull-left h-logo">
                 <a href="index.html" class="hidden-xs">
                     SUC
-                    <small>Sistema Único de Comedores</small>
+                    <small>Sistema Ãnico de Comedores</small>
                 </a>
 
                 <div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
@@ -34,21 +26,14 @@
                 </div>
             </div>
 
-            <ul class="pull-right h-menu">
-                <li class="hm-alerts" data-user-alert="sua-messages" data-ma-action="sidebar-open" data-ma-target="user-alerts">
-                    <a href=""><i class="hm-icon zmdi zmdi-notifications"></i></a>
-                </li>
-                <li class="dropdown hm-profile">
-                    <a data-toggle="dropdown" href="">
-                        <img src="<?php echo base_url('img/profile-pics/1.jpg')?>" alt="">
-                    </a>
+		<?php $this->load->view('templates/header'); ?>
 
                     <ul class="dropdown-menu pull-right dm-icon">
                         <li>
                             <a href="profile-about.html"><i class="zmdi zmdi-account"></i> Mis Datos</a>
                         </li>
                         <li>
-                            <a href=""><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
+                            <a href=""><i class="zmdi zmdi-settings"></i> Cambiar contraseÃ±a</a>
                         </li>
                     </ul>
                 </li>
@@ -122,7 +107,7 @@
                         <ul>
                             <li><a href="colors.html">Insumos</a></li>
                             <li><a href="HU010.html">Tipo de Insumos</a></li>
-							<li><a href="animations.html">Asignación de Roles</a></li>
+							<li><a href="animations.html">AsignaciÃ³n de Roles</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -136,7 +121,7 @@
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creación del tipo de insumo.</small>
+                            <small>Ingrese los datos para la creaciÃ³n del tipo de insumo.</small>
 
                             <br/><br/>
 
@@ -145,26 +130,32 @@
 								
 									<form role="form" action="<?php echo $action; ?>" method="POST">
 										<div class="form-group fg-float">
-											<div class="fg-line">
+											<div class="fg-line <?php echo form_error('name') == '' ? '' : 'has-error'; ?>">
 												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
-												<label class="fg-label">Nombre</label>
+												<label class="fg-label"><?php echo form_error('name') == '' ? 'Nombre' : 'El nombre es obligatorio'; ?></label>
 											</div>
 										</div>
 										</br>
 										<div class="form-group fg-float">
-											<div class="fg-line">
-												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
-												<label class="fg-label">Código</label>
+											<div class="fg-line <?php echo form_error('code') == '' ? '' : 'has-error'; ?>">
+												<label class="fg-label">CÃ³digo</label>
 											</div>
 										</div>
 										</br>
 										<div class="form-group fg-float">
 											<div class="fg-line">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
-												<label class="fg-label">Descripción</label>
+												<label class="fg-label">DescripciÃ³n</label>
 											</div>
 										</div>
-
+										
+										<?php if ( isset($_ci_vars['failed-message']) && $_ci_vars['failed-message'] !== ''): ?>
+										    <div class="alert alert-danger alert-dismissible" role="alert">
+				                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				                                <?php echo $_ci_vars['failed-message'] ?>
+				                            </div>
+										<?php endif; ?>
+										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
 										<a href="<?php echo site_url('input_type'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
 										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
@@ -181,17 +172,7 @@
                 </div>
             </section>
 
-            <footer id="footer">
-                Copyright &copy; 2015 Material Admin
-
-                <ul class="f-menu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Dashboard</a></li>
-                    <li><a href="">Reports</a></li>
-                    <li><a href="">Support</a></li>
-                    <li><a href="">Contact</a></li>
-                </ul>
-            </footer>
+			<?php $this->load->view('templates/footer'); ?>
         </section>
 
         <!-- Page Loader -->
@@ -203,22 +184,8 @@
             </div>
         </div>
 
-        <!-- Javascript Libraries -->
-        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
+		<?php $this->load->view('templates/scripts'); ?>
         
-        <script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/autosize/dist/autosize.min.js')?>"></script>
-        
-        <!-- Placeholder for IE9 -->
-        <!--[if IE 9 ]>
-            <script src="<?php echo base_url('vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js')?>"></script>
-        <![endif]-->
 
-        <script src="<?php echo base_url('js/functions.js')?>"></script>
-        <script src="<?php echo base_url('js/actions.js')?>"></script>
-        <script src="<?php echo base_url('js/demo.js')?>"></script>
     </body>
 </html>

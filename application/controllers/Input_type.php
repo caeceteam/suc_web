@@ -29,6 +29,7 @@ class Input_type extends CI_Controller {
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
+		$this->variables['controller-name'] = 'input_type';
 		$this->_initialize_fields();
 	}
 	
@@ -38,6 +39,7 @@ class Input_type extends CI_Controller {
 	 */
 	public function index()
 	{
+		//$this->variables['action'] = site_url('input_type');
 		$this->render_table(NULL, $this->Input_type_model->search());
 		$this->load->view('input_type/search', $this->variables);
 	}
@@ -73,20 +75,22 @@ class Input_type extends CI_Controller {
 		if($this->form_validation->run() == FALSE)
 		{
 			$this->variables['message']= validation_errors();
+			$this->load->view('input_type/save', $this->variables);
 		}
 		else
 		{
 			if(($this->Input_type_model->add($this->_get_post()))!=NULL)
 			{
-				$this->variables['message'] = 'Datos grabados!';
+				$this->variables['success-message'] = 'Datos grabados!';
 				$this->variables['reset'] = TRUE;
+				$this->index();
 			}
 			else
 			{
-				$this->variables['message'] = 'Error al guardar';
+				$this->variables['failed-message'] = 'Ya existe algún tipo de insumo con el mismo código o nombre';
+				$this->load->view('input_type/save', $this->variables);
 			}
 		}
-		$this->load->view('input_type/save', $this->variables);
 	}
 	
 	/**
@@ -117,11 +121,12 @@ class Input_type extends CI_Controller {
 			}
 			else if($this->Input_type_model->edit($this->_get_post())!=NULL)
 			{
-				$this->variables['message'] = 'Datos editados!';
+				$this->variables['success-message'] = 'Datos editados!';
+				$this->variables['reset'] = TRUE;
 			}
 			else
 			{
-				$this->variables['message'] = 'Error al editar';
+				$this->variables['failed-message'] = 'Ya existe algún tipo de insumo con el mismo código o nombre';
 			}
 		}
 		$this->load->view('input_type/save', $this->variables);

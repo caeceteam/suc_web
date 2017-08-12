@@ -2,6 +2,8 @@
 
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 
 class Input_type_model extends CI_Model {
 	/**
@@ -46,7 +48,7 @@ class Input_type_model extends CI_Model {
 			return json_decode($body,TRUE);
 		}
 		else
-			return NULL;
+			return NULL;		
 	}
 	
 	/**
@@ -56,16 +58,24 @@ class Input_type_model extends CI_Model {
 	 */		
 	public function add($input_type)
 	{
-		$response = $this->client->request('POST', 'api/inputtypes', [
-				    'json' => $input_type
-					]);
-		if($response->getStatusCode()==HTTP_CREATED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try {
+			$response = $this->client->request('POST', 'api/inputtypes', [
+					'json' => $input_type
+			]);
+			if($response->getStatusCode()==HTTP_CREATED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
-			return NULL;
+		catch (Exception $e) {
+			if($e->getCode() == 0)
+			{
+				return NULL;
+			}			
+		}
 	}
 	
 	/**
@@ -75,16 +85,24 @@ class Input_type_model extends CI_Model {
 	 */
 	public function edit($input_type)
 	{
-		$response = $this->client->request('PUT', 'api/inputtypes/' . $input_type->id, [
-				    'json' => $input_type
-					]);
-		if($response->getStatusCode()==HTTP_ACCEPTED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try {
+			$response = $this->client->request('PUT', 'api/inputtypes/' . $input_type->id, [
+					'json' => $input_type
+			]);
+			if($response->getStatusCode()==HTTP_ACCEPTED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
-			return NULL;
+		catch (Exception $e) {
+			if($e->getCode() == 0)
+			{
+				return NULL;
+			}
+		}
 	}
 	
 	/**
