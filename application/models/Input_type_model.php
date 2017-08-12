@@ -39,14 +39,7 @@ class Input_type_model extends CI_Model {
 	 */
 	public function search($id=NULL)
 	{
-		try
-		{
-			$response = $this->client->request('GET', $id != NULL ? 'api/inputtypes/' . $id : 'api/inputtypes/');
-		} catch (Exception $e)
-		{
-			if($e->getCode()!=HTTP_OK)
-				return $e->getCode();
-		}		
+		$response = $this->client->request('GET', $id != NULL ? 'api/inputtypes/' . $id : 'api/inputtypes/');		
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -107,9 +100,9 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Edición de input type
+	 * EdiciÃ³n de input type
 	 * @param		object	$input_type
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function edit($input_type)
 	{
