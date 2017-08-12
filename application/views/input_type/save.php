@@ -2,7 +2,7 @@
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
         
@@ -10,12 +10,108 @@
     </head>
 
     <body data-ma-header="teal">
+        <header id="header" class="media">
+            <div class="pull-left h-logo">
+                <a href="index.html" class="hidden-xs">
+                    SUC
+                    <small>Sistema Ãnico de Comedores</small>
+                </a>
+
+                <div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
+                    <div class="mc-wrap">
+                        <div class="mcw-line top palette-White bg"></div>
+                        <div class="mcw-line center palette-White bg"></div>
+                        <div class="mcw-line bottom palette-White bg"></div>
+                    </div>
+                </div>
+            </div>
 
 		<?php $this->load->view('templates/header'); ?>
 
+                    <ul class="dropdown-menu pull-right dm-icon">
+                        <li>
+                            <a href="profile-about.html"><i class="zmdi zmdi-account"></i> Mis Datos</a>
+                        </li>
+                        <li>
+                            <a href=""><i class="zmdi zmdi-settings"></i> Cambiar contraseÃ±a</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </header>
+        
         <section id="main">
-			
-			<?php $this->load->view('templates/menu'); ?>
+            <aside id="s-user-alerts" class="sidebar">
+                <ul class="tab-nav tn-justified tn-icon m-t-10" data-tab-color="teal">
+                    <li><a class="sua-notifications" href="#sua-notifications" data-toggle="tab"><i class="zmdi zmdi-notifications"></i></a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade" id="sua-notifications">
+                        <ul class="sua-menu list-inline list-unstyled palette-Orange bg">
+                            <li><a href=""><i class="zmdi zmdi-volume-off"></i> Mute</a></li>
+                            <li><a href=""><i class="zmdi zmdi-long-arrow-tab"></i> View all</a></li>
+                            <li><a href="" data-ma-action="sidebar-close"><i class="zmdi zmdi-close"></i> Close</a></li>
+                        </ul>
+
+                        <div class="list-group lg-alt c-overflow">
+                            <a href="" class="list-group-item media">
+                                <div class="pull-left">
+                                    <img class="avatar-img" src="http://uoetsylra.org/img/multimedia/Margarita-Barrientos-Retrato-2-e1378332345443.jpg" alt="">
+                                </div>
+
+                                <div class="media-body">
+                                    <div class="lgi-heading">Comedor Los piletones</div>
+                                    <small class="lgi-text">Solicitud de frazadas</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+			</aside>
+
+            <aside id="s-main-menu" class="sidebar">
+                <div class="smm-header">
+                    <i class="zmdi zmdi-long-arrow-left" data-ma-action="sidebar-close"></i>
+                </div>
+
+                <ul class="smm-alerts" style="margin: 30px 0 60px 120px; padding-left: 0px;"><!-- TODO CC: Add style to css class-->
+                    <li data-user-alert="sua-notifications" data-ma-action="sidebar-open" data-ma-target="user-alerts">
+                        <i class="zmdi zmdi-notifications"></i>
+                    </li>
+                </ul>
+
+                <ul class="main-menu">
+                    <li>
+                        <a href="index.html"><i class="zmdi zmdi-home"></i> Home</a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> Aprobaciones pendientes</a>
+
+                        <ul>
+                            <li><a href="alternative-header.html"> De comedores</a></li>
+                            <li><a href="HU001.html"> De personas</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+						<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-local-dining"></i> Comedores</a>
+						<ul>
+                            <li><a href="index.html"> Eventos</a></li>
+							<li><a href="index.html"> Personal</a></li>
+                        </ul>
+					</li>
+                    
+                    <li class="sub-menu">
+                        <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-swap-alt"></i> Mantenimiento SUC</a>
+                        <ul>
+                            <li><a href="colors.html">Insumos</a></li>
+                            <li><a href="HU010.html">Tipo de Insumos</a></li>
+							<li><a href="animations.html">AsignaciÃ³n de Roles</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
 			
             <section id="content">
                 <div class="container">
@@ -25,7 +121,7 @@
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creaci�n del tipo de insumo.</small>
+                            <small>Ingrese los datos para la creaciÃ³n del tipo de insumo.</small>
 
                             <br/><br/>
 
@@ -42,15 +138,14 @@
 										</br>
 										<div class="form-group fg-float">
 											<div class="fg-line <?php echo form_error('code') == '' ? '' : 'has-error'; ?>">
-												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
-												<label class="fg-label"><?php echo form_error('code') == '' ? 'C�digo' : 'El c�digo es obligatorio'; ?></label>
+												<label class="fg-label">CÃ³digo</label>
 											</div>
 										</div>
 										</br>
 										<div class="form-group fg-float">
 											<div class="fg-line">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
-												<label class="fg-label">Descripci�n</label>
+												<label class="fg-label">DescripciÃ³n</label>
 											</div>
 										</div>
 										
