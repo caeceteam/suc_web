@@ -67,37 +67,6 @@ class Input_type_model extends CI_Model {
 		else
 			return NULL;
 	}
-	*/
-	public function add($input_type)
-	{
-		try
-		{
-		//$input_type->name = utf8_encode($input_type->name);
-		//$input_type->description = utf8_encode($input_type->description);
-		$response = $this->client->request('POST', 'api/inputTypes', [
-				'json' => $input_type]);
-		
-		} catch (Exception $e)
-			{
-				if( is_null($e) )
-				return NULL;
-		}
-		
-		if ( is_null($response) )
-		{ 
-			return NULL;
-		}
-		else 
-		{
-			if($response->getStatusCode()==HTTP_CREATED)
-			{
-				$body = $response->getBody();
-				return json_decode($body,TRUE);
-			}
-			else
-				return NULL;
-		}
-	}
 	
 	/**
 	 * Edición de input type
