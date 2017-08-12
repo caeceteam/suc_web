@@ -1,8 +1,8 @@
 <!DOCTYPE html>
     <!--[if IE 9 ]><html class="ie9"><![endif]-->
     <head>
-    	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
 
@@ -22,7 +22,7 @@
             <div class="pull-left h-logo">
                 <a href="index.html" class="hidden-xs">
                     SUC
-                    <small>Sistema 趎ico de Comedores</small>
+                    <small>Sistema 脷nico de Comedores</small>
                 </a>
 
                 <div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
@@ -48,7 +48,7 @@
                             <a href="profile-about.html"><i class="zmdi zmdi-account"></i> Mis Datos</a>
                         </li>
                         <li>
-                            <a href=""><i class="zmdi zmdi-settings"></i> Cambiar contrase馻</a>
+                            <a href=""><i class="zmdi zmdi-settings"></i> Cambiar contrase帽a</a>
                         </li>
                     </ul>
                 </li>
@@ -122,7 +122,7 @@
                         <ul>
                             <li><a href="colors.html">Insumos</a></li>
                             <li><a href="HU010.html">Tipo de Insumos</a></li>
-							<li><a href="animations.html">Asignaci髇 de Roles</a></li>
+							<li><a href="animations.html">Asignaci贸n de Roles</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -136,7 +136,7 @@
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creaci髇 del tipo de insumo.</small>
+                            <small>Ingrese los datos para la creaci贸n del tipo de insumo.</small>
 
                             <br/><br/>
 
@@ -154,14 +154,14 @@
 										<div class="form-group fg-float">
 											<div class="fg-line">
 												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
-												<label class="fg-label">C骴igo</label>
+												<label class="fg-label">C贸digo</label>
 											</div>
 										</div>
 										</br>
 										<div class="form-group fg-float">
 											<div class="fg-line">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
-												<label class="fg-label">Descripci髇</label>
+												<label class="fg-label">Descripci贸n</label>
 											</div>
 										</div>
 
