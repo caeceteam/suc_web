@@ -53,7 +53,7 @@ class Input_type_model extends CI_Model {
 	 * Alta de input type
 	 * @param		object	$input_type
 	 * @return 		array   Si el alta fue exitosa, devuelve un array con el input type, sino devuelve NULL
-	 
+	 */		
 	public function add($input_type)
 	{
 		$response = $this->client->request('POST', 'api/inputtypes', [
