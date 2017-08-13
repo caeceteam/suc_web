@@ -23,8 +23,9 @@ class Diner_application extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library(array('form_validation', 'email'));
-		$this->load->helper(array('url', 'form'));
+		$this->_cloudinary_init();
+		$this->load->library(array('form_validation', 'email', 'upload'));
+		$this->load->helper(array('url', 'form', 'file'));
 		$this->load->model('Diner_application_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
@@ -49,9 +50,9 @@ class Diner_application extends CI_Controller {
 	{
 		$this->variables['action'] = site_url('diner_application/add');
 		$this->_set_rules();
-		if($this->form_validation->run() == FALSE)
+		if($this->form_validation->run() == FALSE || $this->_save_image($_FILES['photo']['tmp_name']))
 		{
-			$this->variables['message']= validation_errors();
+			$this->variables['message'] = validation_errors();//@TODO Ver como concatenar los mensajes de error del upload con los del form
 		}
 		else
 		{
@@ -93,6 +94,7 @@ class Diner_application extends CI_Controller {
 		$diner_application->diner->phone		= $this->input->post('phone');
 		$diner_application->diner->link			= $this->input->post('link');
 		$diner_application->diner->description	= $this->input->post('description');
+		//$diner_application->diner->photo 		= $this->upload->data('file_name');
 		$diner_application->user->name			= $this->input->post('user_name');
 		$diner_application->user->surname		= $this->input->post('surname');
 		$diner_application->user->pass			= $this->variables['password'];
@@ -133,6 +135,7 @@ class Diner_application extends CI_Controller {
 		$this->form_data->role = '';
 		$this->form_data->docNumber = '';
 		$this->form_data->bornDate = '';
+		$this->form_data->photo = '';
 	}
 	
 	/**
@@ -196,8 +199,41 @@ class Diner_application extends CI_Controller {
 		$this->email->subject('Solicitud de alta de comedor');
 		$this->email->message('Bienvenido al sistema único de comedores. <br/>
 			Su solicitud de alta se encuetra pendiente, recibirá un mail indicando si fue aprobada o no. <br/>
-			Su contraseña es ' . $password . '<br/>');
+			Su contraseña es: ' . $password . ' .<br/>');
 		$this->email->set_newline("\r\n");//Sin esta línea falla el envio
 		return $this->email->send();
+	}
+	
+	/**
+	 * Función que guarda una imagen en la nube usando la API de cloudinary
+	 * @param    $photo 	string ruta de la imagen a guardar
+	 * @return   bool 		indica si la imagen se guardo correctamente
+	 */
+	private function _save_image($photo)
+	{
+		if (!$this->upload->do_upload('photo'))
+		{
+			$this->variables['message'] = $this->upload->display_errors();
+			return false;
+		}
+		else
+		{
+			\Cloudinary\Uploader::upload($photo);//La subo a cloudinary
+			delete_files('uploads');
+			return true;
+		}
+	}
+	
+	/**
+	 * Función que configura la API de cloudinary
+	 * @return   void
+	 */
+	private function _cloudinary_init()
+	{
+		\Cloudinary::config(array(
+				"cloud_name" 	=> "caeceteam",
+				"api_key" 		=> "779344883826737",
+				"api_secret" 	=> "A2e2eESuMFPc-fXK9Xz3plHSB2U"
+		));
 	}
 }

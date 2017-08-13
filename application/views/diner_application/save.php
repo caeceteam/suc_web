@@ -151,7 +151,7 @@
                             <br/><br/>
                             
                                 <div class="card-body card-padding">
-									<form role="form" action="<?php echo $action; ?>" method="POST">
+									<form role="form" action="<?php echo $action; ?>" method="POST" enctype="multipart/form-data">
 										<div class="row">
 											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
@@ -233,7 +233,7 @@
 													<span class="btn btn-info btn-file">
 														<span class="fileinput-new">Seleccionar archivo</span>
 														<span class="fileinput-exists">Cambiar</span>
-														<input type="file" name="...">
+														<input type="file" name="photo" id="photo">
 													</span>
 													<a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Quitar</a>
 												</div>
