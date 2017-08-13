@@ -66,7 +66,7 @@ class Input_type extends CI_Controller {
 	public function add()
 	{
 		$this->variables['action'] = site_url('input_type/add');
-		$this->variables['http-verb'] = 'POST';
+		$this->variables['request-action'] = 'POST';
 		$this->variables['redirect-url'] = site_url('input_type');
 		$this->_set_rules();
 		if ($this->input->method() == "get")
@@ -111,7 +111,7 @@ class Input_type extends CI_Controller {
 	public function edit($id=NULL)
 	{
 		$this->variables['action'] = site_url('input_type/edit');
-		$this->variables['http-verb'] = 'PUT';
+		$this->variables['request-action'] = 'PUT';
 		$this->variables['redirect-url'] = site_url('input_type');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if($this->input->method() == "get")

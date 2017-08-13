@@ -11,3 +11,7 @@
 .hide-alert {
 	display: none;
 }
+
+.c-header h2 {
+	font-size: 25px;
+}

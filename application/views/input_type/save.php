@@ -7,6 +7,7 @@
         <title>SUC</title>
         
 		<?php $this->load->view('templates/styles'); ?>
+		
     </head>
 
     <body data-ma-header="teal">
@@ -20,7 +21,7 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2 style="font-size: 25px;">Crear tipo de Insumo</h2> <!--TODO CC: Pass style inline to css class-->
+                        <h2>Crear tipo de Insumo</h2>
                     </div>
 
                     <div class="card">
@@ -39,14 +40,14 @@
 												<label class="fg-label">Nombre</label>
 											</div>
 										</div>
-										</br>
+										<br/>
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="code">
 												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
 												<label class="fg-label">Código</label>
 											</div>
 										</div>
-										</br>
+										<br/>
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="description">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
@@ -83,7 +84,7 @@
 			<?php $this->load->view('templates/footer'); ?>
 			
 			<input hidden id="redirect-url" value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
-			<input hidden id="http-verb" value="<?php echo isset($_ci_vars['http-verb']) ? $_ci_vars['http-verb'] : '' ?>"></input>
+			<input hidden id="request-action" value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['http-verb'] : '' ?>"></input>
         </section>
 
         <!-- Page Loader -->
@@ -96,70 +97,23 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
+		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
 		<script>
-			$('.input-type-form').submit(function() { 
-				swal({
+			$('.input-type-form').submit(function() {
+				showConfirmDialog({
 					title: "¿Está seguro grabar este tipo de insumo?",
 					text: "El tipo de insumo se grabará en el sistema",
-					type: "warning",
-					showCancelButton: true,
-					confirmButtonColor: "#DD6B55",
-					confirmButtonText: "Si",
-					cancelButtonText: "No",
-					closeOnConfirm: false,
-				}, function(isConfirm){
-						if (isConfirm) {
-							var url;
-							if ($("#http-verb")[0].value === "POST") {
-								url = $("form")[0].action;
-							} else {
-								url = $("form")[0].action + "/" + $("input[name='id']")[0].value;
-							}
-							$.ajax({ 
-							       type : 'POST',
-							       //set the data type
-							       dataType:'json',
-							       data: $("form").serializeArray(),
-							       url: url, // target element(s) to be updated with server response 
-							       cache : false,
-							       success : function(response){ 
-							    	   	swal({
-									   		title: "¡Grabado!", 
-									   		text: "El tipo de insumo se ha grabado en el sistema.", 
-									   		type: "success"},
-									   		function () {
-									   			window.location.href = $("#redirect-url")[0].value;
-									   		}
-									   	);
-							       },
-							       error : function(response){
-								       	$(".fg-line").removeClass("has-error");
-							    	   	$(".alert").addClass("hide-alert");   
-								      	var errorType = response.responseJSON["error-type"];
-								      	if (errorType === "unique") {
-											$("#unique-error-alert").removeClass("hide-alert");
-									    }
-									    if (errorType === "empty-field") {
-									    	$("#empty-error-alert").removeClass("hide-alert");
-									    	var errors = response.responseJSON["message"];
-									    	for (var key in errors) {
-									    		if (errors[key] !== "") {
-									    			$("[data-id=" + key + "]").addClass("has-error");
-									    		}
-									    	}
-										}
-							    	   	swal({
-									   		title: "¡Error!", 
-									   		text: "El tipo de insumo no pudo ser grabado en el sistema.", 
-									   		type: "error"}
-									   	);								       
-							       }
-							   });        
-					  	}
-				});	
+					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
+					formData: $("form").serializeArray(),
+					successText: "El tipo de insumo se ha grabado en el sistema.",
+					failedText: "El tipo de insumo no pudo ser grabado en el sistema.",
+					redirectUrl: $("#redirect-url")[0].value,
+					uniqueValues: ["code"]
+				});
 				return false;
 			}); 
+			
         </script>
         
     </body>
