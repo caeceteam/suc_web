@@ -50,9 +50,9 @@ class Diner_application extends CI_Controller {
 	{
 		$this->variables['action'] = site_url('diner_application/add');
 		$this->_set_rules();
-		if($this->form_validation->run() == FALSE || $this->_save_image($_FILES['photo']['tmp_name']))
+		if($this->form_validation->run() == FALSE || $this->_save_image($_FILES['photo']['tmp_name']) == FALSE)
 		{
-			$this->variables['message'] = validation_errors();//@TODO Ver como concatenar los mensajes de error del upload con los del form
+			$this->variables['message'] = isset($this->variables['message']) ? $this->variables['message'].validation_errors() : validation_errors();
 		}
 		else
 		{
@@ -94,13 +94,13 @@ class Diner_application extends CI_Controller {
 		$diner_application->diner->phone		= $this->input->post('phone');
 		$diner_application->diner->link			= $this->input->post('link');
 		$diner_application->diner->description	= $this->input->post('description');
-		//$diner_application->diner->photo 		= $this->upload->data('file_name');
+		$diner_application->diner->photo 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
 		$diner_application->user->name			= $this->input->post('user_name');
 		$diner_application->user->surname		= $this->input->post('surname');
 		$diner_application->user->pass			= $this->variables['password'];
-		$diner_application->user->alias 		= 'test' . time();//@TODO Ver como resolvemos esto
+		$diner_application->user->alias 		= $this->input->post('alias');
 		$diner_application->user->mail			= $this->input->post('user_mail');
-		$diner_application->user->state 		= 1;//@TODO Ver como resolvemos esto
+		$diner_application->user->state 		= USER_INACTIVE;
 		$diner_application->user->role 			= 1;//@TODO Ver como resolvemos esto
 		return $diner_application;
 	}
@@ -159,6 +159,7 @@ class Diner_application extends CI_Controller {
 		$this->form_validation->set_rules('user_name', 'Nombre del solicitante', 'trim|required');
 		$this->form_validation->set_rules('surname', 'Apellido del solicitante', 'trim|required');
 		$this->form_validation->set_rules('user_mail', 'Mail del solicitante', 'trim|required');
+		$this->form_validation->set_rules('alias', 'Nombre de usuario del solicitante', 'trim|required');
 	}
 	
 	/**
@@ -218,8 +219,9 @@ class Diner_application extends CI_Controller {
 		}
 		else
 		{
-			\Cloudinary\Uploader::upload($photo);//La subo a cloudinary
-			delete_files('uploads');
+			$response = \Cloudinary\Uploader::upload($photo);//La subo a cloudinary
+			$this->form_data->photo = $response['url'];
+			delete_files('uploads', FALSE, TRUE);
 			return true;
 		}
 	}

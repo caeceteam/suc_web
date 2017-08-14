@@ -218,13 +218,18 @@
 													<label class="fg-label">Apellido del solicitante</label>
 												</div>
 											</div>
-											<div class="form-group fg-float">
+											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
 													<input value="<?php echo ($reset) ? '' : set_value('user_mail',$this->form_data->user_mail); ?>" type="text" name="user_mail" class="input-sm form-control fg-input">
 													<label class="fg-label">Mail del solicitante</label>
 												</div>
 											</div>
-											
+											<div class="fg-float form-group col-xs-6" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
+												<div class="fg-line">
+													<input value="<?php echo ($reset) ? '' : set_value('alias',$this->form_data->alias); ?>" type="text" name="alias" class="input-sm form-control fg-input">
+													<label class="fg-label">Nombre de usuario del solicitante</label>
+												</div>
+											</div>
 											<p><b>Subir foto del Comedor</b></p>
 											<p>Seleccione la imágen que desee subir del comedor.</p>
 											<div class="fileinput fileinput-new" data-provides="fileinput">
