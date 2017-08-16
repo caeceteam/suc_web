@@ -19,8 +19,8 @@
 
                     <div class="media-body">
                     	<div class="lgi-heading">Comedor Los piletones</div>
-                        	<small class="lgi-text">Solicitud de frazadas</small>
-					    </div>
+                      	<small class="lgi-text">Solicitud de frazadas</small>
+					</div>
                 </a>
             </div>
 		</div>

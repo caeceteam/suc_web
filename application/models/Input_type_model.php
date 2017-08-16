@@ -42,7 +42,7 @@ class Input_type_model extends CI_Model {
 	 */
 	public function search($id=NULL)
 	{
-		$response = $this->client->request('GET', $id != NULL ? 'api/inputtypes/' . $id : 'api/inputtypes/');
+		$response = $this->client->request('GET', $id != NULL ? 'api/inputtypes/' . $id : 'api/inputtypes/');		
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -56,7 +56,7 @@ class Input_type_model extends CI_Model {
 	 * Alta de input type
 	 * @param		object	$input_type
 	 * @return 		array   Si el alta fue exitosa, devuelve un array con el input type, sino devuelve NULL
-	 */
+	 */		
 	public function add($input_type)
 	{
 		try {
@@ -82,9 +82,9 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Edición de input type
+	 * EdiciÃ³n de input type
 	 * @param		object	$input_type
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function edit($input_type)
 	{
@@ -126,5 +126,5 @@ class Input_type_model extends CI_Model {
 		else
 			return FALSE;
 	}
-	
 };
+
