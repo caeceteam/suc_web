@@ -4,6 +4,7 @@ use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 
 class Input_type_model extends CI_Model {
 	/**
@@ -60,21 +61,23 @@ class Input_type_model extends CI_Model {
 	{
 		try {
 			$response = $this->client->request('POST', 'api/inputtypes', [
-					'json' => $input_type
+				'json' => $input_type
 			]);
 			if($response->getStatusCode()==HTTP_CREATED)
 			{
 				$body = $response->getBody();
 				return json_decode($body,TRUE);
 			}
-			else
-				return NULL;
+			return NULL;
 		}
-		catch (Exception $e) {
-			if($e->getCode() == 0)
+		catch (ServerException $e) {
+			$errorResponse = json_decode($e->getResponse()->getBody(), TRUE);
+			$errorResponse['errors'] = TRUE;
+			if($e->getCode() == 500)
 			{
-				return NULL;
+				return $errorResponse;
 			}			
+			return NULL;
 		}
 	}
 	
@@ -98,10 +101,13 @@ class Input_type_model extends CI_Model {
 				return NULL;
 		}
 		catch (Exception $e) {
-			if($e->getCode() == 0)
+			$errorResponse = json_decode($e->getResponse()->getBody(), TRUE);
+			$errorResponse['errors'] = TRUE;
+			if($e->getCode() == 500)
 			{
-				return NULL;
-			}
+				return $errorResponse;
+			}			
+			return NULL;
 		}
 	}
 	
@@ -121,3 +127,4 @@ class Input_type_model extends CI_Model {
 			return FALSE;
 	}
 };
+

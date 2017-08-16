@@ -8,11 +8,10 @@
 	overflow: hidden;
 }
 
-.bootstrap-select > .btn-default {
-    background: none !important;
-    border-bottom: 0px;
-    border-radius: 0;
-    padding-left: 0;
-    padding-right: 0;
-	padding-bottom: 4px;
+.hide-alert {
+	display: none;
+}
+
+.c-header h2 {
+	font-size: 25px;
 }
