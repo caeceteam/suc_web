@@ -10,7 +10,8 @@
 <link href="<?php echo base_url('vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')?>" rel="stylesheet">
 <link href="<?php echo base_url('vendors/farbtastic/farbtastic.css')?>" rel="stylesheet">
 <link href="<?php echo base_url('vendors/bower_components/chosen/chosen.min.css')?>" rel="stylesheet">
-        		
+<link href="<?php echo base_url('vendors/summernote/dist/summernote.css')?>" rel="stylesheet">
+        	
 <!-- CSS -->
 <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
 <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
