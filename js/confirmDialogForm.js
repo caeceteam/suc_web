@@ -20,7 +20,7 @@ function showConfirmDialog(params) {
 				       		successAction(params.successText, params.redirectUrl);
 				       	},
 				       	error : function(response){
-				       		failedAction(response, params.failedText, params.uniqueValues)							       
+				       		failedAction(response, params.failedText)							       
 				       	}
 				});        
 		  	}
@@ -43,23 +43,18 @@ function failedAction(response, failedText, uniqueValues) {
 	$(".fg-line").removeClass("has-error");
    	$(".alert").addClass("hide-alert");   
    	var errorType = response.responseJSON["error-type"];
+   	var errorFields = response.responseJSON["error-fields"];
    	if (errorType === "unique") {
 		$("#unique-error-alert").removeClass("hide-alert");
-		for (var i = 0; i < uniqueValues.length; i++) {
-	    	if (uniqueValues[i] !== "") {
-	    		$("[data-id=" + uniqueValues[i] + "]").addClass("has-error");
-	    	}
-		}
     }
     if (errorType === "empty-field") {
     	$("#empty-error-alert").removeClass("hide-alert");
-    	var errors = response.responseJSON["message"];
-    	for (var key in errors) {
-	    	if (errors[key] !== "") {
-	    		$("[data-id=" + key + "]").addClass("has-error");
-	    	}
-	    }
 	}
+    for (var key in errorFields) {
+    	if (errorFields[key] !== "") {
+    		$("[data-id=" + key + "]").addClass("has-error");
+    	}
+    }    
    	swal({
    		title: "Error", 
    		text: failedText, 

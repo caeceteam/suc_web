@@ -30,7 +30,6 @@ class Input_type extends CI_Controller {
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->variables['controller-name'] = 'input_type';
-		$this->variables['success-message'] = NULL;
 		$this->_initialize_fields();
 	}
 	
@@ -83,20 +82,16 @@ class Input_type extends CI_Controller {
 				$data = array(
 						'code' => form_error('code'),
 						'name' => form_error('name'));
-				$this->variables['message'] = $data;
+				$this->variables['error-fields'] = $data;
 			}
 			else
 			{
 				$response = $this->Input_type_model->add($this->_get_post());
-				if (!isset($response['errors']))
-				{
-					$this->variables['message'] = 'Datos grabados!';
-				}
-				else
+				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');
 					$this->variables['error-type'] = 'unique';
-					$this->variables['message'] = $response;
+					$this->variables['error-fields'] = $response['fields'];
 				}
 			}
 			echo json_encode( $this->variables );
@@ -136,20 +131,16 @@ class Input_type extends CI_Controller {
 				$data = array(
 						'code' => form_error('code'),
 						'name' => form_error('name'));
-				$this->variables['message'] = $data;
+				$this->variables['error-fields'] = $data;
 			}
 			else
 			{
 				$response = $this->Input_type_model->edit($this->_get_post());
-				if (!isset($response['errors']))
-				{
-					$this->variables['message'] = 'Datos grabados!';
-				}
-				else
+				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');
 					$this->variables['error-type'] = 'unique';
-					$this->variables['message'] = $response['result'];
+					$this->variables['error-fields'] = $response['fields'];
 				}
 			}
 			echo json_encode( $this->variables );
