@@ -168,7 +168,7 @@
 											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
 													<input id="autocomplete" placeholder="" type="text" name="address" class="input-sm form-control fg-input">
-													<label class="fg-label">Dirección</label>
+													<label class="fg-label">Calle y número</label>
 													<input value="<?php echo ($reset) ? '' : set_value('street',$this->form_data->street); ?>" type="text" id="street" name="street" hidden>
 													<input value="<?php echo ($reset) ? '' : set_value('streetNumber',$this->form_data->streetNumber); ?>" type="text" id="streetNumber" name="streetNumber" hidden>
 													<input value="<?php echo ($reset) ? '' : set_value('latitude',$this->form_data->latitude); ?>" type="text" id="latitude" name="latitude" hidden>

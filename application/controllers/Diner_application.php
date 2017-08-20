@@ -94,7 +94,7 @@ class Diner_application extends CI_Controller {
 		$diner_application->diner->phone		= $this->input->post('phone');
 		$diner_application->diner->link			= $this->input->post('link');
 		$diner_application->diner->description	= $this->input->post('description');
-		$diner_application->diner->photo 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+		$diner_application->diner->photos[0] 	= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
 		$diner_application->user->name			= $this->input->post('user_name');
 		$diner_application->user->surname		= $this->input->post('surname');
 		$diner_application->user->pass			= $this->variables['password'];
