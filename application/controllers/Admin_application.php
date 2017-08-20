@@ -38,7 +38,7 @@ class Admin_application extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->render_table(NULL, $this->Diner_application_model->search());
+		$this->render_table(NULL, $this->Diner_application_model->search()['diners']);
 		$this->load->view('admin_application/search', $this->variables);
 	}
 	
@@ -68,7 +68,7 @@ class Admin_application extends CI_Controller {
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if(!$this->input->post('reject_reason'))
 		{
-			$diner_application = $this->Diner_application_model->search($id)['diner'];
+			$diner_application = $this->Diner_application_model->search($id);
 			$this->_fill_form($diner_application);
 		}
 		else
@@ -118,14 +118,15 @@ class Admin_application extends CI_Controller {
 		$this->table->set_heading(
 				array('data' => 'Id', 'data-column-id' => 'id', 'data-visible' => 'false'),
 				array('data' => 'Nombre', 'data-column-id' => 'Usuario', 'data-order' => 'desc'),
-				array('data' => 'Apellido', 'data-column-id' => 'Nombre'),
+				array('data' => 'Dirección', 'data-column-id' => 'Dirección'),
 				array('data' => 'Email', 'data-column-id' => 'Email'),
-				array('data' => 'Comedor', 'data-column-id' => 'Comedor'),
 				array('data' => 'Ir a solicitud', 'data-column-id' => 'commands', 'data-formatter' => 'commands', 'data-sortable' => 'false')
 				);
 		foreach ($data as $diner_application)
 		{
-			$this->table->add_row($diner_application['idDiner'], 'Nombre', 'Apellido', 'mail@usuario.com', $diner_application['name']);
+			$this->table->add_row($diner_application['idDiner'], $diner_application['name'], 
+					$diner_application['street'] . ' ' . $diner_application['streetNumber'] . ' ' . (empty($diner_application['floor']) ? '' : $diner_application['floor']) . ' ' . (empty($diner_application['door']) ? '' : $diner_application['door']), 
+					$diner_application['mail']);
 		}
 		$this->variables['table'] = $this->table->generate();
 	}
@@ -151,15 +152,14 @@ class Admin_application extends CI_Controller {
 	{
 		$this->form_data->user_name = '';
 		$this->form_data->surname = '';
-		$this->form_data->bornDate = '';
-		$this->form_data->docNumber = '';
-		$this->form_data->user_phone = '';
 		$this->form_data->user_mail = '';
 		$this->form_data->diner_name = '';
 		$this->form_data->street = '';
 		$this->form_data->streetNumber = '';
 		$this->form_data->floor = '';
 		$this->form_data->door = '';
+		$this->form_data->diner_phone = '';
+		$this->form_data->photo = '';
 	}
 	
 	/**
@@ -178,16 +178,15 @@ class Admin_application extends CI_Controller {
 	 */
 	private function _fill_form($diner_application)
 	{
-		$this->form_data->user_name = '';//@todo Falta API
-		$this->form_data->surname = '';//@todo Falta API
-		$this->form_data->bornDate = '';//@todo Falta API
-		$this->form_data->docNumber = '';//@todo Falta API
-		$this->form_data->user_phone = '';//@todo Falta API
-		$this->form_data->user_mail = '';//@todo Falta API
-		$this->form_data->diner_name = $diner_application['name'];
-		$this->form_data->street = $diner_application['street'];
-		$this->form_data->streetNumber = $diner_application['streetNumber'];
-		$this->form_data->floor = $diner_application['floor'];
-		$this->form_data->door = $diner_application['door'];
+		$this->form_data->user_name = $diner_application['user']['name'];
+		$this->form_data->surname = $diner_application['user']['surname'];
+		$this->form_data->user_mail = $diner_application['user']['mail'];
+		$this->form_data->diner_name = $diner_application['diner']['name'];
+		$this->form_data->street = $diner_application['diner']['street'];
+		$this->form_data->streetNumber = $diner_application['diner']['streetNumber'];
+		$this->form_data->floor = $diner_application['diner']['floor'];
+		$this->form_data->door = $diner_application['diner']['door'];
+		$this->form_data->diner_phone = $diner_application['diner']['phone'];
+		$this->form_data->photo = isset($diner_application['photos'][0]['url']) ? $diner_application['photos'][0]['url'] : base_url('img/sin_imagen.png');
 	}
 }

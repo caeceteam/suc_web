@@ -132,7 +132,7 @@
                         <div class="pm-overview c-overflow">
                             <div class="pmo-pic">
                                 <div class= "animated fadeInDown"><!-- "p-relative"> -->
-                                    <img class="img-responsive" src="<?php echo base_url('img/profile-pics/profile-pic-2.jpg')?>" alt="">
+                                    <img class="img-responsive" src="<?php echo $this->form_data->photo; ?>" alt="">
                                 </div>
 
                                 <div class="pmo-stat"> <!--pmo-stat-->
@@ -144,7 +144,7 @@
                         <div class="pm-body clearfix">
                             <div class="pmb-block">
                                 <div class="pmbb-header">
-                                    <h2><i class="zmdi zmdi-account m-r-5"></i>Información Básica</h2>
+                                    <h2><i class="zmdi zmdi-account m-r-5"></i>Información del solicitante</h2>
 								</div>
                                 <div class="pmbb-body p-l-30">
 									<div class="pmbb-view">
@@ -152,13 +152,9 @@
                                             <dt>Nombre Completo</dt>
                                             <dd><?php echo $this->form_data->user_name . ' ' . $this->form_data->surname; ?></dd>
                                         </dl>
-										<dl class="dl-horizontal">
-                                            <dt>Fecha nacimiento</dt>
-                                            <dd><?php echo $this->form_data->bornDate; ?></dd>
-                                        </dl>
                                         <dl class="dl-horizontal">
-                                            <dt>Número de documento</dt>
-                                            <dd><?php echo $this->form_data->docNumber; ?></dd>
+                                            <dt>Email</dt>
+                                            <dd><?php echo $this->form_data->user_mail; ?></dd>
                                         </dl>
                                     </div>
                                 </div>
@@ -167,26 +163,21 @@
 
                             <div class="pmb-block">
                                 <div class="pmbb-header">
-                                    <h2><i class="zmdi zmdi-phone m-r-5"></i> Información de Contacto</h2>
+                                    <h2><i class="zmdi zmdi-phone m-r-5"></i> Información del comedor</h2>
 								</div>
-								
                                 <div class="pmbb-body p-l-30">
                                     <div class="pmbb-view">
                                         <dl class="dl-horizontal">
-                                            <dt>Teléfono particular</dt>
-                                            <dd><?php echo $this->form_data->user_phone; ?></dd>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Email particular</dt>
-                                            <dd><?php echo $this->form_data->user_mail; ?></dd>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Nombre del Comedor</dt>
+                                            <dt>Nombre</dt>
                                             <dd><?php echo $this->form_data->diner_name; ?></dd>
                                         </dl>
                                         <dl class="dl-horizontal">
-                                            <dt>Dirección del comedor</dt>
+                                            <dt>Dirección</dt>
                                             <dd><?php echo $this->form_data->street . ' ' . $this->form_data->streetNumber . ' ' . (empty($this->form_data->floor) ? '' : $this->form_data->floor) . ' ' . (empty($this->form_data->door) ? '' : $this->form_data->door); ?></dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Teléfono</dt>
+                                            <dd><?php echo $this->form_data->diner_phone; ?></dd>
                                         </dl>
                                     </div>
 								</div>

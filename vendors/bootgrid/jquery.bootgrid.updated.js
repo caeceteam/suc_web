@@ -1292,12 +1292,12 @@
          * @for defaults
          **/
         labels: {
-            all: "All",
-            infos: "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries",
-            loading: "Loading...",
-            noResults: "No results found!",
-            refresh: "Refresh",
-            search: "Search"
+            all: "Todos",
+            infos: "Mostrando {{ctx.start}} a {{ctx.end}} de {{ctx.total}} resultados",
+            loading: "Cargando...",
+            noResults: "No se encontraron resultados",
+            refresh: "Actualizar",
+            search: "Buscar"
         },
 
         /**
