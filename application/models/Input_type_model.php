@@ -36,13 +36,13 @@ class Input_type_model extends CI_Model {
 	/**
 	 * Consulta de tipo de insumo
 	 * 
-	 * Consulta tipos de insumo por id o devuelve toda la tabla
-	 * @param 		string 		$id
+	 * Consulta de tipos de insumo a la API
+	 * @param 		string 		$url
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL)
+	private function search($url)
 	{
-		$response = $this->client->request('GET', $id != NULL ? 'api/inputtypes/' . $id : 'api/inputtypes/');		
+		$response = $this->client->request('GET', $url);		
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -52,6 +52,26 @@ class Input_type_model extends CI_Model {
 			return NULL;		
 	}
 	
+	/**
+	 * Consulta de tipos de insumos by id
+	 * @param 	int 	$id
+	 */
+	public function search_by_id($id)
+	{
+		$url = 'api/inputtypes/' . $id;
+		return $this->search($url);
+	}
+	
+	/**
+	 * Consulta de tipos de insumos por página para el listado
+	 * @param 	string 	$page
+	 */
+	public function get_inputtypes_by_page($page)
+	{
+		$url = 'api/inputtypes?page=' . $page;
+		return $this->search($url);
+	}
+		
 	/**
 	 * Alta de input type
 	 * @param		object	$input_type
@@ -71,13 +91,7 @@ class Input_type_model extends CI_Model {
 			return NULL;
 		}
 		catch (ServerException $e) {
-			$errorResponse = json_decode($e->getResponse()->getBody(), TRUE);
-			$errorResponse['errors'] = TRUE;
-			if($e->getCode() == 500)
-			{
-				return $errorResponse;
-			}			
-			return NULL;
+			return $this->errorMessage($e);
 		}
 	}
 	
@@ -101,14 +115,23 @@ class Input_type_model extends CI_Model {
 				return NULL;
 		}
 		catch (Exception $e) {
-			$errorResponse = json_decode($e->getResponse()->getBody(), TRUE);
-			$errorResponse['errors'] = TRUE;
-			if($e->getCode() == 500)
-			{
-				return $errorResponse;
-			}			
-			return NULL;
+			return $this->errorMessage($e);
 		}
+	}
+	
+	/**
+	 * Función que mapea el mensaje de error desde la API usado en los editores
+	 * @param 	exception $exceptionData
+	 */
+	private function errorMessage($exceptionData) 
+	{
+		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
+		$errorResponse['errors'] = TRUE;
+		if($exceptionData->getCode() == 500)
+		{
+			return $errorResponse;
+		}
+		return NULL;
 	}
 	
 	/**
