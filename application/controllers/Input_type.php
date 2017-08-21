@@ -101,7 +101,7 @@ class Input_type extends CI_Controller {
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if(!$this->input->post('name'))
 		{
-			$input_type = $this->Input_type_model->search($id)['inputType'];
+			$input_type = $this->Input_type_model->search($id);
 			$this->form_data->id = $input_type['idInputType'];
 			$this->form_data->code = $input_type['code'];
 			$this->form_data->name = $input_type['name'];

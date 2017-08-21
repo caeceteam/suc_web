@@ -104,11 +104,14 @@ class Food_type extends CI_Controller {
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if(!$this->input->post('name'))
 		{
-			$food_type = $this->Food_type_model->search($id)['foodType'];
-			$this->form_data->id = $food_type['idFoodType'];
-			$this->form_data->code = $food_type['code'];
-			$this->form_data->name = $food_type['name'];
-			$this->form_data->description = $food_type['description'];
+			$food_type                       = $this->Food_type_model->search($id);
+			$this->form_data->id             = $food_type['idFoodType'];
+			$this->form_data->code           = $food_type['code'];
+			$this->form_data->name           = $food_type['name'];
+			$this->form_data->description    = $food_type['description'];
+			$this->form_data->perishable     = $food_type['perishable'];
+			$this->form_data->celiac         = $food_type['celiac'];
+			$this->form_data->diabetic       = $food_type['diabetic'];
 		}
 		else
 		{
@@ -180,10 +183,13 @@ class Food_type extends CI_Controller {
 	private function _get_post($id=NULL)
 	{
 		$food_type = new stdClass();
-		$food_type->id 			= $id != NULL ? $id : $this->input->post('id');
-		$food_type->code 			= $this->input->post('code');
-		$food_type->name 			= $this->input->post('name');
-		$food_type->description 	= $this->input->post('description');
+		$food_type->id 			  = $id != NULL ? $id : $this->input->post('id');
+		$food_type->code 		  = $this->input->post('code');
+		$food_type->name 		  = $this->input->post('name');
+		$food_type->description   = $this->input->post('description');
+		$food_type->perishable    = $this->input->post('perishable')  == null ? 0 : $this->input->post('perishable');
+		$food_type->celiac        = $this->input->post('celiac')      == null ? 0 : $this->input->post('celiac');
+		$food_type->diabetic      = $this->input->post('diabetic')    == null ? 0 : $this->input->post('diabetic');
 		return $food_type;
 	}
 	
@@ -193,10 +199,14 @@ class Food_type extends CI_Controller {
 	 */
 	private function _initialize_fields()
 	{
-		$this->form_data->id = '';
-		$this->form_data->code = '';
-		$this->form_data->name = '';
+		$this->form_data->id          = '';
+		$this->form_data->code        = '';
+		$this->form_data->name        = '';
 		$this->form_data->description = '';
+		$this->form_data->perishable  = '';
+		$this->form_data->celiac      = '';
+		$this->form_data->diabetic    = '';
+		//$this->variables['si_no']     = '';
 	}
 	
 	/**
@@ -207,6 +217,30 @@ class Food_type extends CI_Controller {
 	{
 		$this->form_validation->set_rules('code', 'Código', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-		$this->form_validation->set_rules('description', 'Descripción', 'trim');
+		$this->form_validation->set_rules('description',  'Descripción',      'trim');
+		$this->form_validation->set_rules('perishable',   'Predecedero',    'trim');
+		$this->form_validation->set_rules('celiac',       'Apto celiaco',   'trim');
+		$this->form_validation->set_rules('diabetic',     'Apto Diabetico', 'trim');
+	}
+	
+	/**
+	 * Funcion que completa el combo de modalidades si no recibe ningún parametro, sino muestra el combo con el id que recibe
+	 * @param         integer     $id_tipo_modalidad
+	 * @return void
+	 */
+	private function _obtener_combo_si_no($id_si_no=NULL)
+	{
+	    //$modalidades = $this->Torneo_model->consulta_tipo_modalidad();
+	    //$descripcion[''] = "[SELECCIONE]";
+	    /*foreach ($modalidades as $i)
+	    {
+	        $descripcion[$i['id_tipo_modalidad']] = $i['descripcion'];
+	    }
+	    */
+	    $descripcion['1'] = 'Si';
+	    $descripcion['0'] = 'No';
+	        
+	    $this->variables['si_no']          = $descripcion;
+	    $this->variables['selected_si_no'] = isset($id_si_no) ? $id_si_no : '';
 	}
 }
