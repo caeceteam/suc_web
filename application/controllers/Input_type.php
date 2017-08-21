@@ -29,6 +29,7 @@ class Input_type extends CI_Controller {
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
+		$this->variables['controller-name'] = 'input_type';
 		$this->_initialize_fields();
 	}
 	
@@ -49,15 +50,10 @@ class Input_type extends CI_Controller {
 	 */
 	public function search($name=NULL)
 	{
-		//$this->_setear_variables(lang('html_persona_titulo_consulta'), '', site_url('persona/consulta'), '', '');
-		//$cuil = $this->input->post('cuil');
 		if ($name!=NULL){
 			$input_type = $this->Input_type_model->search($name);
 			//$this->render_table(NULL, $this->Input_type_model->search()['inputTypes']);
 			$this->render_table(NULL, $input_type);
-			/*$this->load->view('templates/header', $this->variables);
-			$this->load->view('personas/buscar_persona', $this->variables);
-			$this->load->view('templates/footer');*/
 		}
 		else
 			$this->index();
@@ -70,24 +66,37 @@ class Input_type extends CI_Controller {
 	public function add()
 	{
 		$this->variables['action'] = site_url('input_type/add');
+		$this->variables['request-action'] = 'POST';
+		$this->variables['redirect-url'] = site_url('input_type');
 		$this->_set_rules();
-		if($this->form_validation->run() == FALSE)
+		if ($this->input->method() == "get")
 		{
-			$this->variables['message']= validation_errors();
+			$this->load->view('input_type/save', $this->variables);
 		}
 		else
 		{
-			if(($this->Input_type_model->add($this->_get_post()))!=NULL)
+			// Todo esto corresponde al POST
+			if ($this->form_validation->run() == FALSE)
 			{
-				$this->variables['message'] = 'Datos grabados!';
-				$this->variables['reset'] = TRUE;
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'empty-field';
+				$data = array(
+						'code' => form_error('code'),
+						'name' => form_error('name'));
+				$this->variables['error-fields'] = $data;
 			}
 			else
 			{
-				$this->variables['message'] = 'Error al guardar';
+				$response = $this->Input_type_model->add($this->_get_post());
+				if (isset($response['errors']))
+				{
+					$this->output->set_status_header('500');
+					$this->variables['error-type'] = 'unique';
+					$this->variables['error-fields'] = $response['fields'];
+				}
 			}
+			echo json_encode( $this->variables );
 		}
-		$this->load->view('input_type/save', $this->variables);
 	}
 	
 	/**
@@ -98,34 +107,46 @@ class Input_type extends CI_Controller {
 	public function edit($id=NULL)
 	{
 		$this->variables['action'] = site_url('input_type/edit');
+		$this->variables['request-action'] = 'PUT';
+		$this->variables['redirect-url'] = site_url('input_type');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if(!$this->input->post('name'))
+		if($this->input->method() == "get")
 		{
 			$input_type = $this->Input_type_model->search($id);
 			$this->form_data->id = $input_type['idInputType'];
 			$this->form_data->code = $input_type['code'];
 			$this->form_data->name = $input_type['name'];
 			$this->form_data->description = $input_type['description'];
+			$this->load->view('input_type/save', $this->variables);
 		}
 		else
 		{
 			$this->_initialize_fields();
 			$this->_set_rules();
 			$input_type = new stdClass();
-			if($this->form_validation->run() == FALSE)
+			// Todo esto corresponde al PUT
+			if ($this->form_validation->run() == FALSE)
 			{
-				$this->variables['message']= validation_errors();
-			}
-			else if($this->Input_type_model->edit($this->_get_post())!=NULL)
-			{
-				$this->variables['message'] = 'Datos editados!';
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'empty-field';
+				$data = array(
+						'code' => form_error('code'),
+						'name' => form_error('name'));
+				$this->variables['error-fields'] = $data;
 			}
 			else
 			{
-				$this->variables['message'] = 'Error al editar';
+				$response = $this->Input_type_model->edit($this->_get_post());
+				if (isset($response['errors']))
+				{
+					$this->output->set_status_header('500');
+					$this->variables['error-type'] = 'unique';
+					$this->variables['error-fields'] = $response['fields'];
+				}
 			}
+			echo json_encode( $this->variables );
 		}
-		$this->load->view('input_type/save', $this->variables);
+		
 	}
 	
 	/**
@@ -158,7 +179,7 @@ class Input_type extends CI_Controller {
 				array('data' => 'Descripción', 'data-column-id' => 'Descripcion'), 
 				array('data' => 'Modificar/Borrar', 'data-column-id' => 'commands', 'data-formatter' => 'commands', 'data-sortable' => 'false') 
 				);
-		foreach ($data as $input_type)
+		foreach ($data['inputTypes'] as $input_type)
 		{
 			$this->table->add_row($input_type['idInputType'], $input_type['code'], $input_type['name'], $input_type['description']);
 		}
@@ -198,7 +219,7 @@ class Input_type extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('code', 'Código', 'trim|required');
+		$this->form_validation->set_rules('code', 'Codigo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}

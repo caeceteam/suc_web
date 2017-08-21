@@ -2991,7 +2991,7 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 15px;
+  padding: 6px;
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #f0f0f0;
@@ -12336,7 +12336,7 @@ pre {
 
 .table > tbody > tr:last-child > td,
 .table > tfoot > tr:last-child > td {
-  padding-bottom: 20px;
+  padding-bottom: 6px;
 }
 
 .table-striped td,
