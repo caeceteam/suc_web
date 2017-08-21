@@ -39,7 +39,7 @@ class Input_type extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->render_table(NULL, $this->Input_type_model->search()['inputTypes']);
+		$this->render_table(NULL, $this->Input_type_model->search());
 		$this->load->view('input_type/search', $this->variables);
 	}
 	
@@ -100,7 +100,7 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -174,9 +174,9 @@ class Input_type extends CI_Controller {
 		$this->table->set_template($template);
 		$this->table->set_heading(
 				array('data' => 'Id', 'data-column-id' => 'id', 'data-visible' => 'false'),
-				array('data' => 'C骴igo', 'data-column-id' => 'Codigo', 'data-order' => 'desc'), 
+				array('data' => 'C贸digo', 'data-column-id' => 'Codigo', 'data-order' => 'desc'), 
 				array('data' => 'Nombre', 'data-column-id' => 'Nombre'), 
-				array('data' => 'Descripci髇', 'data-column-id' => 'Descripcion'), 
+				array('data' => 'Descripci贸n', 'data-column-id' => 'Descripcion'), 
 				array('data' => 'Modificar/Borrar', 'data-column-id' => 'commands', 'data-formatter' => 'commands', 'data-sortable' => 'false') 
 				);
 		foreach ($data['inputTypes'] as $input_type)
@@ -188,7 +188,7 @@ class Input_type extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del input type para cuando se trata de una edici髇
+	 * @param 		integer 	$id id del input type para cuando se trata de una edici贸n
 	 * @return		object		$input_type
 	 */
 	private function _get_post($id=NULL)
@@ -202,7 +202,7 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici髇
+	 * Funcion que inicializa las variables de los campos del formulario para la edici贸n
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -221,6 +221,6 @@ class Input_type extends CI_Controller {
 	{
 		$this->form_validation->set_rules('code', 'Codigo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-		$this->form_validation->set_rules('description', 'Descripci髇', 'trim');
+		$this->form_validation->set_rules('description', 'Descripci贸n', 'trim');
 	}
 }
