@@ -39,23 +39,32 @@ class Input_type extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->render_table(NULL, $this->Input_type_model->search());
+		$this->variables['data-request-url'] = site_url('input_type/render_table_response');
 		$this->load->view('input_type/search', $this->variables);
 	}
 	
 	/**
-	 * Funcion de consulta
-	 * @param		string	$name
-	 * @return void
+	 * Funcion para retornar la información a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
-	public function search($name=NULL)
+	public function render_table_response()
 	{
-		if ($name!=NULL){
-			$input_type = $this->Input_type_model->search($name);
-			$this->render_table(NULL, $input_type);
+		$service_data = $this->Input_type_model->get_inputtypes_by_page($this->input->post('current') - 1);
+		$pagination_data = $service_data['pagination'];
+		$input_types_data = $service_data['inputTypes'];
+		
+		$render_data['current'] = (int)$this->input->post('current');
+		$render_data['total'] = $pagination_data['total_elements'];
+		
+		$render_data['rows'] = [];
+		foreach ($input_types_data as $input_type)
+		{
+			$row_data['idInputType'] = $input_type['idInputType'];
+			$row_data['code'] = $input_type['code'];
+			$row_data['name'] = $input_type['name'];
+			$row_data['description'] = $input_type['description'];
+			array_push($render_data['rows'], $row_data);
 		}
-		else
-			$this->index();
+		echo json_encode($render_data, TRUE);
 	}
 	
 	/**
@@ -111,7 +120,7 @@ class Input_type extends CI_Controller {
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if($this->input->method() == "get")
 		{
-			$input_type = $this->Input_type_model->search($id);
+			$input_type = $this->Input_type_model->search_by_id($id);
 			$this->form_data->id = $input_type['idInputType'];
 			$this->form_data->code = $input_type['code'];
 			$this->form_data->name = $input_type['name'];
@@ -157,32 +166,6 @@ class Input_type extends CI_Controller {
 	{
 		$this->Input_type_model->delete($id);
 		$this->index();
-	}
-	
-	/**
-	 * Renderiza una tabla en base a un template HTML y un object|array
-	 * @param		string		$template
-	 * @param		mixed 		object|array Puede recibir un objeto de un input type o un array de varios
-	 * @return		void
-	 */
-	public function render_table($template=NULL, $data)
-	{
-		$template = isset($template) ? $template : array(
-				'table_open' => '<table id="data-table-command" class="table table-striped table-vmiddle">');
-		$this->load->library('table');
-		$this->table->set_template($template);
-		$this->table->set_heading(
-				array('data' => 'Id', 'data-column-id' => 'id', 'data-visible' => 'false'),
-				array('data' => 'Código', 'data-column-id' => 'Codigo', 'data-order' => 'desc'), 
-				array('data' => 'Nombre', 'data-column-id' => 'Nombre'), 
-				array('data' => 'Descripción', 'data-column-id' => 'Descripcion'), 
-				array('data' => 'Modificar/Borrar', 'data-column-id' => 'commands', 'data-formatter' => 'commands', 'data-sortable' => 'false') 
-				);
-		foreach ($data['inputTypes'] as $input_type)
-		{
-			$this->table->add_row($input_type['idInputType'], $input_type['code'], $input_type['name'], $input_type['description']);
-		}
-		$this->variables['table'] = $this->table->generate();
 	}
 	
 	/**
