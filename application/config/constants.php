@@ -86,7 +86,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 /*
  |--------------------------------------------------------------------------
- | C骴igos de status HTTP
+ | C贸digos de status HTTP
  |--------------------------------------------------------------------------
  |
  | Usados para validar las llamadas a la API.
@@ -101,3 +101,26 @@ defined('HTTP_UNAUTHORIZED')    OR define('HTTP_UNAUTHORIZED', 401);
 defined('HTTP_FORBIDDEN')     	OR define('HTTP_FORBIDDEN', 403);
 defined('HTTP_NOT_FOUND')     	OR define('HTTP_NOT_FOUND', 404);
 defined('HTTP_INTERNAL_SERVER') OR define('HTTP_INTERNAL_SERVER', 500);
+
+/*
+ |--------------------------------------------------------------------------
+ | C贸digos de estados de comedor
+ |--------------------------------------------------------------------------
+ |
+ | Usados para manejar los estados de las solicitudes de comedores
+ |
+ */
+defined('DINER_PENDING')      	OR define('DINER_PENDING', 0);
+defined('DINER_APPROVED')      	OR define('DINER_APPROVED', 1);
+defined('DINER_REJECTED')      	OR define('DINER_REJECTED', 2);
+
+/*
+ |--------------------------------------------------------------------------
+ | C贸digos de estados de usuario
+ |--------------------------------------------------------------------------
+ |
+ | Usados para manejar los estados de la adminsitraci贸n de usuarios
+ |
+ */
+defined('USER_ACTIVE')      	OR define('USER_ACTIVE', 0);
+defined('USER_INACTIVE')     	OR define('USER_INACTIVE', 1);
