@@ -52,7 +52,6 @@ class Input_type extends CI_Controller {
 	{
 		if ($name!=NULL){
 			$input_type = $this->Input_type_model->search($name);
-			//$this->render_table(NULL, $this->Input_type_model->search()['inputTypes']);
 			$this->render_table(NULL, $input_type);
 		}
 		else
