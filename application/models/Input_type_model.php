@@ -127,7 +127,7 @@ class Input_type_model extends CI_Model {
 	{
 		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
 		$errorResponse['errors'] = TRUE;
-		if($exceptionData->getCode() == 500)
+		if($exceptionData->getCode() == HTTP_INTERNAL_SERVER)
 		{
 			return $errorResponse;
 		}
