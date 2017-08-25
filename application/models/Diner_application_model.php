@@ -38,7 +38,7 @@ class Diner_application_model extends CI_Model {
 		if(isset($id))
 			$response = $this->client->request('GET', 'api/diners/' . $id);
 		else
-			$response = $this->client->request('GET', $state != NULL ? 'api/diners?state=' . $state : 'api/diners/');
+			$response = $this->client->request('GET', $state !== NULL ? 'api/diners?state=' . $state : 'api/diners/');
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
