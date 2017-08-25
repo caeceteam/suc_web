@@ -23,7 +23,7 @@ class Admin_application extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('form_validation');
+		$this->load->library(array('form_validation', 'session'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Diner_application_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
@@ -38,23 +38,8 @@ class Admin_application extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->render_table(NULL, $this->Diner_application_model->search()['diners']);
+		$this->render_table(NULL, $this->Diner_application_model->search(NULL,DINER_PENDING)['diners']);
 		$this->load->view('admin_application/search', $this->variables);
-	}
-	
-	/**
-	 * Funcion de consulta
-	 * @param		string	$name
-	 * @return void
-	 */
-	public function search($name=NULL)
-	{
-		if ($name!=NULL){
-			$input_type = $this->Diner_application_model->search($name);
-			$this->render_table(NULL, $diner_application);
-		}
-		else
-			$this->index();
 	}
 	
 	/**
@@ -66,16 +51,15 @@ class Admin_application extends CI_Controller {
 	{
 		$this->variables['action'] = site_url('admin_application/edit');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if(!$this->input->post('reject_reason'))
+		if(!$this->input->post('aprobar'))
 		{
-			$diner_application = $this->Diner_application_model->search($id);
-			$this->_fill_form($diner_application);
+			$this->session->diner_application = $this->Diner_application_model->search($id);
+			$this->_fill_form($this->session->diner_application);
 		}
 		else
 		{
 			$this->_initialize_fields();
 			$this->_set_rules();
-			$input_type = new stdClass();
 			if($this->form_validation->run() == FALSE)
 			{
 				$this->variables['message']= validation_errors();
@@ -83,6 +67,7 @@ class Admin_application extends CI_Controller {
 			else if($this->Diner_application_model->edit($this->_get_post())!=NULL)
 			{
 				$this->variables['message'] = 'Datos editados!';
+				redirect('admin_application');//@TODO Pasarlo al refactor (input_type) que hizo Cris
 			}
 			else
 			{
@@ -91,18 +76,7 @@ class Admin_application extends CI_Controller {
 		}
 		$this->load->view('admin_application/save', $this->variables);
 	}
-	
-	/**
-	 * Funcion de baja
-	 * @param		string	$id
-	 * @return void
-	 */
-	public function delete($id = NULL)
-	{
-		$this->Input_type_model->delete($id);
-		$this->index();
-	}
-	
+		
 	/**
 	 * Renderiza una tabla en base a un template HTML y un object|array
 	 * @param		string		$template
@@ -133,15 +107,15 @@ class Admin_application extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del input type para cuando se trata de una edición
-	 * @return		object		$input_type
+	 * @param 		integer 	$id id del diner para cuando se trata de una edición
+	 * @return		object		$diner_application
 	 */
 	private function _get_post($id=NULL)
 	{
-		$diner_aplication = new stdClass();
-		$diner_aplication->id 			= $id != NULL ? $id : $this->input->post('id');
-		$diner_aplication->description 	= $this->input->post('reject_reason');
-		return $diner_aplication;
+		$diner_application = $this->session->diner_application;
+		$diner_application['diner']['state'] = ($this->input->post('aprobar')) ? DINER_APPROVED : DINER_REJECTED;
+		$this->session->set_userdata('diner_application', $diner_application);
+		return $this->session->diner_application['diner'];
 	}
 	
 	/**
@@ -160,6 +134,7 @@ class Admin_application extends CI_Controller {
 		$this->form_data->door = '';
 		$this->form_data->diner_phone = '';
 		$this->form_data->photo = '';
+		$this->form_data->reject_reason = '';
 	}
 	
 	/**
@@ -168,7 +143,7 @@ class Admin_application extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('code', 'Código', 'trim|required');
+		$this->form_validation->set_rules('reject_reason', 'Motivo de rechazo', 'trim');
 	}
 	
 	/**

@@ -182,27 +182,26 @@
                                     </div>
 								</div>
                             </div>		
-							
+							<form role="form" action="<?php echo $action; ?>" method="POST">
 							<div class="pmb-block" id="reject-reason-block" hidden>
-								<form role="form" action="<?php echo $action; ?>" method="POST">
 									<div class="form-group fg-float">
 										<div class="fg-line">
-											<textarea id="reject-reason-textarea" class="form-control auto-size"></textarea>
+											<textarea name="reject_reason" id="reject-reason-textarea" class="form-control auto-size"></textarea>
 											<label class="fg-label">Motivo de rechazo</label>
 										</div>
 									</div>
 
-									<a id="reject-reason-accept-button" href="HU001.lista.html" class="btn palette-Green bg">Aceptar</a>
-									<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>
-								</form>	
+									<button type="submit" name="rechazar" value="rechazar" id="reject-reason-accept-button" class="btn palette-Green bg">Aceptar</button>
+									<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>	
 							</div>
 							
                             <div class="pmb-block" id="buttons-block">
 								<div class="btn-colors btn-demo">
-									<a id="approve-button" href="HU001.lista.html" class="btn palette-Green bg">Aprobar</a>
+									<button type="submit" name="aprobar" value="aprobar" id="approve-button" class="btn palette-Green bg">Aprobar</button>
 									<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
 								</div>
-                            </div> 
+                            </div>
+                           </form> 
                         </div>
                     </div>
                 </div>

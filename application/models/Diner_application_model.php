@@ -29,13 +29,16 @@ class Diner_application_model extends CI_Model {
 	/**
 	 * Consulta de diner application
 	 *
-	 * Consulta diner application por id o devuelve todos los que tengan estado pendiente
+	 * Consulta diner application por id o estado, o devuelve todos los que tengan estado pendiente
 	 * @param 		string 		$id
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL)
+	public function search($id=NULL, $state=NULL)
 	{
-		$response = $this->client->request('GET', $id != NULL ? 'api/diners/' . $id : 'api/diners/');
+		if(isset($id))
+			$response = $this->client->request('GET', 'api/diners/' . $id);
+		else
+			$response = $this->client->request('GET', $state != NULL ? 'api/diners?state=' . $state : 'api/diners/');
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -56,6 +59,25 @@ class Diner_application_model extends CI_Model {
 				'json' => $diner_application
 		]);
 		if($response->getStatusCode()==HTTP_CREATED)
+		{
+			$body = $response->getBody();
+			return json_decode($body,TRUE);
+		}
+		else
+			return NULL;
+	}
+	
+	/**
+	 * Edición de comedor
+	 * @param		array	$diner_application
+	 * @return 		array   Si la edición fue exitosa, devuelve un array con el diner application, sino devuelve NULL
+	 */
+	public function edit($diner_application)
+	{
+		$response = $this->client->request('PUT', 'api/diners/' . $diner_application['idDiner'], [
+				'json' => $diner_application
+		]);
+		if($response->getStatusCode()==HTTP_ACCEPTED)
 		{
 			$body = $response->getBody();
 			return json_decode($body,TRUE);
