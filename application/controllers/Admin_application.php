@@ -23,7 +23,7 @@ class Admin_application extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library(array('form_validation', 'session'));
+		$this->load->library(array('form_validation', 'session', 'email'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Diner_application_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
@@ -51,7 +51,7 @@ class Admin_application extends CI_Controller {
 	{
 		$this->variables['action'] = site_url('admin_application/edit');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if(!$this->input->post('aprobar'))
+		if(!$this->input->post('aprobar') && !$this->input->post('rechazar'))
 		{
 			$this->session->diner_application = $this->Diner_application_model->search($id);
 			$this->_fill_form($this->session->diner_application);
@@ -66,7 +66,10 @@ class Admin_application extends CI_Controller {
 			}
 			else if($this->Diner_application_model->edit($this->_get_post())!=NULL)
 			{
-				$this->variables['message'] = 'Datos editados!';
+				if($this->_send_mail($this->session->diner_application))
+					$this->variables['message'] = 'Se envío un mail con el estado de la solicitud.';
+				else
+					$this->variables['message'] = 'Ocurrio un error al enviar el mail.';
 				redirect('admin_application');//@TODO Pasarlo al refactor (input_type) que hizo Cris
 			}
 			else
@@ -114,6 +117,9 @@ class Admin_application extends CI_Controller {
 	{
 		$diner_application = $this->session->diner_application;
 		$diner_application['diner']['state'] = ($this->input->post('aprobar')) ? DINER_APPROVED : DINER_REJECTED;
+		$diner_application['user']['state'] = ($this->input->post('aprobar')) ? USER_ACTIVE : USER_INACTIVE;
+		$diner_application['diner']['description'] = 
+		($this->input->post('reject_reason')) !== NULL ? $diner_application['diner']['description'] . ' Motivo de rechazo: ' . $this->input->post('reject_reason') : $diner_application['diner']['description'];
 		$this->session->set_userdata('diner_application', $diner_application);
 		return $this->session->diner_application['diner'];
 	}
@@ -163,5 +169,31 @@ class Admin_application extends CI_Controller {
 		$this->form_data->door = $diner_application['diner']['door'];
 		$this->form_data->diner_phone = $diner_application['diner']['phone'];
 		$this->form_data->photo = isset($diner_application['photos'][0]['url']) ? $diner_application['photos'][0]['url'] : base_url('img/sin_imagen.png');
+	}
+	
+	/**
+	 * Función que envia un mail a un destinatario indicando el estado de su solicitud
+	 * @param    $diner_application 	array  array del diner application
+	 * @return   bool 					indica si el mail se pudo enviar
+	 */
+	private function _send_mail($diner_application)
+	{
+		$this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
+		$this->email->to($diner_application['user']['mail']);
+		$this->email->subject('Estado de solicitud de alta de comedor');
+		if($diner_application['diner']['state'] == DINER_APPROVED)
+		{
+			$this->email->message('Su solicitud ha sido aprobada. <br/>
+			Ya puede comenzar a administrar su comedor. <br/>
+			Ingrese desde ' . base_url('admin_application') . ' .<br/>');
+		}
+		else
+		{
+			$this->email->message('Su solicitud ha sido rechazada. <br/>
+			Motivo de rechazo: ' . $this->input->post('reject_reason') . ' .<br/>
+			Por favor vuelva a completar la solicitud. <br/>');
+		}
+		$this->email->set_newline("\r\n");//Sin esta línea falla el envio
+		return $this->email->send();
 	}
 }
