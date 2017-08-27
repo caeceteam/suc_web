@@ -1,0 +1,21 @@
+.fg-line.has-error > .fg-label {
+	color: red
+}
+
+.user-name {
+	padding-right: 10px;
+	max-width: 100px;
+	overflow: hidden;
+}
+
+.hide-alert {
+	display: none;
+}
+
+.c-header h2 {
+	font-size: 25px;
+}
+
+.btn-default[title='Refresh'] {
+	display: none;
+}

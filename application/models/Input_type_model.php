@@ -2,6 +2,9 @@
 
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 
 class Input_type_model extends CI_Model {
 	/**
@@ -24,58 +27,102 @@ class Input_type_model extends CI_Model {
 	/**
 	 * Consulta de tipo de insumo
 	 * 
-	 * Consulta tipos de insumo por id o devuelve toda la tabla
-	 * @param 		string 		$id
+	 * Consulta de tipos de insumo a la API
+	 * @param 		string 		$url
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL)
+	private function search($url)
 	{
-		$response = $this->client->request('GET', $id != NULL ? 'api/inputtypes/' . $id : 'api/inputtypes/');
+		$response = $this->client->request('GET', $url);		
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
 			return json_decode($body,TRUE);
 		}
 		else
-			return NULL;
+			return NULL;		
 	}
 	
+	/**
+	 * Consulta de tipos de insumos by id
+	 * @param 	int 	$id
+	 */
+	public function search_by_id($id)
+	{
+		$url = 'api/inputtypes/' . $id;
+		return $this->search($url);
+	}
+	
+	/**
+	 * Consulta de tipos de insumos por página para el listado
+	 * @param 	string 	$page
+	 */
+	public function get_inputtypes_by_page($page)
+	{
+		$url = 'api/inputtypes?page=' . $page;
+		return $this->search($url);
+	}
+		
 	/**
 	 * Alta de input type
 	 * @param		object	$input_type
 	 * @return 		array   Si el alta fue exitosa, devuelve un array con el input type, sino devuelve NULL
-	 */
+	 */		
 	public function add($input_type)
 	{
-		$response = $this->client->request('POST', 'api/inputtypes', [
-				    'json' => $input_type
-					]);
-		if($response->getStatusCode()==HTTP_CREATED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
-		}
-		else
+		try {
+			$response = $this->client->request('POST', 'api/inputtypes', [
+				'json' => $input_type
+			]);
+			if($response->getStatusCode()==HTTP_CREATED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
 			return NULL;
+		}
+		catch (ServerException $e) {
+			return $this->errorMessage($e);
+		}
 	}
 	
 	/**
-	 * Edición de input type
+	 * EdiciÃ³n de input type
 	 * @param		object	$input_type
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function edit($input_type)
 	{
-		$response = $this->client->request('PUT', 'api/inputtypes/' . $input_type->id, [
-				    'json' => $input_type
-					]);
-		if($response->getStatusCode()==HTTP_ACCEPTED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try {
+			$response = $this->client->request('PUT', 'api/inputtypes/' . $input_type->id, [
+					'json' => $input_type
+			]);
+			if($response->getStatusCode()==HTTP_ACCEPTED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
-			return NULL;
+		catch (Exception $e) {
+			return $this->errorMessage($e);
+		}
+	}
+	
+	/**
+	 * Función que mapea el mensaje de error desde la API usado en los editores
+	 * @param 	exception $exceptionData
+	 */
+	private function errorMessage($exceptionData) 
+	{
+		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
+		$errorResponse['errors'] = TRUE;
+		if($exceptionData->getCode() == 500)
+		{
+			return $errorResponse;
+		}
+		return NULL;
 	}
 	
 	/**
@@ -94,3 +141,4 @@ class Input_type_model extends CI_Model {
 			return FALSE;
 	}
 };
+
