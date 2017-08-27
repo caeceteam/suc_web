@@ -7,15 +7,14 @@
         <title>SUC</title>
     
         <!-- Vendor CSS -->
-        <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">        
-        <link href="vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/google-material-color/dist/palette.css" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
 
         <!-- CSS -->
-        <link href="css/app.min.1.css" rel="stylesheet">
-        <link href="css/app.min.2.css" rel="stylesheet">
+        <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
     </head>
 
     <body data-ma-header="teal">
@@ -41,7 +40,7 @@
                 </li>
                 <li class="dropdown hm-profile">
                     <a data-toggle="dropdown" href="">
-                        <img src="img/profile-pics/1.jpg" alt="">
+                        <img src="<?php echo base_url('img/profile-pics/1.jpg')?>" alt="">
                     </a>
 
                     <ul class="dropdown-menu pull-right dm-icon">
@@ -133,11 +132,11 @@
                         <div class="pm-overview c-overflow">
                             <div class="pmo-pic">
                                 <div class= "animated fadeInDown"><!-- "p-relative"> -->
-                                    <img class="img-responsive" src="img/profile-pics/profile-pic-2.jpg" alt="">
+                                    <img class="img-responsive" src="<?php echo $this->form_data->photo; ?>" alt="">
                                 </div>
 
                                 <div class="pmo-stat"> <!--pmo-stat-->
-									<h2 class="m-0 c-white">Juana Pérez</h2>
+									<h2 class="m-0 c-white"><?php echo $this->form_data->user_name . ' ' . $this->form_data->surname; ?></h2>
                                 </div>
                             </div>
                         </div>
@@ -145,25 +144,17 @@
                         <div class="pm-body clearfix">
                             <div class="pmb-block">
                                 <div class="pmbb-header">
-                                    <h2><i class="zmdi zmdi-account m-r-5"></i>Información Básica</h2>
+                                    <h2><i class="zmdi zmdi-account m-r-5"></i>Información del solicitante</h2>
 								</div>
                                 <div class="pmbb-body p-l-30">
 									<div class="pmbb-view">
                                         <dl class="dl-horizontal">
                                             <dt>Nombre Completo</dt>
-                                            <dd>María Juana Pérez</dd>
+                                            <dd><?php echo $this->form_data->user_name . ' ' . $this->form_data->surname; ?></dd>
                                         </dl>
                                         <dl class="dl-horizontal">
-                                            <dt>Usuario</dt>
-                                            <dd>juana.perez</dd>
-                                        </dl>
-										<dl class="dl-horizontal">
-                                            <dt>Fecha nacimiento</dt>
-                                            <dd>14.03.1990</dd>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Estado Civil</dt>
-                                            <dd>Soltero/a</dd>
+                                            <dt>Email</dt>
+                                            <dd><?php echo $this->form_data->user_mail; ?></dd>
                                         </dl>
                                     </div>
                                 </div>
@@ -172,51 +163,45 @@
 
                             <div class="pmb-block">
                                 <div class="pmbb-header">
-                                    <h2><i class="zmdi zmdi-phone m-r-5"></i> Información de Contacto</h2>
+                                    <h2><i class="zmdi zmdi-phone m-r-5"></i> Información del comedor</h2>
 								</div>
-								
                                 <div class="pmbb-body p-l-30">
                                     <div class="pmbb-view">
                                         <dl class="dl-horizontal">
-                                            <dt>Teléfono</dt>
-                                            <dd>011 1512345678</dd>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Email</dt>
-                                            <dd>juana.perez@gmail.com</dd>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Comedor</dt>
-                                            <dd>Comedor Movimiento Evita</dd>
+                                            <dt>Nombre</dt>
+                                            <dd><?php echo $this->form_data->diner_name; ?></dd>
                                         </dl>
                                         <dl class="dl-horizontal">
                                             <dt>Dirección</dt>
-                                            <dd>Calle Falsa 123</dd>
+                                            <dd><?php echo $this->form_data->street . ' ' . $this->form_data->streetNumber . ' ' . (empty($this->form_data->floor) ? '' : $this->form_data->floor) . ' ' . (empty($this->form_data->door) ? '' : $this->form_data->door); ?></dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Teléfono</dt>
+                                            <dd><?php echo $this->form_data->diner_phone; ?></dd>
                                         </dl>
                                     </div>
 								</div>
                             </div>		
-							
+							<form role="form" action="<?php echo $action; ?>" method="POST">
 							<div class="pmb-block" id="reject-reason-block" hidden>
-								<form role="form">
 									<div class="form-group fg-float">
 										<div class="fg-line">
-											<textarea id="reject-reason-textarea" class="form-control auto-size"></textarea>
+											<textarea name="reject_reason" id="reject-reason-textarea" class="form-control auto-size"></textarea>
 											<label class="fg-label">Motivo de rechazo</label>
 										</div>
 									</div>
 
-									<a id="reject-reason-accept-button" href="HU001.lista.html" class="btn palette-Green bg">Aceptar</a>
-									<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>
-								</form>	
+									<button type="submit" name="rechazar" value="rechazar" id="reject-reason-accept-button" class="btn palette-Green bg">Aceptar</button>
+									<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>	
 							</div>
 							
                             <div class="pmb-block" id="buttons-block">
 								<div class="btn-colors btn-demo">
-									<a id="approve-button" href="HU001.lista.html" class="btn palette-Green bg">Aprobar</a>
+									<button type="submit" name="aprobar" value="aprobar" id="approve-button" class="btn palette-Green bg">Aprobar</button>
 									<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
 								</div>
-                            </div> 
+                            </div>
+                           </form> 
                         </div>
                     </div>
                 </div>
@@ -245,18 +230,18 @@
         </div>
     
         <!-- Javascript Libraries -->
-        <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
         
-        <script src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
-        <script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-        <script src="vendors/bower_components/moment/min/moment.min.js"></script>
-        <script src="vendors/bower_components/autosize/dist/autosize.min.js"></script>
+		<script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/moment/min/moment.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/autosize/dist/autosize.min.js')?>"></script>
 		
-        <script src="js/functions.js"></script>
-        <script src="js/actions.js"></script>
-        <script src="js/demo.js"></script>
+        <script src="<?php echo base_url('js/functions.js')?>"></script>
+        <script src="<?php echo base_url('js/actions.js')?>"></script>
+        <script src="<?php echo base_url('js/demo.js')?>"></script>
 		
 		<script type="text/javascript">
 			$("#reject-button").click(function() {

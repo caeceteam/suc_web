@@ -31,20 +31,70 @@ class Test extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->helper(array('form', 'url', 'file'));
+		
 		$this->client = new Client([
 			// Base URI is used with relative requests
 			'base_uri' => $this->base_uri,
 			// You can set any number of default request options.
 			'timeout'  => $this->timeout,
 			]);
+		
+		$this->load->library('email');
+		
+		\Cloudinary::config(array(
+				"cloud_name" => "caeceteam",
+				"api_key" => "779344883826737",
+				"api_secret" => "A2e2eESuMFPc-fXK9Xz3plHSB2U"
+		));
+		
 	}
 	
 	public function index()
-	{
-		$this->search();
+	{		
+		$this->load->view('test/upload_form', array('error' => ' ' ));
 	}
 	
-	public function search($name=NULL)
+	public function do_upload()
+	{
+		$this->load->library('upload');
+		
+		if ( ! $this->upload->do_upload('userfile'))
+		{
+			$error = array('error' => $this->upload->display_errors());
+			$this->load->view('test/upload_form', $error);
+		}
+		else
+		{
+			$data = array('upload_data' => $this->upload->data());
+			$this->load->view('test/upload_success', $data);
+			\Cloudinary\Uploader::upload($_FILES['userfile']['tmp_name']);//La subo a cloudinary
+			delete_files('uploads');
+		}
+	}
+	
+	public function image_test()
+	{
+		var_dump(\Cloudinary\Uploader::upload("http://static.lacapital.com.ar/adjuntos/203/imagenes/019/691/0019691416.jpg"));
+	}
+	
+	public function mail_test()
+	{
+		$this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
+		$this->email->to('cuttlas88@yahoo.com.ar');
+		$this->email->subject('Solicitud de alta de comedor');
+		$this->email->message('Bienvenido al sistema único de comedores. <br/>
+			Su solicitud de alta se encuetra pendiente, recibirá un mail indicando el resultado de la solicitud. <br/>
+			Su contraseña es ' . 'tu vieja' . '<br/>');
+		$this->email->set_newline("\r\n");
+		if($this->email->send(FALSE))
+			echo 'Email enviado';
+			else
+				echo 'Email no enviado';
+				echo $this->email->print_debugger();
+	}
+	
+	public function search_test($name=NULL)
 	{
 		$response = $this->client->request('GET', 'api/inputtypes');
 		$status = $response->getStatusCode();
