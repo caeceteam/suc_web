@@ -7,15 +7,15 @@
         <title>SUC</title>
         
         <!-- Vendor CSS -->
-        <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
-        <link href="vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/google-material-color/dist/palette.css" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bootgrid/jquery.bootgrid.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
 
         <!-- CSS -->
-        <link href="css/app.min.1.css" rel="stylesheet">
-        <link href="css/app.min.2.css" rel="stylesheet">
+        <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
     </head>
 
     <body data-ma-header="teal">
@@ -41,7 +41,7 @@
                 </li>
                 <li class="dropdown hm-profile">
                     <a data-toggle="dropdown" href="">
-                        <img src="img/profile-pics/1.jpg" alt="">
+                        <img src="<?php echo base_url('img/profile-pics/1.jpg')?>" alt="">
                     </a>
 
                     <ul class="dropdown-menu pull-right dm-icon">
@@ -126,32 +126,12 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2 style="font-size: 25px;">Aprobaciones pendientes de personas</h2> <!--TODO CC: Pass style inline to css class-->
+                        <h2 style="font-size: 25px;">Aprobaciones pendientes de comedores</h2> <!--TODO CC: Pass style inline to css class-->
                     </div>
 					
                     <div class="card">
 						<div class="card-body card-padding" style="padding-bottom:0"></div> <!--TODO CC: Pass style inline to css class-->
-						<table id="data-table-command" class="table table-striped table-vmiddle">
-							<thead>
-								<tr>
-									<th data-column-id="id" data-visible="false">Id</th>
-									<th data-column-id="user">Usuario</th>
-									<th data-column-id="name">Nombre</th>
-									<th data-column-id="email">Email</th>
-									<th data-column-id="diner">Comedor</th>
-									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Ir a solicitud</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>0</td>
-									<td>juana.perez</td>
-									<td>María Juana Pérez</td>
-									<td>juana.perez@gmail.com</td>
-									<td>Comedor Movimiento Evita</td>
-								</tr>
-							</tbody>
-						</table>
+							<?php echo $table?>
                     </div>
                 </div>
             </section>
@@ -180,22 +160,22 @@
         </div>
 
         <!-- Javascript Libraries -->
-        <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
         
-        <script src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
-        <script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-        <script src="vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
+        <script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bootgrid/jquery.bootgrid.updated.min.js')?>"></script>
 
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
-            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+            <script src="<?php echo base_url('vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js')?>"></script>
         <![endif]-->
         
-        <script src="js/functions.js"></script>
-        <script src="js/actions.js"></script>
-        <script src="js/demo.js"></script>
+        <script src="<?php echo base_url('js/functions.js')?>"></script>
+        <script src="<?php echo base_url('js/actions.js')?>"></script>
+        <script src="<?php echo base_url('js/demo.js')?>"></script>
 
         <!-- Data Table -->
         <script type="text/javascript">
@@ -237,7 +217,7 @@
                     },
                     formatters: {
                         "commands": function(column, row) {
-                            return "<a type=\"button\" href=\"HU001.solicitud.html\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> ";
+                            return "<a type=\"button\" href=\"" + "<?php echo site_url('admin_application/edit/') ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> ";
                         }
                     }
                 });
