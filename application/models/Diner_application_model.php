@@ -8,9 +8,9 @@ class Diner_application_model extends CI_Model {
 	 * Variables para el rest client
 	 * @var string
 	 */
-	private $base_uri 	= 'http://localhost:3000';
+	private $base_uri;
 	private $client;
-	private $timeout = 5.0;
+	private $timeout;
 	
 	/**
 	 * Constructor de clase
@@ -20,6 +20,9 @@ class Diner_application_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->config->load('api');
+		$this->base_uri = $this->config->item('api_base_uri');
+		$this->timeout	= $this->config->item('api_timeout');
 		$this->client = new Client([
 			'base_uri' => $this->base_uri,
 			'timeout'  => $this->timeout,
