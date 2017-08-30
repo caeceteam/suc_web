@@ -67,5 +67,11 @@
 				<li><a href="<?php echo base_url('input_type');?>">Tipo de Insumos</a></li>
 			</ul>
         </li>
+        <li>
+        	<a href="<?php echo base_url('assistant');?>">
+        		<!-- <i class="zmdi zmdi-swap-alt"></i> TODO Revisar icono-->
+        		Concurrentes
+        	</a>
+        </li>
 	</ul>
 </aside>
