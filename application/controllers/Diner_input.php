@@ -25,11 +25,11 @@ class Diner_input extends CI_Controller {
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->helper(array('url', 'form'));
-		$this->load->model('Input_type_model');
+		$this->load->model('Diner_input_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
-		$this->variables['controller-name'] = 'input_type';
+		$this->variables['controller-name'] = 'diner_input';
 		$this->_initialize_fields();
 	}
 	
@@ -39,29 +39,34 @@ class Diner_input extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->variables['data-request-url'] = site_url('input_type/render_table_response');
-		$this->load->view('input_type/search', $this->variables);
+		$this->variables['data-request-url'] = site_url('diner_input/render_table_response');
+		$this->load->view('diner_input/search', $this->variables);
 	}
 	
 	/**
-	 * Funcion para retornar la informaciÃ³n a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la información a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * @return		array		$diner_input
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Input_type_model->get_inputtypes_by_page($this->input->post('current') - 1);
+		$service_data = $this->Diner_input_model->get_dinerinputs_by_page($this->input->post('current') - 1);
 		$pagination_data = $service_data['pagination'];
-		$input_types_data = $service_data['inputTypes'];
+		$diner_inputs_data = $service_data['inputTypes'];
 		
 		$render_data['current'] = (int)$this->input->post('current');
 		$render_data['total'] = $pagination_data['total_elements'];
 		
 		$render_data['rows'] = [];
-		foreach ($input_types_data as $input_type)
+		foreach ($diner_inputs_data as $diner_input)
 		{
-			$row_data['idInputType'] = $input_type['idInputType'];
-			$row_data['code'] = $input_type['code'];
-			$row_data['name'] = $input_type['name'];
-			$row_data['description'] = $input_type['description'];
+			$row_data['idDinerInput'] 	= $diner_input['idDinerInput'];
+			$row_data['idDiner'] 		= $diner_input['idDiner'];
+			$row_data['idInputType'] 	= $diner_input['idInputType'];
+			$row_data['name'] 			= $diner_input['name'];
+			$row_data['size'] 			= $diner_input['size'];
+			$row_data['genderType'] 	= $diner_input['genderType'];
+			$row_data['quantity'] 		= $diner_input['quantity'];
+			$row_data['description'] 	= $diner_input['description'];
 			array_push($render_data['rows'], $row_data);
 		}
 		echo json_encode($render_data, TRUE);
@@ -69,21 +74,20 @@ class Diner_input extends CI_Controller {
 	
 	/**
 	 * Funcion que muestra el formulario de alta y guarda la misma cuando la validacion del formulario no arroja errores
-	 * @return void
+	 * @return 	array 	$variables
 	 */
 	public function add()
 	{
-		$this->variables['action'] = site_url('input_type/add');
+		$this->variables['action'] = site_url('diner_input/add');
 		$this->variables['request-action'] = 'POST';
-		$this->variables['redirect-url'] = site_url('input_type');
+		$this->variables['redirect-url'] = site_url('diner_input');
 		$this->_set_rules();
 		if ($this->input->method() == "get")
 		{
-			$this->load->view('input_type/save', $this->variables);
+			$this->load->view('diner_input/save', $this->variables);
 		}
 		else
-		{
-			// Todo esto corresponde al POST
+		{// Todo esto corresponde al POST
 			if ($this->form_validation->run() == FALSE)
 			{
 				$this->output->set_status_header('500');
@@ -95,7 +99,7 @@ class Diner_input extends CI_Controller {
 			}
 			else
 			{
-				$response = $this->Input_type_model->add($this->_get_post());
+				$response = $this->Diner_input_model->add($this->_get_post());
 				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');
@@ -103,29 +107,29 @@ class Diner_input extends CI_Controller {
 					$this->variables['error-fields'] = $response['fields'];
 				}
 			}
-			echo json_encode( $this->variables );
+			echo json_encode($this->variables);
 		}
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de ediciÃ³n y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
 	public function edit($id=NULL)
 	{
-		$this->variables['action'] = site_url('input_type/edit');
+		$this->variables['action'] = site_url('diner_input/edit');
 		$this->variables['request-action'] = 'PUT';
 		$this->variables['redirect-url'] = site_url('input_type');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if($this->input->method() == "get")
 		{
-			$input_type = $this->Input_type_model->search_by_id($id);
-			$this->form_data->id = $input_type['idInputType'];
-			$this->form_data->code = $input_type['code'];
-			$this->form_data->name = $input_type['name'];
-			$this->form_data->description = $input_type['description'];
-			$this->load->view('input_type/save', $this->variables);
+			$diner_input = $this->Diner_input_model->search_by_id($id);
+			$this->form_data->id = $diner_input['idInputType'];
+			$this->form_data->code = $diner_input['code'];
+			$this->form_data->name = $diner_input['name'];
+			$this->form_data->description = $diner_input['description'];
+			$this->load->view('diner_input/save', $this->variables);
 		}
 		else
 		{
@@ -164,7 +168,7 @@ class Diner_input extends CI_Controller {
 	 */
 	public function delete($id = NULL)
 	{
-		$this->Input_type_model->delete($id);
+		$this->Diner_input_model->delete($id);
 		$this->index();
 	}
 	
@@ -190,8 +194,12 @@ class Diner_input extends CI_Controller {
 	private function _initialize_fields()
 	{
 		$this->form_data->id = '';
-		$this->form_data->code = '';
+		$this->form_data->idDiner = '';
+		$this->form_data->idInputType = '';
 		$this->form_data->name = '';
+		$this->form_data->size = '';
+		$this->form_data->genderType = '';
+		$this->form_data->quantity = '';
 		$this->form_data->description = '';
 	}
 	

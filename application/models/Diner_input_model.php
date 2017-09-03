@@ -2,8 +2,6 @@
 
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 
 class Diner_input_model extends CI_Model {
@@ -60,7 +58,7 @@ class Diner_input_model extends CI_Model {
 	 * Consulta de tipos de insumos por página para el listado
 	 * @param 	string 	$page
 	 */
-	public function get_inputtypes_by_page($page)
+	public function get_dinerinputs_by_page($page)
 	{
 		$url = 'api/inputtypes?page=' . $page;
 		return $this->search($url);
