@@ -25,7 +25,7 @@ class Diner_input extends CI_Controller {
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->helper(array('url', 'form'));
-		$this->load->model('Diner_input_model');
+		$this->load->model(array('Diner_input_model', 'Input_type_model'));
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
@@ -59,14 +59,11 @@ class Diner_input extends CI_Controller {
 		$render_data['rows'] = [];
 		foreach ($diner_inputs_data as $diner_input)
 		{
-			$row_data['idDinerInput'] 	= $diner_input['idDinerInput'];
+			$row_data['id'] 			= $diner_input['idDinerInput'];
 			$row_data['idDiner'] 		= $diner_input['idDiner'];
-			$row_data['idInputType'] 	= $diner_input['idInputType'];
+			$row_data['inputTypeName'] 	= $diner_input['inputType']['name'];
 			$row_data['name'] 			= $diner_input['name'];
-			$row_data['size'] 			= $diner_input['size'];
-			$row_data['genderType'] 	= $diner_input['genderType'];
 			$row_data['quantity'] 		= $diner_input['quantity'];
-			$row_data['description'] 	= $diner_input['description'];
 			array_push($render_data['rows'], $row_data);
 		}
 		echo json_encode($render_data, TRUE);
@@ -81,6 +78,7 @@ class Diner_input extends CI_Controller {
 		$this->variables['action'] = site_url('diner_input/add');
 		$this->variables['request-action'] = 'POST';
 		$this->variables['redirect-url'] = site_url('diner_input');
+		$this->_render_dropdown();
 		$this->_set_rules();
 		if ($this->input->method() == "get")
 		{
@@ -125,10 +123,15 @@ class Diner_input extends CI_Controller {
 		if($this->input->method() == "get")
 		{
 			$diner_input = $this->Diner_input_model->search_by_id($id);
-			$this->form_data->id = $diner_input['idInputType'];
-			$this->form_data->code = $diner_input['code'];
-			$this->form_data->name = $diner_input['name'];
-			$this->form_data->description = $diner_input['description'];
+			$this->form_data->id 			= $diner_input['idDinerInput'];
+			$this->form_data->idInputType 	= $diner_input['inputType']['idInputType'];
+			$this->form_data->name 			= $diner_input['name'];
+			$this->form_data->size 			= $diner_input['size'];
+			$this->form_data->genderType 	= $diner_input['genderType'];
+			$this->form_data->quantity 		= $diner_input['quantity'];
+			$this->form_data->name 			= $diner_input['name'];
+			$this->form_data->description 	= $diner_input['description'];
+			$this->_render_dropdown($this->form_data->idInputType);
 			$this->load->view('diner_input/save', $this->variables);
 		}
 		else
@@ -154,6 +157,7 @@ class Diner_input extends CI_Controller {
 					$this->variables['error-type'] = 'unique';
 					$this->variables['error-fields'] = $response['fields'];
 				}
+				$this->_render_dropdown($this->input->post('idInputType'));
 			}
 			echo json_encode( $this->variables );
 		}
@@ -180,7 +184,7 @@ class Diner_input extends CI_Controller {
 	{
 		$diner_input = new stdClass();
 		$diner_input->id 			= $id != NULL ? $id : $this->input->post('id');
-		$diner_input->idDiner 		= $this->input->post('idDiner');
+		$diner_input->idDiner 		= 1;//$this->input->post('idDiner');
 		$diner_input->idInputType 	= $this->input->post('idInputType');
 		$diner_input->name 			= $this->input->post('name');
 		$diner_input->size 			= $this->input->post('size');
@@ -219,5 +223,22 @@ class Diner_input extends CI_Controller {
 		$this->form_validation->set_rules('genderType', 'Género', 'trim|required');
 		$this->form_validation->set_rules('quantity', 'Cantidad', 'trim|required');
 		$this->form_validation->set_rules('description', 'Descripción', 'trim');
+	}
+	
+	/**
+	 * Funcion que completa el combo de tipos de insume si no recibe ningún parametro, sino muestra el combo con el id que recibe
+	 * @param 		integer 	$id_input_type
+	 * @return void
+	 */
+	private function _render_dropdown($id_input_type=NULL)
+	{
+		$input_types = $this->Input_type_model->get_inputtypes_by_page(0)['inputTypes'];
+		$descripcion[''] = "Tipo";
+		foreach ($input_types as $i)
+		{
+			$descripcion[$i['idInputType']] = $i['name'];
+		}
+		$this->variables['input_types']=$descripcion;
+		$this->variables['input_type']= isset($id_input_type) ? $id_input_type : '';
 	}
 }

@@ -47,6 +47,7 @@
 						    <thead>
 						        <tr>
 						            <th data-column-id="idDinerInput" data-visible="false">ID</th>
+						            <th data-column-id="inputTypeName" data-order="desc">Tipo</th>
 						            <th data-column-id="name" data-order="desc">Nombre</th>
 						            <th data-column-id="quantity" data-order="desc">Cantidad</th>
 									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
