@@ -35,7 +35,7 @@
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <a href="<?php echo base_url('input_type/add');?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
+                                    <a href="<?php echo base_url('diner_input/add');?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
                                 </div>
                             </form>			
 						</div>
@@ -46,10 +46,9 @@
 						<table id="data-table-command" class="table table-striped table-vmiddle bootgrid-table">
 						    <thead>
 						        <tr>
-						            <th data-column-id="idInputType" data-visible="false">ID</th>
-						            <th data-column-id="code" data-order="desc">Código</th>
+						            <th data-column-id="idDinerInput" data-visible="false">ID</th>
 						            <th data-column-id="name" data-order="desc">Nombre</th>
-									<th data-column-id="description">Descripción</th>
+						            <th data-column-id="quantity" data-order="desc">Cantidad</th>
 									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
 						        </tr>
 						    </thead>
@@ -72,13 +71,13 @@
         	loadBootgrid({
         		selector: "#data-table-command",
         		requestUrl: $("#data-request-url")[0].value,
-        		noResultText: "No hay tipos de insumos cargados",
-        		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} tipos de insumo",
-        		editUrl: "<?php echo site_url('input_type/edit/') ?>",
-        		deleteUrl: "<?php echo site_url('input_type/delete/') ?>",
-        		deleteDialogTitle: "¿Está seguro en borrar este tipo de insumo?",
-        		deleteDialogText: "El tipo de insumo se borrará permanentemente del sistema",
-        		deleteDialogSuccess: "El tipo de insumo se ha borrado del sistema."
+        		noResultText: "No hay insumos cargados",
+        		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} insumos",
+        		editUrl: "<?php echo site_url('diner_input/edit/') ?>",
+        		deleteUrl: "<?php echo site_url('diner_input/delete/') ?>",
+        		deleteDialogTitle: "¿Está seguro en borrar este insumo?",
+        		deleteDialogText: "El insumo se borrará permanentemente del sistema",
+        		deleteDialogSuccess: "El insumo se ha borrado del sistema."
             });
 
         </script>
