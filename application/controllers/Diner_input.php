@@ -51,7 +51,7 @@ class Diner_input extends CI_Controller {
 	{
 		$service_data = $this->Diner_input_model->get_dinerinputs_by_page($this->input->post('current') - 1);
 		$pagination_data = $service_data['pagination'];
-		$diner_inputs_data = $service_data['inputTypes'];
+		$diner_inputs_data = $service_data['dinerInputs'];
 		
 		$render_data['current'] = (int)$this->input->post('current');
 		$render_data['total'] = $pagination_data['total_elements'];
@@ -120,7 +120,7 @@ class Diner_input extends CI_Controller {
 	{
 		$this->variables['action'] = site_url('diner_input/edit');
 		$this->variables['request-action'] = 'PUT';
-		$this->variables['redirect-url'] = site_url('input_type');
+		$this->variables['redirect-url'] = site_url('diner_input');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if($this->input->method() == "get")
 		{
@@ -135,9 +135,8 @@ class Diner_input extends CI_Controller {
 		{
 			$this->_initialize_fields();
 			$this->_set_rules();
-			$input_type = new stdClass();
-			// Todo esto corresponde al PUT
-			if ($this->form_validation->run() == FALSE)
+			$diner_input = new stdClass();
+			if ($this->form_validation->run() == FALSE)// Todo esto corresponde al PUT
 			{
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
@@ -174,21 +173,25 @@ class Diner_input extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del input type para cuando se trata de una ediciÃ³n
+	 * @param 		integer 	$id id del diner input para cuando se trata de una edición
 	 * @return		object		$input_type
 	 */
 	private function _get_post($id=NULL)
 	{
-		$input_type = new stdClass();
-		$input_type->id 			= $id != NULL ? $id : $this->input->post('id');
-		$input_type->code 			= $this->input->post('code');
-		$input_type->name 			= $this->input->post('name');
-		$input_type->description 	= $this->input->post('description');
-		return $input_type;
+		$diner_input = new stdClass();
+		$diner_input->id 			= $id != NULL ? $id : $this->input->post('id');
+		$diner_input->idDiner 		= $this->input->post('idDiner');
+		$diner_input->idInputType 	= $this->input->post('idInputType');
+		$diner_input->name 			= $this->input->post('name');
+		$diner_input->size 			= $this->input->post('size');
+		$diner_input->genderType 	= $this->input->post('genderType');
+		$diner_input->quantity 		= $this->input->post('quantity');
+		$diner_input->description 	= $this->input->post('description');
+		return $diner_input;
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la ediciÃ³n
+	 * Funcion que inicializa las variables de los campos del formulario para la edición
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -209,8 +212,12 @@ class Diner_input extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('code', 'Codigo', 'trim|required');
-		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-		$this->form_validation->set_rules('description', 'DescripciÃ³n', 'trim');
+		$this->form_validation->set_rules('idDiner', 'Comedor', 'trim|required');
+		$this->form_validation->set_rules('idInputType', 'Tipo de insumo', 'trim|required');
+		$this->form_validation->set_rules('name', 'Nombre', 'trim');
+		$this->form_validation->set_rules('size', 'Talle', 'trim');
+		$this->form_validation->set_rules('genderType', 'Género', 'trim|required');
+		$this->form_validation->set_rules('quantity', 'Cantidad', 'trim|required');
+		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}
 }
