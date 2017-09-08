@@ -34,48 +34,63 @@
                                 <div class="card-body card-padding">
 								
 									<form role="form" action="<?php echo $action; ?>" class="diner-input-form" method="POST">
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id=idInputType>
-												<div class="select">
-													<?php echo form_dropdown('idInputType', $input_types, $input_type, 'class="form-control"'); ?>
+									
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<div class="fg-line" data-id="idInputType">
+														<div class="select">
+															<?php echo form_dropdown('idInputType', $input_types, $input_type, 'class="form-control"'); ?>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="code">
+														<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
+														<label class="fg-label">Nombre</label>
+													</div>
+												</div>
+											</div>
+	
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="code">
+														<input type="text" id="size" name="size" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('size',$this->form_data->size); ?>">
+														<label class="fg-label">Talle</label>
+													</div>
 												</div>
 											</div>
 										</div>
-
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="code">
-												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
-												<label class="fg-label">Nombre</label>
-											</div>
-										</div>
-
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="code">
-												<input type="text" id="size" name="size" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('size',$this->form_data->size); ?>">
-												<label class="fg-label">Talle</label>
-											</div>
-										</div>
 										
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="code">
-												<input type="text" id="genderType" name="genderType" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('genderType',$this->form_data->genderType); ?>">
-												<label class="fg-label">Género</label>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="code">
+														<input type="text" id="genderType" name="genderType" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('genderType',$this->form_data->genderType); ?>">
+														<label class="fg-label">Género</label>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="code">
+														<input type="text" id="quantity" name="quantity" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('quantity',$this->form_data->quantity); ?>">
+														<label class="fg-label">Cantidad</label>
+													</div>
+												</div>
 											</div>
 										</div>
-										
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="code">
-												<input type="text" id="quantity" name="quantity" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('quantity',$this->form_data->quantity); ?>">
-												<label class="fg-label">Cantidad</label>
-											</div>
-										</div>
-										
+											
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="description">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
 												<label class="fg-label">Descripción</label>
 											</div>
-										</div>	
+										</div>
 										
 										<div id="unique-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
 				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

@@ -119,7 +119,7 @@ class Admin_application extends CI_Controller {
 		$diner_application['diner']['state'] = ($this->input->post('aprobar')) ? DINER_APPROVED : DINER_REJECTED;
 		$diner_application['user']['active'] = ($this->input->post('aprobar')) ? USER_ACTIVE : USER_INACTIVE;
 		$diner_application['diner']['description'] = 
-		($this->input->post('reject_reason')) !== NULL ? $diner_application['diner']['description'] . ' Motivo de rechazo: ' . $this->input->post('reject_reason') : $diner_application['diner']['description'];
+		($this->input->post('reject_reason')) != '' ? $diner_application['diner']['description'] . ' Motivo de rechazo: ' . $this->input->post('reject_reason') : $diner_application['diner']['description'];
 		$this->session->set_userdata('diner_application', $diner_application);
 		return $this->session->diner_application;
 	}

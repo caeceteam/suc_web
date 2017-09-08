@@ -216,7 +216,7 @@ class Diner_input extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('idDiner', 'Comedor', 'trim|required');
+		//$this->form_validation->set_rules('idDiner', 'Comedor', 'trim|required');
 		$this->form_validation->set_rules('idInputType', 'Tipo de insumo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim');
 		$this->form_validation->set_rules('size', 'Talle', 'trim');
