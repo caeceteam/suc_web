@@ -37,7 +37,7 @@ class Diner_model extends CI_Model {
 		$this->config->load('api');
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
-		$this->client 	= new Client([
+		$this->client  	= new Client([
 			'base_uri' 	=> $this->base_uri,
 			'timeout'  	=> $this->timeout,
 			]);
@@ -46,13 +46,13 @@ class Diner_model extends CI_Model {
 	/**
 	 * Consulta de comedores
 	 * 
-	 * Consulta comedor por id o devuelve toda la tabla
-	 * @param 		string 		$id
+	 * Consulta de tipos de insumo a la API
+	 * @param 		string 		$url
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL)
+	private function search($url)
 	{
-		$response = $this->client->request('GET', $id != NULL ? 'api/diners/' . $id : 'api/diners/');
+		$response = $this->client->request('GET', $url);
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -63,23 +63,64 @@ class Diner_model extends CI_Model {
 	}
 	
 	/**
+	 * Consulta de comedores by id
+	 * @param 	int 	$id
+	 */
+	public function search_by_id($id)
+	{
+		$url = 'api/diners/' . $id;
+		return $this->search($url);
+	}
+	
+	/**
+	 * Consulta de comedores por página y búsqueda por name para el listado
+	 * @param 	string 	$page
+	 */
+	// TODO: Cambiar búsqueda por name por búsqueda genérica
+	public function get_diners_by_page_and_search($page, $searchTxt)
+	{
+		$url = 'api/diners?page=' . $page . '&name=' . $searchTxt;
+		return $this->search($url);
+	}
+	
+	/**
 	 * Edición de diner
 	 * @param		object	$diner
 	 * @return 		array   Si la edición fue exitosa, devuelve un array con el diner, sino devuelve NULL
 	 */
 	public function edit($diner)
 	{
-		$response = $this->client->request('PUT', 'api/diners/' . $diner->id, [
-				    'json' => $diner
-					]);
-		if($response->getStatusCode()==HTTP_ACCEPTED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try{
+			$response = $this->client->request('PUT', 'api/diners/' . $diner->id, [
+					'json' => $diner
+			]);
+			if($response->getStatusCode()==HTTP_ACCEPTED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
-			return NULL;
+		catch (Exception $e) {
+			return $this->errorMessage($e);
+		}
 	}
+	
+	/**
+	 * Función que mapea el mensaje de error desde la API usado en los editores
+	 * @param 	exception $exceptionData
+	 */
+	private function errorMessage($exceptionData)
+	{
+		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
+		$errorResponse['errors'] = TRUE;
+		if($exceptionData->getCode() == 500)
+		{
+			return $errorResponse;
+		}
+		return NULL;
+	}	
 	
 	/**
 	 * Delete de diner

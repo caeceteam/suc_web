@@ -26,7 +26,7 @@
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creaciÃ³n del tipo de insumo.</small>
+                            <small>Ingrese los datos para la creación del tipo de insumo.</small>
 
                             <br/><br/>
 
@@ -44,14 +44,14 @@
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="code">
 												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
-												<label class="fg-label">CÃ³digo</label>
+												<label class="fg-label">Código</label>
 											</div>
 										</div>
 										<br/>
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="description">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
-												<label class="fg-label">DescripciÃ³n</label>
+												<label class="fg-label">Descripción</label>
 											</div>
 										</div>
 										
@@ -102,8 +102,8 @@
 		<script>
 			$('.input-type-form').submit(function() {
 				showConfirmDialog({
-					title: "Â¿EstÃ¡ seguro grabar este tipo de insumo?",
-					text: "El tipo de insumo se grabarÃ¡ en el sistema",
+					title: "¿Está seguro grabar este tipo de insumo?",
+					text: "El tipo de insumo se grabará en el sistema",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
 					successText: "El tipo de insumo se ha grabado en el sistema.",
