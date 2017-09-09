@@ -10,7 +10,6 @@
     </head>
 
     <body data-ma-header="teal">
-
 		<?php $this->load->view('templates/header'); ?>
 
         <section id="main">
