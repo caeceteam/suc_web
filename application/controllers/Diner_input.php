@@ -91,8 +91,9 @@ class Diner_input extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'code' => form_error('code'),
-						'name' => form_error('name'));
+						'idInputType' 	=> form_error('idInputType'),
+						'genderType' 	=> form_error('genderType'),
+						'quantity'		=> form_error('quantity'));
 				$this->variables['error-fields'] = $data;
 			}
 			else
@@ -144,8 +145,9 @@ class Diner_input extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'code' => form_error('code'),
-						'name' => form_error('name'));
+						'idInputType' 	=> form_error('idInputType'),
+						'genderType' 	=> form_error('genderType'),
+						'quantity'		=> form_error('quantity'));
 				$this->variables['error-fields'] = $data;
 			}
 			else
@@ -220,7 +222,7 @@ class Diner_input extends CI_Controller {
 		$this->form_validation->set_rules('idInputType', 'Tipo de insumo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim');
 		$this->form_validation->set_rules('size', 'Talle', 'trim');
-		$this->form_validation->set_rules('genderType', 'Género', 'trim|required');
+		$this->form_validation->set_rules('genderType', 'Genero', 'trim|required');
 		$this->form_validation->set_rules('quantity', 'Cantidad', 'trim|required');
 		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}

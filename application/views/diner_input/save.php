@@ -48,7 +48,7 @@
 
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
-													<div class="fg-line" data-id="code">
+													<div class="fg-line" data-id="name">
 														<input type="text" id="name" name="name" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
 														<label class="fg-label">Nombre</label>
 													</div>
@@ -57,7 +57,7 @@
 	
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
-													<div class="fg-line" data-id="code">
+													<div class="fg-line" data-id="size">
 														<input type="text" id="size" name="size" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('size',$this->form_data->size); ?>">
 														<label class="fg-label">Talle</label>
 													</div>
@@ -68,7 +68,7 @@
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
-													<div class="fg-line" data-id="code">
+													<div class="fg-line" data-id="genderType">
 														<input type="text" id="genderType" name="genderType" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('genderType',$this->form_data->genderType); ?>">
 														<label class="fg-label">Género</label>
 													</div>
@@ -77,7 +77,7 @@
 											
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
-													<div class="fg-line" data-id="code">
+													<div class="fg-line" data-id="quantity">
 														<input type="text" id="quantity" name="quantity" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('quantity',$this->form_data->quantity); ?>">
 														<label class="fg-label">Cantidad</label>
 													</div>
