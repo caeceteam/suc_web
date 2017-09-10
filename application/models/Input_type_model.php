@@ -121,6 +121,9 @@ class Input_type_model extends CI_Model {
 	{
 		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
 		$errorResponse['errors'] = TRUE;
+		foreach ($errorResponse['fields'] as $errorKey => $errorValue) {
+			$errorResponse['fields'][$errorKey] = $errorValue . " ya esta siendo utilizado";
+		}
 		if($exceptionData->getCode() == 500)
 		{
 			return $errorResponse;

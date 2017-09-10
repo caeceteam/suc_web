@@ -92,15 +92,7 @@
 											</div>
 										</div>
 										
-										<div id="unique-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Existe otro insumo con el mismo codigo
-				                        </div>
-				                        
-										<div id="empty-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Por favor ingrese datos en los campos marcados
-				                        </div>				                        
+										<?php $this->load->view('templates/alerts'); ?>
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
 										<a href="<?php echo site_url('diner_input'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
@@ -134,7 +126,9 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
+		
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
+		
 		
 		<script>
 			$('.diner-input-form').submit(function() {
