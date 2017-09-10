@@ -4,258 +4,200 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>SUC</title>
-    
+        <title>Sistema único de comedores</title>
+        
         <!-- Vendor CSS -->
-        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
-
+        <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+        <link href="vendors/bower_components/google-material-color/dist/palette.css" rel="stylesheet">
+        <link href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+            
         <!-- CSS -->
-        <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
+        <link href="css/app.min.1.css" rel="stylesheet">
+        <link href="css/app.min.2.css" rel="stylesheet">
     </head>
+    
+    <body>
+        <div class="login" data-lbg="teal">
+            <!-- Login -->
+            <div class="l-block toggled" id="l-login">
+                <div class="lb-header palette-Teal bg">
+                    <i class="zmdi zmdi-account-circle"></i>
+                    ¡Bienvenido! Por favor inicie sesión
+                </div>
 
-    <body data-ma-header="teal">
-        <header id="header" class="media">
-            <div class="pull-left h-logo">
-                <a href="index.refactor.html" class="hidden-xs">
-                    SUC
-                    <small>Sistema Único de Comedores</small>
-                </a>
+                <div class="lb-body">
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <input type="text" class="input-sm form-control fg-input">
+                            <label class="fg-label">Email</label>
+                        </div>
+                    </div>
 
-                <div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
-                    <div class="mc-wrap">
-                        <div class="mcw-line top palette-White bg"></div>
-                        <div class="mcw-line center palette-White bg"></div>
-                        <div class="mcw-line bottom palette-White bg"></div>
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <input type="password" class="input-sm form-control fg-input">
+                            <label class="fg-label">Contraseña</label>
+                        </div>
+                    </div>
+
+                    <button class="btn palette-Teal bg">Ingresar</button>
+
+                    <div class="m-t-20">
+                        <a data-bg="blue" class="palette-Teal text d-block m-b-5" href="<?php echo base_url('diner_application')?>">Dar de alta un comedor</a>
+                        <a data-block="#l-register" data-bg="blue" class="palette-Teal text d-block m-b-5" href="">Crear una cuenta</a>
+                        <a data-block="#l-forget-password" data-bg="purple" href="" class="palette-Teal text">¿Olvidó su contraseña?</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="l-block" id="l-register">
+                <div class="lb-header palette-Blue bg">
+                    <i class="zmdi zmdi-account-circle"></i>
+                    Crear una cuenta
+                </div>
+
+                <div class="lb-body">
+					<div class="alert alert-warning" role="alert">
+					Si sos administrador de un comedor y todavía no tenes cuenta, ingresá a la opción "Dar de alta un comedor".
+					De lo contrario, deberás solicitar una cuenta al administrador de tu comedor. 
+					</div>
+
+                    <div class="m-t-30">
+                        <a data-bg="blue" class="palette-Teal text d-block m-b-5" href="<?php echo base_url('diner_application')?>">Dar de alta un comedor</a>
+                        <a data-block="#l-login" data-bg="teal" class="palette-Blue text d-block m-b-5" href="">¿Ya tenés una cuenta?</a>
+                        <a data-block="#l-forget-password" data-bg="purple" href="" class="palette-Blue text">¿Olvidó su contraseña?</a>
                     </div>
                 </div>
             </div>
 
-            <ul class="pull-right h-menu">
-                <li class="hm-alerts" data-user-alert="sua-messages" data-ma-action="sidebar-open" data-ma-target="user-alerts">
-                    <a href=""><i class="hm-icon zmdi zmdi-notifications"></i></a>
-                </li>
-                <li class="dropdown hm-profile">
-                    <a data-toggle="dropdown" href="">
-                        <img src="<?php echo base_url('img/profile-pics/1.jpg')?>" alt="">
-                    </a>
+            <!-- Lo dejo comentado porque quizás nos sirva para los usuarios de la app mobile
+            <div class="l-block" id="l-register">
+                <div class="lb-header palette-Blue bg">
+                    <i class="zmdi zmdi-account-circle"></i>
+                    Create an account
+                </div>
 
-                    <ul class="dropdown-menu pull-right dm-icon">
-                        <li>
-                            <a href="profile-about.html"><i class="zmdi zmdi-account"></i> Mis Datos</a>
-                        </li>
-                        <li>
-                            <a href=""><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-        </header>
-        
-        <section id="main">
-             <aside id="s-user-alerts" class="sidebar">
-                <ul class="tab-nav tn-justified tn-icon m-t-10" data-tab-color="teal">
-                    <li><a class="sua-notifications" href="#sua-notifications" data-toggle="tab"><i class="zmdi zmdi-notifications"></i></a></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane fade" id="sua-notifications">
-                        <ul class="sua-menu list-inline list-unstyled palette-Orange bg">
-                            <li><a href=""><i class="zmdi zmdi-volume-off"></i> Mute</a></li>
-                            <li><a href=""><i class="zmdi zmdi-long-arrow-tab"></i> View all</a></li>
-                            <li><a href="" data-ma-action="sidebar-close"><i class="zmdi zmdi-close"></i> Close</a></li>
-                        </ul>
-
-                        <div class="list-group lg-alt c-overflow">
-                            <a href="" class="list-group-item media">
-                                <div class="pull-left">
-                                    <img class="avatar-img" src="http://uoetsylra.org/img/multimedia/Margarita-Barrientos-Retrato-2-e1378332345443.jpg" alt="">
-                                </div>
-
-                                <div class="media-body">
-                                    <div class="lgi-heading">Comedor Los piletones</div>
-                                    <small class="lgi-text">Solicitud de frazadas</small>
-                                </div>
-                            </a>
+                <div class="lb-body">
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <input type="text" class="input-sm form-control fg-input">
+                            <label class="fg-label">Name</label>
                         </div>
                     </div>
-                </div>
-            </aside>
-			
-            <aside id="s-main-menu" class="sidebar">
-                <div class="smm-header">
-                    <i class="zmdi zmdi-long-arrow-left" data-ma-action="sidebar-close"></i>
-                </div>
 
-                <ul class="smm-alerts" style="margin: 30px 0 60px 120px; padding-left: 0px;"><!-- TODO CC: Add style to css class-->
-                    <li data-user-alert="sua-notifications" data-ma-action="sidebar-open" data-ma-target="user-alerts">
-                        <i class="zmdi zmdi-notifications"></i>
-                    </li>
-                </ul>
-
-                <ul class="main-menu">
-                    <li>
-                        <a href="index.refactor.html"><i class="zmdi zmdi-home"></i> Home</a>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> Aprobaciones pendientes</a>
-
-                        <ul>
-                            <li><a href="HU001.lista.html"> De personas</a></li>
-                        </ul>
-                    </li>
-                    <li>
-						<a href="HU007.lista.html"><i class="zmdi zmdi-local-dining"></i> Comedores</a>
-					</li>
-                    
-                    <li class="sub-menu">
-                        <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-swap-alt"></i> Mantenimiento SUC</a>
-                        <ul>
-                            <li><a href="HU010.lista.html">Tipos de Insumo</a></li>
-							<li><a href="HU011.lista.html">Tipos de Alimento</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </aside>
-			
-            <section id="content">
-                <div class="container">
-                    <div class="c-header">
-						<h2 style="font-size: 25px;">Solicitud de alta</h2> <!--TODO CC: Pass style inline to css class-->
-                    </div>  
-
-                    <div class="card" id="profile-main">
-                        <div class="pm-overview c-overflow">
-                            <div class="pmo-pic">
-                                <div class= "animated fadeInDown"><!-- "p-relative"> -->
-                                    <img class="img-responsive" src="<?php echo base_url('img/profile-pics/profile-pic-2.jpg')?>" alt="">
-                                </div>
-
-                                <div class="pmo-stat"> <!--pmo-stat-->
-                                </div>
-                            </div>
-                        </div>
-  
-                        <div class="pm-body clearfix">
-                            <div class="pmb-block">
-                                <div class="pmbb-header">
-                                    <h2><i class="zmdi zmdi-account m-r-5"></i>Información Básica</h2>
-								</div>
-                                <div class="pmbb-body p-l-30">
-									<div class="pmbb-view">
-                                        <dl class="dl-horizontal">
-                                            <dt>Nombre Completo</dt>
-                                        </dl>
-										<dl class="dl-horizontal">
-                                            <dt>Fecha nacimiento</dt>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Número de documento</dt>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div> 
-
-
-                            <div class="pmb-block">
-                                <div class="pmbb-header">
-                                    <h2><i class="zmdi zmdi-phone m-r-5"></i> Información de Contacto</h2>
-								</div>
-								
-                                <div class="pmbb-body p-l-30">
-                                    <div class="pmbb-view">
-                                        <dl class="dl-horizontal">
-                                            <dt>Teléfono particular</dt>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Email particular</dt>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Nombre del Comedor</dt>
-                                        </dl>
-                                        <dl class="dl-horizontal">
-                                            <dt>Dirección del comedor</dt>
-                                        </dl>
-                                    </div>
-								</div>
-                            </div>		
-							
-							<div class="pmb-block" id="reject-reason-block" hidden>
-									<div class="form-group fg-float">
-										<div class="fg-line">
-											<textarea id="reject-reason-textarea" class="form-control auto-size"></textarea>
-											<label class="fg-label">Motivo de rechazo</label>
-										</div>
-									</div>
-
-									<a id="reject-reason-accept-button" href="HU001.lista.html" class="btn palette-Green bg">Aceptar</a>
-									<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>
-								</form>	
-							</div>
-							
-                            <div class="pmb-block" id="buttons-block">
-								<div class="btn-colors btn-demo">
-									<a id="approve-button" href="HU001.lista.html" class="btn palette-Green bg">Aprobar</a>
-									<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
-								</div>
-                            </div> 
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <input type="text" class="input-sm form-control fg-input">
+                            <label class="fg-label">Email Address</label>
                         </div>
                     </div>
+
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <input type="password" class="input-sm form-control fg-input">
+                            <label class="fg-label">Password</label>
+                        </div>
+                    </div>
+
+                    <div class="checkbox m-b-30">
+                        <label>
+                            <input type="checkbox" value="">
+                            <i class="input-helper"></i>
+                            Accept the license agreement
+                        </label>
+                    </div>
+
+                    <button class="btn palette-Blue bg">Create Account</button>
+
+                    <div class="m-t-30">
+                        <a data-block="#l-login" data-bg="teal" class="palette-Blue text d-block m-b-5" href="">Already have an account?</a>
+                        <a data-block="#l-forget-password" data-bg="purple" href="" class="palette-Blue text">Forgot password?</a>
+                    </div>
                 </div>
-            </section>
+            </div> -->
+            
+            <!-- Forgot Password -->
+            <div class="l-block" id="l-forget-password">
+                <div class="lb-header palette-Purple bg">
+                    <i class="zmdi zmdi-account-circle"></i>
+                    ¿Olvidó su contraseña?
+                </div>
 
-            <footer id="footer">
-                Copyright &copy; 2015 Material Admin
+                <div class="lb-body">
+                    <p class="m-b-30">Ingrese su email y le enviaremos una nueva contraseña.</p>
 
-                <ul class="f-menu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Dashboard</a></li>
-                    <li><a href="">Reports</a></li>
-                    <li><a href="">Support</a></li>
-                    <li><a href="">Contact</a></li>
-                </ul>
-            </footer>
-        </section>
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <input type="text" class="input-sm form-control fg-input">
+                            <label class="fg-label">Email</label>
+                        </div>
+                    </div>
 
-        <!-- Page Loader -->
-        <div class="page-loader palette-Teal bg">
-            <div class="preloader pl-xl pls-white">
-                <svg class="pl-circular" viewBox="25 25 50 50">
-                    <circle class="plc-path" cx="50" cy="50" r="20"/>
-                </svg>
+                    <button class="btn palette-Purple bg">Enviar</button>
+
+                    <div class="m-t-30">
+                    	<a data-bg="blue" class="palette-Teal text d-block m-b-5" href="<?php echo base_url('diner_application')?>">Dar de alta un comedor</a>
+                        <a data-block="#l-login" data-bg="teal" class="palette-Purple text d-block m-b-5" href="">¿Ya tenés una cuenta?</a>
+                        <a data-block="#l-register" data-bg="blue" href="" class="palette-Purple text">Crear una cuenta</a>
+                    </div>
+                </div>
             </div>
         </div>
-    
+
+        <!-- Older IE warning message -->
+        <!--[if lt IE 9]>
+            <div class="ie-warning">
+                <h1 class="c-white">Warning!!</h1>
+                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+                <div class="iew-container">
+                    <ul class="iew-download">
+                        <li>
+                            <a href="http://www.google.com/chrome/">
+                                <img src="img/browsers/chrome.png" alt="">
+                                <div>Chrome</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.mozilla.org/en-US/firefox/new/">
+                                <img src="img/browsers/firefox.png" alt="">
+                                <div>Firefox</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.opera.com">
+                                <img src="img/browsers/opera.png" alt="">
+                                <div>Opera</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.apple.com/safari/">
+                                <img src="img/browsers/safari.png" alt="">
+                                <div>Safari</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                                <img src="img/browsers/ie.png" alt="">
+                                <div>IE (New)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Sorry for the inconvenience!</p>
+            </div>
+        <![endif]-->
+
         <!-- Javascript Libraries -->
-        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
+        <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
+
+        <!-- Placeholder for IE9 -->
+        <!--[if IE 9 ]>
+            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+        <![endif]-->
+
+        <script src="js/functions.js"></script>
         
-		<script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/moment/min/moment.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/autosize/dist/autosize.min.js')?>"></script>
-		
-        <script src="<?php echo base_url('js/functions.js')?>"></script>
-        <script src="<?php echo base_url('js/actions.js')?>"></script>
-        <script src="<?php echo base_url('js/demo.js')?>"></script>
-		
-		<script type="text/javascript">
-			$("#reject-button").click(function() {
-				$("#buttons-block").hide();
-				$("#reject-reason-block").show();
-			});
-		
-			$("#reject-reason-cancel-button").click(function() {
-				$("#buttons-block").show();
-				$("#reject-reason-block").hide();
-				$("#reject-reason-textarea").val("");
-				$("#reject-reason-textarea").attr("style", "overflow: hidden; word-wrap: break-word;")
-			});
-		</script>
     </body>
 </html>
