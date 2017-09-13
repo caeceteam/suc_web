@@ -8240,6 +8240,7 @@ pre {
 @media (min-width: 767px) {
   .h-logo {
     width: 223px;
+    background-color: rgba(255, 255, 255, 0.25);
   }
 }
 .h-logo a {
