@@ -10145,7 +10145,6 @@ pre {
 @media (min-width: 767px) {
   .h-logo {
     width: 223px;
-    /*background-image: url('../img/logo/suc.svg');*/
   }
 }
 
@@ -10900,13 +10899,6 @@ pre {
   list-style: none;
   display: none;
   padding: 0;
-}
-
-/*agregado para los no links */
-.sub-menu ul > li {
-  padding: 8px 25px 8px 75px;
-  font-weight: 500;
-  display: block;
 }
 
 .sub-menu ul > li > a {
