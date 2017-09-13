@@ -32,17 +32,21 @@ class Login_model extends CI_Model {
 	 * @param		object	$user
 	 * @return 		array   Si el alta fue exitosa, devuelve un array con los datos del usuario, sino devuelve NULL
 	 */		
-	public function login($user)
+	public function validate($user)
 	{
 		try {
 			$response = $this->client->request('POST', 'authentication', [
-				'json' => $input_type
+				'json' => $user
 			]);
 			if($response->getStatusCode()==HTTP_OK)
 			{
 				$body = $response->getBody();
 				return json_decode($body,TRUE);
 			}
+			return NULL;
+		}
+		catch (ClientException $e)
+		{
 			return NULL;
 		}
 		catch (ServerException $e) 

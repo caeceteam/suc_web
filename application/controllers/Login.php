@@ -23,16 +23,16 @@ class Login extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('form_validation');
+		$this->load->library(array('form_validation', 'session'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Login_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
-		$this->variables['action'] = site_url('login/login');
+		$this->variables['action'] = site_url('login/validate_credentials');
+		$this->_initialize_fields();
 	}	
 	
 	public function index()
 	{
-		$this->_initialize_fields();
 		$this->load->view('login/save', $this->variables);
 	}
 	
@@ -40,30 +40,35 @@ class Login extends CI_Controller {
 	 * Funcion que genera guarda la misma cuando la validacion del formulario no arroja errores
 	 * @return void
 	 */
-	public function add()
+	public function validate_credentials()
 	{
 		$this->_set_rules();
-		if($this->form_validation->run() == FALSE || $this->_save_image($_FILES['photo']['tmp_name']) == FALSE)
+		if($this->form_validation->run() == FALSE)//@TODO Validar si el usuario esta activo
 		{
-			$this->variables['message'] = isset($this->variables['message']) ? $this->variables['message'].validation_errors() : validation_errors();
+			$this->variables['message'] = '<div class="alert alert-danger" role="alert">' . validation_errors() . '</div>';
+			$this->load->view('login/save', $this->variables);
 		}
 		else
 		{
-			$diner_application = ($this->_get_post());
-			if(($this->Diner_application_model->add($diner_application))!=NULL)
+			$user = ($this->_get_post());
+			$response = $this->Login_model->validate($user);
+			if($response!=NULL)
 			{
-				if($this->_send_mail($diner_application->user->mail, $this->variables['password']))
-					$this->variables['message'] = 'Se envío un mail con su contraseña!';
-					else
-						$this->variables['message'] = 'Ocurrio un error al enviar el mail, por favor revise el campo mail!';
-						$this->variables['reset'] = TRUE;
+				$data = array(
+						'userName' 		=> $this->input->post('userName'),
+						'token'			=> $response['token'],
+						'idDiner'		=> $response['diners']['idDiner'],
+						'is_logged_in' 	=> true
+				);
+				$this->session->set_userdata($data);
+				redirect('home');
 			}
 			else
 			{
-				$this->variables['message'] = 'Error al guardar';
+				$this->variables['message'] = '<div class="alert alert-danger" role="alert">Nombre de usuario/contraseña incorrectos.</div>';
+				$this->load->view('login/save', $this->variables);
 			}
 		}
-		$this->load->view('diner_application/save', $this->variables);
 	}
 	
 	/**
@@ -76,6 +81,7 @@ class Login extends CI_Controller {
 		$user 			= new stdClass();
 		$user->userName = $this->input->post('userName');
 		$user->password	= $this->input->post('password');
+		return $user;
 	}
 	
 	/**
@@ -84,8 +90,9 @@ class Login extends CI_Controller {
 	 */
 	private function _initialize_fields()
 	{
-		$this->form_data->userName = '';
-		$this->form_data->password = '';
+		$this->variables['message'] = '';
+		$this->form_data->userName 	= '';
+		$this->form_data->password 	= '';
 	}
 	
 	/**
@@ -94,7 +101,22 @@ class Login extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
+		$this->form_validation->set_message('required', 'Complete {field}.');
 		$this->form_validation->set_rules('userName', 'Nombre de usuario/Email', 'required');
 		$this->form_validation->set_rules('password', 'Contraseña', 'trim|required');
+	}
+	
+	/**
+	 * 
+	 */
+	private function is_logged_in()
+	{
+		$is_logged_in = $this->session->userdata('is_logged_in');
+		if(!isset($is_logged_in) || $is_logged_in != true)
+		{
+			echo 'You don\'t have permission to access this page. <a href="../login">Login</a>';
+			die();
+			//$this->load->view('login_form');
+		}
 	}
 }

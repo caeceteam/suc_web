@@ -7,13 +7,13 @@
         <title>Sistema único de comedores</title>
         
         <!-- Vendor CSS -->
-        <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/google-material-color/dist/palette.css" rel="stylesheet">
-        <link href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
             
         <!-- CSS -->
-        <link href="css/app.min.1.css" rel="stylesheet">
-        <link href="css/app.min.2.css" rel="stylesheet">
+		<link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
+		<link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
     </head>
     
     <body>
@@ -29,7 +29,7 @@
 	                <div class="lb-body">
 	                    <div class="form-group fg-float">
 	                        <div class="fg-line">
-	                            <input value="<?php echo set_value('name',$this->form_data->userName); ?>" name="" type="text" class="input-sm form-control fg-input">
+	                            <input value="<?php echo set_value('name',$this->form_data->userName); ?>" name="userName" type="text" class="input-sm form-control fg-input">
 	                            <label class="fg-label">Email o nombre de usuario</label>
 	                        </div>
 	                    </div>
@@ -40,6 +40,8 @@
 	                            <label class="fg-label">Contraseña</label>
 	                        </div>
 	                    </div>
+	                    
+	                    <?php echo $message?>
 	
 	                    <button type="submit" class="btn palette-Teal bg">Ingresar</button>
 	
@@ -190,16 +192,16 @@
         <![endif]-->
 
         <!-- Javascript Libraries -->
-        <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
+        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
+        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
 
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
         <![endif]-->
 
-        <script src="js/functions.js"></script>
+        <script src="<?php echo base_url('js/functions.js')?>"></script>
         
     </body>
 </html>
