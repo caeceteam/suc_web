@@ -59,7 +59,7 @@ class Input_type extends CI_Controller {
 		$render_data['rows'] = [];
 		foreach ($input_types_data as $input_type)
 		{
-			$row_data['idInputType'] = $input_type['idInputType'];
+			$row_data['id'] = $input_type['idInputType'];
 			$row_data['code'] = $input_type['code'];
 			$row_data['name'] = $input_type['name'];
 			$row_data['description'] = $input_type['description'];

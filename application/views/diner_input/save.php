@@ -26,7 +26,7 @@
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creación del insumo.</small>
+                            <small>Ingrese los datos para la creaciÃ³n del insumo.</small>
 
                             <br/><br/>
 
@@ -70,7 +70,7 @@
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="genderType">
 														<input type="text" id="genderType" name="genderType" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('genderType',$this->form_data->genderType); ?>">
-														<label class="fg-label">Género</label>
+														<label class="fg-label">GÃ©nero</label>
 													</div>
 												</div>
 											</div>
@@ -88,19 +88,11 @@
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="description">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
-												<label class="fg-label">Descripción</label>
+												<label class="fg-label">DescripciÃ³n</label>
 											</div>
 										</div>
 										
-										<div id="unique-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Existe otro insumo con el mismo codigo
-				                        </div>
-				                        
-										<div id="empty-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Por favor ingrese datos en los campos marcados
-				                        </div>				                        
+										<?php $this->load->view('templates/alerts'); ?>
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
 										<a href="<?php echo site_url('diner_input'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
@@ -134,13 +126,14 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
-		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
+		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
+
 		<script>
 			$('.diner-input-form').submit(function() {
 				showConfirmDialog({
-					title: "¿Está seguro grabar este insumo?",
-					text: "El insumo se grabará en el sistema",
+					title: "Â¿EstÃ¡ seguro grabar este insumo?",
+					text: "El insumo se grabarÃ¡ en el sistema",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
 					successText: "El insumo se ha grabado en el sistema.",
