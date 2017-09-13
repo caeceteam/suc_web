@@ -3,7 +3,7 @@
 		<a href="<?php echo base_url('');?>" class="hidden-xs">
         	 
             <!--  SUC <small>Sistema Único de Comedores</small>-->
-            <img src="img/suc.svg" alt="SUC" height="80" width="300">
+            <img src="img/suc.svg" alt="SUC" height="80" width="190">
 		</a>
 
 		<div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
