@@ -106,6 +106,16 @@
 
 		<!-- Javascript Libraries -->
         <?php $this->load->view('templates/scripts'); ?>
+        
+		<script src="<?php echo base_url('vendors/bower_components/flot/jquery.flot.js')?>"></script>
+		<script src="<?php echo base_url('vendors/bower_components/flot/jquery.flot.resize.js')?>"></script>
+		<script src="<?php echo base_url('vendors/bower_components/flot.curvedlines/curvedLines.js')?>"></script>
+		<script src="<?php echo base_url('vendors/sparklines/jquery.sparkline.min.js')?>"></script>
+		<script src="<?php echo base_url('vendors/bower_components/salvattore/dist/salvattore.min.js')?>"></script>
+		
+		<script src="<?php echo base_url('js/flot-charts/curved-line-chart.js')?>"></script>
+		<script src="<?php echo base_url('js/flot-charts/bar-chart.js')?>"></script>
+		<script src="<?php echo base_url('js/charts.js')?>"></script>
 
     </body>
   </html>
