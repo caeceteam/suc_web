@@ -83,3 +83,44 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+/*
+ |--------------------------------------------------------------------------
+ | C�digos de status HTTP
+ |--------------------------------------------------------------------------
+ |
+ | Usados para validar las llamadas a la API.
+ |
+ */
+defined('HTTP_OK')      		OR define('HTTP_OK', 200);
+defined('HTTP_CREATED')      	OR define('HTTP_CREATED', 201);
+defined('HTTP_ACCEPTED')      	OR define('HTTP_ACCEPTED', 202);
+defined('HTTP_NO_CONTENT')      OR define('HTTP_NO_CONTENT', 204);
+defined('HTTP_BAD_REQUEST')     OR define('HTTP_BAD_REQUEST', 400);
+defined('HTTP_UNAUTHORIZED')    OR define('HTTP_UNAUTHORIZED', 401);
+defined('HTTP_FORBIDDEN')     	OR define('HTTP_FORBIDDEN', 403);
+defined('HTTP_NOT_FOUND')     	OR define('HTTP_NOT_FOUND', 404);
+defined('HTTP_INTERNAL_SERVER') OR define('HTTP_INTERNAL_SERVER', 500);
+
+/*
+ |--------------------------------------------------------------------------
+ | C�digos de estados de comedor
+ |--------------------------------------------------------------------------
+ |
+ | Usados para manejar los estados de las solicitudes de comedores
+ |
+ */
+defined('DINER_PENDING')      	OR define('DINER_PENDING', 0);
+defined('DINER_APPROVED')      	OR define('DINER_APPROVED', 1);
+defined('DINER_REJECTED')      	OR define('DINER_REJECTED', 2);
+
+/*
+ |--------------------------------------------------------------------------
+ | C�digos de estados de usuario
+ |--------------------------------------------------------------------------
+ |
+ | Usados para manejar los estados de la adminsitraci�n de usuarios
+ |
+ */
+defined('USER_ACTIVE')      	OR define('USER_ACTIVE', 0);
+defined('USER_INACTIVE')     	OR define('USER_INACTIVE', 1);
