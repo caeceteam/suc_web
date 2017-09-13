@@ -21,33 +21,70 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2>Crear tipo de Insumo</h2>
+                        <h2>Crear Insumo</h2>
                     </div>
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creación del tipo de insumo.</small>
+                            <small>Ingrese los datos para la creación del insumo.</small>
 
                             <br/><br/>
 
                             <div class="row">
                                 <div class="card-body card-padding">
 								
-									<form role="form" action="<?php echo $action; ?>" class="input-type-form" method="POST">
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="name">
-												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
-												<label class="fg-label">Nombre</label>
+									<form role="form" action="<?php echo $action; ?>" class="diner-input-form" method="POST">
+									
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<div class="fg-line" data-id="idInputType">
+														<div class="select">
+															<?php echo form_dropdown('idInputType', $input_types, $input_type, 'class="form-control"'); ?>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="name">
+														<input type="text" id="name" name="name" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
+														<label class="fg-label">Nombre</label>
+													</div>
+												</div>
+											</div>
+	
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="size">
+														<input type="text" id="size" name="size" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('size',$this->form_data->size); ?>">
+														<label class="fg-label">Talle</label>
+													</div>
+												</div>
 											</div>
 										</div>
-										<br/>
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="code">
-												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
-												<label class="fg-label">Código</label>
+										
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="genderType">
+														<input type="text" id="genderType" name="genderType" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('genderType',$this->form_data->genderType); ?>">
+														<label class="fg-label">Género</label>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="quantity">
+														<input type="text" id="quantity" name="quantity" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('quantity',$this->form_data->quantity); ?>">
+														<label class="fg-label">Cantidad</label>
+													</div>
+												</div>
 											</div>
 										</div>
-										<br/>
+											
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="description">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
@@ -55,10 +92,10 @@
 											</div>
 										</div>
 										
-										<?php $this->load->view('templates/alerts'); ?>			                        
+										<?php $this->load->view('templates/alerts'); ?>
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
-										<a href="<?php echo site_url('input_type'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
+										<a href="<?php echo site_url('diner_input'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
 										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
 									</form>								
                                 </div>
@@ -89,17 +126,19 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
+		
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
+		
 		<script>
-			$('.input-type-form').submit(function() {
+			$('.diner-input-form').submit(function() {
 				showConfirmDialog({
-					title: "¿Está seguro grabar este tipo de insumo?",
-					text: "El tipo de insumo se grabará en el sistema",
+					title: "¿Está seguro grabar este insumo?",
+					text: "El insumo se grabará en el sistema",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
-					successText: "El tipo de insumo se ha grabado en el sistema.",
-					failedText: "El tipo de insumo no pudo ser grabado en el sistema.",
+					successText: "El insumo se ha grabado en el sistema.",
+					failedText: "El insumo no pudo ser grabado en el sistema.",
 					redirectUrl: $("#redirect-url")[0].value
 				});
 				return false;

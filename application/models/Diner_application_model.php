@@ -77,7 +77,7 @@ class Diner_application_model extends CI_Model {
 	 */
 	public function edit($diner_application)
 	{
-		$response = $this->client->request('PUT', 'api/diners/' . $diner_application['idDiner'], [
+		$response = $this->client->request('PUT', 'api/diners/' . $diner_application['diner']['idDiner'], [
 				'json' => $diner_application
 		]);
 		if($response->getStatusCode()==HTTP_ACCEPTED)
