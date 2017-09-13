@@ -13,6 +13,7 @@ class Home extends CI_Controller {
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->helper(array('url', 'form'));
+		$this->login->is_logged_in();
 	}	
 	
 	public function index()

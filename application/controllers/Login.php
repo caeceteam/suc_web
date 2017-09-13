@@ -105,18 +105,4 @@ class Login extends CI_Controller {
 		$this->form_validation->set_rules('userName', 'Nombre de usuario/Email', 'required');
 		$this->form_validation->set_rules('password', 'Contraseña', 'trim|required');
 	}
-	
-	/**
-	 * 
-	 */
-	private function is_logged_in()
-	{
-		$is_logged_in = $this->session->userdata('is_logged_in');
-		if(!isset($is_logged_in) || $is_logged_in != true)
-		{
-			echo 'You don\'t have permission to access this page. <a href="../login">Login</a>';
-			die();
-			//$this->load->view('login_form');
-		}
-	}
 }
