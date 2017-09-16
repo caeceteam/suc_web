@@ -8,9 +8,9 @@ class  User_diner_model extends CI_Model {
 	 * Variables para el rest client
 	 * @var string
 	 */
-	private $base_uri;
+	private $base_uri 	= 'http://localhost:3000';
 	private $client;
-	private $timeout;
+	private $timeout = 5.0;
 	
 	/**
 	 * Variables para los atributos del modelo
@@ -21,36 +21,39 @@ class  User_diner_model extends CI_Model {
 	public $surname;
 	public $alias;
 	public $pass;
+	//public $chekPass;
 	public $mail;
 	public $idDiner;
 	public $phone;
-	public $state;
+	//public $state;
 	public $role;
 	public $docNumber;
 	public $bornDate;
 
+	/**
+	 * Comunico con la API
+	 * @var string
+	 */
+	
 	public function __construct()
 	{
 		parent::__construct();
-		$this->config->load('api');
-		$this->base_uri = $this->config->item('api_base_uri');
-		$this->timeout	= $this->config->item('api_timeout');
-		$this->client 	= new Client([
-			'base_uri' 	=> $this->base_uri,
-			'timeout'  	=> $this->timeout,
+		$this->client = new Client([
+			'base_uri' => $this->base_uri,
+			'timeout'  => $this->timeout,
 			]);
 	}
 	
 	/**
-	 * Consulta de tipo de insumo
+	 * Busco usuarios
 	 * 
 	 * Consulta tipos de insumo por id o devuelve toda la tabla
 	 * @param 		string 		$id
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL)
+	public function search($idUser=NULL)
 	{
-		$response = $this->client->request('GET', $idUser != NULL ? 'api/user/' . $idUser : 'api/user/');
+		$response = $this->client->request('GET', $idUser != NULL ? 'api/users/' . $idUser : 'api/users/');
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -67,9 +70,7 @@ class  User_diner_model extends CI_Model {
 	 */
 	public function add($user_diner)
 	{
-		$response = $this->client->request('POST', 'api/user', [
-				    'json' => $user_diner
-					]);
+		$response = $this->client->request('POST', 'api/users', ['json' => $user_diner]);
 		if($response->getStatusCode()==HTTP_CREATED)
 		{
 			$body = $response->getBody();
@@ -86,7 +87,7 @@ class  User_diner_model extends CI_Model {
 	 */
 	public function edit($user_diner)
 	{
-		$response = $this->client->request('PUT', 'api/user/' . $user_diner->id, [
+		$response = $this->client->request('PUT', 'api/users/' . $user_diner->idUser , [
 				    'json' => $user_diner
 					]);
 		if($response->getStatusCode()==HTTP_ACCEPTED)
@@ -105,7 +106,7 @@ class  User_diner_model extends CI_Model {
 	 */
 	public function delete($id)
 	{
-		$response = $this->client->request('DELETE', 'api/user/' . $id);
+		$response = $this->client->request('DELETE', 'api/users/' . $id);
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			return TRUE;

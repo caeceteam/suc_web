@@ -76,5 +76,12 @@
 				<li><a href="">Asignación de Roles</a></li>
 			</ul>
         </li>
+        
+        <li class="sub-menu"> 
+        	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-account"></i> Personal</a>
+            <ul>
+				  <li><a href="<?php echo base_url('user_diner');?>">Alta personal</a></li>
+			</ul>
+        </li>
 	</ul>
 </aside>
