@@ -45,21 +45,7 @@
         	<a href="<?php echo base_url('diner');?>"><i class="zmdi zmdi-local-dining"></i> Comedores</a>
         </li>
         
-		<!--<li class="sub-menu">
-        	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> Aprobaciones pendientes</a>
-			<ul>
-            	<li><a href="alternative-header.html"> De comedores</a></li>
-				<li><a href="HU001.html"> De personas</a></li>
-            </ul>
-        </li>-->
-		<!--<li class="sub-menu">
-			<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-local-dining"></i> Comedores</a>
-			<ul>
-            	<li><a href="index.html"> Eventos</a></li>
-				<li><a href="index.html"> Personal</a></li>
-	        </ul>
-		</li>-->
-                    
+		            
         <li class="sub-menu">
         	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-swap-alt"></i> Mantenimiento SUC</a>
             <ul>

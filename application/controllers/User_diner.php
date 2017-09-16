@@ -16,6 +16,8 @@ class User_diner extends CI_Controller
      * @var array
      */
     private $variables;
+    private $pass_view;
+    private $pass_no_view;
 
     /**
      * Array para guardar exclusivamente los values del formulario
@@ -23,6 +25,7 @@ class User_diner extends CI_Controller
      * @var array
      */
     public $form_data;
+    public $new_pass;
 
     /**
      * Constructor de clase
@@ -40,6 +43,8 @@ class User_diner extends CI_Controller
         // Instancio una clase vacia para evitar el warning "Creating default object from empty value"         
         $this->form_data = new stdClass(); 
         $this->variables['idUser'] = '';
+        $this->pass_view    = 'display:block;';
+        $this->pass_no_view = 'display:none;';
         
         // Variable para indicar si hay que resetear los campos del formulario
         $this->variables['reset'] = FALSE; 
@@ -82,9 +87,10 @@ class User_diner extends CI_Controller
      */
     public function add ()
     {
-        $this->variables['action'] = site_url('user_diner/add');
+        $this->new_pass = $this->pass_no_view;
+        $this->variables['action']         = site_url('user_diner/add');
         $this->variables['request-action'] = 'POST';
-        $this->variables['redirect-url'] = site_url('user_diner');
+        $this->variables['redirect-url']   = site_url('user_diner');
         $this->_set_rules();
         
         if ($this->input->method() == "get") {
@@ -96,8 +102,8 @@ class User_diner extends CI_Controller
                 $this->output->set_status_header('500');
                 $this->variables['error-type'] = 'empty-field';
                 $data = array(
-                        'code' => form_error('name'),
-                        'name' => form_error('surname')
+                        'name'      => form_error('name'),
+                        'surname'   => form_error('surname')
                 );
                 $this->variables['error-fields'] = $data;
             } else {
@@ -106,14 +112,20 @@ class User_diner extends CI_Controller
                     $this->output->set_status_header('500');
                     $this->variables['error-type'] = 'unique';
                     $this->variables['error-fields'] = $response['fields'];
-                }
+                } else{ 
+                   /* if($this->_send_mail($user_diner)){
+                        $this->variables['message'] = 'Se envío un mail con el estado de la solicitud.';
+                    }else{
+                            $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
+                    }*/
+                } 
             }
             echo json_encode($this->variables);
         }
     }
 
     /**
-     * Funcion que muestra el formulario de ediciÃ³n y guarda la misma cuando la
+     * Funcion que muestra el formulario de edición y guarda la misma cuando la
      * validacion del formulario no arroja errores
      * 
      * @param string $id            
@@ -121,12 +133,13 @@ class User_diner extends CI_Controller
      */
     public function edit ($id = NULL)
     {
-        $this->variables['action'] = site_url('user_diner/edit');
-        $this->variables['request-action'] = 'PUT';
-        $this->variables['redirect-url'] = site_url('user_diner');
+        $this->variables['action']          = site_url('user_diner/edit');
+        $this->variables['request-action']  = 'PUT';
+        $this->variables['redirect-url']    = site_url('user_diner');
         // Si no es un post, no se llama al editar y solo se muestran los campos
         // para editar
         if ($this->input->method() == "get") {
+            $this->new_pass = $this->pass_view;
             $user_diner = $this->User_diner_model->search($id);
             $this->form_data->id            = $user_diner['idUser'];
             $this->form_data->name          = $user_diner['name'];
@@ -140,6 +153,7 @@ class User_diner extends CI_Controller
             $this->form_data->street        = $user_diner['street'];
             $this->form_data->streetNumber  = $user_diner['streetNumber'];
             $this->load->view('user_diner/save', $this->variables);
+            
         } else {
             $this->_initialize_fields();
             $this->_set_rules();
@@ -149,8 +163,8 @@ class User_diner extends CI_Controller
                 $this->output->set_status_header('500');
                 $this->variables['error-type'] = 'empty-field';
                 $data = array(
-                        'code' => form_error('code'),
-                        'name' => form_error('name')
+                        'name'      => form_error('name'),
+                        'surname'   => form_error('surname')
                 );
                 $this->variables['error-fields'] = $data;
             } else {
@@ -159,6 +173,15 @@ class User_diner extends CI_Controller
                     $this->output->set_status_header('500');
                     $this->variables['error-type'] = 'unique';
                     $this->variables['error-fields'] = $response['fields'];
+                }
+                else{
+                    
+/*                    if($this->_send_mail($user_diner)){
+                        $this->variables['message'] = 'Se envío un mail con el estado de la solicitud.';
+                    }else{
+                            $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
+                    }
+  */                  
                 }
             }
             echo json_encode($this->variables);
@@ -206,6 +229,7 @@ class User_diner extends CI_Controller
         $this->index();
     }
 
+   
     /**
      * Renderiza una tabla en base a un template HTML y un object|array
      * 
@@ -236,6 +260,10 @@ class User_diner extends CI_Controller
                         'data-column-id' => 'surname',
                         'data-order'     => 'desc' ),
                 
+                array(  'data'           => 'Telefono',
+                        'data-column-id' => 'phone',
+                        'data-order'     => 'desc' ),
+                
                 array(  'data'           => 'Ver/Modificar/Baja',
                         'data-column-id' => 'commands',
                         'data-formatter' => 'commands',
@@ -247,10 +275,154 @@ class User_diner extends CI_Controller
         {
             $this->table->add_row($user_diner['idUser'],
                                   $user_diner['name']  ,
-                                  $user_diner['surname']);
+                                  $user_diner['surname'],
+                                  $user_diner['phone'] );
         }
         $this->variables['table'] = $this->table->generate();
     }
+    
+//* ****************************************************************************************************    
+    
+    public function valid_password($oldPass, $newPass, $confPass )
+    {
+        //Si no se cargan se mantiene la clave
+        if (empty($oldPass) && empty($oldPass) && empty($oldPass)){
+            
+            return TRUE;
+        } 
+        //Si alguno esta vacio debe caragarse
+        elseif (empty($oldPass) || empty($oldPass) || empty($oldPass)){
+            return FALSE;
+        }
+        else{
+            //Es erronea la confirmación
+            if($newPass != $confPass ){
+                return FALSE;
+            }
+            
+            //Es erronea la confirmación
+            if($oldPass != $this->form_data->pass || $this->form_data->pass == $newPass ){
+                return FALSE;
+            }
+            //Validación individual de claves
+            if (! $this->valid_single_password($oldPass)){
+                return FALSE;
+            }
+            
+            if (! $this->valid_single_password($newPass)){
+                return FALSE;
+            }
+            
+            if (! $this->valid_single_password($confPass)){
+                return FALSE;
+            }
+            
+        }     
+    }
+    
+    public function valid_single_password($password = '')
+	{
+		//$password = trim($password);
+		//Caracteres de validación
+	    $lower_case  = '/[a-z]/';
+		$upper_case  = '/[A-Z]/';
+		$number      = '/[0-9]/';
+		$special     = '/[!@#$%^&*()\-_=+{};:,<.>]/';
+		
+		//Contiene caracteres mayuscula
+		if (preg_match_all($lower_case, $password) < 1)
+		{
+			$this->form_validation->set_message('valid_password', 'Por lo menos debe contener una letra mayuscula.');
+			return FALSE;
+		}
+		
+		if (preg_match_all($upper_case, $password) < 1)
+		{
+			$this->form_validation->set_message('valid_password', 'Contener al menos una letra.');
+			return FALSE;
+		}
+		
+		if (preg_match_all($number, $password) < 1)
+		{
+			$this->form_validation->set_message('valid_password', 'Contener al menos un numero.');
+			return FALSE;
+		}
+		if (preg_match_all($special, $password) < 1)
+		{
+			$this->form_validation->set_message('valid_password', 'Contener alguno de los siguieneste caracteres.' . ' ' . htmlentities('/[!@#$%^&*()\-_=+{};:,<.>]/'));
+			return FALSE;
+		}
+		
+		//Longitud minima 
+		if (strlen($password) < 5)
+		{
+			$this->form_validation->set_message('valid_password', 'La clave debe tener una longitud minima de 6 caracteres.');
+			return FALSE;
+		}
+		
+		//Longitud minima
+		if (strlen($password) > 32)
+		{
+			$this->form_validation->set_message('valid_password', 'La clave no puede superar los 32 caracteres.');
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+	/**
+	 * Función que envia un mail de confirmacion de cuenta 
+	 * @param    $user_diner 	array  array del user diner
+	 * @return   bool 			indica si el mail se pudo enviar
+	 */
+	private function _send_mail($user_diner)
+	{
+	    $this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
+	    $this->email->to($user_diner['idUser']['mail']);
+	    
+	    if ($this->variables['request-action'] == 'PUT'){
+	        $this->email->subject('Modificación de datos usuario');
+	        $this->email->message('Su datos de usuarios han sido actualizados correctamente. <br/>
+			Ante cualquier inconveniente dirigirse al administrador del comedor. <br/>
+			Att Sistema SUC,. <br/>');
+	    }
+	    elseif ($this->variables['request-action'] == 'POST')
+	    {  
+	        $this->email->subject('Alta usuario');
+	        $this->email->message('Se ha dado de alta el usuario ' . $this->form_data->alias .' <br/> 
+			Su clave de acceso para ingresar es: ' . $this->form_data->pass . ' .<br/>
+			Acceda al sistema mediante la siguiente URL. <br/>');
+	    }
+	    $this->email->set_newline("\r\n");//Sin esta línea falla el envio
+	    return $this->email->send();
+	}	
+	
+	/**
+	 * Función que genera una contraseña en forma aleatorio
+	 * @param    $chars_min largo minimo (opcional, default 6)
+	 * @param    $chars_max largo máximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan mayúsuculas (opcional, default false)
+	 * @param    $include_numbers boolean para indicar si se usan números (opcional, default false)
+	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
+	 * @return    string containing a random password
+	 */
+	private function _generate_password($chars_min=6, $chars_max=8, $use_upper_case=false, $include_numbers=false, $include_special_chars=false)
+	{
+	    $length = rand($chars_min, $chars_max);
+	    $selection = 'aeuoyibcdfghjklmnpqrstvwxz';
+	    if($include_numbers)
+	        $selection .= "1234567890";
+	        if($include_special_chars)
+	            $selection .= "!@\"#$%&[]{}?|";
+	            $password = "";
+	            for($i=0; $i<$length; $i++) {
+	                $current_letter = $use_upper_case ? (rand(0,1) ? strtoupper($selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))];
+	                $password .=  $current_letter;
+	            }
+	            return $password;
+	}
+	
+//* *********************************************************************************************** */
+
 
     /**
      * Obtiene los datos del post y los devuelve en forma de objeto
@@ -261,16 +433,16 @@ class User_diner extends CI_Controller
      */
     private function _get_post ($id = NULL)
     {
-        
-        $user_diner->idUser         = $idUser != NULL ? $idUser : $this->input->post('idUser');
+        $user_diner = new stdClass();     
+        $user_diner->idUser         = $id != NULL ? $id : $this->input->post('idUser');
         $user_diner->name           = $this->input->post('name');
         $user_diner->surname        = $this->input->post('surname');
         $user_diner->mail           = $this->input->post('mail');
         $user_diner->phone          = $this->input->post('phone');
         $user_diner->bornDate       = $this->input->post('bornDate');
         $user_diner->role           = $this->input->post('role');
-        $user_diner->pass           = $this->input->post('pass');
-        $user_diner->passCheck      = $this->input->post('passCheck');
+        $user_diner->pass           = $this->_generate_password();
+        //$user_diner->passCheck      = $this->input->post('passCheck');
         $user_diner->alias          = $this->input->post('alias');
         $user_diner->docNum         = $this->input->post('docNum');
         $user_diner->street         = $this->input->post('street');
@@ -290,6 +462,7 @@ class User_diner extends CI_Controller
      */
     private function _initialize_fields ()
     {   
+        $this->form_data->id            = '';
         $this->form_data->name          = '';
         $this->form_data->surname       = '';
         $this->form_data->mail	        = '';
@@ -305,6 +478,10 @@ class User_diner extends CI_Controller
         $this->form_data->floor         = '';
         $this->form_data->door          = '';
         $this->form_data->diner         = '';
+        $this->form_data->newPassConf   = '';
+        $this->form_data->newPass       = '';
+        
+         
     }
 
     /**
@@ -316,21 +493,24 @@ class User_diner extends CI_Controller
     private function _set_rules ()
     {
         $this->form_validation->set_rules('name',    'Nombre',      'trim|required');
-        $this->form_validation->set_rules('surname', 'Apellido',    'trim|required');
-        $this->form_validation->set_rules('mail',    'Mail',        'trim|required');
-        // $this->form_validation->set_rules('phone',   'Telefono',    'trim|required');
-        $this->form_validation->set_rules('bornDate', 'Fecha Nacimiento', 'trim|required');
-        //$this->form_validation->set_rules('role', 'Puesto', 'trim|required');
-        $this->form_validation->set_rules('pass',       'Clave',         'trim|required');
-        $this->form_validation->set_rules('passCheck',  'Confirmación',  'trim|required');
-        $this->form_validation->set_rules('passCheck',  'Confirmación',  'trim|required');
-        $this->form_validation->set_rules('alias',      'Alias',         'trim|required');
-        $this->form_validation->set_rules('docNum',     'Documento',     'trim|required');
-      //$this->form_validation->set_rules('street',       'Calle',         'trim|required');
-      //$this->form_validation->set_rules('streetNumber', 'Numero',      'trim|required');
-      //$this->form_validation->set_rules('foort',        'Piso',         'trim|required');
-      //$this->form_validation->set_rules('door',         'Puerta',      'trim|required');
-        $this->form_validation->set_rules('diner',     'Comedor',     'trim|required');
+        //$this->form_validation->set_rules('surname', 'Apellido',    'trim|required');
+        //$this->form_validation->set_rules('mail',    'Mail',        'trim|required');
+        // $this->form_validation->set_rules('phone',       'Telefono',    'trim|required');
+        //$this->form_validation->set_rules('bornDate',     'Fecha Nacimiento', 'trim|required');
+        //$this->form_validation->set_rules('role',         'Puesto', 'trim|required');
+        //$this->form_validation->set_rules('pass',         'Clave',         'trim|required');
+        //$this->form_validation->set_rules('passCheck',    'Confirmación',  'trim|required');
+        //$this->form_validation->set_rules('passCheck',    'Confirmación',  'trim|required');
+        //$this->form_validation->set_rules('alias',        'Alias',         'trim|required');
+        //$this->form_validation->set_rules('docNum',       'Documento',     'trim|required');
+        //$this->form_validation->set_rules('street',       'Calle',         'trim|required');
+        //$this->form_validation->set_rules('streetNumber', 'Numero',      'trim|required');
+        //$this->form_validation->set_rules('foort',        'Piso',         'trim|required');
+        //$this->form_validation->set_rules('door',         'Puerta',      'trim|required');
+        // $this->form_validation->set_rules('diner',       'Comedor',     'trim|required');
           
     }
 }
+
+
+

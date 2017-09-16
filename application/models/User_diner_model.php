@@ -21,11 +21,11 @@ class  User_diner_model extends CI_Model {
 	public $surname;
 	public $alias;
 	public $pass;
-	public $chekPass;
+	//public $chekPass;
 	public $mail;
 	public $idDiner;
 	public $phone;
-	public $state;
+	//public $state;
 	public $role;
 	public $docNumber;
 	public $bornDate;
