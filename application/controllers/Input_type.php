@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Input_type extends CI_Controller {
+
 	/**
 	 * Array para guardar todas las variables de la pagina
 	 * @var array
@@ -21,7 +23,7 @@ class Input_type extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library(array('form_validation', 'login'));
+		$this->load->library('form_validation');
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Input_type_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
@@ -29,7 +31,6 @@ class Input_type extends CI_Controller {
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->variables['controller-name'] = 'input_type';
 		$this->_initialize_fields();
-		$this->login->is_logged_in();
 	}
 	
 	/**
@@ -38,32 +39,23 @@ class Input_type extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->variables['data-request-url'] = site_url('input_type/render_table_response');
+		$this->render_table(NULL, $this->Input_type_model->search());
 		$this->load->view('input_type/search', $this->variables);
 	}
 	
 	/**
-	 * Funcion para retornar la informaci髇 a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion de consulta
+	 * @param		string	$name
+	 * @return void
 	 */
-	public function render_table_response()
+	public function search($name=NULL)
 	{
-		$service_data = $this->Input_type_model->get_inputtypes_by_page($this->input->post('current') - 1);
-		$pagination_data = $service_data['pagination'];
-		$input_types_data = $service_data['inputTypes'];
-		
-		$render_data['current'] = (int)$this->input->post('current');
-		$render_data['total'] = $pagination_data['total_elements'];
-		
-		$render_data['rows'] = [];
-		foreach ($input_types_data as $input_type)
-		{
-			$row_data['id'] = $input_type['idInputType'];
-			$row_data['code'] = $input_type['code'];
-			$row_data['name'] = $input_type['name'];
-			$row_data['description'] = $input_type['description'];
-			array_push($render_data['rows'], $row_data);
+		if ($name!=NULL){
+			$input_type = $this->Input_type_model->search($name);
+			$this->render_table(NULL, $input_type);
 		}
-		echo json_encode($render_data, TRUE);
+		else
+			$this->index();
 	}
 	
 	/**
@@ -107,7 +99,7 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -119,7 +111,7 @@ class Input_type extends CI_Controller {
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if($this->input->method() == "get")
 		{
-			$input_type = $this->Input_type_model->search_by_id($id);
+			$input_type = $this->Input_type_model->search($id);
 			$this->form_data->id = $input_type['idInputType'];
 			$this->form_data->code = $input_type['code'];
 			$this->form_data->name = $input_type['name'];
@@ -168,8 +160,34 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
+	 * Renderiza una tabla en base a un template HTML y un object|array
+	 * @param		string		$template
+	 * @param		mixed 		object|array Puede recibir un objeto de un input type o un array de varios
+	 * @return		void
+	 */
+	public function render_table($template=NULL, $data)
+	{
+		$template = isset($template) ? $template : array(
+				'table_open' => '<table id="data-table-command" class="table table-striped table-vmiddle">');
+		$this->load->library('table');
+		$this->table->set_template($template);
+		$this->table->set_heading(
+				array('data' => 'Id', 'data-column-id' => 'id', 'data-visible' => 'false'),
+				array('data' => 'C贸digo', 'data-column-id' => 'Codigo', 'data-order' => 'desc'), 
+				array('data' => 'Nombre', 'data-column-id' => 'Nombre'), 
+				array('data' => 'Descripci贸n', 'data-column-id' => 'Descripcion'), 
+				array('data' => 'Modificar/Borrar', 'data-column-id' => 'commands', 'data-formatter' => 'commands', 'data-sortable' => 'false') 
+				);
+		foreach ($data['inputTypes'] as $input_type)
+		{
+			$this->table->add_row($input_type['idInputType'], $input_type['code'], $input_type['name'], $input_type['description']);
+		}
+		$this->variables['table'] = $this->table->generate();
+	}
+	
+	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del input type para cuando se trata de una edici髇
+	 * @param 		integer 	$id id del input type para cuando se trata de una edici贸n
 	 * @return		object		$input_type
 	 */
 	private function _get_post($id=NULL)
@@ -183,7 +201,7 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici髇
+	 * Funcion que inicializa las variables de los campos del formulario para la edici贸n
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -202,6 +220,6 @@ class Input_type extends CI_Controller {
 	{
 		$this->form_validation->set_rules('code', 'Codigo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-		$this->form_validation->set_rules('description', 'Descripci髇', 'trim');
+		$this->form_validation->set_rules('description', 'Descripci贸n', 'trim');
 	}
 }
