@@ -41,23 +41,39 @@
     	<li>
         	<a href="<?php echo base_url('');?>"><i class="zmdi zmdi-home"></i> Inicio</a>
         </li>
-        <li>
-        	<a href="<?php echo base_url('diner');?>"><i class="zmdi zmdi-local-dining"></i> Comedores</a>
+
+		<li class="sub-menu">
+        	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> Aprobaciones pendientes</a>
+			<ul>
+            	<li><a href="<?php echo base_url('admin_application');?>"> De comedores</a></li>
+				<li><a href=""> De personas</a></li>
+            </ul>
         </li>
-        
-		            
+		<li class="sub-menu">
+			<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-local-dining"></i> Comedores</a>
+			<ul>
+				<li class="sub-menu">
+                	<a href="" data-ma-action="submenu-toggle">Administración</a>
+
+                    <ul>
+                        <li><a href="<?php echo base_url('diner_input');?>"> Almacén </a></li>
+            			<li><a href="<?php echo base_url('diner');?>"> Eventos</a></li>
+						<li><a href="<?php echo base_url('diner');?>"> Personal</a></li>
+                        <li><a href="<?php echo base_url('diner');?>"> Concurrentes</a></li>
+                	</ul>
+                </li>
+				<li><a href=""> Eventos</a></li>
+				<li><a href=""> Comedores Cercanos</a></li>
+	        </ul>
+		</li>
+                    
         <li class="sub-menu">
         	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-swap-alt"></i> Mantenimiento SUC</a>
             <ul>
             	<!--<li><a href="colors.html">Insumos</a></li>-->
 				<li><a href="<?php echo base_url('input_type');?>">Tipo de Insumos</a></li>
 				<li><a href="<?php echo base_url('food_type');?>">Tipo de Alimento</a></li>
-			</ul>
-        </li>
-        <li class="sub-menu"> 
-        	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-account"></i> Personal</a>
-            <ul>
-				  <li><a href="<?php echo base_url('user_diner');?>">Alta personal</a></li>
+				<li><a href="">Asignación de Roles</a></li>
 			</ul>
         </li>
 	</ul>

@@ -8,9 +8,9 @@ class  User_diner_model extends CI_Model {
 	 * Variables para el rest client
 	 * @var string
 	 */
-	private $base_uri 	= 'http://localhost:3000';
+	private $base_uri;
 	private $client;
-	private $timeout = 5.0;
+	private $timeout;
 	
 	/**
 	 * Variables para los atributos del modelo
@@ -30,17 +30,15 @@ class  User_diner_model extends CI_Model {
 	public $docNumber;
 	public $bornDate;
 
-	/**
-	 * Comunico con la API
-	 * @var string
-	 */
-	
 	public function __construct()
 	{
 		parent::__construct();
-		$this->client = new Client([
-			'base_uri' => $this->base_uri,
-			'timeout'  => $this->timeout,
+		$this->config->load('api');
+		$this->base_uri = $this->config->item('api_base_uri');
+		$this->timeout	= $this->config->item('api_timeout');
+		$this->client 	= new Client([
+			'base_uri' 	=> $this->base_uri,
+			'timeout'  	=> $this->timeout,
 			]);
 	}
 	
@@ -81,9 +79,9 @@ class  User_diner_model extends CI_Model {
 	}
 	
 	/**
-	 * Edición de input type
+	 * EdiciÃ³n de input type
 	 * @param		object	$user_diner
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function edit($user_diner)
 	{
