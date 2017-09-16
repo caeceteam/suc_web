@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Input_type extends CI_Controller {
+
 	/**
 	 * Array para guardar todas las variables de la pagina
 	 * @var array
@@ -43,7 +45,7 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion para retornar la informaci�n a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la informaciÃ³n a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
 	public function render_table_response()
 	{
@@ -107,7 +109,7 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de edici�n y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de ediciÃ³n y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -169,7 +171,7 @@ class Input_type extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del input type para cuando se trata de una edici�n
+	 * @param 		integer 	$id id del input type para cuando se trata de una ediciÃ³n
 	 * @return		object		$input_type
 	 */
 	private function _get_post($id=NULL)
@@ -183,7 +185,7 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici�n
+	 * Funcion que inicializa las variables de los campos del formulario para la ediciÃ³n
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -202,6 +204,6 @@ class Input_type extends CI_Controller {
 	{
 		$this->form_validation->set_rules('code', 'Codigo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-		$this->form_validation->set_rules('description', 'Descripci�n', 'trim');
+		$this->form_validation->set_rules('description', 'DescripciÃ³n', 'trim');
 	}
 }

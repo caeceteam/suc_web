@@ -23,13 +23,14 @@ class Diner extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('form_validation');
+		$this->load->library(array('form_validation', 'login'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Diner_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->_initialize_fields();
+		$this->login->is_logged_in();
 	}
 	
 	/**
