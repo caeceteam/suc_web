@@ -223,3 +223,4 @@ class Input_type extends CI_Controller {
 		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}
 }
+
