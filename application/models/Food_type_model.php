@@ -94,7 +94,7 @@ class Food_type_model extends CI_Model {
 	/**
 	 * Delete de input type
 	 * @param		string	$id
-	 * @return 		bool   Si la baja fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		bool   Si la baja fue exitosa, devuelve TRUE
 	 */
 	public function delete($id)
 	{

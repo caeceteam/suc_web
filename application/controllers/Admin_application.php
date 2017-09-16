@@ -23,13 +23,14 @@ class Admin_application extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library(array('form_validation', 'session', 'email'));
+		$this->load->library(array('form_validation', 'session', 'email', 'login'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Diner_application_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->_initialize_fields();
+		$this->login->is_logged_in();
 	}
 	
 	/**
@@ -117,11 +118,11 @@ class Admin_application extends CI_Controller {
 	{
 		$diner_application = $this->session->diner_application;
 		$diner_application['diner']['state'] = ($this->input->post('aprobar')) ? DINER_APPROVED : DINER_REJECTED;
-		$diner_application['user']['state'] = ($this->input->post('aprobar')) ? USER_ACTIVE : USER_INACTIVE;
+		$diner_application['user']['active'] = ($this->input->post('aprobar')) ? USER_ACTIVE : USER_INACTIVE;
 		$diner_application['diner']['description'] = 
-		($this->input->post('reject_reason')) !== NULL ? $diner_application['diner']['description'] . ' Motivo de rechazo: ' . $this->input->post('reject_reason') : $diner_application['diner']['description'];
+		($this->input->post('reject_reason')) != '' ? $diner_application['diner']['description'] . ' Motivo de rechazo: ' . $this->input->post('reject_reason') : $diner_application['diner']['description'];
 		$this->session->set_userdata('diner_application', $diner_application);
-		return $this->session->diner_application['diner'];
+		return $this->session->diner_application;
 	}
 	
 	/**

@@ -122,5 +122,5 @@ defined('DINER_REJECTED')      	OR define('DINER_REJECTED', 2);
  | Usados para manejar los estados de la adminsitraci�n de usuarios
  |
  */
-defined('USER_ACTIVE')      	OR define('USER_ACTIVE', 0);
-defined('USER_INACTIVE')     	OR define('USER_INACTIVE', 1);
+defined('USER_INACTIVE')     	OR define('USER_INACTIVE', 0);
+defined('USER_ACTIVE')      	OR define('USER_ACTIVE', 1);

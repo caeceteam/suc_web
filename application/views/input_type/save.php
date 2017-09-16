@@ -26,7 +26,7 @@
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creaciÃ³n del tipo de insumo.</small>
+                            <small>Ingrese los datos para la creación del tipo de insumo.</small>
 
                             <br/><br/>
 
@@ -55,15 +55,7 @@
 											</div>
 										</div>
 										
-										<div id="unique-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Existe otro tipo de insumo con el mismo codigo
-				                        </div>
-				                        
-										<div id="empty-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Por favor ingrese datos en los campos marcados
-				                        </div>				                        
+										<?php $this->load->view('templates/alerts'); ?>			                        
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
 										<a href="<?php echo site_url('input_type'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
