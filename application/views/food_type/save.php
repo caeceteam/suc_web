@@ -27,115 +27,13 @@
 </head>
 
 <body data-ma-header="teal">
-	<header id="header" class="media">
-		<div class="pull-left h-logo">
-			<a href="index.html" class="hidden-xs"> SUC <small>Sistema Único de
-					Comedores</small>
-			</a>
 
-			<div class="menu-collapse" data-ma-action="sidebar-open"
-				data-ma-target="main-menu">
-				<div class="mc-wrap">
-					<div class="mcw-line top palette-White bg"></div>
-					<div class="mcw-line center palette-White bg"></div>
-					<div class="mcw-line bottom palette-White bg"></div>
-				</div>
-			</div>
-		</div>
+	<?php $this->load->view('templates/header'); ?>
 
-		<ul class="pull-right h-menu">
-			<li class="hm-alerts" data-user-alert="sua-messages"
-				data-ma-action="sidebar-open" data-ma-target="user-alerts"><a
-				href=""><i class="hm-icon zmdi zmdi-notifications"></i></a></li>
-			<li class="dropdown hm-profile"><a data-toggle="dropdown" href=""> <img
-					src="<?php echo base_url('img/profile-pics/1.jpg')?>" alt="">
-			</a>
-
-				<ul class="dropdown-menu pull-right dm-icon">
-					<li><a href="profile-about.html"><i class="zmdi zmdi-account"></i>
-							Mis Datos</a></li>
-					<li><a href=""><i class="zmdi zmdi-settings"></i> Cambiar
-							contraseña</a></li>
-				</ul></li>
-		</ul>
-
-	</header>
-
-	<section id="main">
-		<aside id="s-user-alerts" class="sidebar">
-			<ul class="tab-nav tn-justified tn-icon m-t-10" data-tab-color="teal">
-				<li><a class="sua-notifications" href="#sua-notifications"
-					data-toggle="tab"><i class="zmdi zmdi-notifications"></i></a></li>
-			</ul>
-
-			<div class="tab-content">
-				<div class="tab-pane fade" id="sua-notifications">
-					<ul class="sua-menu list-inline list-unstyled palette-Orange bg">
-						<li><a href=""><i class="zmdi zmdi-volume-off"></i> Mute</a></li>
-						<li><a href=""><i class="zmdi zmdi-long-arrow-tab"></i> View all</a></li>
-						<li><a href="" data-ma-action="sidebar-close"><i
-								class="zmdi zmdi-close"></i> Close</a></li>
-					</ul>
-
-					<div class="list-group lg-alt c-overflow">
-						<a href="" class="list-group-item media">
-							<div class="pull-left">
-								<img class="avatar-img"
-									src="http://uoetsylra.org/img/multimedia/Margarita-Barrientos-Retrato-2-e1378332345443.jpg"
-									alt="">
-							</div>
-
-							<div class="media-body">
-								<div class="lgi-heading">Comedor Los piletones</div>
-								<small class="lgi-text">Solicitud de frazadas</small>
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</aside>
-
-		<aside id="s-main-menu" class="sidebar">
-			<div class="smm-header">
-				<i class="zmdi zmdi-long-arrow-left" data-ma-action="sidebar-close"></i>
-			</div>
-
-			<ul class="smm-alerts"
-				style="margin: 30px 0 60px 120px; padding-left: 0px;">
-				<!-- TODO CC: Add style to css class-->
-				<li data-user-alert="sua-notifications"
-					data-ma-action="sidebar-open" data-ma-target="user-alerts"><i
-					class="zmdi zmdi-notifications"></i></li>
-			</ul>
-
-			<ul class="main-menu">
-				<li><a href="index.html"><i class="zmdi zmdi-home"></i> Home</a></li>
-				<li class="sub-menu"><a href="" data-ma-action="submenu-toggle"><i
-						class="zmdi zmdi-notifications-active"></i> Aprobaciones
-						pendientes</a>
-
-					<ul>
-						<li><a href="alternative-header.html"> De comedores</a></li>
-						<li><a href="HU001.html"> De personas</a></li>
-					</ul></li>
-				<li class="sub-menu"><a href="" data-ma-action="submenu-toggle"><i
-						class="zmdi zmdi-local-dining"></i> Comedores</a>
-					<ul>
-						<li><a href="index.html"> Eventos</a></li>
-						<li><a href="index.html"> Personal</a></li>
-					</ul></li>
-
-				<li class="sub-menu"><a href="" data-ma-action="submenu-toggle"><i
-						class="zmdi zmdi-swap-alt"></i> Mantenimiento SUC</a>
-					<ul>
-						<li><a href="colors.html">Insumos</a></li>
-						<li><a href="animations.html">Tipo de Insumos</a></li>
-						<li><a href="food_type/search">Tipo de Alimento</a></li>
-						<li><a href="animations.html">Asignación de Roles</a></li>
-					</ul></li>
-			</ul>
-		</aside>
-
+    <section id="main">
+			
+			<?php $this->load->view('templates/menu'); ?>
+			
 		<section id="content">
 			<div class="container">
 				<div class="c-header">
