@@ -90,6 +90,8 @@ class User_diner extends CI_Controller
         $this->new_pass = $this->pass_no_view;
         $this->variables['action']         = site_url('user_diner/add');
         $this->variables['request-action'] = 'POST';
+        
+        //Redirijo la url para que no se vea la de origen 
         $this->variables['redirect-url']   = site_url('user_diner');
         $this->_set_rules();
         
@@ -225,8 +227,9 @@ class User_diner extends CI_Controller
      */
     public function delete ($id = NULL)
     {
-        $this->User_diner_model->delete($id);
-        $this->index();
+         $this->User_diner_model->delete($id); 
+         $this->table->clear($id);
+         $this->index();
     }
 
    
@@ -245,7 +248,11 @@ class User_diner extends CI_Controller
         $template = isset($template) ? $template : array(
                 'table_open' => '<table id="data-table-command" class="table table-striped table-vmiddle">');
         
+        //Inicializo los datos
         $this->load->library('table');
+        $this->variables['table'] = array();
+        
+        //Doy formato
         $this->table->set_template($template);
         $this->table->set_heading(
                 array(  'data'           => 'IdUser',
@@ -493,21 +500,21 @@ class User_diner extends CI_Controller
     private function _set_rules ()
     {
         $this->form_validation->set_rules('name',    'Nombre',      'trim|required');
-        //$this->form_validation->set_rules('surname', 'Apellido',    'trim|required');
-        //$this->form_validation->set_rules('mail',    'Mail',        'trim|required');
-        // $this->form_validation->set_rules('phone',       'Telefono',    'trim|required');
-        //$this->form_validation->set_rules('bornDate',     'Fecha Nacimiento', 'trim|required');
-        //$this->form_validation->set_rules('role',         'Puesto', 'trim|required');
+        $this->form_validation->set_rules('surname', 'Apellido',    'trim|required');
+        $this->form_validation->set_rules('mail',    'Mail',        'trim|required');
+        $this->form_validation->set_rules('phone',       'Telefono',    'trim|required');
+        $this->form_validation->set_rules('bornDate',     'Fecha Nacimiento', 'trim|required');
+        $this->form_validation->set_rules('role',         'Puesto', 'trim|required');
         //$this->form_validation->set_rules('pass',         'Clave',         'trim|required');
         //$this->form_validation->set_rules('passCheck',    'Confirmación',  'trim|required');
         //$this->form_validation->set_rules('passCheck',    'Confirmación',  'trim|required');
-        //$this->form_validation->set_rules('alias',        'Alias',         'trim|required');
-        //$this->form_validation->set_rules('docNum',       'Documento',     'trim|required');
-        //$this->form_validation->set_rules('street',       'Calle',         'trim|required');
+        $this->form_validation->set_rules('alias',        'Alias',         'trim|required');
+        $this->form_validation->set_rules('docNum',       'Documento',     'trim|required');
+        $this->form_validation->set_rules('street',       'Calle',         'trim|required');
         //$this->form_validation->set_rules('streetNumber', 'Numero',      'trim|required');
         //$this->form_validation->set_rules('foort',        'Piso',         'trim|required');
         //$this->form_validation->set_rules('door',         'Puerta',      'trim|required');
         // $this->form_validation->set_rules('diner',       'Comedor',     'trim|required');
           
     }
-}
+	}
