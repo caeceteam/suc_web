@@ -60,10 +60,38 @@ class User_diner extends CI_Controller
      */
     public function index ()
     {
-        $this->render_table(NULL, $this->User_diner_model->search()['users']);
+        $this->variables['data-request-url'] = site_url('user_diner/render_table_response');
         $this->load->view('user_diner/search', $this->variables);
     }
 
+    /**
+     * Funcion que retorna la tabla con la informacion de usuarios
+     *
+     * @return void
+     */
+    public function render_table_response()
+    {
+        $service_data       = $this->User_diner_model->get_userdiner_by_page($this->input->post('current') - 1);
+        $pagination_data    = $service_data['pagination'];
+        $user_diner_data    = $service_data['users'];
+            
+        $render_data['current'] = (int)$this->input->post('current');
+        $render_data['total'] = $pagination_data['total_elements'];
+    
+        $render_data['rows'] = [];
+        foreach ($user_diner_data as $user_diner)
+        {
+            $row_data['id']         = $user_diner['idUser'];
+            $row_data['name']       = $user_diner['name'];
+            $row_data['sarname']    = $user_diner['surname'];
+            $row_data['phone']      = $user_diner['phone'];
+            array_push($render_data['rows'], $row_data);
+        }
+        echo json_encode($render_data, TRUE);
+    }
+    
+    
+    
     /**
      * Funcion de consulta
      * 
@@ -79,6 +107,18 @@ class User_diner extends CI_Controller
             $this->index();
     }
 
+    /**
+     * Funcion de baja
+     *
+     * @param string $id
+     * @return void
+     */
+    public function delete ($id = NULL)
+    {
+        $this->User_diner_model->delete($id);
+        $this->index();
+    }
+    
     /**
      * Funcion que muestra el formulario de alta y guarda la misma cuando la
      * validacion del formulario no arroja errores
@@ -142,7 +182,7 @@ class User_diner extends CI_Controller
         // para editar
         if ($this->input->method() == "get") {
             $this->new_pass = $this->pass_view;
-            $user_diner = $this->User_diner_model->search($id);
+            $user_diner                     = $this->User_diner_model->search_by_id($id);
             $this->form_data->id            = $user_diner['idUser'];
             $this->form_data->name          = $user_diner['name'];
             $this->form_data->surname       = $user_diner['surname'];
@@ -219,74 +259,8 @@ class User_diner extends CI_Controller
     }
     
        
-    /**
-     * Funcion de baja
-     * 
-     * @param string $id            
-     * @return void
-     */
-    public function delete ($id = NULL)
-    {
-         $this->User_diner_model->delete($id); 
-         $this->table->clear($id);
-         $this->index();
-    }
 
-   
-    /**
-     * Renderiza una tabla en base a un template HTML y un object|array
-     * 
-     * @param string $template            
-     * @param
-     *            mixed object|array Puede recibir un objeto de un input type o
-     *            un array de varios
-     * @return void
-     */
-    public function render_table ($template = NULL, $data)
-    {
 
-        $template = isset($template) ? $template : array(
-                'table_open' => '<table id="data-table-command" class="table table-striped table-vmiddle">');
-        
-        //Inicializo los datos
-        $this->load->library('table');
-        $this->variables['table'] = array();
-        
-        //Doy formato
-        $this->table->set_template($template);
-        $this->table->set_heading(
-                array(  'data'           => 'IdUser',
-                        'data-column-id' => 'idUser',
-                        'data-visible'   => 'false'),
-
-                array(  'data'           => 'Nombre',
-                        'data-column-id' => 'name',
-                        'data-order'     => 'desc' ),
-                
-                array(  'data'           => 'Apellido',
-                        'data-column-id' => 'surname',
-                        'data-order'     => 'desc' ),
-                
-                array(  'data'           => 'Telefono',
-                        'data-column-id' => 'phone',
-                        'data-order'     => 'desc' ),
-                
-                array(  'data'           => 'Ver/Modificar/Baja',
-                        'data-column-id' => 'commands',
-                        'data-formatter' => 'commands',
-                        'data-sortable'  => 'false' )
-                 );
-        
-        //foreach ($data['users'] as $user_diner)
-        foreach ($data as $user_diner)
-        {
-            $this->table->add_row($user_diner['idUser'],
-                                  $user_diner['name']  ,
-                                  $user_diner['surname'],
-                                  $user_diner['phone'] );
-        }
-        $this->variables['table'] = $this->table->generate();
-    }
     
 //* ****************************************************************************************************    
     
@@ -441,7 +415,7 @@ class User_diner extends CI_Controller
     private function _get_post ($id = NULL)
     {
         $user_diner = new stdClass();     
-        $user_diner->idUser         = $id != NULL ? $id : $this->input->post('idUser');
+        $user_diner->idUser         = $id != NULL ? $id : $this->input->post('id');
         $user_diner->name           = $this->input->post('name');
         $user_diner->surname        = $this->input->post('surname');
         $user_diner->mail           = $this->input->post('mail');
@@ -500,17 +474,17 @@ class User_diner extends CI_Controller
     private function _set_rules ()
     {
         $this->form_validation->set_rules('name',    'Nombre',      'trim|required');
-        $this->form_validation->set_rules('surname', 'Apellido',    'trim|required');
-        $this->form_validation->set_rules('mail',    'Mail',        'trim|required');
-        $this->form_validation->set_rules('phone',       'Telefono',    'trim|required');
-        $this->form_validation->set_rules('bornDate',     'Fecha Nacimiento', 'trim|required');
-        $this->form_validation->set_rules('role',         'Puesto', 'trim|required');
+        //$this->form_validation->set_rules('surname', 'Apellido',    'trim|required');
+        //$this->form_validation->set_rules('mail',    'Mail',        'trim|required');
+        //$this->form_validation->set_rules('phone',       'Telefono',    'trim|required');
+        //$this->form_validation->set_rules('bornDate',     'Fecha Nacimiento', 'trim|required');
+        //$this->form_validation->set_rules('role',         'Puesto', 'trim|required');
         //$this->form_validation->set_rules('pass',         'Clave',         'trim|required');
         //$this->form_validation->set_rules('passCheck',    'Confirmación',  'trim|required');
         //$this->form_validation->set_rules('passCheck',    'Confirmación',  'trim|required');
-        $this->form_validation->set_rules('alias',        'Alias',         'trim|required');
-        $this->form_validation->set_rules('docNum',       'Documento',     'trim|required');
-        $this->form_validation->set_rules('street',       'Calle',         'trim|required');
+        //$this->form_validation->set_rules('alias',        'Alias',         'trim|required');
+        //$this->form_validation->set_rules('docNum',       'Documento',     'trim|required');
+        //$this->form_validation->set_rules('street',       'Calle',         'trim|required');
         //$this->form_validation->set_rules('streetNumber', 'Numero',      'trim|required');
         //$this->form_validation->set_rules('foort',        'Piso',         'trim|required');
         //$this->form_validation->set_rules('door',         'Puerta',      'trim|required');

@@ -17,8 +17,7 @@
         <section id="main">
 			
 			<?php $this->load->view('templates/menu'); ?>
-				<form role="form" action="<?php echo $action; ?>"
-									class="user-diner-form" method="POST">
+		<form role="form" action="<?php echo $action; ?>" class="user-diner-form" method="POST">
 							
             <section id="content">
 			<div class="container">

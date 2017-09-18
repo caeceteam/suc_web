@@ -7,7 +7,7 @@ class User_diner_model extends CI_Model
 
     /**
      * Variables para el rest client
-     * 
+     *
      * @var string
      */
     private $base_uri = 'http://localhost:3000';
@@ -18,7 +18,7 @@ class User_diner_model extends CI_Model
 
     /**
      * Variables para los atributos del modelo
-     * 
+     *
      * @var string
      */
     public $idUser;
@@ -45,7 +45,7 @@ class User_diner_model extends CI_Model
 
     /**
      * Comunico con la API
-     * 
+     *
      * @var string
      */
     public function __construct ()
@@ -59,28 +59,59 @@ class User_diner_model extends CI_Model
     }
 
     /**
-     * Busco usuarios
-     *
-     * Consulta tipos de insumo por id o devuelve toda la tabla
+     * ********************************************************************************************
+     * BUSQUEDAS
+     ********************************************************************************************* */
+      /**
+     * Busqueda primera pagina, la uso para ver primera pagina segun la cantidad de usuarios 
+     * que quiera visualizar
      * 
-     * @param string $id            
-     * @return array Si la consulta fue exitosa devuelve un array, sino devuelve
-     *         NULL
+     * Consulta los usuarios 
+     * @param 		string 		$url
+     * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
+     * 
      */
-    public function search ($idUser = NULL)
+    private function search($url)
     {
-        $response = $this->client->request('GET', 
-                $idUser != NULL ? 'api/users/' . $idUser : 'api/users/');
-        if ($response->getStatusCode() == HTTP_OK) {
+        $response = $this->client->request('GET', $url);
+        if($response->getStatusCode()==HTTP_OK)
+        {
             $body = $response->getBody();
-            return json_decode($body, TRUE);
-        } else
+            return json_decode($body,TRUE);
+        }
+        else
             return NULL;
     }
-
+    
+    /**
+     * Busco los usuarios por ID, es usado para seleccionar un unico Usuarios (ABM)
+     * @param 	int 	$id
+     */
+    public function search_by_id($id)
+    {
+        $url = 'api/users/' . $id;
+        return $this->search($url);
+    }
+    
+    /**
+     * Cusnulato los usuarios segun criterio de paginación
+     * @param 	string 	$page
+     */
+    public function get_user_diner_by_page($page)
+    {
+        $url = 'api/users?page=' . $page;
+        return $this->search($url);
+    }
+    
+      
+    /**
+     * ********************************************************************************************
+     * ALTA
+     ********************************************************************************************* */
+        
     /**
      * Alta de input type
-     * 
+     *
      * @param object $user_diner            
      * @return array Si el alta fue exitosa, devuelve un array con el input
      *         type, sino devuelve NULL
@@ -104,7 +135,7 @@ class User_diner_model extends CI_Model
 
     /**
      * Edición de input type
-     * 
+     *
      * @param object $user_diner            
      * @return array Si la edición fue exitosa, devuelve un array con el input
      *         type, sino devuelve NULL
@@ -125,14 +156,15 @@ class User_diner_model extends CI_Model
 
     /**
      * Delete de input type
-     * 
+     *
      * @param string $id            
      * @return bool Si la baja fue exitosa, devuelve un array con el input type,
      *         sino devuelve NULL
      */
     public function delete ($id)
     {
-        //LLamo al servicio concatenadno el ID que paso por paremetro al momento de instanciar
+        // LLamo al servicio concatenadno el ID que paso por paremetro al
+        // momento de instanciar
         $response = $this->client->request('DELETE', 'api/users/' . $id);
         if ($response->getStatusCode() == HTTP_OK) {
             return TRUE;
@@ -145,7 +177,7 @@ class User_diner_model extends CI_Model
      * 
      * @param string $page            
      */
-    public function get_inputtypes_by_page ($page)
+    public function get_userdiner_by_page ($page)
     {
         $url = 'api/users?page=' . $page;
         return $this->search($url);
