@@ -23,7 +23,9 @@ class Diner_application_model extends CI_Model {
 		$this->config->load('api');
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
+		$token = isset($this->session->token) ? $this->session->token : '';
 		$this->client = new Client([
+			'headers' => ['x-access-token' => $token],//Se agrega el header con los datos de la session
 			'base_uri' => $this->base_uri,
 			'timeout'  => $this->timeout,
 			]);

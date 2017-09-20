@@ -14,7 +14,6 @@ class Input_type_model extends CI_Model {
 	private $base_uri;
 	private $client;
 	private $timeout;
-	private $headers;
 	
 	public function __construct()
 	{
@@ -23,10 +22,10 @@ class Input_type_model extends CI_Model {
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
 		$this->client   = new Client([
+			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
 			'base_uri' 	=> $this->base_uri,
 			'timeout'  	=> $this->timeout
 			]);
-		$this->headers = ['headers' => ['x-access-token' => $this->session->token]];
 	}
 	
 	/**
@@ -38,7 +37,7 @@ class Input_type_model extends CI_Model {
 	 */
 	private function search($url)
 	{
-		$response = $this->client->request('GET', $this->headers);		
+		$response = $this->client->request('GET', $url);		
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
