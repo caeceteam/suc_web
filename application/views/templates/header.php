@@ -21,7 +21,7 @@
 		</li>
 		<li class="dropdown hm-profile">
         	<a data-toggle="dropdown" href="">
-        		<span class="user-name">Juan Perez - Administrador del sistema</span>
+        		<span class="user-name"><?php echo isset($this->session->userName) ? $this->session->userName : 'Invitado' ?></span>
             	<img src="<?php echo base_url('img/profile-pics/2.gif')?>" alt="">
             </a>
 
@@ -30,7 +30,7 @@
                 	<a href="profile-about.html"><i class="zmdi zmdi-account"></i> Mis Datos</a>
                 </li>
                 <li>
-                	<a href=""><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
+                	<a href="<?php echo base_url('password');?>"><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
                 </li>
             </ul>
 		</li>

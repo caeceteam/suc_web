@@ -34,7 +34,8 @@ class Login_model extends CI_Model {
 	 */		
 	public function validate($user)
 	{
-		try {
+		try
+		{
 			$response = $this->client->request('POST', 'authentication', [
 				'json' => $user
 			]);

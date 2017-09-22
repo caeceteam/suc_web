@@ -50,9 +50,13 @@ class Diner_application extends CI_Controller {
 	{
 		$this->variables['action'] = site_url('diner_application/add');
 		$this->_set_rules();
+		$html_ok = '<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+		$html_error = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+		$html_close = '</div>';
 		if($this->form_validation->run() == FALSE || $this->_save_image($_FILES['photo']['tmp_name']) == FALSE)
 		{
 			$this->variables['message'] = isset($this->variables['message']) ? $this->variables['message'].validation_errors() : validation_errors();
+			$this->variables['message'] = $this->variables['message'] != '' ? $html_error . $this->variables['message'] . $html_close : '';
 		}
 		else
 		{
@@ -60,14 +64,14 @@ class Diner_application extends CI_Controller {
 			if(($this->Diner_application_model->add($diner_application))!=NULL)
 			{
 				if($this->_send_mail($diner_application->user->mail, $this->variables['password']))
-					$this->variables['message'] = 'Se envío un mail con su contraseña!';
+					$this->variables['message'] = $html_ok . 'Se envío un mail con su contraseña!' . $html_close;
 				else 
-					$this->variables['message'] = 'Ocurrio un error al enviar el mail, por favor revise el campo mail!';
+					$this->variables['message'] = $html_error . 'Ocurrio un error al enviar el mail, por favor revise el campo mail!' . $html_close;
 				$this->variables['reset'] = TRUE;
 			}
 			else
 			{
-				$this->variables['message'] = 'Error al guardar';
+				$this->variables['message'] = $html_error . 'Error al guardar' . $html_close;
 			}
 		}
 		$this->load->view('diner_application/save', $this->variables);
