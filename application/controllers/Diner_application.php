@@ -59,10 +59,10 @@ class Diner_application extends CI_Controller {
 			$diner_application = ($this->_get_post());
 			if(($this->Diner_application_model->add($diner_application))!=NULL)
 			{
-				if($this->_send_mail($diner_application->user->mail, $this->variables['password']))
-					$this->variables['message'] = 'Se envío un mail con su contraseña!';
+				if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
+					$this->variables['message'] = 'Se envió un mail con su contraseña!';
 				else 
-					$this->variables['message'] = 'Ocurrio un error al enviar el mail, por favor revise el campo mail!';
+					$this->variables['message'] = 'Ocurrió un error al enviar el mail, por favor revise el campo mail!';
 				$this->variables['reset'] = TRUE;
 			}
 			else
@@ -190,17 +190,31 @@ class Diner_application extends CI_Controller {
 	/**
 	 * Función que envia un mail a un destinatario con su contraseña
 	 * @param    $to 		string destinatario
+	 * @param	 $user		string usuario
 	 * @param    $password 	string password
 	 * @return   bool 		indica si el mail se pudo enviar
 	 */
-	private function _send_mail($to, $password)
+	private function _send_mail($to, $user, $password)
 	{
 		$this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
 		$this->email->to($to);
 		$this->email->subject('Solicitud de alta de comedor');
+		/**
 		$this->email->message('Bienvenido al sistema único de comedores. <br/>
 			Su solicitud de alta se encuetra pendiente, recibirá un mail indicando si fue aprobada o no. <br/>
-			Su contraseña es: ' . $password . ' .<br/>');
+			Su contraseña es: ' . $user . $password . ' .<br/>' . site_url(''));
+		*/
+		
+		//Genero el array con los datos
+		$data = array(
+				'user'		=> $user,
+				'password'	=> $password,
+				'url'		=> site_url('')
+		);
+		$this->email->set_mailtype("html"); //Seteo que el mail va a ser HTML
+		$body = $this->load->view('email/registration.php',$data ,TRUE); //cargo el PHP
+		$this->email->message($body); //adjunto el php al cuerpo del mail
+		
 		$this->email->set_newline("\r\n");//Sin esta línea falla el envio
 		return $this->email->send();
 	}
