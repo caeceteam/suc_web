@@ -36,6 +36,7 @@ class  User_diner_model extends CI_Model {
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
 		$this->client 	= new Client([
+			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
 			'base_uri' 	=> $this->base_uri,
 			'timeout'  	=> $this->timeout,
 			]);

@@ -24,7 +24,7 @@ class Diner_application extends CI_Controller {
 	{
 		parent::__construct();
 		$this->_cloudinary_init();
-		$this->load->library(array('form_validation', 'email', 'upload'));
+		$this->load->library(array('form_validation', 'email', 'upload', 'login'));
 		$this->load->helper(array('url', 'form', 'file'));
 		$this->load->model('Diner_application_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
