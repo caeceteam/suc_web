@@ -21,12 +21,12 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2>Crear Insumo</h2>
+                        <h2>Cambiar contraseña</h2>
                     </div>
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creaciÃ³n del insumo.</small>
+                            <small>Ingrese los datos para cambiar su contraseña.</small>
 
                             <br/><br/>
 
@@ -34,69 +34,31 @@
                                 <div class="card-body card-padding">
 								
 									<form role="form" action="<?php echo $action; ?>" class="diner-input-form" method="POST">
-									
+																			
 										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group">
-													<div class="fg-line" data-id="idInputType">
-														<div class="select">
-															<?php echo form_dropdown('idInputType', $input_types, $input_type, 'class="form-control"'); ?>
-														</div>
-													</div>
-												</div>
-											</div>
-
-											<div class="col-sm-4">
-												<div class="form-group fg-float">
-													<div class="fg-line" data-id="name">
-														<input type="text" id="name" name="name" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
-														<label class="fg-label">Nombre</label>
-													</div>
-												</div>
-											</div>
-	
-											<div class="col-sm-4">
-												<div class="form-group fg-float">
-													<div class="fg-line" data-id="size">
-														<input type="text" id="size" name="size" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('size',$this->form_data->size); ?>">
-														<label class="fg-label">Talle</label>
-													</div>
-												</div>
-											</div>
-										</div>
-										
-										<div class="row">
-											<div class="col-sm-4">
-												<div class="form-group fg-float">
-													<div class="fg-line" data-id="genderType">
-														<input type="text" id="genderType" name="genderType" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('genderType',$this->form_data->genderType); ?>">
-														<label class="fg-label">GÃ©nero</label>
-													</div>
-												</div>
-											</div>
-											
-											<div class="col-sm-4">
+											<div class="col-sm-6">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="quantity">
-														<input type="text" id="quantity" name="quantity" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('quantity',$this->form_data->quantity); ?>">
-														<label class="fg-label">Cantidad</label>
+														<input type="text" id="oldPassword" name="oldPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('oldPassword',$this->form_data->oldPassword); ?>">
+														<label class="fg-label">Contraseña actual</label>
 													</div>
 												</div>
 											</div>
-										</div>
 											
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="description">
-												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
-												<label class="fg-label">DescripciÃ³n</label>
+											<div class="col-sm-6">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="quantity">
+														<input type="text" id="newPassword" name="newPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('newPassword',$this->form_data->newPassword); ?>">
+														<label class="fg-label">Nueva contraseña</label>
+													</div>
+												</div>
 											</div>
-										</div>
+										</div>								
 										
 										<?php $this->load->view('templates/alerts'); ?>
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
-										<a href="<?php echo site_url('diner_input'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
-										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
+										<a href="<?php echo site_url('home'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
 									</form>								
                                 </div>
                             </div>
@@ -132,12 +94,12 @@
 		<script>
 			$('.diner-input-form').submit(function() {
 				showConfirmDialog({
-					title: "Â¿EstÃ¡ seguro grabar este insumo?",
-					text: "El insumo se grabarÃ¡ en el sistema",
+					title: "¿Esta seguro?",
+					text: "Su contraseña sera modificada",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
-					successText: "El insumo se ha grabado en el sistema.",
-					failedText: "El insumo no pudo ser grabado en el sistema.",
+					successText: "La contraseña se ha modificado.",
+					failedText: "La contraseña no pudo ser modificada.",
 					redirectUrl: $("#redirect-url")[0].value
 				});
 				return false;

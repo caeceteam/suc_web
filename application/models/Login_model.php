@@ -55,6 +55,35 @@ class Login_model extends CI_Model {
 			return $this->errorMessage($e);
 		}
 	}
+	
+	/**
+	 * Cambio de contraseña
+	 * @param		object	$password
+	 * @return 		array   Si el cambio fue exitoso, devuelve un array con los datos del usuario, sino devuelve NULL
+	 */
+	public function change_password($password)
+	{
+		try
+		{
+			$response = $this->client->request('POST', 'authentication', [
+					'json' => $password
+			]);
+			if($response->getStatusCode()==HTTP_OK)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			return NULL;
+		}
+		catch (ClientException $e)
+		{
+			return NULL;
+		}
+		catch (ServerException $e)
+		{
+			return $this->errorMessage($e);
+		}
+	}
 		
 	/**
 	 * Función que mapea el mensaje de error desde la API usado en los editores

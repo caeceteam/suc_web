@@ -40,7 +40,7 @@ class Password extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('password/add', $this->variables);
+		$this->add();
 	}
 		
 	/**
@@ -64,14 +64,13 @@ class Password extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'idInputType' 	=> form_error('idInputType'),
-						'genderType' 	=> form_error('genderType'),
-						'quantity'		=> form_error('quantity'));
+						'oldPassword' 	=> form_error('oldPassword'),
+						'newPassword'	=> form_error('newPassword'));
 				$this->variables['error-fields'] = $data;
 			}
 			else
 			{
-				$response = $this->Diner_input_model->add($this->_get_post());
+				$response = $this->Login_model->add($this->_get_post());
 				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');
@@ -86,14 +85,14 @@ class Password extends CI_Controller {
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
 	 * @param 		integer 	$id id del diner input para cuando se trata de una ediciÃ³n
-	 * @return		object		$input_type
+	 * @return		object		$password
 	 */
-	private function _get_post($id=NULL)
+	private function _get_post()
 	{
-		$diner_input = new stdClass();
-		$diner_input->id 			= $id != NULL ? $id : $this->input->post('id');
-		$diner_input->idInputType 	= $this->input->post('idInputType');
-		$diner_input->name 			= $this->input->post('name');
+		$password = new stdClass();
+		$password->userName 	= $this->session->userName;
+		$password->oldPassword 	= $this->input->post('oldPassword');
+		$password->newPassword 	= $this->input->post('newPassword');
 		return $password;
 	}
 	
@@ -103,8 +102,8 @@ class Password extends CI_Controller {
 	 */
 	private function _initialize_fields()
 	{
-		$this->form_data->id = '';
-		$this->form_data->idDiner = '';
+		$this->form_data->oldPassword = '';
+		$this->form_data->newPassword = '';
 	}
 	
 	/**
@@ -113,7 +112,7 @@ class Password extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('idInputType', 'Tipo de insumo', 'trim|required');
-		$this->form_validation->set_rules('name', 'Nombre', 'trim');
+		$this->form_validation->set_rules('oldPassword', 'contraseña actual', 'required');
+		$this->form_validation->set_rules('newPassword', 'nueva contraseña', 'required');
 	}
 }
