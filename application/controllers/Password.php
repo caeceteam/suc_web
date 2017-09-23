@@ -70,7 +70,7 @@ class Password extends CI_Controller {
 			}
 			else
 			{
-				$response = $this->Login_model->add($this->_get_post());
+				$response = $this->Login_model->change_password($this->_get_post());
 				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');
