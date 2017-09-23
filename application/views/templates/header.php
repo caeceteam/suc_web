@@ -3,7 +3,7 @@
 		<a href="<?php echo base_url('');?>" class="hidden-xs">
         	 
             <!--  SUC <small>Sistema Único de Comedores</small>-->
-            <img src="img/suc.svg" alt="SUC" height="80" width="190" >
+            <img src="<?php echo base_url('img/suc.svg')?>" alt="SUC" height="80" width="190" >
 		</a>
 
 		<div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
@@ -31,6 +31,9 @@
                 </li>
                 <li>
                 	<a href="<?php echo base_url('password');?>"><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
+                </li>
+                <li>
+                	<a href="<?php echo base_url('login/logout');?>"><i class="zmdi zmdi-close"></i> Cerrar sesión</a>
                 </li>
             </ul>
 		</li>
