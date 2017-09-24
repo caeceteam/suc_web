@@ -184,16 +184,31 @@ class Admin_application extends CI_Controller {
 		$this->email->subject('Estado de solicitud de alta de comedor');
 		if($diner_application['diner']['state'] == DINER_APPROVED)
 		{
-			$this->email->message('Su solicitud ha sido aprobada. <br/>
-			Ya puede comenzar a administrar su comedor. <br/>
-			Ingrese desde ' . base_url('admin_application') . ' .<br/>');
+			
+			//Genero el array con los datos
+			$data = array(
+					'user_name'		=> $diner_application['user']['name'],
+					'diner_name'	=> $diner_application['diner']['name'],
+					'url'			=> site_url('')
+			);
+			
+			$body = $this->load->view('email/registration_approved.php',$data ,TRUE); //cargo el PHP
+
 		}
 		else
 		{
-			$this->email->message('Su solicitud ha sido rechazada. <br/>
-			Motivo de rechazo: ' . $this->input->post('reject_reason') . ' .<br/>
-			Por favor vuelva a completar la solicitud. <br/>');
+			//Genero el array con los datos
+			$data = array(
+					'comment'		=> $this->input->post('reject_reason'),
+					'diner_name'	=> $diner_application['diner']['name'],
+					'url'			=> site_url('')
+			);
+				
+			$body = $this->load->view('email/registration_rejected.php',$data ,TRUE); //cargo el PHP
+			
 		}
+		
+		$this->email->message($body); //adjunto el php al cuerpo del mail
 		$this->email->set_newline("\r\n");//Sin esta línea falla el envio
 		return $this->email->send();
 	}

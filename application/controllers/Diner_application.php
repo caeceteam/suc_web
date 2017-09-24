@@ -63,10 +63,10 @@ class Diner_application extends CI_Controller {
 			$diner_application = ($this->_get_post());
 			if(($this->Diner_application_model->add($diner_application))!=NULL)
 			{
-				if($this->_send_mail($diner_application->user->mail, $this->variables['password']))
-					$this->variables['message'] = $html_ok . 'Se enviÃ³ un mail con su contraseÃ±a!' . $html_close;
+				if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
+					$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
 				else 
-					$this->variables['message'] = $html_error . 'OcurriÃ³ un error al enviar el mail, por favor revise el campo mail!' . $html_close;
+					$this->variables['message'] = $html_error . 'Ocurrió un error al enviar el mail, por favor revise el campo mail!' . $html_close;
 				$this->variables['reset'] = TRUE;
 			}
 			else
@@ -215,7 +215,7 @@ class Diner_application extends CI_Controller {
 				'password'	=> $password,
 				'url'		=> site_url('')
 		);
-		$this->email->set_mailtype("html"); //Seteo que el mail va a ser HTML
+		//$this->email->set_mailtype("html"); //Seteo que el mail va a ser HTML
 		$body = $this->load->view('email/registration.php',$data ,TRUE); //cargo el PHP
 		$this->email->message($body); //adjunto el php al cuerpo del mail
 		

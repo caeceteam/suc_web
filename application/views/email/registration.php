@@ -135,7 +135,7 @@
 													<td data-color="text" data-size="size text" data-min="10" data-max="26" data-link-color="link text color" data-link-style="font-weight:bold; text-decoration:underline; color:#40aceb;" align="center" style="font:14px/10px Arial, Helvetica, sans-serif; color:#888; padding:0 0 21px;">
 														
 														<hr><br></br>
-														<strong>Usuario:</strong> <?php echo $user;?>, <br><br/>
+														<strong>Usuario:</strong> <?php echo $user;?><br><br/>
 														<strong>Contraseña:</strong> <?php echo $password;?>
 													</td>
 												</tr>
