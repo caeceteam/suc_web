@@ -39,7 +39,7 @@
 											<div class="col-sm-6">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="quantity">
-														<input type="text" id="oldPassword" name="oldPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('oldPassword',$this->form_data->oldPassword); ?>">
+														<input type="password" id="oldPassword" name="oldPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('oldPassword',$this->form_data->oldPassword); ?>">
 														<label class="fg-label">Contraseña actual</label>
 													</div>
 												</div>
@@ -48,7 +48,7 @@
 											<div class="col-sm-6">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="quantity">
-														<input type="text" id="newPassword" name="newPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('newPassword',$this->form_data->newPassword); ?>">
+														<input type="password" id="newPassword" name="newPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('newPassword',$this->form_data->newPassword); ?>">
 														<label class="fg-label">Nueva contraseña</label>
 													</div>
 												</div>

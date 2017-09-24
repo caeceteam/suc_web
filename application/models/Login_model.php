@@ -65,7 +65,7 @@ class Login_model extends CI_Model {
 	{
 		try
 		{
-			$response = $this->client->request('POST', 'authentication', [
+			$response = $this->client->request('PUT', 'authentication', [
 					'json' => $password
 			]);
 			if($response->getStatusCode()==HTTP_OK)
