@@ -3,7 +3,7 @@
 		<a href="<?php echo base_url('');?>" class="hidden-xs">
         	 
             <!--  SUC <small>Sistema Único de Comedores</small>-->
-            <img src="img/suc.svg" alt="SUC" height="80" width="190" >
+            <img src="<?php echo base_url('img/suc.svg')?>" alt="SUC" height="80" width="190" >
 		</a>
 
 		<div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
@@ -21,7 +21,7 @@
 		</li>
 		<li class="dropdown hm-profile">
         	<a data-toggle="dropdown" href="">
-        		<span class="user-name">Juan Perez - Administrador del sistema</span>
+        		<span class="user-name"><?php echo isset($this->session->userName) ? $this->session->userName : 'Invitado' ?></span>
             	<img src="<?php echo base_url('img/profile-pics/2.gif')?>" alt="">
             </a>
 
@@ -30,7 +30,10 @@
                 	<a href="profile-about.html"><i class="zmdi zmdi-account"></i> Mis Datos</a>
                 </li>
                 <li>
-                	<a href=""><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
+                	<a href="<?php echo base_url('password');?>"><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
+                </li>
+                <li>
+                	<a href="<?php echo base_url('login/logout');?>"><i class="zmdi zmdi-close"></i> Cerrar sesión</a>
                 </li>
             </ul>
 		</li>

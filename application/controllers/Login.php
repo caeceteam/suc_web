@@ -72,6 +72,16 @@ class Login extends CI_Controller {
 	}
 	
 	/**
+	 * Funcion que deslogea al usuario eliminando sus datos de la session
+	 * @return		void
+	 */
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		$this->index();
+	}
+	
+	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
 	 * @param 		integer 	$id id del diner para cuando se trata de una edición
 	 * @return		object		$diner_application
