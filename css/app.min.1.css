@@ -2991,7 +2991,7 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 6px;
+  padding: 4px;
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #f0f0f0;
@@ -10127,8 +10127,8 @@ pre {
   -ms-user-select: none;
   user-select: none;
   position: relative;
-  padding: 40px 45px;
-  margin-bottom: 20px;
+  padding: 30px 45px;
+  /*margin-bottom: 20px;*/
   z-index: 10;
 }
 
@@ -12569,9 +12569,9 @@ fieldset[disabled] .btn-inverse:active {
 
 .btn-icon {
   border-radius: 50%;
-  width: 40px;
-  line-height: 43px;
-  height: 40px;
+  width: 30px;
+  line-height: 33px;
+  height: 30px;
   padding: 0;
   text-align: center;
 }
