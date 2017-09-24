@@ -23,7 +23,7 @@ class Login extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library(array('form_validation', 'session'));
+		$this->load->library(array('form_validation', 'session', 'email'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Login_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
@@ -31,13 +31,17 @@ class Login extends CI_Controller {
 		$this->_initialize_fields();
 	}	
 	
+	/**
+	 * Funcion que se carga por default al invocar al controlador sin especificar la URL completa
+	 * @return void
+	 */
 	public function index()
 	{
 		$this->load->view('login/save', $this->variables);
 	}
 	
 	/**
-	 * Funcion que genera guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que valida usuario y contraseÒa
 	 * @return void
 	 */
 	public function validate_credentials()
@@ -82,16 +86,62 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del diner para cuando se trata de una ediciÛn
-	 * @return		object		$diner_application
+	 * Funcion que le envia una nueva contraseÒa al usuario a su mail
+	 * @return		void
 	 */
-	private function _get_post($id=NULL)
+	public function forgot_password()
+	{
+		$this->variables['action'] = site_url('login/forgot_password');
+		$this->_set_rules_forgot_password();
+		$html_ok = '<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+		$html_error = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+		$html_close = '</div>';
+		if($this->form_validation->run() == FALSE)
+		{
+			$this->variables['message'] = validation_errors();
+			$this->variables['message'] = $this->variables['message'] != '' ? $html_error . $this->variables['message'] . $html_close : '';
+		}
+		else
+		{
+			$password = ($this->_get_post_forgot_password());
+			if(($this->Login_model->reset_password($password))!=NULL)
+			{
+				if($this->_send_mail($password->userName, $password->password))
+					$this->variables['message'] = $html_ok . 'Se enviÛ un mail con su contraseÒa!' . $html_close;
+					else
+						$this->variables['message'] = $html_error . 'OcurriÛ un error al enviar el mail, por favor revise el campo mail!' . $html_close;
+						//$this->variables['reset'] = TRUE;
+			}
+			else
+			{
+				$this->variables['message'] = $html_error . 'Error al guardar' . $html_close;
+			}
+		}
+		$this->load->view('login/reset_password', $this->variables);
+	}
+	
+	/**
+	 * Obtiene los datos del post y los devuelve en forma de objeto
+	 * @return		object		$user
+	 */
+	private function _get_post()
 	{
 		$user 			= new stdClass();
 		$user->userName = $this->input->post('userName');
 		$user->password	= $this->input->post('password');
 		return $user;
+	}
+	
+	/**
+	 * Obtiene los datos del post y los devuelve en forma de objeto
+	 * @return		object		$password
+	 */
+	private function _get_post_forgot_password()
+	{
+		$password 			= new stdClass();
+		$password->userName = $this->input->post('userName');
+		$password->password	= $this->_generate_password();
+		return $password;
 	}
 	
 	/**
@@ -114,5 +164,57 @@ class Login extends CI_Controller {
 		$this->form_validation->set_message('required', 'Complete {field}.');
 		$this->form_validation->set_rules('userName', 'Nombre de usuario/Email', 'required');
 		$this->form_validation->set_rules('password', 'ContraseÒa', 'trim|required');
+	}
+	
+	/**
+	 * Funcion que setea las reglas de validacion del formulario y sus mensajes de errores
+	 * @return void
+	 */
+	private function _set_rules_forgot_password()
+	{
+		$this->form_validation->set_rules('userName', 'Email', 'required');
+	}
+	
+	/**
+	 * FunciÛn que genera una contrase√±a en forma aleatorio
+	 * @param    $chars_min largo minimo (opcional, default 6)
+	 * @param    $chars_max largo m√°ximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan may√∫suculas (opcional, default false)
+	 * @param    $include_numbers boolean para indicar si se usan n√∫meros (opcional, default false)
+	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
+	 * @return    string containing a random password
+	 */
+	private function _generate_password($chars_min=6, $chars_max=8, $use_upper_case=false, $include_numbers=false, $include_special_chars=false)
+	{
+		$length = rand($chars_min, $chars_max);
+		$selection = 'aeuoyibcdfghjklmnpqrstvwxz';
+		if($include_numbers)
+			$selection .= "1234567890";
+			if($include_special_chars)
+				$selection .= "!@\"#$%&[]{}?|";
+				$password = "";
+				for($i=0; $i<$length; $i++) {
+					$current_letter = $use_upper_case ? (rand(0,1) ? strtoupper($selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))];
+					$password .=  $current_letter;
+				}
+				return $password;
+	}
+	
+	/**
+	 * Funci√≥n que envia un mail a un destinatario con su contrase√±a
+	 * @param    $to 		string destinatario
+	 * @param	 $user		string usuario
+	 * @param    $password 	string password
+	 * @return   bool 		indica si el mail se pudo enviar
+	 */
+	private function _send_mail($to, $password)
+	{
+		$this->email->from('suc@no-reply.com', 'Sistema ⁄nico de Comedores');
+		$this->email->to($to);
+		$this->email->subject('Cambio de contraseÒa');
+		$this->email->message('Su nueva contraseÒa fue generada exitosamente. <br/>
+		Su contraseÒa es: ' . $password . ' .<br/>');
+		$this->email->set_newline("\r\n");//Sin esta lÌnea falla el envio
+		return $this->email->send();
 	}
 }
