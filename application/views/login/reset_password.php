@@ -62,7 +62,7 @@
 	
 	                    <div class="m-t-30">
 	                        <a data-bg="blue" class="palette-Teal text d-block m-b-5" href="<?php echo base_url('diner_application')?>">Dar de alta un comedor</a>
-	                        <a data-block="#l-login" data-bg="teal" class="palette-Blue text d-block m-b-5" href="">¿Ya tenés una cuenta?</a>
+	                        <a data-bg="teal" class="palette-Blue text d-block m-b-5" href="<?php echo base_url('login')?>">¿Ya tenés una cuenta?</a>
 	                        <a data-block="#l-forget-password" data-bg="purple" href="" class="palette-Blue text">¿Olvidó su contraseña?</a>
 	                    </div>
 	                </div>

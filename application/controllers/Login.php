@@ -110,11 +110,10 @@ class Login extends CI_Controller {
 					$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
 					else
 						$this->variables['message'] = $html_error . 'Ocurrió un error al enviar el mail, por favor revise el campo mail!' . $html_close;
-						//$this->variables['reset'] = TRUE;
 			}
 			else
 			{
-				$this->variables['message'] = $html_error . 'Error al guardar' . $html_close;
+				$this->variables['message'] = $html_error . '¡Ups! Ocurrió un error' . $html_close;
 			}
 		}
 		$this->load->view('login/reset_password', $this->variables);
@@ -172,7 +171,7 @@ class Login extends CI_Controller {
 	 */
 	private function _set_rules_forgot_password()
 	{
-		$this->form_validation->set_rules('userName', 'Email', 'required');
+		$this->form_validation->set_rules('userName', 'Email', 'required|valid_email');
 	}
 	
 	/**
