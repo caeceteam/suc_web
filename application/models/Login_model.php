@@ -22,9 +22,8 @@ class Login_model extends CI_Model {
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
 		$this->client   = new Client([
-			'headers' => ['x-cleaning-pass' => 'xsc'],//Header para poder cambiar el password
 			'base_uri' 	=> $this->base_uri,
-			'timeout'  	=> $this->timeout,
+			'timeout'  	=> $this->timeout
 			]);
 	}
 				
@@ -96,6 +95,7 @@ class Login_model extends CI_Model {
 		try
 		{
 			$response = $this->client->request('PUT', 'authentication', [
+					'headers' => ['x-cleaning-pass' => 'xsc'],//Header para poder cambiar el password
 					'json' => $password
 			]);
 			if($response->getStatusCode()==HTTP_OK)

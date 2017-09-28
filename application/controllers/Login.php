@@ -106,7 +106,7 @@ class Login extends CI_Controller {
 			$password = ($this->_get_post_forgot_password());
 			if(($this->Login_model->reset_password($password))!=NULL)
 			{
-				if($this->_send_mail($password->userName, $password->password))
+				if($this->_send_mail($password->userName, $password->newPassword))
 					$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
 					else
 						$this->variables['message'] = $html_error . 'Ocurrió un error al enviar el mail, por favor revise el campo mail!' . $html_close;
@@ -137,9 +137,9 @@ class Login extends CI_Controller {
 	 */
 	private function _get_post_forgot_password()
 	{
-		$password 			= new stdClass();
-		$password->userName = $this->input->post('userName');
-		$password->password	= $this->_generate_password();
+		$password 				= new stdClass();
+		$password->userName 	= $this->input->post('userName');
+		$password->newPassword	= $this->_generate_password();
 		return $password;
 	}
 	
