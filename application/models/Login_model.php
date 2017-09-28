@@ -23,7 +23,7 @@ class Login_model extends CI_Model {
 		$this->timeout	= $this->config->item('api_timeout');
 		$this->client   = new Client([
 			'base_uri' 	=> $this->base_uri,
-			'timeout'  	=> $this->timeout,
+			'timeout'  	=> $this->timeout
 			]);
 	}
 				
@@ -84,6 +84,37 @@ class Login_model extends CI_Model {
 			return $this->errorMessage($e);
 		}
 	}
+	
+	/**
+	 * Genera una nueva contraseña
+	 * @param		object	$password
+	 * @return 		array   Si el cambio fue exitoso, devuelve un array con los datos del usuario, sino devuelve NULL
+	 */
+	public function reset_password($password)
+	{
+		try
+		{
+			$response = $this->client->request('PUT', 'authentication', [
+					'headers' => ['x-cleaning-pass' => 'xsc'],//Header para poder cambiar el password
+					'json' => $password
+			]);
+			if($response->getStatusCode()==HTTP_OK)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			return NULL;
+		}
+		catch (ClientException $e)
+		{
+			return NULL;
+		}
+		catch (ServerException $e)
+		{
+			return NULL;
+			//return $this->errorMessage($e);
+		}
+	}
 		
 	/**
 	 * Función que mapea el mensaje de error desde la API usado en los editores
@@ -101,4 +132,3 @@ class Login_model extends CI_Model {
 	}
 	
 };
-
