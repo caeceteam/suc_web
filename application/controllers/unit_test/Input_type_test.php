@@ -40,11 +40,11 @@ class Input_type_test extends CI_Controller {
 	{
 		//$this->alta_test();
 		//$this->alta_dupl_test(); //da error
-		//$this->consulta_todos_test();
+		$this->consulta_todos_test();
 		//$this->consulta_codigo_test();
 		//$this->consulta_incorrecta_test();
 		//$this->editar(); //da error
-		$this->editar_inc();
+		//$this->editar_inc();
 		//$this->baja_test();
 		//$this->baja_inc_test();
 		

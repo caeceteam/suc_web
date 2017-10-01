@@ -11,25 +11,20 @@ class Input_type_model extends CI_Model {
 	 * Variables para el rest client
 	 * @var string
 	 */
-	private $base_uri 	= 'http://localhost:3000';
+	private $base_uri;
 	private $client;
-	private $timeout = 5.0;
-	
-	/**
-	 * Variables para los atributos del modelo
-	 * @var string
-	 */
-	public $id;
-	public $code;
-	public $name;
-	public $description;
+	private $timeout;
 	
 	public function __construct()
 	{
 		parent::__construct();
-		$this->client = new Client([
-			'base_uri' => $this->base_uri,
-			'timeout'  => $this->timeout,
+		$this->config->load('api');
+		$this->base_uri = $this->config->item('api_base_uri');
+		$this->timeout	= $this->config->item('api_timeout');
+		$this->client   = new Client([
+			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
+			'base_uri' 	=> $this->base_uri,
+			'timeout'  	=> $this->timeout
 			]);
 	}
 	
@@ -63,12 +58,14 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de tipos de insumos por p�gina para el listado
+	 * Consulta de tipos de insumos por página y búsqueda para el listado
 	 * @param 	string 	$page
+	 * 			string	$searchTxt
 	 */
-	public function get_inputtypes_by_page($page)
+	// TODO: Cambiar búsqueda por name por búsqueda genérica
+	public function get_inputtypes_by_page_and_search($page, $searchTxt)
 	{
-		$url = 'api/inputtypes?page=' . $page;
+		$url = 'api/inputtypes?page=' . $page . '&code=' . $searchTxt;
 		return $this->search($url);
 	}
 		
@@ -96,9 +93,9 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Edición de input type
+	 * EdiciÃ³n de input type
 	 * @param		object	$input_type
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function edit($input_type)
 	{
@@ -120,7 +117,7 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Funci�n que mapea el mensaje de error desde la API usado en los editores
+	 * Función que mapea el mensaje de error desde la API usado en los editores
 	 * @param 	exception $exceptionData
 	 */
 	private function errorMessage($exceptionData) 
@@ -137,7 +134,7 @@ class Input_type_model extends CI_Model {
 	/**
 	 * Delete de input type
 	 * @param		string	$id
-	 * @return 		bool   Si la baja fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		bool   Si la baja fue exitosa, devuelve TRUE
 	 */
 	public function delete($id)
 	{

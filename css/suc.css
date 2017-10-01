@@ -16,7 +16,7 @@
 	font-size: 25px;
 }
 
-.btn-default[title='Refresh'] {
+.btn-default[title='Actualizar'] {
 	display: none;
 }
 

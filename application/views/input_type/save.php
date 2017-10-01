@@ -5,9 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
-        
+      
 		<?php $this->load->view('templates/styles'); ?>
-		
+
     </head>
 
     <body data-ma-header="teal">
@@ -55,15 +55,7 @@
 											</div>
 										</div>
 										
-										<div id="unique-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Existe otro tipo de insumo con el mismo codigo
-				                        </div>
-				                        
-										<div id="empty-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Por favor ingrese datos en los campos marcados
-				                        </div>				                        
+										<?php $this->load->view('templates/alerts'); ?>			                        
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
 										<a href="<?php echo site_url('input_type'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>

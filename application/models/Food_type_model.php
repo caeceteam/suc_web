@@ -8,9 +8,9 @@ class Food_type_model extends CI_Model {
 	 * Variables para el rest client
 	 * @var string
 	 */
-	private $base_uri 	= 'http://localhost:3000';
+	private $base_uri;
 	private $client;
-	private $timeout = 5.0;
+	private $timeout;
 	
 	/**
 	 * Variables para los atributos del modelo
@@ -25,9 +25,13 @@ class Food_type_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->client = new Client([
-			'base_uri' => $this->base_uri,
-			'timeout'  => $this->timeout,
+		$this->config->load('api');
+		$this->base_uri = $this->config->item('api_base_uri');
+		$this->timeout	= $this->config->item('api_timeout');
+		$this->client  	= new Client([
+			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
+			'base_uri' 	=> $this->base_uri,
+			'timeout'  	=> $this->timeout,
 			]);
 	}
 	
@@ -91,7 +95,7 @@ class Food_type_model extends CI_Model {
 	/**
 	 * Delete de input type
 	 * @param		string	$id
-	 * @return 		bool   Si la baja fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		bool   Si la baja fue exitosa, devuelve TRUE
 	 */
 	public function delete($id)
 	{

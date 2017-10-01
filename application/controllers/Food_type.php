@@ -24,7 +24,7 @@ class Food_type extends CI_Controller {
 	 */	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('form_validation');
+		$this->load->library(array('form_validation', 'login'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Food_type_model');
 		//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
@@ -33,6 +33,7 @@ class Food_type extends CI_Controller {
 		//Variable para indicar si hay que resetear los campos del formulario
 		$this->variables['reset'] = FALSE;
 		$this->_initialize_fields();
+		$this->login->is_logged_in();
 	}
 	
 	/**

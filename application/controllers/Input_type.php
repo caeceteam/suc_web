@@ -23,7 +23,7 @@ class Input_type extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('form_validation');
+		$this->load->library(array('form_validation', 'login'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Input_type_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
@@ -31,6 +31,7 @@ class Input_type extends CI_Controller {
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->variables['controller-name'] = 'input_type';
 		$this->_initialize_fields();
+		$this->login->is_logged_in();
 	}
 	
 	/**
@@ -48,17 +49,22 @@ class Input_type extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Input_type_model->get_inputtypes_by_page($this->input->post('current') - 1);
+		$service_data = $this->Input_type_model->get_inputtypes_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
 		$pagination_data = $service_data['pagination'];
 		$input_types_data = $service_data['inputTypes'];
 		
 		$render_data['current'] = (int)$this->input->post('current');
-		$render_data['total'] = $pagination_data['total_elements'];
+		if ($pagination_data['number_of_elements'] < $pagination_data['size']) {
+			$render_data['total'] = $pagination_data['number_of_elements'];
+		}
+		else {
+			$render_data['total'] = $pagination_data['total_elements'];
+		}
 		
 		$render_data['rows'] = [];
 		foreach ($input_types_data as $input_type)
 		{
-			$row_data['idInputType'] = $input_type['idInputType'];
+			$row_data['id'] = $input_type['idInputType'];
 			$row_data['code'] = $input_type['code'];
 			$row_data['name'] = $input_type['name'];
 			$row_data['description'] = $input_type['description'];
