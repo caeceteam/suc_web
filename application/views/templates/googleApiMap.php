@@ -1,3 +1,4 @@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQI7u6RI5Mtxh6FFqgPY9eMccFYmxLVzU&libraries=places&callback=initGoogleApiAutocomplete" async defer></script>
 <script>
 	//This example displays an address form, using the autocomplete feature
 	//of the Google Places API to help users fill in the information.
@@ -5,7 +6,7 @@
 	//This example requires the Places library. Include the libraries=places
 	//parameter when you first load the API. For example:
 	//<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-	
+
 	var placeSearch, autocomplete, geocoder;
 	var componentForm = {
 		street_number: 'short_name',
@@ -25,6 +26,7 @@
 			(document.getElementById('autocomplete')),
 			{types: ['geocode']}
 		);
+		autocomplete.setComponentRestrictions({'country': ['ar']});
 		
 		// When the user selects an address from the dropdown, populate the address
 		// fields in the form.

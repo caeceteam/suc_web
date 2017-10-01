@@ -91,8 +91,9 @@ class Diner_model extends CI_Model {
 	public function edit($diner)
 	{
 		try{
+			$jsonToSend['diner'] = $diner;
 			$response = $this->client->request('PUT', 'api/diners/' . $diner->id, [
-					'json' => $diner
+					'json' => $jsonToSend
 			]);
 			if($response->getStatusCode()==HTTP_ACCEPTED)
 			{

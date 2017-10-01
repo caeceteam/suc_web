@@ -14,6 +14,9 @@ function showConfirmDialog(params) {
 						type : 'POST',
 						dataType:'json',
 						data: params.formData,
+						mimeType: "multipart/form-data",
+						processData: false,
+						contentType: false,
 				       	url: params.requestUrl, // target element(s) to be updated with server response 
 				       	cache : false,
 				       	success : function(response){ 

@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
-
+	
         <?php $this->load->view('templates/styles'); ?>
         
     </head>
@@ -31,22 +31,22 @@
                             <br/><br/>
                             
                                 <div class="card-body card-padding">
-									<form role="form" action="<?php echo $action; ?>" method="POST">
+									<form class="diner-form" role="form" action="<?php echo $action; ?>" method="POST" enctype="multipart/form-data">
 										<div class="row">
 											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
-												<div class="fg-line">
+												<div class="fg-line" data-id="name">
 													<input type="text" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
 													<label class="fg-label">Nombre del comedor</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
-												<div class="fg-line">
+												<div class="fg-line" data-id="mail">
 													<input type="text" name="mail" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('mail',$this->form_data->mail); ?>">
 													<label class="fg-label">Mail del comedor</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
-												<div class="fg-line">
+												<div class="fg-line" data-id="street">
 													<input id="autocomplete" placeholder="" type="text" name="address" class="input-sm form-control fg-input">
 													<label class="fg-label">Dirección</label>
 													<?php echo form_hidden('street', ($reset) ? '' : set_value('street',$this->form_data->street)); ?>
@@ -69,7 +69,7 @@
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
-												<div class="fg-line">
+												<div class="fg-line" data-id="phone">
 													<input type="text" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>">
 													<label class="fg-label">Teléfono</label>
 												</div>
@@ -95,7 +95,7 @@
 													<span class="btn btn-info btn-file">
 														<span class="fileinput-new">Seleccionar archivo</span>
 														<span class="fileinput-exists">Cambiar</span>
-														<input type="file" name="...">
+														<input type="file" name="photo" id="photo">
 													</span>
 													<a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Quitar</a>
 												</div>
@@ -106,23 +106,15 @@
 											<p><em>Image preview only works in IE10+, FF3.6+, Safari6.0+, Chrome6.0+ and Opera11.1+. In older browsers the filename is shown instead.</em></p>
 											
 											<div class="pmb-block">
-												<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
-												<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Crear</button>
+												<?php echo form_hidden('id', ($reset) ? '' : set_value('id', $this->form_data->id)); ?>
+												<?php echo form_hidden('state', ($reset) ? '' : set_value('state', $this->form_data->state)); ?>
+												<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Editar</button>
 												<a href="<?php echo site_url('diner'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>	
 											</div>
 
 											</br>
 											
-											<div id=alerts" class="pmb-block" hidden>
-												<div class="alert alert-success alert-dismissible" role="alert">
-													<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-													Texto satisfactorio
-												</div>
-												<div class="alert alert-danger alert-dismissible" role="alert">
-													<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-													Texto de error
-												</div>
-											</div>
+											<?php $this->load->view('templates/alerts'); ?>
 											
 										</div>
 									</form>
@@ -136,6 +128,8 @@
 
             <?php $this->load->view('templates/footer'); ?>
             
+            <input hidden id="redirect-url" value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
+			<input hidden id="request-action" value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
         </section>
 
         <!-- Page Loader -->
@@ -146,11 +140,28 @@
                 </svg>
             </div>
         </div>
-		
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQI7u6RI5Mtxh6FFqgPY9eMccFYmxLVzU&libraries=places&callback=initAutocomplete" async defer></script>
+
 		<?php $this->load->view('templates/scripts'); ?>
+		<?php $this->load->view('templates/googleApiMap'); ?>		
+		<script src="<?php echo base_url('vendors/fileinput/fileinput.min.js')?>"></script>
+		<script src="<?php echo base_url('vendors/farbtastic/farbtastic.min.js')?>"></script>
+		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
-		
-		<?php $this->load->view('templates/googleApiMap'); ?>
+		<script>
+			$('.diner-form').submit(function() {
+				var formData = new FormData($("form")[0]);
+				showConfirmDialog({
+					title: "¿Está seguro editar este comedor?",
+					text: "El comedor se grabará en el sistema",
+					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
+					formData: formData,
+					successText: "El comedor se ha grabado en el sistema.",
+					failedText: "El comedor no pudo ser grabado en el sistema.",
+					redirectUrl: $("#redirect-url")[0].value
+				});
+				return false;
+			}); 
+			
+        </script>		
     </body>
 </html>

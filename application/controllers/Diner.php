@@ -23,8 +23,9 @@ class Diner extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('form_validation');
-		$this->load->helper(array('url', 'form'));
+		$this->_cloudinary_init();
+		$this->load->library(array('form_validation', 'email', 'upload'));
+		$this->load->helper(array('url', 'form', 'file'));
 		$this->load->model('Diner_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
@@ -48,12 +49,11 @@ class Diner extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Diner_model->get_diners_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
-		$pagination_data = $service_data['pagination'];
-		$diners_data = $service_data['diners'];
+		$service_data 		= $this->Diner_model->get_diners_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
+		$pagination_data 	= $service_data['pagination'];
+		$diners_data 		= $service_data['diners'];
 	
 		$render_data['current'] = (int)$this->input->post('current');
-			$render_data['current'] = (int)$this->input->post('current');
 		if ($pagination_data['number_of_elements'] < $pagination_data['size']) {
 			$render_data['total'] = $pagination_data['number_of_elements'];
 		}
@@ -64,9 +64,9 @@ class Diner extends CI_Controller {
 		$render_data['rows'] = [];
 		foreach ($diners_data as $diner)
 		{
-			$row_data['id'] = $diner['idDiner'];
-			$row_data['name'] = $diner['name'];
-			$row_data['street'] = $diner['street'];
+			$row_data['id'] 	= $diner['idDiner'];
+			$row_data['name'] 	= $diner['name'];
+			$row_data['street'] = $diner['street'] . ' ' . $diner['streetNumber'];
 			array_push($render_data['rows'], $row_data);
 		}
 		echo json_encode($render_data, TRUE);
@@ -94,14 +94,14 @@ class Diner extends CI_Controller {
 	 */
 	public function edit($id=NULL)
 	{
-		$this->variables['action'] = site_url('diner/edit');
-		$this->variables['request-action'] = 'PUT';
-		$this->variables['redirect-url'] = site_url('diner');
+		$this->variables['action'] 			= site_url('diner/edit');
+		$this->variables['request-action'] 	= 'PUT';
+		$this->variables['redirect-url'] 	= site_url('diner');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if($this->input->method() == "get")
 		{
 			$diner = $this->Diner_model->search_by_id($id)['diner'];
-			$this->form_data->idDiner		= $diner['idDiner'];		
+			$this->form_data->id			= $diner['idDiner'];		
 			$this->form_data->name			= $diner['name'];			
 			$this->form_data->state			= $diner['state'];			
 			$this->form_data->street		= $diner['street'];		
@@ -114,7 +114,8 @@ class Diner extends CI_Controller {
 			$this->form_data->phone			= $diner['phone'];			
 			$this->form_data->description	= $diner['description'];	
 			$this->form_data->link			= $diner['link'];			
-			$this->form_data->mail			= $diner['mail'];			
+			$this->form_data->mail			= $diner['mail'];
+			$this->form_data->state			= $diner['state'];
 			$this->load->view('diner/save', $this->variables);
 		}
 		else
@@ -122,17 +123,21 @@ class Diner extends CI_Controller {
 			$this->_initialize_fields();
 			$this->_set_rules();
 			$diner = new stdClass();
+			$isImageSaved = $this->_save_image($_FILES['photo']['tmp_name']);
 			// Todo esto corresponde al PUT
-			if ($this->form_validation->run() == FALSE)
+			if (!$this->form_validation->run() || !$isImageSaved)
 			{
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'name' => form_error('name'),
-						'mail' => form_error('mail'),
-						'street' => form_error('street'),
-						'phone' => form_error('phone')
+						'name' 		=> form_error('name'),
+						'mail' 		=> form_error('mail'),
+						'street' 	=> form_error('street'),
+						'phone' 	=> form_error('phone')
 				);
+				if (!$isImageSaved) {
+					$data['photo'] = 'Error al guardar la foto del comedor.';
+				}
 				$this->variables['error-fields'] = $data;
 			}
 			else
@@ -141,8 +146,8 @@ class Diner extends CI_Controller {
 				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');
-					$this->variables['error-type'] = 'unique';
-					$this->variables['error-fields'] = $response['fields'];
+					$this->variables['error-type'] 		= 'unique';
+					$this->variables['error-fields'] 	= $response['fields'];
 				}
 			}
 			echo json_encode( $this->variables );
@@ -168,20 +173,22 @@ class Diner extends CI_Controller {
 	private function _get_post($id=NULL)
 	{
  		$diner = new stdClass();
- 		$diner->id 				= $id != NULL ? $id : $this->input->post('id');
- 		$diner->name 			= $this->input->post('name');
- 		$diner->street 			= $this->input->post('street');
- 		$diner->streetNumber 	= $this->input->post('streetNumber');
- 		$diner->floor 			= $this->input->post('floor');
- 		$diner->door 			= $this->input->post('door');
- 		$diner->latitude 		= $this->input->post('latitude');
- 		$diner->longitude 		= $this->input->post('longitude');
- 		$diner->zipCode 		= $this->input->post('zipCode');
- 		$diner->phone 			= $this->input->post('phone');
- 		$diner->description 	= $this->input->post('description'); 		
- 		$diner->link 			= $this->input->post('link');
- 		$diner->mail 			= $this->input->post('mail');
- 		$diner->idCity 			= $this->input->post('idCity'); 		
+ 		$diner->id 					= $id != NULL ? $id : $this->input->post('id');
+ 		$diner->name 				= $this->input->post('name');
+ 		$diner->street 				= $this->input->post('street');
+ 		$diner->streetNumber 		= $this->input->post('streetNumber');
+ 		$diner->floor 				= $this->input->post('floor');
+ 		$diner->door 				= $this->input->post('door');
+ 		$diner->latitude 			= $this->input->post('latitude');
+ 		$diner->longitude 			= $this->input->post('longitude');
+ 		$diner->zipCode 			= $this->input->post('zipCode');
+ 		$diner->phone 				= $this->input->post('phone');
+ 		$diner->description 		= $this->input->post('description'); 		
+ 		$diner->link 				= $this->input->post('link');
+ 		$diner->mail 				= $this->input->post('mail');
+ 		$diner->idCity 				= $this->input->post('idCity'); 	
+ 		$diner->state				= $this->input->post('state');
+ 		$diner->diner->photos[0] 	= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
  		return $diner;
 	}
 	
@@ -205,6 +212,7 @@ class Diner extends CI_Controller {
 		$this->form_data->link 			= '';
 		$this->form_data->mail 			= '';
 		$this->form_data->idCity 		= '';
+		$this->form_data->photo			= '';
 	}
 	
 	/**
@@ -218,4 +226,38 @@ class Diner extends CI_Controller {
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
 		$this->form_validation->set_rules('phone', 'Telefono', 'trim|required');
 	}
+
+	/**
+	 * Función que guarda una imagen en la nube usando la API de cloudinary
+	 * @param    $photo 	string ruta de la imagen a guardar
+	 * @return   bool 		indica si la imagen se guardo correctamente
+	 */
+	private function _save_image($photo)
+	{
+		if (!$this->upload->do_upload('photo'))
+		{
+			//$this->variables['message'] = $this->upload->display_errors();
+			return false;
+		}
+		else
+		{
+			$response = \Cloudinary\Uploader::upload($photo);//La subo a cloudinary
+			$this->form_data->photo = $response['url'];
+			delete_files('uploads', FALSE, TRUE);
+			return true;
+		}
+	}
+	
+	/**
+	 * Función que configura la API de cloudinary
+	 * @return   void
+	 */
+	private function _cloudinary_init()
+	{
+		\Cloudinary::config(array(
+				"cloud_name" 	=> "caeceteam",
+				"api_key" 		=> "779344883826737",
+				"api_secret" 	=> "A2e2eESuMFPc-fXK9Xz3plHSB2U"
+		));
+	}	
 }
