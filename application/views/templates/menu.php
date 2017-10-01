@@ -76,5 +76,11 @@
 				<li><a href="">Asignación de Roles</a></li>
 			</ul>
         </li>
+        <li>
+        	<a href="<?php echo base_url('assistant');?>">
+        		<!-- <i class="zmdi zmdi-swap-alt"></i> TODO Revisar icono-->
+        		Concurrentes
+        	</a>
+        </li>
 	</ul>
 </aside>
