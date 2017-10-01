@@ -46,7 +46,7 @@
 						<table id="data-table-command" class="table table-striped table-vmiddle bootgrid-table">
 						    <thead>
 						        <tr>
-						            <th data-column-id="idInputType" data-visible="false">ID</th>
+						            <th data-column-id="id" data-visible="false">ID</th>
 						            <th data-column-id="code" data-order="desc">Código</th>
 						            <th data-column-id="name" data-order="desc">Nombre</th>
 									<th data-column-id="description">Descripción</th>
