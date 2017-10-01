@@ -3,7 +3,7 @@
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
 
-class Diner_application_model extends CI_Model {
+class Home_model extends CI_Model {
 	/**
 	 * Variables para el rest client
 	 * @var string
@@ -23,9 +23,8 @@ class Diner_application_model extends CI_Model {
 		$this->config->load('api');
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
-		$token = isset($this->session->token) ? $this->session->token : '';
 		$this->client = new Client([
-			'headers' => ['x-access-token' => $token],//Se agrega el header con los datos de la session
+			'headers'  => ['x-access-token' => $this->session->token], //header con datos de sesión 
 			'base_uri' => $this->base_uri,
 			'timeout'  => $this->timeout,
 			]);
@@ -45,44 +44,6 @@ class Diner_application_model extends CI_Model {
 		else
 			$response = $this->client->request('GET', $state !== NULL ? 'api/diners?state=' . $state : 'api/diners/');
 		if($response->getStatusCode()==HTTP_OK)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
-		}
-		else
-			return NULL;
-	}
-	
-	/**
-	 * Alta de comedor y usuario
-	 * @param		object	$diner_application
-	 * @return 		array   Si el alta fue exitosa, devuelve un array con el comedor y usuario, sino devuelve NULL
-	 */
-	public function add($diner_application)
-	{
-		$response = $this->client->request('POST', 'api/diners', [
-				'json' => $diner_application
-		]);
-		if($response->getStatusCode()==HTTP_CREATED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
-		}
-		else
-			return NULL;
-	}
-	
-	/**
-	 * Edición de comedor
-	 * @param		array	$diner_application
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el diner application, sino devuelve NULL
-	 */
-	public function edit($diner_application)
-	{
-		$response = $this->client->request('PUT', 'api/diners/' . $diner_application['diner']['idDiner'], [
-				'json' => $diner_application
-		]);
-		if($response->getStatusCode()==HTTP_ACCEPTED)
 		{
 			$body = $response->getBody();
 			return json_decode($body,TRUE);

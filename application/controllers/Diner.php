@@ -23,8 +23,7 @@ class Diner extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_cloudinary_init();
-		$this->load->library(array('form_validation', 'email', 'upload'));
+		$this->load->library(array('form_validation', 'login', 'email', 'upload'));
 		$this->load->helper(array('url', 'form', 'file'));
 		$this->load->model('Diner_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
@@ -32,6 +31,7 @@ class Diner extends CI_Controller {
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->variables['controller-name'] = 'diner';
 		$this->_initialize_fields();
+		$this->login->is_logged_in();
 	}
 	
 	/**
@@ -45,7 +45,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion para retornar la informaci髇 a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la informaci贸n a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
 	public function render_table_response()
 	{
@@ -88,7 +88,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -167,7 +167,7 @@ class Diner extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del diner para cuando se trata de una edici髇
+	 * @param 		integer 	$id id del diner para cuando se trata de una edici贸n
 	 * @return		object		$diner
 	 */
 	private function _get_post($id=NULL)
@@ -193,7 +193,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici髇
+	 * Funcion que inicializa las variables de los campos del formulario para la edici贸n
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -228,7 +228,7 @@ class Diner extends CI_Controller {
 	}
 
 	/**
-	 * Funci髇 que guarda una imagen en la nube usando la API de cloudinary
+	 * Funci贸n que guarda una imagen en la nube usando la API de cloudinary
 	 * @param    $photo 	string ruta de la imagen a guardar
 	 * @return   bool 		indica si la imagen se guardo correctamente
 	 */
@@ -249,7 +249,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funci髇 que configura la API de cloudinary
+	 * Funci贸n que configura la API de cloudinary
 	 * @return   void
 	 */
 	private function _cloudinary_init()

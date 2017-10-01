@@ -37,7 +37,8 @@ class Diner_model extends CI_Model {
 		$this->config->load('api');
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
-		$this->client  	= new Client([
+		$this->client 	= new Client([
+			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
 			'base_uri' 	=> $this->base_uri,
 			'timeout'  	=> $this->timeout,
 			]);
@@ -73,10 +74,10 @@ class Diner_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de comedores por página y búsqueda por name para el listado
+	 * Consulta de comedores por pÃ¡gina y bÃºsqueda por name para el listado
 	 * @param 	string 	$page
 	 */
-	// TODO: Cambiar búsqueda por name por búsqueda genérica
+	// TODO: Cambiar bÃºsqueda por name por bÃºsqueda genÃ©rica
 	public function get_diners_by_page_and_search($page, $searchTxt)
 	{
 		$url = 'api/diners?page=' . $page . '&name=' . $searchTxt;
@@ -84,9 +85,9 @@ class Diner_model extends CI_Model {
 	}
 	
 	/**
-	 * Edición de diner
+	 * EdiciÃ³n de diner
 	 * @param		object	$diner
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el diner, sino devuelve NULL
+	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el diner, sino devuelve NULL
 	 */
 	public function edit($diner)
 	{
@@ -109,7 +110,7 @@ class Diner_model extends CI_Model {
 	}
 	
 	/**
-	 * Función que mapea el mensaje de error desde la API usado en los editores
+	 * FunciÃ³n que mapea el mensaje de error desde la API usado en los editores
 	 * @param 	exception $exceptionData
 	 */
 	private function errorMessage($exceptionData)
