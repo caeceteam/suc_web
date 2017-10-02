@@ -93,6 +93,7 @@
 		
 		<script>
 			$('.input-type-form').submit(function() {
+				debugger;
 				showConfirmDialog({
 					title: "¿Está seguro grabar este tipo de insumo?",
 					text: "El tipo de insumo se grabará en el sistema",

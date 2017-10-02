@@ -128,7 +128,10 @@ class User_diner_model extends CI_Model
                 return json_decode($body, TRUE);
             } else
                 return NULL;
-        } catch (ServerException $e) {
+        } catch (Exception $e) {
+            return $this->errorMessage($e);
+        }
+        catch (ClientException $e) {
             return $this->errorMessage($e);
         }
     }

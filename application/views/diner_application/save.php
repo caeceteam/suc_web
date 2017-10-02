@@ -176,6 +176,7 @@
 													<input value="<?php echo ($reset) ? '' : set_value('zipCode',$this->form_data->zipCode); ?>" type="text" id="zipCode" name="zipCode" hidden>
 												</div>
 											</div>
+											<br/>
 											<div class="fg-float form-group col-xs-3" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
 													<input value="<?php echo ($reset) ? '' : set_value('floor',$this->form_data->floor); ?>" type="text" name="floor" class="input-sm form-control fg-input">
@@ -376,7 +377,7 @@
 				$('input[name="longitude"]').val(place.geometry.location.lng());
 				$('input[name="latitude"]').val(place.geometry.location.lat());
 			}
-
+/*
 		  // Bias the autocomplete object to the user's geographical location,
 		  // as supplied by the browser's 'navigator.geolocation' object.
 		  <!-- function geolocate() { -->
@@ -394,7 +395,7 @@
 			  <!-- }); -->
 			<!-- } -->
 		  <!-- } -->
-
+*/
 		  	function getAddressDescription() {
 		  		latitude=$('input[name="latitude"]').val();               
 		  		longitude=$('input[name="longitude"]').val();

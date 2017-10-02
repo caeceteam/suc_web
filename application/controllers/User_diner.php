@@ -37,7 +37,8 @@ class User_diner extends CI_Controller
     {
         parent::__construct();
 		$this->load->library('form_validation');
-		$this->load->helper(array('url', 'form'));        
+		$this->load->library(array('form_validation', 'email', 'upload'));
+		$this->load->helper(array('url', 'form'));    
 		$this->load->model('User_diner_model');
         
         // Instancio una clase vacia para evitar el warning "Creating default object from empty value"         
@@ -83,7 +84,7 @@ class User_diner extends CI_Controller
         {
             $row_data['id']         = $user_diner['idUser'];
             $row_data['name']       = $user_diner['name'];
-            $row_data['sarname']    = $user_diner['surname'];
+            $row_data['surname']    = $user_diner['surname'];
             $row_data['phone']      = $user_diner['phone'];
             array_push($render_data['rows'], $row_data);
         }
@@ -127,42 +128,51 @@ class User_diner extends CI_Controller
      */
     public function add ()
     {
+        $msj_erro_500 = '';
         $this->new_pass = $this->pass_no_view;
         $this->variables['action']         = site_url('user_diner/add');
         $this->variables['request-action'] = 'POST';
+        $seccion; 
         
         //Redirijo la url para que no se vea la de origen 
         $this->variables['redirect-url']   = site_url('user_diner');
         $this->_set_rules();
         
-        if ($this->input->method() == "get") {
-            $this->load->view('user_diner/save', $this->variables);
+      if ($this->input->method() == "get") {
+           $this->load->view('user_diner/save', $this->variables);
         } 
         else {
             // Todo esto corresponde al POST
             if ($this->form_validation->run() == FALSE) {
                 $this->output->set_status_header('500');
                 $this->variables['error-type'] = 'empty-field';
-                $data = array(
-                        'name'      => form_error('name'),
-                        'surname'   => form_error('surname')
-                );
+                $data = array(    'name'    => form_error('name'),
+                                  'surname' => form_error('surname'),
+                                  'role'    => form_error('role'),
+                                  'alias'   => form_error('alias'),
+                                  'docNum'  => form_error('ducNum'),
+                                  'mail'    => form_error('mail'));
+
                 $this->variables['error-fields'] = $data;
+
             } else {
-                $response = $this->User_diner_model->add($this->_get_post());
-                if (isset($response['errors'])) {
-                    $this->output->set_status_header('500');
-                    $this->variables['error-type'] = 'unique';
-                    $this->variables['error-fields'] = $response['fields'];
+                 $response = $this->User_diner_model->add($this->_get_post());
+                 if ((isset($response['errors'])) && ($response['errors'] != null)){
+                 $this->output->set_status_header('500');
+                 $this->variables['error-type']  = 'unique';
+                 // Concateno mensaje en formato HTML para que pueda mostrarse desde la Vista
+                 $msj_erro_500 = '<p>'.$response['result'].'</p>';
+                 $this->variables['message']     = form_error($msj_erro_500);
+                    
                 } else{ 
-                   /* if($this->_send_mail($user_diner)){
+                    if($this->_send_mail($response)){
                         $this->variables['message'] = 'Se envío un mail con el estado de la solicitud.';
                     }else{
-                            $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
-                    }*/
+                        $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
+                    }
                 } 
             }
-            echo json_encode($this->variables);
+            echo json_encode( $this->variables );
         }
     }
 
@@ -211,7 +221,7 @@ class User_diner extends CI_Controller
                 $this->variables['error-fields'] = $data;
             } else {
                 $response = $this->User_diner_model->edit($this->_get_post());
-                if (isset($response['errors'])) {
+                if (isset($response['errors']) && $response['errors'] ) {
                     $this->output->set_status_header('500');
                     $this->variables['error-type'] = 'unique';
                     $this->variables['error-fields'] = $response['fields'];
@@ -355,10 +365,11 @@ class User_diner extends CI_Controller
 	 * @param    $user_diner 	array  array del user diner
 	 * @return   bool 			indica si el mail se pudo enviar
 	 */
-	private function _send_mail($user_diner)
+	private function _send_mail( $user_info )
 	{
 	    $this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
-	    $this->email->to($user_diner['idUser']['mail']);
+	    $this->email->to($user_info[mail]);
+	    //$this->email->to("");
 	    
 	    if ($this->variables['request-action'] == 'PUT'){
 	        $this->email->subject('Modificación de datos usuario');
@@ -368,9 +379,9 @@ class User_diner extends CI_Controller
 	    }
 	    elseif ($this->variables['request-action'] == 'POST')
 	    {  
-	        $this->email->subject('Alta usuario');
-	        $this->email->message('Se ha dado de alta el usuario ' . $this->form_data->alias .' <br/> 
-			Su clave de acceso para ingresar es: ' . $this->form_data->pass . ' .<br/>
+	        $this->email->subject('Alta usuario');                                         
+	        $this->email->message('Se ha dado de alta el usuario ' . $user_info->alias .' <br/> 
+			Su clave de acceso para ingresar es: ' . $user_info[pass] . ' .<br/>
 			Acceda al sistema mediante la siguiente URL. <br/>');
 	    }
 	    $this->email->set_newline("\r\n");//Sin esta línea falla el envio
@@ -409,7 +420,7 @@ class User_diner extends CI_Controller
      * Obtiene los datos del post y los devuelve en forma de objeto
      * 
      * @param integer $id
-     *            id del input type para cuando se trata de una ediciÃ³n
+     *            id del input type para cuando se trata de una edición
      * @return object $user_diner
      */
     private function _get_post ($id = NULL)
@@ -423,7 +434,6 @@ class User_diner extends CI_Controller
         $user_diner->bornDate       = $this->input->post('bornDate');
         $user_diner->role           = $this->input->post('role');
         $user_diner->pass           = $this->_generate_password();
-        //$user_diner->passCheck      = $this->input->post('passCheck');
         $user_diner->alias          = $this->input->post('alias');
         $user_diner->docNum         = $this->input->post('docNum');
         $user_diner->street         = $this->input->post('street');
@@ -458,6 +468,9 @@ class User_diner extends CI_Controller
         $this->form_data->streetNumber  = '';
         $this->form_data->floor         = '';
         $this->form_data->door          = '';
+        $this->form_data->latitude      = '';
+        $this->form_data->longitude     = '';
+        $this->form_data->zipCode       = '';
         $this->form_data->diner         = '';
         $this->form_data->newPassConf   = '';
         $this->form_data->newPass       = '';
@@ -474,16 +487,16 @@ class User_diner extends CI_Controller
     private function _set_rules ()
     {
         $this->form_validation->set_rules('name',    'Nombre',      'trim|required');
-        //$this->form_validation->set_rules('surname', 'Apellido',    'trim|required');
-        //$this->form_validation->set_rules('mail',    'Mail',        'trim|required');
+        $this->form_validation->set_rules('surname', 'Apellido',    'trim|required');
+        $this->form_validation->set_rules('mail',    'Mail',        'trim|required');
         //$this->form_validation->set_rules('phone',       'Telefono',    'trim|required');
-        //$this->form_validation->set_rules('bornDate',     'Fecha Nacimiento', 'trim|required');
-        //$this->form_validation->set_rules('role',         'Puesto', 'trim|required');
+        $this->form_validation->set_rules('bornDate',     'Fecha Nacimiento', 'trim|required');
+        $this->form_validation->set_rules('role',         'Puesto', 'trim|required');
         //$this->form_validation->set_rules('pass',         'Clave',         'trim|required');
         //$this->form_validation->set_rules('passCheck',    'Confirmación',  'trim|required');
         //$this->form_validation->set_rules('passCheck',    'Confirmación',  'trim|required');
-        //$this->form_validation->set_rules('alias',        'Alias',         'trim|required');
-        //$this->form_validation->set_rules('docNum',       'Documento',     'trim|required');
+        $this->form_validation->set_rules('alias',        'Alias',         'trim|required');
+        $this->form_validation->set_rules('docNum',       'Documento',     'trim|required');
         //$this->form_validation->set_rules('street',       'Calle',         'trim|required');
         //$this->form_validation->set_rules('streetNumber', 'Numero',      'trim|required');
         //$this->form_validation->set_rules('foort',        'Piso',         'trim|required');

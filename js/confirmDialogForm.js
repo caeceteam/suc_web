@@ -9,6 +9,7 @@ function showConfirmDialog(params) {
 		cancelButtonText: "No",
 		closeOnConfirm: false,
 	}, function(isConfirm){
+		debugger;
 			if (isConfirm) {
 				$.ajax({
 						type : 'POST',
