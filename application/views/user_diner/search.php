@@ -77,7 +77,7 @@
         		//viewUrl: 	"<?php echo site_url('user_diner/view/') ?>",
         		editUrl: 	"<?php echo site_url('user_diner/edit/') ?>",
         		deleteUrl: 	"<?php echo site_url('user_diner/delete/') ?>",
-        		deleteDialogTitle: 	 "¿Está seguro en borrar este tipo de insumo?",
+        		deleteDialogTitle: 	 "¿Está seguro de dar de baja al usuario en el comedor?",
         		deleteDialogText: 	 "El usuario sera dado de baja en el comedor",
         		deleteDialogSuccess: "El usuario fue dado de baja en el comedor ."
             });
