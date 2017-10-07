@@ -42,16 +42,36 @@ class Food_type_model extends CI_Model {
 	 * @param 		string 		$id
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL)
+	private function search($url)
 	{
-		$response = $this->client->request('GET', $id != NULL ? 'api/foodtypes/' . $id : 'api/foodtypes/');
+		$response = $this->client->request('GET', $url);		
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
 			return json_decode($body,TRUE);
 		}
 		else
-			return NULL;
+			return NULL;		
+	}
+
+	/**
+	 * Consulta de tipos de insumos by id
+	 * @param 	int 	$id
+	 */
+	public function search_by_id($id)
+	{
+		$url = 'api/foodtypes/' . $id;
+		return $this->search($url);
+	}
+	
+	/**
+	 * Consulta de tipos de insumos por página para el listado
+	 * @param 	string 	$page
+	 */
+	public function get_foodtypes_by_page($page)
+	{
+		$url = 'api/foodtypes?page=' . $page;
+		return $this->search($url);
 	}
 	
 	/**

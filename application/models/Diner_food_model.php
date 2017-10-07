@@ -2,11 +2,9 @@
 
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 
-class Input_type_model extends CI_Model {
+class Diner_food_model extends CI_Model {
 	/**
 	 * Variables para el rest client
 	 * @var string
@@ -24,14 +22,14 @@ class Input_type_model extends CI_Model {
 		$this->client   = new Client([
 			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
 			'base_uri' 	=> $this->base_uri,
-			'timeout'  	=> $this->timeout
+			'timeout'  	=> $this->timeout,
 			]);
 	}
 	
 	/**
 	 * Consulta de tipo de insumo
 	 * 
-	 * Consulta de tipos de insumo a la API
+	 * Consulta de insumos a la API
 	 * @param 		string 		$url
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
@@ -48,35 +46,35 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de tipos de alimentos by id
+	 * Consulta de insumos by id
 	 * @param 	int 	$id
 	 */
 	public function search_by_id($id)
 	{
-		$url = 'api/inputtypes/' . $id;
+		$url = 'api/dinerfoods/' . $id;
 		return $this->search($url);
 	}
 	
 	/**
-	 * Consulta de tipos de alimentos por página para el listado
+	 * Consulta de insumos por página para el listado
 	 * @param 	string 	$page
 	 */
-	public function get_inputtypes_by_page($page)
+	public function get_dinerfoods_by_page($page)
 	{
-		$url = 'api/inputtypes?page=' . $page;
+		$url = 'api/dinerfoods?page=' . $page;
 		return $this->search($url);
 	}
 		
 	/**
-	 * Alta de input type
-	 * @param		object	$input_type
-	 * @return 		array   Si el alta fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * Alta de diner food
+	 * @param		object	$diner_food
+	 * @return 		array   Si el alta fue exitosa, devuelve un array con el diner foods, sino devuelve NULL
 	 */		
-	public function add($input_type)
+	public function add($diner_food)
 	{
 		try {
-			$response = $this->client->request('POST', 'api/inputtypes', [
-				'json' => $input_type
+			$response = $this->client->request('POST', 'api/dinerfoods', [
+				'json' => $diner_food
 			]);
 			if($response->getStatusCode()==HTTP_CREATED)
 			{
@@ -91,15 +89,15 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * EdiciÃ³n de input type
-	 * @param		object	$input_type
-	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * Edición de diner food
+	 * @param		object	$diner_food
+	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el diner food, sino devuelve NULL
 	 */
-	public function edit($input_type)
+	public function edit($diner_food)
 	{
 		try {
-			$response = $this->client->request('PUT', 'api/inputtypes/' . $input_type->id, [
-					'json' => $input_type
+			$response = $this->client->request('PUT', 'api/dinerfoods/' . $diner_food->id, [
+					'json' => $diner_food
 			]);
 			if($response->getStatusCode()==HTTP_ACCEPTED)
 			{
@@ -122,9 +120,6 @@ class Input_type_model extends CI_Model {
 	{
 		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
 		$errorResponse['errors'] = TRUE;
-		foreach ($errorResponse['fields'] as $errorKey => $errorValue) {
-			$errorResponse['fields'][$errorKey] = $errorValue . " ya esta siendo utilizado";
-		}
 		if($exceptionData->getCode() == 500)
 		{
 			return $errorResponse;
@@ -133,13 +128,13 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Delete de input type
+	 * Delete de diner food
 	 * @param		string	$id
 	 * @return 		bool   Si la baja fue exitosa, devuelve TRUE
 	 */
 	public function delete($id)
 	{
-		$response = $this->client->request('DELETE', 'api/inputtypes/' . $id);
+		$response = $this->client->request('DELETE', 'api/dinerfoods/' . $id);
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			return TRUE;
