@@ -48,7 +48,7 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de tipos de alimentos by id
+	 * Consulta de tipos de inputtypes by id
 	 * @param 	int 	$id
 	 */
 	public function search_by_id($id)
@@ -58,7 +58,7 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de tipos de alimentos por p�gina para el listado
+	 * Consulta de tipos de insumos por página para el listado
 	 * @param 	string 	$page
 	 */
 	public function get_inputtypes_by_page($page)
@@ -91,9 +91,9 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Edición de input type
+	 * EdiciÃ³n de input type
 	 * @param		object	$input_type
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function edit($input_type)
 	{
@@ -115,7 +115,7 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Funci�n que mapea el mensaje de error desde la API usado en los editores
+	 * Función que mapea el mensaje de error desde la API usado en los editores
 	 * @param 	exception $exceptionData
 	 */
 	private function errorMessage($exceptionData) 
