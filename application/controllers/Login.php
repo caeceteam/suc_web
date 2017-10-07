@@ -59,7 +59,7 @@ class Login extends CI_Controller {
 						'token'			=> $response['token'],
 						'idDiner'		=> $response['diners']['idDiner'],
 						'is_logged_in' 	=> true,
-						'role'			=> DINER_ADMIN,//$response['diners']['UserDiner']['role']
+						'role'			=> $response['user']['role']
 				);
 				$this->session->set_userdata($data);
 				redirect('home');
