@@ -61,7 +61,7 @@ class Login extends CI_Controller {
 				$data = array(
 						'userName' 		=> $this->input->post('userName'),
 						'token'			=> $response['token'],
-						'idDiner'		=> $response['diners']['idDiner'],
+						'idDiner'		=> $response['diners'][0]['idDiner'],
 						'is_logged_in' 	=> true
 				);
 				$this->session->set_userdata($data);
