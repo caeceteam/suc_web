@@ -10,13 +10,30 @@ function showConfirmDialog(params) {
 		closeOnConfirm: false,
 	}, function(isConfirm){
 			if (isConfirm) {
-				$.ajax({
+				if (params.containImage)
+				{
+					$.ajax({
 						type : 'POST',
-						dataType:'json',
 						data: params.formData,
 						mimeType: "multipart/form-data",
 						processData: false,
 						contentType: false,
+					  	url: params.requestUrl, // target element(s) to be updated with server response 
+					   	cache : false,
+					  	success : function(response){ 
+					   		successAction(params.successText, params.redirectUrl);
+					   	},
+					   	error : function(response){
+					   		failedAction(response, params.failedText)							       
+					   	}
+					}); 
+				}
+				else
+				{
+					$.ajax({
+						type : 'POST',
+						dataType:'json',
+						data: params.formData,
 				       	url: params.requestUrl, // target element(s) to be updated with server response 
 				       	cache : false,
 				       	success : function(response){ 
@@ -25,7 +42,9 @@ function showConfirmDialog(params) {
 				       	error : function(response){
 				       		failedAction(response, params.failedText)							       
 				       	}
-				});        
+					});  					
+				}
+       
 		  	}
 	});
 };
