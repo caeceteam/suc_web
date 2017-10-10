@@ -41,9 +41,10 @@ class Assistant_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->client = new Client([
-			'base_uri' => $this->base_uri,
-			'timeout'  => $this->timeout,
+		$this->client 	= new Client([
+			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
+			'base_uri' 	=> $this->base_uri,
+			'timeout'  	=> $this->timeout,
 			]);
 	}
 	

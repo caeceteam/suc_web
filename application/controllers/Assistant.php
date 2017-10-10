@@ -23,7 +23,7 @@ class Assistant extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('form_validation');
+		$this->load->library(array('form_validation', 'login'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Assistant_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
@@ -31,6 +31,7 @@ class Assistant extends CI_Controller {
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->variables['controller-name'] = 'assistant';
 		$this->_initialize_fields();
+		$this->login->is_logged_in();
 	}
 	
 	/**
@@ -48,7 +49,7 @@ class Assistant extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Assistant_model->get_assistants_by_page($this->assistant->post('current') - 1);
+		$service_data = $this->Assistant_model->get_assistants_by_page($this->input->post('current') - 1);
 		$pagination_data = $service_data['pagination'];
 		$assistants_data = $service_data['assistants'];
 		
@@ -91,8 +92,11 @@ class Assistant extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'surname' => form_error('surname'),
-						'name' => form_error('name'));
+						'surname' 	=> form_error('surname'),
+						'name' 		=> form_error('name'),
+						'bornDate' 	=> form_error('bornDate'),
+						'document' 	=> form_error('document'),
+				);
 				$this->variables['error-fields'] = $data;
 			}
 			else
@@ -101,7 +105,7 @@ class Assistant extends CI_Controller {
 				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');
-					$this->variables['error-type'] = 'unique';
+					$this->variables['error-type']	 = 'unique';
 					$this->variables['error-fields'] = $response['fields'];
 				}
 			}
@@ -124,7 +128,7 @@ class Assistant extends CI_Controller {
 		{
 			$assistant = $this->Assistant_model->search_by_id($id);
 			$this->form_data->id					= $assistant['idAssistant'];
-			$this->form_data->idDiner				= 1;
+			$this->form_data->idDiner				= $assistant['idDiner'];
 			$this->form_data->name 					= $assistant['name'];
 			$this->form_data->surname 				= $assistant['surname'];
 			$this->form_data->bornDate 				= $assistant['bornDate'];
@@ -195,7 +199,7 @@ class Assistant extends CI_Controller {
 	{
 		$assistant = new stdClass();
 		$assistant->id					= $id != NULL ? $id : $this->input->post('id');
-		$assistant->idDiner				= $this->input->post('idDiner');
+		$assistant->idDiner				= $this->session->idDiner;
 		$assistant->name				= $this->input->post('name');
 		$assistant->surname				= $this->input->post('surname');
 		$assistant->bornDate			= $this->input->post('bornDate');
@@ -224,7 +228,7 @@ class Assistant extends CI_Controller {
 	private function _initialize_fields()
 	{
 		$this->form_data->id 					= '';
-		$this->form_data->idDiner				= '';
+		$this->form_data->idDiner				= $this->session->idDiner;
 		$this->form_data->name 					= '';
 		$this->form_data->surname 				= '';
 		$this->form_data->bornDate 				= '';
@@ -254,5 +258,6 @@ class Assistant extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('surname', 'Apellido', 'trim|required');
 		$this->form_validation->set_rules('bornDate', 'Fecha de nacimiento', 'trim|required');
+		$this->form_validation->set_rules('document', 'Nro. de documento', 'trim|required');
 	}
 }
