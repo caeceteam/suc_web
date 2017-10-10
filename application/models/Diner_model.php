@@ -57,7 +57,7 @@ class Diner_model extends CI_Model {
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
-			return json_decode($body,TRUE);
+			return json_decode($body, TRUE);
 		}
 		else
 			return NULL;
@@ -74,10 +74,10 @@ class Diner_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de comedores por pÃ¡gina y bÃºsqueda por name para el listado
+	 * Consulta de comedores por página y búsqueda por name para el listado
 	 * @param 	string 	$page
 	 */
-	// TODO: Cambiar bÃºsqueda por name por bÃºsqueda genÃ©rica
+	// TODO: Cambiar búsqueda por name por búsqueda genérica
 	public function get_diners_by_page_and_search($page, $searchTxt)
 	{
 		$url = 'api/diners?page=' . $page . '&name=' . $searchTxt;
@@ -85,9 +85,9 @@ class Diner_model extends CI_Model {
 	}
 	
 	/**
-	 * EdiciÃ³n de diner
+	 * Edición de diner
 	 * @param		object	$diner
-	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el diner, sino devuelve NULL
+	 * @return 		array   Si la edición fue exitosa, devuelve un array con el diner, sino devuelve NULL
 	 */
 	public function edit($diner)
 	{
@@ -110,7 +110,7 @@ class Diner_model extends CI_Model {
 	}
 	
 	/**
-	 * FunciÃ³n que mapea el mensaje de error desde la API usado en los editores
+	 * Función que mapea el mensaje de error desde la API usado en los editores
 	 * @param 	exception $exceptionData
 	 */
 	private function errorMessage($exceptionData)

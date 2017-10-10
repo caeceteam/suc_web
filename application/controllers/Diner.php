@@ -23,6 +23,7 @@ class Diner extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->_cloudinary_init();
 		$this->load->library(array('form_validation', 'login', 'email', 'upload'));
 		$this->load->helper(array('url', 'form', 'file'));
 		$this->load->model('Diner_model');
@@ -45,7 +46,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion para retornar la informaciÃ³n a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la información a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
 	public function render_table_response()
 	{
@@ -149,6 +150,9 @@ class Diner extends CI_Controller {
 					$this->variables['error-type'] 		= 'unique';
 					$this->variables['error-fields'] 	= $response['fields'];
 				}
+				else {
+					$this->output->set_status_header('202');
+				}
 			}
 			echo json_encode( $this->variables );
 		}
@@ -188,7 +192,7 @@ class Diner extends CI_Controller {
  		$diner->mail 				= $this->input->post('mail');
  		$diner->idCity 				= $this->input->post('idCity'); 	
  		$diner->state				= $this->input->post('state');
- 		$diner->diner->photos[0] 	= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+ 		$diner->photos[0]->url 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
  		return $diner;
 	}
 	
@@ -228,7 +232,7 @@ class Diner extends CI_Controller {
 	}
 
 	/**
-	 * FunciÃ³n que guarda una imagen en la nube usando la API de cloudinary
+	 * Función que guarda una imagen en la nube usando la API de cloudinary
 	 * @param    $photo 	string ruta de la imagen a guardar
 	 * @return   bool 		indica si la imagen se guardo correctamente
 	 */
@@ -249,7 +253,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * FunciÃ³n que configura la API de cloudinary
+	 * Función que configura la API de cloudinary
 	 * @return   void
 	 */
 	private function _cloudinary_init()
