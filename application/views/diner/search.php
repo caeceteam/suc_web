@@ -57,8 +57,8 @@
         		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} comedores",
         		editUrl: "<?php echo site_url('diner/edit/') ?>",
         		deleteUrl: "<?php echo site_url('diner/delete/') ?>",
-        		deleteDialogTitle: "Â¿EstÃ¡ seguro en borrar este comedor?",
-        		deleteDialogText: "El comedor se borrarÃ¡ permanentemente del sistema",
+        		deleteDialogTitle: "¿Está seguro en borrar este comedor?",
+        		deleteDialogText: "El comedor se borrará permanentemente del sistema",
         		deleteDialogSuccess: "El comedor se ha borrado del sistema."
             });
         </script>

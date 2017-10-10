@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="card-body card-padding">
 								
-									<form role="form" action="<?php echo $action; ?>" class="input-type-form" method="POST">
+									<form role="form" action="<?php echo $action; ?>" class="input-type-form" method="POST" enctype="multipart/form-data">
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="name">
 												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
@@ -93,6 +93,7 @@
 		
 		<script>
 			$('.input-type-form').submit(function() {
+				debugger;
 				showConfirmDialog({
 					title: "¿Está seguro grabar este tipo de insumo?",
 					text: "El tipo de insumo se grabará en el sistema",

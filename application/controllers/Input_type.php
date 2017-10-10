@@ -209,6 +209,7 @@ class Input_type extends CI_Controller {
 	{
 		$this->form_validation->set_rules('code', 'Codigo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-		$this->form_validation->set_rules('description', 'Descripción', 'trim');
+		$this->form_validation->set_rules('description', 'Descripcion', 'trim');
 	}
 }
+

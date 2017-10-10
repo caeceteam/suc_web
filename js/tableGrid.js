@@ -16,8 +16,11 @@ function loadBootgrid(params) {
         },
         formatters: {
         	"commands": function(column, row) {
-            	return "<a type=\"button\" href=\"" + params.editUrl + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
-                	"<a id=\"sa-warning\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
+        		//return 	"<a type=\"button\" href=\"" + params.viewUrl + row.id + "\" class=\"btn btn-icon command-view waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-eye\"></span></a> " + 
+                //"<a type=\"button\" href=\"" + params.editUrl + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
+        		//"<a id=\"sa-warning\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>"
+        		return "<a type=\"button\" href=\"" + params.editUrl + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
+              	"<a id=\"sa-warning\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
             }
         }
     }).on("loaded.rs.jquery.bootgrid", function () {
