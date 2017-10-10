@@ -9,7 +9,6 @@ function showConfirmDialog(params) {
 		cancelButtonText: "No",
 		closeOnConfirm: false,
 	}, function(isConfirm){
-		debugger;
 			if (isConfirm) {
 				if (params.containImage)
 				{
