@@ -49,22 +49,22 @@ class Assistant extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Assistant_model->get_assistants_by_page($this->input->post('current') - 1);
+		$service_data = $this->Assistant_model->get_assistants_by_page_and_idDiner($this->input->post('current') - 1, $this->session->idDiner);
 		$pagination_data = $service_data['pagination'];
 		$assistants_data = $service_data['assistants'];
 		
-		$render_data['current'] = (int)$this->assistant->post('current');
+		$render_data['current'] = (int)$this->input->post('current');
 		$render_data['total'] = $pagination_data['total_elements'];
 		
 		$render_data['rows'] = [];
 		foreach ($assistants_data as $assistant)
 		{
-			$row_data['idAssistant'] = $assistant['idAssistant'];
-			$row_data['idDiner'] = $assistant['idDiner'];
-			$row_data['name'] = $assistant['name'];
-			$row_data['surname'] = $assistant['surname'];
-			$row_data['address'] = $assistant['address'];
-			$row_data['phone'] = $assistant['phone'];
+			$row_data['id'] 		= $assistant['idAssistant'];
+			$row_data['idDiner'] 	= $this->session->idDiner;
+			$row_data['name'] 		= $assistant['name'];
+			$row_data['surname'] 	= $assistant['surname'];
+			$row_data['address'] 	= $assistant['street'] . ' ' . $assistant['streetNumber'];
+			$row_data['phone'] 		= $assistant['phone'];
 			array_push($render_data['rows'], $row_data);
 		}
 		echo json_encode($render_data, TRUE);
@@ -124,29 +124,29 @@ class Assistant extends CI_Controller {
 		$this->variables['request-action'] = 'PUT';
 		$this->variables['redirect-url'] = site_url('assistant');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if($this->assistant->method() == "get")
+		if($this->input->method() == "get")
 		{
-			$assistant = $this->Assistant_model->search_by_id($id);
-			$this->form_data->id					= $assistant['idAssistant'];
-			$this->form_data->idDiner				= $assistant['idDiner'];
-			$this->form_data->name 					= $assistant['name'];
-			$this->form_data->surname 				= $assistant['surname'];
-			$this->form_data->bornDate 				= $assistant['bornDate'];
-			$this->form_data->street 				= $assistant['street'];
-			$this->form_data->streetNumber 			= $assistant['streetNumber'];
-			$this->form_data->floor 				= $assistant['floor'];
-			$this->form_data->door 					= $assistant['door'];
-			$this->form_data->zipcode 				= $assistant['zipcode'];
-			$this->form_data->latitude 				= $assistant['latitude'];
-			$this->form_data->longitude				= $assistant['longitude'];
-			$this->form_data->phone 				= $assistant['phone'];
-			$this->form_data->contactName 			= $assistant['contactName'];
-			$this->form_data->scholarship 			= $assistant['scholarship'];
-			$this->form_data->eatAtOwnHouse 		= $assistant['eatAtOwnHouse'];
-			$this->form_data->economicSituation 	= $assistant['economicSituation'];
-			$this->form_data->celiac 				= $assistant['celiac'];
-			$this->form_data->diabetic 				= $assistant['diabetic'];
-			$this->form_data->document 				= $assistant['document'];
+			$data = $this->Assistant_model->search_by_id($id);
+			$this->form_data->id					= $data['assistant']['idAssistant'];
+			$this->form_data->idDiner				= $data['diner'][0]['idDiner'];
+			$this->form_data->name 					= $data['assistant']['name'];
+			$this->form_data->surname 				= $data['assistant']['surname'];
+			$this->form_data->bornDate 				= date("Y-m-d", strtotime($data['assistant']['bornDate'] . ' +1 day'));
+			$this->form_data->street 				= $data['assistant']['street'];
+			$this->form_data->streetNumber 			= $data['assistant']['streetNumber'];
+			$this->form_data->floor 				= $data['assistant']['floor'];
+			$this->form_data->door 					= $data['assistant']['door'];
+			$this->form_data->zipcode 				= $data['assistant']['zipCode'];
+			$this->form_data->latitude 				= $data['assistant']['latitude'];
+			$this->form_data->longitude				= $data['assistant']['longitude'];
+			$this->form_data->phone 				= $data['assistant']['phone'];
+			$this->form_data->contactName 			= $data['assistant']['contactName'];
+			$this->form_data->scholarship 			= $data['assistant']['scholarship'];
+			$this->form_data->eatAtOwnHouse 		= $data['assistant']['eatAtOwnHouse'];
+			$this->form_data->economicSituation 	= $data['assistant']['economicSituation'];
+			$this->form_data->celiac 				= $data['assistant']['celiac'];
+			$this->form_data->diabetic 				= $data['assistant']['diabetic'];
+			$this->form_data->document 				= $data['assistant']['document'];
 			$this->load->view('assistant/save', $this->variables);
 		}
 		else
@@ -202,7 +202,7 @@ class Assistant extends CI_Controller {
 		$assistant->idDiner				= $this->session->idDiner;
 		$assistant->name				= $this->input->post('name');
 		$assistant->surname				= $this->input->post('surname');
-		$assistant->bornDate			= $this->input->post('bornDate');
+		$assistant->bornDate			= date("Y-m-d", strtotime($this->input->post('bornDate')));;
 		$assistant->street				= $this->input->post('street');
 		$assistant->streetNumber		= $this->input->post('streetNumber');
 		$assistant->floor				= $this->input->post('floor');

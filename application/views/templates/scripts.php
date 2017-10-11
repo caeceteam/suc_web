@@ -30,5 +30,3 @@
 <script src="<?php echo base_url('js/actions.js')?>"></script>
 <script src="<?php echo base_url('js/demo.js')?>"></script>
 <script src="<?php echo base_url('js/inputTypeForm.js')?>"></script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQI7u6RI5Mtxh6FFqgPY9eMccFYmxLVzU&libraries=places&callback=initAutocomplete" async defer></script>

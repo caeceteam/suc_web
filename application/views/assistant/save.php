@@ -51,20 +51,26 @@
 											<br/>
 											<div class="form-group fg-float col-sm-3">
 												<div class="fg-line" data-id="bornDate">
-													<input type="text" class="input-sm form-control input-mask fg-input" id="bornDate" name="bornDate" data-mask="00/00/0000" value="<?php echo ($reset) ? '' : set_value('bornDate', $this->form_data->bornDate); ?>">
+													<input type="text" class="input-sm form-control input-mask fg-input" id="bornDate" name="bornDate" data-mask="0000-00-00" value="<?php echo ($reset) ? '' : set_value('bornDate', $this->form_data->bornDate); ?>">
 													<label class="fg-label">Fecha de nacimiento</label>
-												</div>
-											</div>
-											<div class="form-group fg-float col-sm-6">
-												<div class="fg-line" data-id="scholarship">
-													<input type="text" id="scholarship" name="scholarship" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('scholarship', $this->form_data->scholarship); ?>">
-													<label class="fg-label">Año escolar</label>
 												</div>
 											</div>
 											<div class="form-group fg-float col-sm-3">
 												<div class="fg-line" data-id="document">
 													<input type="text" id="document" name="document" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name', $this->form_data->name); ?>">
 													<label class="fg-label">Nro. de documento</label>
+												</div>
+											</div>
+											<div class="form-group fg-float col-sm-3">
+												<div class="fg-line" data-id="scholarship">
+													<input type="text" id="scholarship" name="scholarship" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('scholarship', $this->form_data->scholarship); ?>">
+													<label class="fg-label">Año escolar</label>
+												</div>
+											</div>
+											<div class="form-group fg-float col-sm-3">
+												<div class="fg-line" data-id="economicSituation">
+													<input type="text" id="economicSituation" name="economicSituation" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('economicSituation', $this->form_data->economicSituation); ?>">
+													<label class="fg-label">Situación ecónimica familiar</label>
 												</div>
 											</div>
 											<br/>
@@ -79,25 +85,19 @@
 													<?php echo form_hidden('zipCode', ($reset) ? '' : set_value('zipCode',$this->form_data->zipCode)); ?>
 												</div>
 											</div>
-											<div class="form-group fg-float col-sm-6">
-												<div class="fg-line" data-id="economicSituation">
-													<input type="text" id="economicSituation" name="economicSituation" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('economicSituation', $this->form_data->economicSituation); ?>">
-													<label class="fg-label">Situación ecónimica familiar</label>
-												</div>
-											</div>
 											<br/>
-											<div class="form-group fg-float col-sm-3">
-												<div class="fg-line" data-id="phone">
-													<input type="text" id="phone" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone', $this->form_data->phone); ?>">
-													<label class="fg-label">Télefono del contacto</label>
-												</div>
-											</div>
 											<div class="form-group fg-float col-sm-9">
 												<div class="fg-line" data-id="contactName">
 													<input type="text" id="contactName" name="contactName" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('contactName', $this->form_data->contactName); ?>">
 													<label class="fg-label">Nombre del contacto</label>
 												</div>
-											</div>											
+											</div>	
+											<div class="form-group fg-float col-sm-3">
+												<div class="fg-line" data-id="phone">
+													<input type="text" id="phone" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone', $this->form_data->phone); ?>">
+													<label class="fg-label">Télefono del contacto</label>
+												</div>
+											</div>										
 											<br/>
 											<div class="checkbox col-sm-12">
 												<div class="first checkbox col-sm-3">
@@ -163,6 +163,7 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
+		<?php $this->load->view('templates/googleApiMap'); ?>
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
 		<script>
@@ -180,8 +181,6 @@
 			}); 
 			
         </script>
-        
-		<script src="<?php echo base_url('js/mapsFunction.js')?>"></script>    
         
     </body>
 </html>
