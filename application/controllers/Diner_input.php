@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Diner_input extends CI_Controller {
-
 	/**
 	 * Array para guardar todas las variables de la pagina
 	 * @var array
@@ -45,7 +43,7 @@ class Diner_input extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion para retornar la informaci贸n a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la informaci髇 a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 * @return		array		$diner_input
 	 */
 	public function render_table_response()
@@ -112,7 +110,7 @@ class Diner_input extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -180,7 +178,7 @@ class Diner_input extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del diner input para cuando se trata de una edici贸n
+	 * @param 		integer 	$id id del diner input para cuando se trata de una edici髇
 	 * @return		object		$input_type
 	 */
 	private function _get_post($id=NULL)
@@ -198,7 +196,7 @@ class Diner_input extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici贸n
+	 * Funcion que inicializa las variables de los campos del formulario para la edici髇
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -225,11 +223,11 @@ class Diner_input extends CI_Controller {
 		$this->form_validation->set_rules('size', 'Talle', 'trim');
 		$this->form_validation->set_rules('genderType', 'Genero', 'trim|required');
 		$this->form_validation->set_rules('quantity', 'Cantidad', 'trim|required');
-		$this->form_validation->set_rules('description', 'Descripci贸n', 'trim');
+		$this->form_validation->set_rules('description', 'Descripci髇', 'trim');
 	}
 	
 	/**
-	 * Funcion que completa el combo de tipos de insume si no recibe ning煤n parametro, sino muestra el combo con el id que recibe
+	 * Funcion que completa el combo de tipos de insume si no recibe ning鷑 parametro, sino muestra el combo con el id que recibe
 	 * @param 		integer 	$id_input_type
 	 * @return void
 	 */

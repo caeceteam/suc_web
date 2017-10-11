@@ -38,4 +38,20 @@ class Login {
 		if(!isset($is_logged_in) || $is_logged_in != true)
 			redirect('login');
 	}
+	
+	/**
+	 * Funcion que traduce el role ID a descripción
+	 * @param 		role 		$role id del role
+	 * @return		string		Devuelve la descripción del rol
+	 */
+	public function get_role_description($role)
+	{
+		switch ($role) {
+		    case 0: return 'Administrador de Sistema';
+		    case 1: return 'Administrador de Comedor';
+		    case 2: return 'Empleado';
+		    case 3: return 'Colaborador';
+			case 4: return 'Invitado';
+		}
+	}
 }

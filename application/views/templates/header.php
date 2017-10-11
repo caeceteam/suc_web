@@ -21,7 +21,7 @@
 		</li>
 		<li class="dropdown hm-profile">
         	<a data-toggle="dropdown" href="">
-        		<span class="user-name"><?php echo isset($this->session->userName) ? $this->session->userName : 'Invitado' ?></span>
+        		<span class="user-name"><?php echo isset($this->session->userName) ? $this->session->userName . ' - ' . $this->login->get_role_description($this->session->role) : 'Invitado' ?></span>
             	<img src="<?php echo base_url('img/profile-pics/2.gif')?>" alt="">
             </a>
 

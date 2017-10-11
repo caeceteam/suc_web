@@ -56,7 +56,8 @@
                 	<a href="" data-ma-action="submenu-toggle">Administración</a>
 
                     <ul>
-                        <li><a href="<?php echo base_url('diner_input');?>"> Almacén </a></li>
+                        <li><a href="<?php echo base_url('diner_food');?>"> Almacén </a></li>
+                        <li><a href="<?php echo base_url('diner_input');?>"> Insumos </a></li>
             			<li><a href="<?php echo base_url('diner');?>"> Eventos</a></li>
 						<li><a href="<?php echo base_url('diner');?>"> Personal</a></li>
                         <li><a href="<?php echo base_url('diner');?>"> Concurrentes</a></li>
