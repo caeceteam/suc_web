@@ -49,12 +49,17 @@ class Input_type extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Input_type_model->get_inputtypes_by_page($this->input->post('current') - 1);
+		$service_data = $this->Input_type_model->get_inputtypes_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
 		$pagination_data = $service_data['pagination'];
 		$input_types_data = $service_data['inputTypes'];
 		
 		$render_data['current'] = (int)$this->input->post('current');
-		$render_data['total'] = $pagination_data['total_elements'];
+		if ($pagination_data['number_of_elements'] < $pagination_data['size']) {
+			$render_data['total'] = $pagination_data['number_of_elements'];
+		}
+		else {
+			$render_data['total'] = $pagination_data['total_elements'];
+		}
 		
 		$render_data['rows'] = [];
 		foreach ($input_types_data as $input_type)
@@ -204,6 +209,6 @@ class Input_type extends CI_Controller {
 	{
 		$this->form_validation->set_rules('code', 'Codigo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-		$this->form_validation->set_rules('description', 'Descripción', 'trim');
+		$this->form_validation->set_rules('description', 'Descripcion', 'trim');
 	}
 }
