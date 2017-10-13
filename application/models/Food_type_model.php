@@ -42,9 +42,9 @@ class Food_type_model extends CI_Model {
 	 * @param 		string 		$id
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	private function search($url)
+	public function search($id=NULL)
 	{
-		$response = $this->client->request('GET', $url);		
+		$response = $this->client->request('GET', $id != NULL ? 'api/foodtypes/' . $id : 'api/foodtypes/');
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -70,8 +70,8 @@ class Food_type_model extends CI_Model {
 	 */
 	public function get_foodtypes_by_page($page)
 	{
-		$url = 'api/foodtypes?page=' . $page;
-		return $this->search($url);
+		//$url = 'api/foodtypes?page=' . $page;
+		return $this->search();
 	}
 	
 	/**
