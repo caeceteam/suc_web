@@ -36,10 +36,10 @@ class User_diner extends CI_Controller
     public function __construct ()
     {
         parent::__construct();
-		//$this->load->library('form_validation');
+	//$this->load->library('form_validation');
 		$this->load->library(array('form_validation', 'session', 'email', 'upload'));
 		$this->load->helper(array('url', 'form'));    
-		$this->load->model('User_diner_model');
+  	$this->load->model('User_diner_model');
         
         // Instancio una clase vacia para evitar el warning "Creating default object from empty value"         
         $this->form_data = new stdClass(); 
@@ -61,6 +61,7 @@ class User_diner extends CI_Controller
      */
     public function index ()
     {
+
         $this->variables['data-request-url'] = site_url('user_diner/render_table_response');
         $this->load->view('user_diner/search', $this->variables);
     }
@@ -93,21 +94,6 @@ class User_diner extends CI_Controller
     
     
     
-    /**
-     * Funcion de consulta
-     * 
-     * @param string $name            
-     * @return void
-     */
-    public function search ($name = NULL)
-    {
-        if ($name != NULL) {
-            $user_diner = $this->User_diner_model->search($name);
-            $this->render_table(NULL, $user_diner);
-        } else
-            $this->index();
-    }
-
     /**
      * Funcion de baja
      *
@@ -166,7 +152,7 @@ class User_diner extends CI_Controller
                     
                 } else{ 
                     if($this->_send_mail($this->_get_post())){
-                        $this->variables['message'] = 'Se env韔 un mail con el estado de la solicitud.';
+                        $this->variables['message'] = 'Se env铆o un mail con el estado de la solicitud.';
                     }else{
                         $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
                     }
@@ -177,7 +163,7 @@ class User_diner extends CI_Controller
     }
 
     /**
-     * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la
+     * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la
      * validacion del formulario no arroja errores
      * 
      * @param string $id            
@@ -190,7 +176,6 @@ class User_diner extends CI_Controller
         $this->variables['redirect-url']    = site_url('user_diner');
         // Si no es un post, no se llama al editar y solo se muestran los campos
         // para editar
-        
         if ($this->input->method() == "get") {
             $this->new_pass = $this->pass_view;
             $user_diner                     = $this->User_diner_model->search_by_id($id);
@@ -238,7 +223,7 @@ class User_diner extends CI_Controller
                 }
                 else{ 
                     if($this->_send_mail($this->_get_post())){
-                        $this->variables['message'] = 'Se env韔 un mail con el estado de la solicitud.';
+                        $this->variables['message'] = 'Se env铆o un mail con el estado de la solicitud.';
                     }else{
                         $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
                     }
@@ -291,16 +276,16 @@ class User_diner extends CI_Controller
             return FALSE;
         }
         else{
-            //Es erronea la confirmaci髇
+            //Es erronea la confirmaci贸n
             if($newPass != $confPass ){
                 return FALSE;
             }
             
-            //Es erronea la confirmaci髇
+            //Es erronea la confirmaci贸n
             if($oldPass != $this->form_data->pass || $this->form_data->pass == $newPass ){
                 return FALSE;
             }
-            //Validaci髇 individual de claves
+            //Validaci贸n individual de claves
             if (! $this->valid_single_password($oldPass)){
                 return FALSE;
             }
@@ -319,7 +304,7 @@ class User_diner extends CI_Controller
     public function valid_single_password($password = '')
 	{
 		//$password = trim($password);
-		//Caracteres de validaci髇
+		//Caracteres de validaci贸n
 	    $lower_case  = '/[a-z]/';
 		$upper_case  = '/[A-Z]/';
 		$number      = '/[0-9]/';
@@ -366,18 +351,18 @@ class User_diner extends CI_Controller
 	}
 
 	/**
-	 * Funci髇 que envia un mail de confirmacion de cuenta 
+	 * Funci贸n que envia un mail de confirmacion de cuenta 
 	 * @param    $user_diner 	array  array del user diner
 	 * @return   bool 			indica si el mail se pudo enviar
 	 */
 	private function _send_mail( $user_info )
 	{
-	    $this->email->from('suc@no-reply.com', 'Sistema 趎ico de Comedores');
+	    $this->email->from('suc@no-reply.com', 'Sistema 脷nico de Comedores');
 	    $this->email->to($user_info->mail);
 	    //$this->email->to("");
 	    
 	    if ($this->variables['request-action'] == 'PUT'){
-	        $this->email->subject('Modificaci髇 de datos usuario');
+	        $this->email->subject('Modificaci贸n de datos usuario');
 	        $this->email->message('Su datos de usuarios han sido actualizados correctamente. <br/>
 			Ante cualquier inconveniente dirigirse al administrador del comedor. <br/>
 			Att Sistema SUC,. <br/>');
@@ -389,16 +374,16 @@ class User_diner extends CI_Controller
 			Su clave de acceso para ingresar es: ' . $user_info->pass . ' .<br/>
 			Acceda al sistema mediante la siguiente URL. <br/>');
 	    }
-	    $this->email->set_newline("\r\n");//Sin esta l韓ea falla el envio
+	    $this->email->set_newline("\r\n");//Sin esta l铆nea falla el envio
 	    return $this->email->send();
 	}	
 	
 	/**
-	 * Funci髇 que genera una contrase馻 en forma aleatorio
+	 * Funci贸n que genera una contrase帽a en forma aleatorio
 	 * @param    $chars_min largo minimo (opcional, default 6)
-	 * @param    $chars_max largo m醲imo (opcional, default 8)
-	 * @param    $use_upper_case boolean para indicar si se usan may鷖uculas (opcional, default false)
-	 * @param    $include_numbers boolean para indicar si se usan n鷐eros (opcional, default false)
+	 * @param    $chars_max largo m谩ximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan may煤suculas (opcional, default false)
+	 * @param    $include_numbers boolean para indicar si se usan n煤meros (opcional, default false)
 	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
 	 * @return    string containing a random password
 	 */
@@ -425,7 +410,7 @@ class User_diner extends CI_Controller
      * Obtiene los datos del post y los devuelve en forma de objeto
      * 
      * @param integer $id
-     *            id del input type para cuando se trata de una edici髇
+     *            id del input type para cuando se trata de una edici贸n
      * @return object $user_diner
      */
     private function _get_post ($id = NULL)
@@ -478,7 +463,6 @@ class User_diner extends CI_Controller
         $this->form_data->diner         = '';
         $this->form_data->newPassConf   = '';
         $this->form_data->newPass       = '';
-   
     }
 
     /**

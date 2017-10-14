@@ -94,7 +94,7 @@ class User_diner_model extends CI_Model
     }
     
     /**
-     * Cusnulato los usuarios segun criterio de paginaci髇
+     * Cusnulato los usuarios segun criterio de paginaci贸n
      * @param 	string 	$page
      */
     public function get_user_diner_by_page($page)
@@ -137,10 +137,10 @@ class User_diner_model extends CI_Model
     }
 
     /**
-     * Edici髇 de input type
+     * Edici贸n de input type
      *
      * @param object $user_diner            
-     * @return array Si la edici髇 fue exitosa, devuelve un array con el input
+     * @return array Si la edici贸n fue exitosa, devuelve un array con el input
      *         type, sino devuelve NULL
      */
     public function edit ($user_diner)
@@ -187,7 +187,7 @@ class User_diner_model extends CI_Model
     }
 
     /**
-     * Funci髇 que mapea el mensaje de error desde la API usado en los editores
+     * Funci贸n que mapea el mensaje de error desde la API usado en los editores
      * 
      * @param exception $exceptionData            
      */
@@ -206,4 +206,3 @@ class User_diner_model extends CI_Model
         return NULL;
     }
 }
-;
