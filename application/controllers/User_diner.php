@@ -305,7 +305,7 @@ class User_diner extends CI_Controller
 	{
 		//$password = trim($password);
 		//Caracteres de validación
-	    $lower_case  = '/[a-z]/';
+    $lower_case  = '/[a-z]/';
 		$upper_case  = '/[A-Z]/';
 		$number      = '/[0-9]/';
 		$special     = '/[!@#$%^&*()\-_=+{};:,<.>]/';

@@ -22,8 +22,9 @@ class Input_type_model extends CI_Model {
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
 		$this->client   = new Client([
+			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
 			'base_uri' 	=> $this->base_uri,
-			'timeout'  	=> $this->timeout,
+			'timeout'  	=> $this->timeout
 			]);
 	}
 	
@@ -57,12 +58,14 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de tipos de insumos por página para el listado
+	 * Consulta de tipos de insumos por página y búsqueda para el listado
 	 * @param 	string 	$page
+	 * 			string	$searchTxt
 	 */
-	public function get_inputtypes_by_page($page)
+	// TODO: Cambiar búsqueda por name por búsqueda genérica
+	public function get_inputtypes_by_page_and_search($page, $searchTxt)
 	{
-		$url = 'api/inputtypes?page=' . $page;
+		$url = 'api/inputtypes?page=' . $page . '&code=' . $searchTxt;
 		return $this->search($url);
 	}
 		
