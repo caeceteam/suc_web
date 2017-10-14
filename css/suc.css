@@ -15,3 +15,7 @@
 .c-header h2 {
 	font-size: 25px;
 }
+
+.btn-default[title='Refresh'] {
+	display: none;
+}

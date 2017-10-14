@@ -1,8 +1,9 @@
 <header id="header" class="media">
 	<div class="pull-left h-logo">
 		<a href="<?php echo base_url('');?>" class="hidden-xs">
-        	SUC
-            <small>Sistema Único de Comedores</small>
+        	 
+            <!--  SUC <small>Sistema Único de Comedores</small>-->
+            <img src="img/suc.svg" alt="SUC" height="80" width="190" >
 		</a>
 
 		<div class="menu-collapse" data-ma-action="sidebar-open" data-ma-target="main-menu">
@@ -21,12 +22,12 @@
 		<li class="dropdown hm-profile">
         	<a data-toggle="dropdown" href="">
         		<span class="user-name">Juan Perez - Administrador del sistema</span>
-            	<img src="<?php echo base_url('img/profile-pics/1.jpg')?>" alt="">
+            	<img src="<?php echo base_url('img/profile-pics/2.gif')?>" alt="">
             </a>
 
             <ul class="dropdown-menu pull-right dm-icon">
-            	<li>
-                	<a href="profile-about.html"><i class="zmdi zmdi-account"></i> Mis Datos</a>
+            	 <li>
+                	<a href="<?php echo base_url('user_diner/save');?>"l"><i class="zmdi zmdi-account"></i> Mis Datos</a>
                 </li>
                 <li>
                 	<a href=""><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>

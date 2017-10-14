@@ -9,224 +9,187 @@
 		<?php $this->load->view('templates/styles'); ?>
 		
     </head>
-
 <body data-ma-header="teal">
 
 		<?php $this->load->view('templates/header'); ?>
 
-        <section id="main">
+      <section id="main">
 			
-			<?php $this->load->view('templates/menu'); ?>
-				<form role="form" action="<?php echo $action; ?>"
-									class="user-diner-form" method="POST">
-							
-            <section id="content">
-			<div class="container">
-				<div class="c-header">
-					<h2>Datos usuario.</h2>
-				</div>
-
-				<div class="card">
-					<div class="card-body card-padding">
-						<small>Información personal.</small> <br />
-						<br />
-
-						<div class="row">
-							<div class="card-body card-padding">
-									<div class="pmbb-header">
-										<h2>
-											<i class="zmdi zmdi-account m-r-5"></i> Información personal
-										</h2>
-										<br /> <br />
-									</div>
-
-									<!-- DATOS NOMBRE -->
-									<div class="form-group fg-float">
-										<div class="fg-line" data-id="name">
-											<input type="text" class="form-control input-sm" id="name" name="name"
-												value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
-											<label class="fg-label">Nombre</label>
-										</div>
-									</div>
-									<br />
-
-									<!-- DATOS APELLIDO -->
-									<div class="form-group fg-float">
-										<div class="fg-line" data-id="surname">
-											<input type="text" id="surname" name="surname"
-												class="input-sm form-control fg-input"
-												value="<?php echo ($reset) ? '' : set_value('surname',$this->form_data->surname); ?>">
-											<label class="fg-label">Apellido</label>
-										</div>
-									</div>
-									<br />
-
-									<!-- ALIAS DE LA PERSONA -->
-									<div class="form-group fg-float">
-										<div class="fg-line" data-id="alias">
-											<input type="text" class="form-control input-sm" id="alias" name="alias"
-												value="<?php echo ($reset) ? '' : set_value('alias',$this->form_data->alias); ?>">
-											<label class="fg-label">Alias</label>
-										</div>
-									</div>
-									<br />
-
-                                    <!-- ROL DE LA PERSONA -->
-									<div class="form-group fg-float">
-										<div class="fg-line" data-id="alias">
-											<input type="text" class="form-control input-sm" id="role" name="role"
-												value="<?php echo ($reset) ? '' : set_value('rol',$this->form_data->role); ?>">
-											<label class="fg-label">Rol</label>
-										</div>
-									</div>
-									<br />
-
-
-									<!-- FECHA DE NACIMIENTO DD/MM/AAAA -->
-									<div class="form-group fg-float">
-										<div class="fg-line" data-id="bornDate">
-											<!--  <textarea class="form-control auto-size" id="bornDate" 
-												name="bornDate"><?php echo ($reset) ? '' : set_value('bornDate',$this->form_data->bornDate); ?></textarea>-->
-											<input type="text" class="form-control input-sm" id="bornDate" name="bornDate"
-												value="<?php echo ($reset) ? '' : set_value('bornDate',$this->form_data->bornDate); ?>">
-										
-											<label class="fg-label">Fecha nacimiento</label>
-										</div>
-									</div>
-									<br />
-
-									<!-- FECHA DE NACIMIENTO DD/MM/AAAA -->
-									<div class="form-group fg-float">
-										<div class="fg-line" data-id="docNum">
-											<textarea class="form-control auto-size" id="docNum"
-												name="docNum"><?php echo ($reset) ? '' : set_value('docNum',$this->form_data->docNum); ?></textarea>
-											<label class="fg-label">Número de documento</label>
-										</div>
-									</div>
-									<br />
-							
-								<!-- BLOQUE DATOS DE CONTACTO -->
-									<div class="pmbb-header">
-										<h2>
-											<i class="zmdi zmdi-phone m-r-5"></i> Información de Contacto
-										</h2>
-										<br />
-										<br />
-									</div>
-
-									<!-- TELEFONO DE CONATCTO -->
-									<div class="form-group fg-float">
-										<div class="fg-line" data-id="phone">
-											<input type="text" class="form-control input-sm" id="phone" name="phone"
-												value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>">
-											<label class="fg-label">Teléfono particular</label>
-										</div>
-									</div>
-									<br />
-
-									<!-- CORREO ELECTRONICO -->
-									<div class="form-group fg-float">
-										<div class="fg-line" data-id="mail">
-											<input type="text" class="form-control input-sm" id="mail" name="mail"
-												value="<?php echo ($reset) ? '' : set_value('mail',$this->form_data->mail); ?>">
-											<label class="fg-label">Email particular</label>
-										</div>
-									</div>
-									<br />
-
-									<!-- DOMICIOLIO -->
-									<div class="form-group fg-float">
-										<div class="fg-line" data-id="address">
-											<input id="address" type="text" name="address"
-												class="input-sm form-control fg-input"> <label
-												class="fg-label">Calle y número</label> <input
-												value="<?php echo ($reset) ? '' : set_value('street',      $this->form_data->street); ?>"
-												type="text" id="street" name="street" hidden> <input
-												value="<?php echo ($reset) ? '' : set_value('streetNumber',$this->form_data->streetNumber); ?>"
-												type="text" id="streetNumber" name="streetNumber" hidden> <input
-												value="<?php echo ($reset) ? '' : set_value('floor',       $this->form_data->floor); ?>"
-												type="text" id="floor" name="floor" hidden>
-										</div>
-									</div>
-							    <!-- GESTION DE CLAVE PARA EL CASO DE MODIFICACIÓN -->
-								<div class="pmbb-header" style= "<?php echo $this->new_pass; ?>" >
-							                                    	<div class="pmbb-header" >
-                                    		<h2>
-                                    			<i class="zmdi zmdi-lock-open m-r-5"></i> Cambiar contraseña
-                                    		</h2>
-                                    	</div>
-                                    	<br /> <br />
-                                    	
-                                    	<div class="form-group fg-float" >
-                                    		<div class="fg-line" data-id="oldPass">
-                                    			<input type="password" class="form-control input-sm" id="oldPass"
-                                    				value= "">
-                                    				<label class="fg-label">Clave actual</label>
-                                    		</div>
-                                    	</div>
-                                    	<br />
-                                    
-                                    	<div class="form-group fg-float">
-                                    		<div class="fg-line" data-id="newPass">
-                                    			<input type="password" class="form-control input-sm" id="newPass"
-                                    				value="<?php echo ($reset); ?>">
-                                    			<label class="fg-label">Nueva clave</label>
-                                    		</div>
-                                    	</div>
-                                    	<br />
-                                    
-                                    	<div class="form-group fg-float">
-                                    		<div class="fg-line" data-id="newPassConf">
-                                    			<input type="password" class="form-control input-sm" id="newPassConf"
-                                    				value="<?php echo ($reset); ?>">
-                                    			<label class="fg-label">Repetir clave</label>
-                                    		</div>
-                                    	</div>
-
-                                    	<br />
-                            	</div>
-
-								<div id="unique-error-alert"
-									class="alert alert-danger alert-dismissible hide-alert"
-									role="alert">
-									<button type="button" class="close" data-dismiss="alert"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-									Error en la carga del Usuario
-								</div>
-
-								<div id="empty-error-alert"
-									class="alert alert-danger alert-dismissible hide-alert"
-									role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-									Por favor ingrese datos en los campos marcados
-								</div>
-
-								<button type="submit"
-									class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
-								<a href="<?php echo site_url('user_diner'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
-										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
-						    </div>
-						</div>
-
-						<br /> <br />
+	 <?php $this->load->view('templates/menu'); ?>
+		<form role="form" action="<?php echo $action; ?>"
+			class="user-diner-form" method="POST">
+			<section id="content">
+				<div class="container">
+					<div class="c-header">
+						<h2>Datos usuario.</h2>
 					</div>
 
-					<br />
-				</div>
-			</div>
-		</section>
+					<div class="card">
+						<div class="card-header">
+							<h2>
+								InformaciÃ³n personal.<small>AquÃ­ se encuentran los datos
+									personales del colaborador.</small>
+							</h2>
+						</div>
+						<div class="card-body card-padding">
+							<div class="row">
+								<!-- FILA 01 - DATOS NOMBRE -->
+								<div class="col-sm-4">
+									<div class="form-group fg-line">
+										<label>Nombre</label> <input type="text" class="form-control"
+											id="name" name="name"
+											value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
+									</div>
+								</div>
 
+								<!-- FILA 01- DATOS APELLIDO -->
+								<div class="col-sm-4">
+									<div class="form-group fg-line">
+										<label>Apellido</label> <input type="text"
+											class="form-control" id="surname" name="surname"
+											value="<?php echo ($reset) ? '' : set_value('surname',$this->form_data->surname); ?>">
+									</div>
+								</div>
+
+								<!-- FILA 01 - ALIAS DE LA PERSONA -->
+								<div class="col-sm-4">
+									<div class="form-group fg-line">
+										<label>Alias</label> <input type="text" class="form-control"
+											id="alias" name="alias" placeholder="Alias en el sistema."
+											value="<?php echo ($reset) ? '' : set_value('alias',$this->form_data->alias); ?>">
+									</div>
+								</div>
+
+								<!-- FILA 02- DOCUMENTO -->
+								<div class="col-sm-4">
+									<div class="form-group fg-line">
+										<label>NÃºmero de documento</label> 
+										<input min="1000000" max="999999999"
+											class="form-control input-mask" data-mask="99.999.999" placeholder="ej. 99.99.999"
+											id="docNum" name="docNum"
+											value="<?php echo ($reset) ? '' : set_value('docNum',$this->form_data->docNum); ?>">
+									</div>
+								</div>
+
+								<!-- FILA 02- FECHA DE NACIMIENTO -->
+								<div class="col-sm-4">
+									<div class="form-group fg-line">
+										<label>Fecha de naciomiento</label> <input type="text"
+											class="form-control input-mask" data-mask="00-00-0000"
+											placeholder="ej. 31-12-1900" id="bornDate" name="bornDate"
+											value="<?php echo ($reset) ? '' : set_value('bornDate',$this->form_data->bornDate); ?>">
+									</div>
+								</div>
+
+								<!-- FINAL 03 - ROL DE LA PERSONA -->
+								<div class="col-sm-4">
+									<label>Rol</label> <select class="chosen"
+										data-placeholder="<?php echo ($reset) ? 'Tareas en el comedor' : set_value('rol',$this->form_data->role); ?>"
+										id="role" name="role">
+										<option value="99""></option>
+										<option value="00"
+											<?php if ($this->form_data->role == '00'){echo 'selected';} ?>>Administrador</option>
+										<option value="01"
+											<?php if ($this->form_data->role == '01'){echo 'selected';}; ?>>Portero</option>
+										<option value="02"
+											<?php if ($this->form_data->role == '02'){echo 'selected';}; ?>>Cocinero</option>
+										<option value="03"
+											<?php if ($this->form_data->role == '03'){echo 'selected';}; ?>>Docente</option>
+										<option value="04"
+											<?php if ($this->form_data->role == '04'){echo 'selected';}; ?>>Cereno</option>
+										<option value="05"
+											<?php if ($this->form_data->role == '05'){echo 'selected';}; ?>>Psicopedagogo</option>
+										<option value="06"
+											<?php if ($this->form_data->role == '06'){echo 'selected';}; ?>>Psicologo</option>
+										<option value="07"
+											<?php if ($this->form_data->role == '07'){echo 'selected';}; ?>>AcompaÃ±ante</option>
+										<option value="08"
+											<?php if ($this->form_data->role == '08'){echo 'selected';}; ?>>Tareas
+											Varias</option>
+									</select>
+								</div>
+
+								<!-- FINAL 04 - MAIL -->
+								<div class="col-sm-6">
+									<div class="form-group fg-line">
+										<label>Email particular</label> <input type="email"
+											class="form-control" id="mail" name="mail"
+											value="<?php echo ($reset) ? '' : set_value('mail',$this->form_data->mail); ?>">
+									</div>
+								</div>
+
+								<!-- FINAL 04 - TELEFONO PARTICULAR-->
+								<div class="col-sm-6">
+									<div class="form-group fg-line">
+										<label>TelÃ©fono particular</label> <input type="text"
+											class="form-control" id="phone" name="phone"
+											value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>">
+									</div>
+								</div>
+
+								<!--FILA 05 CALLE LOCALIDAD-->
+								<div class="col-sm-6">
+									<div class="form-group fg-line">
+										<label>Calle y localidad</label> <input type="text"
+											class="form-control" id="street" name="street"
+											value="<?php echo ($reset) ? '' : set_value('street',$this->form_data->street); ?>">
+									</div>
+								</div>
+								<!--FILA 05 ALTURA-->
+								<div class="col-sm-2">
+									<div class="form-group fg-line">
+										<label>Altura</label> 
+										<input class="form-control" id="streetNumber" name="streetNumber" type="nume"
+											value="<?php echo ($reset) ? '' : set_value('streetNumber',$this->form_data->streetNumber); ?>">
+									</div>
+								</div>
+								
+								<!--FILA Pisi-->
+								<div class="col-sm-2">
+									<div class="form-group fg-line">
+										<label>Piso</label> 
+										<input class="form-control" id="floor" name="floor"
+											value="<?php echo ($reset) ? '' : set_value('floor',$this->form_data->floor); ?>">
+									</div>
+								</div>
+								<!--FILA Puerta-->
+								<div class="col-sm-2">
+									<div class="form-group fg-line">
+										<label>Puerta</label> 
+										<input class="form-control" id="door" name="door"
+											value="<?php echo ($reset) ? '' : set_value('door',$this->form_data->door); ?>">
+									</div>
+								</div>
+
+							</div>
+							<br />
+							<div class="pmb-block">
+								<button type="submit"
+									class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
+								<a href="<?php echo site_url('user_diner'); ?>"
+									class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
+										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
+
+							</div>
+							<div class="pmb-block">
+							    <?php $this->load->view('templates/alerts'); ?>
+							</div>
+
+							<div class="pmb-block">
+								<input hidden id="redirect-url"
+									value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
+								<input hidden id="request-action"
+									value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</section>
+			
 			<?php $this->load->view('templates/footer'); ?>
 			
-			<input hidden id="redirect-url"
-			value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
-		<input hidden id="request-action"
-			value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
-	</form>
+		</form>
 	</section>
 
 	<!-- Page Loader -->
@@ -243,18 +206,18 @@
 
 	<script>
 			$('.user-diner-form').submit(function() {
+				debugger;
 				showConfirmDialog({
-					title: "¿Está seguro de grabar los cambios?",
-					text: "Los datos de usuario serán modificados en el sistema",
+		     		title: "Â¿EstÃ¡ seguro de grabar los cambios?",
+					text: "Los datos de usuario serÃ¡n grabados",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
-					successText: "Los cambios se han grabado en el sistema.",
+					successText: "Se han grabado los datos de Usuario.",
 					failedText:  "Los datos de usuario no pudieron ser grabado en el sistema.",
 					redirectUrl: $("#redirect-url")[0].value
 				});
 				return false;
 			}); 
-		</script>
-
+</script>
 </body>
 </html>

@@ -43,71 +43,44 @@
 					
 					<div class="card">
 						<div class="card-body card-padding" style="padding-bottom:0"></div> <!--TODO CC: Pass style inline to css class-->
-							<?php echo $table?> 
+						<table id="data-table-command" class="table table-striped table-vmiddle bootgrid-table">
+						    <thead>
+						        <tr>
+						            <th data-column-id="idInputType" data-visible="false">ID</th>
+						            <th data-column-id="code" data-order="desc">Código</th>
+						            <th data-column-id="name" data-order="desc">Nombre</th>
+									<th data-column-id="description">Descripción</th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
+						        </tr>
+						    </thead>
+						</table>
                     </div>
                 </div>
+                <input hidden id="data-request-url" value="<?php echo isset($_ci_vars['data-request-url']) ? $_ci_vars['data-request-url'] : '' ?>"></input>
                 
             </section>
 
 			<?php $this->load->view('templates/footer'); ?>
-
+			
         </section>
 
 		<?php $this->load->view('templates/scripts'); ?>
+		<script src="<?php echo base_url('js/tableGrid.js')?>"></script>
+		
 		<!-- Data Table -->
         <script type="text/javascript">
-            $(document).ready(function(){
-
-				//Command Buttons
-                var grid = $("#data-table-command").bootgrid({
-                	labels: {
-                        noResults: "No hay tipos de insumos cargados",
-                        search: "Buscar",
-                        infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} tipos de insumo"
-                    },
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
-                    },
-                    formatters: {
-                        "commands": function(column, row) {
-                            return "<a type=\"button\" href=\"" + "<?php echo site_url('input_type/edit/') ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
-                                "<a id=\"sa-warning\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
-                        }
-                    }
-	                }).on("loaded.rs.jquery.bootgrid", function () {
-	                	$(this).find(".command-delete").off();
-	                	$(this).find(".command-edit").off();
-    				/* Executes after data is loaded and rendered */
-    				$(this).find(".command-delete").click(function (e) {
-    					var deleteUrl = "<?php echo site_url('input_type/delete/') ?>" + this.getAttribute("data-row-id");
-    					swal({
-    						title: "¿Está seguro en borrar este tipo de insumo?",
-    						text: "El tipo de insumo se borrará permanentemente del sistema",
-    						type: "warning",
-    						showCancelButton: true,
-    						confirmButtonColor: "#DD6B55",
-    						confirmButtonText: "Si",
-    						cancelButtonText: "No",
-    						closeOnConfirm: false,
-    					}, function(isConfirm){
-    						$('#data-table-command').bootgrid('reload');
-    							if (isConfirm) {
-    							  	$.ajax({ 
-    								   type: "DELETE",
-    								   url: deleteUrl,
-    								   success: function(data){
-    									   swal("¡Borrado!", "El tipo de insumo se ha borrado del sistema.", "success");
-    								   }
-    								});
-    						  	}
-    					});
-    				});
-    			});
+        	loadBootgrid({
+        		selector: "#data-table-command",
+        		requestUrl: $("#data-request-url")[0].value,
+        		noResultText: "No hay tipos de insumos cargados",
+        		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} tipos de insumo",
+        		editUrl: "<?php echo site_url('input_type/edit/') ?>",
+        		deleteUrl: "<?php echo site_url('input_type/delete/') ?>",
+        		deleteDialogTitle: "¿Está seguro en borrar este tipo de insumo?",
+        		deleteDialogText: "El tipo de insumo se borrará permanentemente del sistema",
+        		deleteDialogSuccess: "El tipo de insumo se ha borrado del sistema."
             });
+
         </script>
 
 	</body>

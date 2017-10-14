@@ -9,6 +9,7 @@ function showConfirmDialog(params) {
 		cancelButtonText: "No",
 		closeOnConfirm: false,
 	}, function(isConfirm){
+		debugger;
 			if (isConfirm) {
 				$.ajax({
 						type : 'POST',
@@ -44,15 +45,13 @@ function failedAction(response, failedText, uniqueValues) {
    	$(".alert").addClass("hide-alert");   
    	var errorType = response.responseJSON["error-type"];
    	var errorFields = response.responseJSON["error-fields"];
-   	if (errorType === "unique") {
-		$("#unique-error-alert").removeClass("hide-alert");
-    }
-    if (errorType === "empty-field") {
-    	$("#empty-error-alert").removeClass("hide-alert");
-	}
-    for (var key in errorFields) {
+   	var alertsContainer = $("#error-alert-container");
+   	for (var key in errorFields) {
     	if (errorFields[key] !== "") {
+    		var alertTemplate = $("#error-message-template").html();
     		$("[data-id=" + key + "]").addClass("has-error");
+    		alertTemplate = alertTemplate.replace("{alertText}", errorFields[key])
+    		alertsContainer.append(alertTemplate);
     	}
     }    
    	swal({

@@ -19,7 +19,7 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2 style="font-size: 25px;">Usuarios comedor</h2>
+                        <h2 style="font-size: 25px;">Gestion de usuarios</h2> <!--TODO CC: Pass style inline to css class-->
                     </div>
 
 					<div class="card">
@@ -28,7 +28,7 @@
                                 <div class="col-sm-4">
                                     <div style="position: relative;display: block;margin-top: 10px;margin-bottom: 10px;"> <!--TODO CC: Pass style inline to css class-->
                                         <label>
-                                            ¿Desea crear un nuevo usuario?
+                                            Â¿Desea dar de alta un nuevo usuario?
                                         </label>
                                     </div>
                                 </div>
@@ -42,75 +42,44 @@
 					
 					<div class="card">
 						<div class="card-body card-padding" style="padding-bottom:0"></div> <!--TODO CC: Pass style inline to css class-->
-							<?php echo $table?> 
+						<table id="data-table-command" class="table table-striped table-vmiddle bootgrid-table">
+						    <thead>
+						        <tr>
+						            <th data-column-id="id"      data-visible="false">IdUser</th>
+						            <th data-column-id="name"    data-order="desc">Nombre</th>
+						            <th data-column-id="surname" data-order="desc">Apellido</th>
+									<th data-column-id="phone">Telefono</th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Ver/Modificar/Borrar</th>
+						        </tr>
+						    </thead>
+						</table>
                     </div>
                 </div>
+                <input hidden id="data-request-url" value="<?php echo isset($_ci_vars['data-request-url']) ? $_ci_vars['data-request-url'] : '' ?>"></input>
                 
             </section>
 
 			<?php $this->load->view('templates/footer'); ?>
-
         </section>
 
 		<?php $this->load->view('templates/scripts'); ?>
+		<script src="<?php echo base_url('js/tableGrid.js')?>"></script>
+		
 		<!-- Data Table -->
         <script type="text/javascript">
-            $(document).ready(function(){
-
-				//Command Buttons
-                var grid = $("#data-table-command").bootgrid({
-                	labels: {
-                        noResults: "No se encontraron usuarioas",
-                        search: "Buscar",
-                        infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} Usuarios registrados"
-                    },
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
-                    },
-                    formatters: {
-                        "commands": function(column, row) {
-                            return 	"<a type=\"button\" href=\"" + "<?php echo site_url('user_diner/view/') ?>" + row.idUser + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\""  + row.idUser + "\"><span class=\"zmdi zmdi-eye\"></span></a>"  +
-                            		"<a type=\"button\" href=\"" + "<?php echo site_url('user_diner/edit/') ?>" + row.idUser + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\""  + row.idUser + "\"><span class=\"zmdi zmdi-edit\"></span></a>" + 
-                                   	"<a id=\"sa-warning\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.idUser + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
-                        	
-                        	 											
-                			}
-
-                    }
-	                }).on("loaded.rs.jquery.bootgrid", function () {
-	                	$(this).find(".command-delete").off();
-	                	$(this).find(".command-edit").off();
-    				/* Executes after data is loaded and rendered */
-    				$(this).find(".command-delete").click(function (e) {
-    					var deleteUrl = "<?php echo site_url('diner_user/delete/') ?>" + this.getAttribute("data-row-id");
-    					swal({
-    						title: "¿Está seguro que quiere dar de baja al usuario?",
-    						text: "El usuario sera dado de baja",
-    						type: "warning",
-    						showCancelButton: true,
-    						confirmButtonColor: "#DD6B55",
-    						confirmButtonText: "Si",
-    						cancelButtonText: "No",
-    						closeOnConfirm: false,
-    					}, function(isConfirm){
-    						$('#data-table-command').bootgrid('reload');
-    							if (isConfirm) {
-    							  	$.ajax({ 
-    								   type: "DELETE",
-    								   url: deleteUrl,
-    								   success: function(data){
-    									   swal("¡Baja!", "El usuario fue dado de baja.", "success");
-    								   }
-    								});
-    						  	}
-    					});
-    				});
-    			});
+        	loadBootgrid({
+        		selector: "#data-table-command",
+        		requestUrl: $("#data-request-url")[0].value,
+        		noResultText: "No hay usuarios cargados en el comedor",
+        		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} usuarios en comedor",
+        		//viewUrl: 	"<?php echo site_url('user_diner/view/') ?>",
+        		editUrl: 	"<?php echo site_url('user_diner/edit/') ?>",
+        		deleteUrl: 	"<?php echo site_url('user_diner/delete/') ?>",
+        		deleteDialogTitle: 	 "Â¿EstÃ¡ seguro de dar de baja al usuario en el comedor?",
+        		deleteDialogText: 	 "El usuario sera dado de baja en el comedor",
+        		deleteDialogSuccess: "El usuario fue dado de baja en el comedor ."
             });
+
         </script>
 
 	</body>
