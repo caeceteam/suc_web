@@ -50,11 +50,12 @@ class User_diner_model extends CI_Model
      */
     public function __construct ()
     {
-        parent::__construct();
+        parent::__construct();     
         $this->client = new Client(
                 [
+                        'headers'  => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
                         'base_uri' => $this->base_uri,
-                        'timeout' => $this->timeout
+                        'timeout'  => $this->timeout
                 ]);
     }
 
@@ -72,8 +73,7 @@ class User_diner_model extends CI_Model
      * 
      */
     private function search($url)
-    {
-        $response = $this->client->request('GET', $url);
+    {    $response = $this->client->request('GET', $url);
         if($response->getStatusCode()==HTTP_OK)
         {
             $body = $response->getBody();

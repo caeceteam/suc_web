@@ -36,8 +36,8 @@ class User_diner extends CI_Controller
     public function __construct ()
     {
         parent::__construct();
-		$this->load->library('form_validation');
-		$this->load->library(array('form_validation', 'email', 'upload'));
+		//$this->load->library('form_validation');
+		$this->load->library(array('form_validation', 'session', 'email', 'upload'));
 		$this->load->helper(array('url', 'form'));    
 		$this->load->model('User_diner_model');
         
@@ -209,7 +209,7 @@ class User_diner extends CI_Controller
             $this->form_data->streetNumber  = $user_diner['streetNumber'];
             $this->form_data->floor         = $user_diner['floor'];
             $this->form_data->door          = $user_diner['door'];
-                        
+            $this->form_data->idDiner       = $this->session[idDiner];
             $this->load->view('user_diner/save', $this->variables);
             
         } else {
