@@ -27,7 +27,7 @@
 					<div class="card">
 						<div class="card-header">
 							<h2>
-								InformaciÃ³n personal.<small>AquÃ­ se encuentran los datos
+								Información personal.<small>Aquí­ se encuentran los datos
 									personales del colaborador.</small>
 							</h2>
 						</div>

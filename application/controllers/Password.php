@@ -65,7 +65,8 @@ class Password extends CI_Controller {
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
 						'oldPassword' 	=> form_error('oldPassword'),
-						'newPassword'	=> form_error('newPassword'));
+						'newPassword'	=> form_error('newPassword'),
+				        'confPassword'	=> form_error('confPassword'));
 				$this->variables['error-fields'] = $data;
 			}
 			else
@@ -93,6 +94,7 @@ class Password extends CI_Controller {
 		$password->userName 	= $this->session->userName;
 		$password->oldPassword 	= $this->input->post('oldPassword');
 		$password->newPassword 	= $this->input->post('newPassword');
+		$password->confPassword = $this->input->post('confPassword');
 		return $password;
 	}
 	
@@ -102,8 +104,9 @@ class Password extends CI_Controller {
 	 */
 	private function _initialize_fields()
 	{
-		$this->form_data->oldPassword = '';
-		$this->form_data->newPassword = '';
+		$this->form_data->oldPassword  = '';
+		$this->form_data->newPassword  = '';
+		$this->form_data->confPassword = '';
 	}
 	
 	/**
@@ -112,7 +115,8 @@ class Password extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('oldPassword', 'contraseña actual', 'required');
-		$this->form_validation->set_rules('newPassword', 'nueva contraseña', 'required');
+		$this->form_validation->set_rules('oldPassword',  'clave actual', 'required');
+		$this->form_validation->set_rules('newPassword',  'nueva clave', 'required');
+		$this->form_validation->set_rules('confPassword', 'confirmacion de clave', 'matches[newPassword]');
 	}
 }

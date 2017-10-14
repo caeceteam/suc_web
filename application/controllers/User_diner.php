@@ -152,7 +152,7 @@ class User_diner extends CI_Controller
                     
                 } else{ 
                     if($this->_send_mail($this->_get_post())){
-                        $this->variables['message'] = 'Se envÃ­o un mail con el estado de la solicitud.';
+                        $this->variables['message'] = 'Se envío un mail con el estado de la solicitud.';
                     }else{
                         $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
                     }
@@ -194,7 +194,8 @@ class User_diner extends CI_Controller
             $this->form_data->streetNumber  = $user_diner['streetNumber'];
             $this->form_data->floor         = $user_diner['floor'];
             $this->form_data->door          = $user_diner['door'];
-            $this->form_data->idDiner       = $this->session[idDiner];
+            $idDiner                        = $this->session->userdata['idDiner'];                
+            $this->form_data->idDiner       = $idDiner;
             $this->load->view('user_diner/save', $this->variables);
             
         } else {
@@ -403,8 +404,6 @@ class User_diner extends CI_Controller
 	            return $password;
 	}
 	
-//* *********************************************************************************************** */
-
 
     /**
      * Obtiene los datos del post y los devuelve en forma de objeto
@@ -463,6 +462,7 @@ class User_diner extends CI_Controller
         $this->form_data->diner         = '';
         $this->form_data->newPassConf   = '';
         $this->form_data->newPass       = '';
+        $this->form_data->idDiner       = '';
     }
 
     /**
@@ -473,14 +473,14 @@ class User_diner extends CI_Controller
      */
     private function _set_rules ()
     {
-        $this->form_validation->set_rules('name',    'Nombre',      'trim|required');
-        $this->form_validation->set_rules('surname', 'Apellido',    'trim|required');
-        $this->form_validation->set_rules('mail',    'Mail',        'trim|required');
-        $this->form_validation->set_rules('bornDate',     'Fecha Nacimiento', 'trim|required');
-        $this->form_validation->set_rules('role',         'Puesto', 'trim|required');
-        $this->form_validation->set_rules('alias',        'Alias',         'trim|required');
-        $this->form_validation->set_rules('docNum',       'Documento',     'trim|required');
-        $this->form_validation->set_rules('street',       'Calle',         'trim|required');
-        $this->form_validation->set_rules('streetNumber', 'Numero',      'trim|required');
+        $this->form_validation->set_rules('name',         'Nombre',             'trim|required');
+        $this->form_validation->set_rules('surname',      'Apellido',           'trim|required');
+        $this->form_validation->set_rules('mail',         'Mail',               'trim|required');
+        $this->form_validation->set_rules('bornDate',     'Fecha Nacimiento',   'trim|required');
+        $this->form_validation->set_rules('role',         'Puesto',             'trim|required');
+        $this->form_validation->set_rules('alias',        'Alias',              'trim|required');
+        $this->form_validation->set_rules('docNum',       'Documento',          'trim|required');
+        $this->form_validation->set_rules('street',       'Calle',              'trim|required');
+        $this->form_validation->set_rules('streetNumber', 'Numero',             'trim|required');
      }
 	}
