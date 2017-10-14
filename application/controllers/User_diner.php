@@ -10,7 +10,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  ******************************************************************************************************/
 class User_diner extends CI_Controller {
 
-
 	// Array para guardar todas las variables de la pagina
 	private $variables;
 	
