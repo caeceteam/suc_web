@@ -95,7 +95,7 @@ class Input_type_model extends CI_Model {
 	/**
 	 * Edición de input type
 	 * @param		object	$input_type
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la edici�n fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function edit($input_type)
 	{
