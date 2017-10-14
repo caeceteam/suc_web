@@ -26,7 +26,41 @@
 					
                     <div id="c-grid" class="clearfix" data-columns>
 
-                        <!-- Contact -->
+                        
+                        <!-- Todo Lists -->
+                        <div class="card" id="todo-lists">
+                            <div class="card-header ch-dark palette-Orange-400 bg">
+                                <h2>Lista de aprobaciones pendientes <small>Existe un total de 5 aprobaciones pendientes	</small></h2>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="list-group lg-alt">
+                                    <div class="list-group-item-header palette-Orange text">Notificaciones</div>
+
+                                    <a href="<?php echo base_url('admin_application');?>" class="list-group-item media">
+                                        <div class="pull-left">
+                                            <img class="avatar-img" src="vendors/bower_components/material-design-iconic-font/svg/2.1/01 - web application/cutlery.svg" alt="">
+                                        </div>
+
+                                        <div class="media-body">
+                                            <div class="lgi-heading">Aprobaciones de comedores</div>
+                                            <small class="lgi-text"><?php echo $this->form_data->pending_approvals; ?></small>
+                                        </div>
+                                    </a>
+
+                                    <a href="" class="list-group-item media">
+                                        <div class="pull-left">
+                                            <img class="avatar-img" src="vendors/bower_components/material-design-iconic-font/svg/google/action/account-circle.svg" alt="">
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="lgi-heading">Aprobaciones de personas</div>
+                                            <small class="lgi-text">1 aprobacion/es pendiente/s</small>
+                                        </div>
+                                    </a>
+                                </div>                                
+                            </div>
+                        </div>
+						<!-- Contact -->
                         <div class="card">
                             <!--<div class="card-header ch-alt">-->
                             <div class="card-header ch-dark palette-Blue-300 bg">
@@ -52,44 +86,8 @@
                             </div>
                         </div>
                         
-                        
-                        <!-- Todo Lists -->
-                        <div class="card" id="todo-lists">
-                            <div class="card-header ch-dark palette-Orange-400 bg">
-                                <h2>Lista de aprobaciones pendientes <small>Existe un total de 5 aprobaciones pendientes	</small></h2>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="list-group lg-alt">
-                                    <div class="list-group-item-header palette-Orange text">Notificaciones</div>
-
-                                    <a href="<?php echo base_url('admin_application');?>" class="list-group-item media">
-                                        <div class="pull-left">
-                                            <img class="avatar-img" src="vendors/bower_components/material-design-iconic-font/svg/2.1/01 - web application/cutlery.svg" alt="">
-                                        </div>
-
-                                        <div class="media-body">
-                                            <div class="lgi-heading">Aprobaciones de comedores</div>
-                                            <small class="lgi-text">4 aprobacion/es pendiente/s</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="" class="list-group-item media">
-                                        <div class="pull-left">
-                                            <img class="avatar-img" src="vendors/bower_components/material-design-iconic-font/svg/google/action/account-circle.svg" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="lgi-heading">Aprobaciones de personas</div>
-                                            <small class="lgi-text">1 aprobacion/es pendiente/s</small>
-                                        </div>
-                                    </a>
-                                </div>                                
-                            </div>
-                        </div>
-
                         </div>
                     </div>
-                </div>
             </section>
 
             <?php $this->load->view('templates/footer'); ?>
@@ -112,10 +110,6 @@
 		<script src="<?php echo base_url('vendors/bower_components/flot.curvedlines/curvedLines.js')?>"></script>
 		<script src="<?php echo base_url('vendors/sparklines/jquery.sparkline.min.js')?>"></script>
 		<script src="<?php echo base_url('vendors/bower_components/salvattore/dist/salvattore.min.js')?>"></script>
-		
-		<script src="<?php echo base_url('js/flot-charts/curved-line-chart.js')?>"></script>
-		<script src="<?php echo base_url('js/flot-charts/bar-chart.js')?>"></script>
-		<script src="<?php echo base_url('js/charts.js')?>"></script>
 
     </body>
   </html>

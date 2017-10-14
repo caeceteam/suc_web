@@ -2,34 +2,55 @@
 
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
 
-class Diner_input_model extends CI_Model {
+class Assistant_model extends CI_Model {
 	/**
 	 * Variables para el rest client
 	 * @var string
 	 */
-	private $base_uri;
+	private $base_uri 	= 'http://localhost:3000';
 	private $client;
-	private $timeout;
+	private $timeout = 5.0;
+	
+	/**
+	 * Variables para los atributos del modelo
+	 * @var string
+	 */
+	public $id;
+	public $idDiner;
+	public $name;
+	public $surname;
+	public $bornDate;
+	public $street;
+	public $streetNumber;
+	public $floor;
+	public $door;
+	public $zipcode;
+	public $phone;
+	public $contactName;
+	public $scholarship;
+	public $eatAtOwnHouse;
+	public $economicSituation;
+	public $celiac;
+	public $diabetic;
+	public $document;
 	
 	public function __construct()
 	{
 		parent::__construct();
-		$this->config->load('api');
-		$this->base_uri = $this->config->item('api_base_uri');
-		$this->timeout	= $this->config->item('api_timeout');
-		$this->client   = new Client([
-			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
-			'base_uri' 	=> $this->base_uri,
-			'timeout'  	=> $this->timeout,
+		$this->client = new Client([
+			'base_uri' => $this->base_uri,
+			'timeout'  => $this->timeout,
 			]);
 	}
 	
 	/**
-	 * Consulta de tipo de insumo
+	 * Consulta asistentes
 	 * 
-	 * Consulta de insumos a la API
+	 * Consulta de asistentes a la API
 	 * @param 		string 		$url
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
@@ -46,35 +67,35 @@ class Diner_input_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de insumos by id
+	 * Consulta de concurrentes by id
 	 * @param 	int 	$id
 	 */
 	public function search_by_id($id)
 	{
-		$url = 'api/dinerinputs/' . $id;
+		$url = 'api/assistants/' . $id;
 		return $this->search($url);
 	}
 	
 	/**
-	 * Consulta de insumos por página para el listado
+	 * Consulta de concurrentes por página para el listado
 	 * @param 	string 	$page
 	 */
-	public function get_dinerinputs_by_page($page)
+	public function get_assistants_by_page($page)
 	{
-		$url = 'api/dinerinputs?page=' . $page;
+		$url = 'api/assistants?page=' . $page;
 		return $this->search($url);
 	}
 		
 	/**
-	 * Alta de diner input
-	 * @param		object	$diner_input
-	 * @return 		array   Si el alta fue exitosa, devuelve un array con el diner input, sino devuelve NULL
+	 * Alta de concurrentes
+	 * @param		object	$assistant
+	 * @return 		array   Si el alta fue exitosa, devuelve un array con el assistant, sino devuelve NULL
 	 */		
-	public function add($diner_input)
+	public function add($assistant)
 	{
 		try {
-			$response = $this->client->request('POST', 'api/dinerinputs', [
-				'json' => $diner_input
+			$response = $this->client->request('POST', 'api/assistants', [
+				'json' => $assistant
 			]);
 			if($response->getStatusCode()==HTTP_CREATED)
 			{
@@ -89,15 +110,15 @@ class Diner_input_model extends CI_Model {
 	}
 	
 	/**
-	 * Edición de diner input
-	 * @param		object	$diner_input
-	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el diner input, sino devuelve NULL
+	 * Edición de concurrente
+	 * @param		object	$assistant
+	 * @return 		array   Si la edición fue exitosa, devuelve un array con el assistant, sino devuelve NULL
 	 */
-	public function edit($diner_input)
+	public function edit($assistant)
 	{
 		try {
-			$response = $this->client->request('PUT', 'api/dinerinputs/' . $diner_input->id, [
-					'json' => $diner_input
+			$response = $this->client->request('PUT', 'api/assistants/' . $assistant->id, [
+					'json' => $assistant
 			]);
 			if($response->getStatusCode()==HTTP_ACCEPTED)
 			{
@@ -120,7 +141,7 @@ class Diner_input_model extends CI_Model {
 	{
 		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
 		$errorResponse['errors'] = TRUE;
-		if($exceptionData->getCode() == 500)
+		if($exceptionData->getCode() == HTTP_INTERNAL_SERVER)
 		{
 			return $errorResponse;
 		}
@@ -128,13 +149,13 @@ class Diner_input_model extends CI_Model {
 	}
 	
 	/**
-	 * Delete de diner input
+	 * Delete de concurrentes
 	 * @param		string	$id
-	 * @return 		bool   Si la baja fue exitosa, devuelve TRUE
+	 * @return 		bool   Si la baja fue exitosa, devuelve un array con el assistant, sino devuelve NULL
 	 */
 	public function delete($id)
 	{
-		$response = $this->client->request('DELETE', 'api/dinerinputs/' . $id);
+		$response = $this->client->request('DELETE', 'api/assistants/' . $id);
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			return TRUE;

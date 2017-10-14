@@ -22,8 +22,9 @@ class Input_type_model extends CI_Model {
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
 		$this->client   = new Client([
+			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
 			'base_uri' 	=> $this->base_uri,
-			'timeout'  	=> $this->timeout,
+			'timeout'  	=> $this->timeout
 			]);
 	}
 	
@@ -57,12 +58,14 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de tipos de insumos por p�gina para el listado
+	 * Consulta de tipos de insumos por pÃ¡gina y bÃºsqueda para el listado
 	 * @param 	string 	$page
+	 * 			string	$searchTxt
 	 */
-	public function get_inputtypes_by_page($page)
+	// TODO: Cambiar bÃºsqueda por name por bÃºsqueda genÃ©rica
+	public function get_inputtypes_by_page_and_search($page, $searchTxt)
 	{
-		$url = 'api/inputtypes?page=' . $page;
+		$url = 'api/inputtypes?page=' . $page . '&code=' . $searchTxt;
 		return $this->search($url);
 	}
 		
@@ -90,9 +93,9 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Edición de input type
+	 * EdiciÃÂ³n de input type
 	 * @param		object	$input_type
-	 * @return 		array   Si la edici�n fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la ediciÃÂ³n fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function edit($input_type)
 	{
@@ -114,17 +117,14 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Funci�n que mapea el mensaje de error desde la API usado en los editores
+	 * FunciÃ³n que mapea el mensaje de error desde la API usado en los editores
 	 * @param 	exception $exceptionData
 	 */
 	private function errorMessage($exceptionData) 
 	{
 		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
 		$errorResponse['errors'] = TRUE;
-		foreach ($errorResponse['fields'] as $errorKey => $errorValue) {
-			$errorResponse['fields'][$errorKey] = $errorValue . " ya esta siendo utilizado";
-		}
-		if($exceptionData->getCode() == 500)
+		if($exceptionData->getCode() == HTTP_INTERNAL_SERVER)
 		{
 			return $errorResponse;
 		}

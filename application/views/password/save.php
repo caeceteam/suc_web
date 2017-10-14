@@ -21,45 +21,44 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2>Crear tipo de Insumo</h2>
+                        <h2>Cambiar contraseña</h2>
                     </div>
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creación del tipo de insumo.</small>
+                            <small>Ingrese los datos para cambiar su contraseña.</small>
 
                             <br/><br/>
 
                             <div class="row">
                                 <div class="card-body card-padding">
 								
-									<form role="form" action="<?php echo $action; ?>" class="input-type-form" method="POST" enctype="multipart/form-data">
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="name">
-												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
-												<label class="fg-label">Nombre</label>
+									<form role="form" action="<?php echo $action; ?>" class="diner-input-form" method="POST">
+																			
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="quantity">
+														<input type="password" id="oldPassword" name="oldPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('oldPassword',$this->form_data->oldPassword); ?>">
+														<label class="fg-label">Contraseña actual</label>
+													</div>
+												</div>
 											</div>
-										</div>
-										<br/>
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="code">
-												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
-												<label class="fg-label">Código</label>
+											
+											<div class="col-sm-6">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="quantity">
+														<input type="password" id="newPassword" name="newPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('newPassword',$this->form_data->newPassword); ?>">
+														<label class="fg-label">Nueva contraseña</label>
+													</div>
+												</div>
 											</div>
-										</div>
-										<br/>
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="description">
-												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
-												<label class="fg-label">Descripción</label>
-											</div>
-										</div>
+										</div>								
 										
-										<?php $this->load->view('templates/alerts'); ?>			                        
+										<?php $this->load->view('templates/alerts'); ?>
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
-										<a href="<?php echo site_url('input_type'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
-										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
+										<a href="<?php echo site_url('home'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
 									</form>								
                                 </div>
                             </div>
@@ -89,18 +88,18 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
-		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
+		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
+
 		<script>
-			$('.input-type-form').submit(function() {
-				debugger;
+			$('.diner-input-form').submit(function() {
 				showConfirmDialog({
-					title: "¿Está seguro grabar este tipo de insumo?",
-					text: "El tipo de insumo se grabará en el sistema",
+					title: "¿Esta seguro?",
+					text: "Su contraseña sera modificada",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
-					successText: "El tipo de insumo se ha grabado en el sistema.",
-					failedText: "El tipo de insumo no pudo ser grabado en el sistema.",
+					successText: "La contraseña se ha modificado.",
+					failedText: "La contraseña no pudo ser modificada.",
 					redirectUrl: $("#redirect-url")[0].value
 				});
 				return false;
