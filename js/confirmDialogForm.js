@@ -1,4 +1,5 @@
 function showConfirmDialog(params) {
+	debugger;
 	swal({
 		title: params.title,
 		text: params.text,
@@ -32,7 +33,6 @@ function showConfirmDialog(params) {
 				{
 					$.ajax({
 						type : 'POST',
-						dataType:'json',
 						data: params.formData,
 				       	url: params.requestUrl, // target element(s) to be updated with server response 
 				       	cache : false,

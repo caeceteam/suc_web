@@ -35,7 +35,7 @@
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <a href="<?php echo base_url('assistant/add');?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
+                                    <a href="<?php echo base_url('assistant/add/') . $this->session->idDiner;?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
                                 </div>
                             </form>			
 						</div>

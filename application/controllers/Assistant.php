@@ -38,18 +38,19 @@ class Assistant extends CI_Controller {
 	 * Funcion que se carga por default al invocar al controlador sin especificar la URL completa
 	 * @return void
 	 */
-	public function index()
-	{
-		$this->variables['data-request-url'] = site_url('assistant/render_table_response');
+	public function index($idDiner=NULL)
+	{		
+		$idDinerForSearch = $idDiner == NULL ? $this->session->idDiner : $idDiner;
+		$this->variables['data-request-url'] = site_url('assistant/render_table_response/') . $idDinerForSearch;
 		$this->load->view('assistant/search', $this->variables);
-	}
+	}	
 	
 	/**
 	 * Funcion para retornar la información a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
-	public function render_table_response()
+	public function render_table_response($idDiner=NULL)
 	{
-		$service_data = $this->Assistant_model->get_assistants_by_page_and_idDiner($this->input->post('current') - 1, $this->session->idDiner);
+		$service_data = $this->Assistant_model->get_assistants_by_page_and_idDiner($this->input->post('current') - 1, $idDiner);
 		$pagination_data = $service_data['pagination'];
 		$assistants_data = $service_data['assistants'];
 		
@@ -74,7 +75,7 @@ class Assistant extends CI_Controller {
 	 * Funcion que muestra el formulario de alta y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @return void
 	 */
-	public function add()
+	public function add($idDiner=NULL)
 	{
 		$this->variables['action'] = site_url('assistant/add');
 		$this->variables['request-action'] = 'POST';
@@ -82,6 +83,7 @@ class Assistant extends CI_Controller {
 		$this->_set_rules();
 		if ($this->input->method() == "get")
 		{
+			$this->input->idDiner = $idDiner;
 			$this->load->view('assistant/save', $this->variables);
 		}
 		else
@@ -199,7 +201,7 @@ class Assistant extends CI_Controller {
 	{
 		$assistant = new stdClass();
 		$assistant->id					= $id != NULL ? $id : $this->input->post('id');
-		$assistant->idDiner				= $this->session->idDiner;
+		$assistant->idDiner				= $this->input->post('idDiner');
 		$assistant->name				= $this->input->post('name');
 		$assistant->surname				= $this->input->post('surname');
 		$assistant->bornDate			= date("Y-m-d", strtotime($this->input->post('bornDate')));;
@@ -211,10 +213,10 @@ class Assistant extends CI_Controller {
 		$assistant->phone				= $this->input->post('phone');
 		$assistant->contactName			= $this->input->post('contactName');
 		$assistant->scholarship			= $this->input->post('scholarship');
-		$assistant->eatAtOwnHouse		= $this->input->post('eatAtOwnHouse');
+		$assistant->eatAtOwnHouse		= $this->input->post('eatAtOwnHouse') == 1;
 		$assistant->economicSituation	= $this->input->post('economicSituation');
-		$assistant->celiac				= $this->input->post('celiac');
-		$assistant->diabetic			= $this->input->post('diabetic');
+		$assistant->celiac				= $this->input->post('celiac') == 1;
+		$assistant->diabetic			= $this->input->post('diabetic') == 1;
 		$assistant->document			= $this->input->post('document');
 		$assistant->latitude			= $this->input->post('latitude');
 		$assistant->longitude			= $this->input->post('longitude');

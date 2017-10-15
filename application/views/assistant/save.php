@@ -136,7 +136,7 @@
 										<?php $this->load->view('templates/alerts'); ?>				                        
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
-										<a href="<?php echo site_url('assistant'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
+										<a href="<?php echo site_url('assistant') . '/' . $this->form_data->idDiner; ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
 										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
 										<?php echo form_hidden('idDiner', ($reset) ? '' : set_value('id',$this->form_data->idDiner)); ?>
 									</form>								
@@ -168,14 +168,15 @@
 		
 		<script>
 			$('.assistant-form').submit(function() {
+				debugger;
 				showConfirmDialog({
 					title: "¿Está seguro grabar este concurrente?",
 					text: "El concurrente se grabará en el sistema",
-					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
+					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action + "/" + $("input[name='idDiner']")[0].value : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
 					successText: "El concurrente se ha grabado en el sistema.",
 					failedText: "El concurrente no pudo ser grabado en el sistema.",
-					redirectUrl: $("#redirect-url")[0].value
+					redirectUrl: $("#redirect-url")[0].value + "/" + $("input[name='idDiner']")[0].value
 				});
 				return false;
 			}); 

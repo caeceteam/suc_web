@@ -1,10 +1,8 @@
 <?php
 
 use GuzzleHttp\Client;
-use function GuzzleHttp\json_decode;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\json_decode;
 
 class Assistant_model extends CI_Model {
 	/**
@@ -41,6 +39,9 @@ class Assistant_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->config->load('api');
+		$this->base_uri = $this->config->item('api_base_uri');
+		$this->timeout	= $this->config->item('api_timeout');
 		$this->client 	= new Client([
 			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
 			'base_uri' 	=> $this->base_uri,
