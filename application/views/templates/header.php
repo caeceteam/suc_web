@@ -1,4 +1,4 @@
-<header id="header" class="media">
+<header id="header" class="media" style="position: fixed; width: 100%; top: 0; height: 105px; padding-top: 15px;">
 	<div class="pull-left h-logo">
 		<a href="<?php echo base_url('');?>" class="hidden-xs">
         	 
@@ -26,8 +26,8 @@
             </a>
 
             <ul class="dropdown-menu pull-right dm-icon">
-            	<li>
-                	<a href="profile-about.html"><i class="zmdi zmdi-account"></i> Mis Datos</a>
+            	 <li>
+                	<a href="<?php echo base_url('user_diner/save');?>"l"><i class="zmdi zmdi-account"></i> Mis Datos</a>
                 </li>
                 <li>
                 	<a href="<?php echo base_url('password');?>"><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
@@ -39,3 +39,4 @@
 		</li>
     </ul>
 </header>
+<div id="header" class="media" style="top: 0; height: 105px; padding-top: 15px; position: inherit;"></div>

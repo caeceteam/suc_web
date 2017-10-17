@@ -82,7 +82,7 @@
 											</div>
 											<div class="fg-float form-group col-xs-12" style="padding-left: 0;padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<textarea class="form-control auto-size" name="description "><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
+													<textarea class="form-control auto-size" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
 													<label class="fg-label">Descripción del comedor</label>
 												</div>
 											</div>
