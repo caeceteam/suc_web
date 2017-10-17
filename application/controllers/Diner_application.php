@@ -105,7 +105,7 @@ class Diner_application extends CI_Controller {
 		$diner_application->user->alias 		= $this->input->post('alias');
 		$diner_application->user->mail			= $this->input->post('user_mail');
 		$diner_application->user->state 		= USER_INACTIVE;
-		$diner_application->user->role 			= 1;//@TODO Ver como resolvemos esto
+		$diner_application->user->role 			= DINER_ADMIN;
 		return $diner_application;
 	}
 	

@@ -124,3 +124,17 @@ defined('DINER_REJECTED')      	OR define('DINER_REJECTED', 2);
  */
 defined('USER_INACTIVE')     	OR define('USER_INACTIVE', 0);
 defined('USER_ACTIVE')      	OR define('USER_ACTIVE', 1);
+
+/*
+ |--------------------------------------------------------------------------
+ | Codigos de roles de usuario
+ |--------------------------------------------------------------------------
+ |
+ | Usados para manejar los roles de usuarios
+ |
+ */
+defined('SYS_ADMIN')     		OR define('SYS_ADMIN', 0);
+defined('DINER_ADMIN')      	OR define('DINER_ADMIN', 1);
+defined('EMPLOYEE')      		OR define('EMPLOYEE', 2);
+defined('COLABORATOR')      	OR define('COLABORATOR', 3);
+defined('GUEST')      			OR define('GUEST', 4);
