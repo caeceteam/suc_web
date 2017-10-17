@@ -144,6 +144,7 @@ class Assistant_model extends CI_Model {
 	{
 		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
 		$errorResponse['errors'] = TRUE;
+		$errorResponse['fields'] = "Error del sistema creando al concurrente";
 		if($exceptionData->getCode() == HTTP_INTERNAL_SERVER)
 		{
 			return $errorResponse;

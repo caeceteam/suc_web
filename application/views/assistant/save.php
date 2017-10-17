@@ -57,7 +57,7 @@
 											</div>
 											<div class="form-group fg-float col-sm-3">
 												<div class="fg-line" data-id="document">
-													<input type="text" id="document" name="document" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name', $this->form_data->name); ?>">
+													<input type="text" id="document" name="document" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('document', $this->form_data->document); ?>">
 													<label class="fg-label">Nro. de documento</label>
 												</div>
 											</div>
