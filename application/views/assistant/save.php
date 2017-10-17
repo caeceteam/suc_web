@@ -168,7 +168,6 @@
 		
 		<script>
 			$('.assistant-form').submit(function() {
-				debugger;
 				showConfirmDialog({
 					title: "¿Está seguro grabar este concurrente?",
 					text: "El concurrente se grabará en el sistema",
