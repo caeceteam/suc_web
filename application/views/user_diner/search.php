@@ -28,7 +28,7 @@
                                 <div class="col-sm-4">
                                     <div style="position: relative;display: block;margin-top: 10px;margin-bottom: 10px;"> <!--TODO CC: Pass style inline to css class-->
                                         <label>
-                                            Â¿Desea dar de alta un nuevo usuario?
+                                            ¿Desea dar de alta un nuevo usuario?
                                         </label>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
         		//viewUrl: 	"<?php echo site_url('user_diner/view/') ?>",
         		editUrl: 	"<?php echo site_url('user_diner/edit/') ?>",
         		deleteUrl: 	"<?php echo site_url('user_diner/delete/') ?>",
-        		deleteDialogTitle: 	 "Â¿EstÃ¡ seguro de dar de baja al usuario en el comedor?",
+        		deleteDialogTitle: 	 "!Está¡ seguro de dar de baja al usuario en el comedor?",
         		deleteDialogText: 	 "El usuario sera dado de baja en el comedor",
         		deleteDialogSuccess: "El usuario fue dado de baja en el comedor ."
             });

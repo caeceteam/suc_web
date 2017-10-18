@@ -18,7 +18,7 @@ class User_diner extends CI_Controller
     private $variables;
     private $pass_view;
     private $pass_no_view;
-
+    private $dinerUser;
     /**
      * Array para guardar exclusivamente los values del formulario
      * 
@@ -39,8 +39,8 @@ class User_diner extends CI_Controller
 	//$this->load->library('form_validation');
 		$this->load->library(array('form_validation', 'session', 'email', 'upload'));
 		$this->load->helper(array('url', 'form'));    
-  	$this->load->model('User_diner_model');
-        
+    	$this->load->model('User_diner_model');
+
         // Instancio una clase vacia para evitar el warning "Creating default object from empty value"         
         $this->form_data = new stdClass(); 
         $this->variables['idUser'] = '';
@@ -142,8 +142,10 @@ class User_diner extends CI_Controller
                 $this->variables['error-fields'] = $data;
 
             } else {
-                 $response = $this->User_diner_model->add($this->_get_post());
-                 if ((isset($response['errors'])) && ($response['errors'] != null)){
+                $response = $this->User_diner_model->add($this->_get_post());
+                //$id =  $this->session->userdata['idDiner'];
+                //$response = $this->Diner_application_model->add($this->_get_post_apli($id));
+                if ((isset($response['errors'])) && ($response['errors'] != null)){
                  $this->output->set_status_header('500');
                  $this->variables['error-type']  = 'unique';
                  // Concateno mensaje en formato HTML para que pueda mostrarse desde la Vista
@@ -174,6 +176,8 @@ class User_diner extends CI_Controller
         $this->variables['action']          = site_url('user_diner/edit');
         $this->variables['request-action']  = 'PUT';
         $this->variables['redirect-url']    = site_url('user_diner');
+        $page = $this->session->get_userdata();
+        
         // Si no es un post, no se llama al editar y solo se muestran los campos
         // para editar
         if ($this->input->method() == "get") {
@@ -224,7 +228,7 @@ class User_diner extends CI_Controller
                 }
                 else{ 
                     if($this->_send_mail($this->_get_post())){
-                        $this->variables['message'] = 'Se envÃ­o un mail con el estado de la solicitud.';
+                        $this->variables['message'] = 'Se envío un mail con el estado de la solicitud.';
                     }else{
                         $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
                     }
@@ -352,7 +356,7 @@ class User_diner extends CI_Controller
 	}
 
 	/**
-	 * FunciÃ³n que envia un mail de confirmacion de cuenta 
+	 * Función que envia un mail de confirmacion de cuenta 
 	 * @param    $user_diner 	array  array del user diner
 	 * @return   bool 			indica si el mail se pudo enviar
 	 */
@@ -483,4 +487,53 @@ class User_diner extends CI_Controller
         $this->form_validation->set_rules('street',       'Calle',              'trim|required');
         $this->form_validation->set_rules('streetNumber', 'Numero',             'trim|required');
      }
+
+     /**
+      * Obtiene los datos del post y los devuelve en forma de objeto
+      * @return		object		$diner_application
+      */
+     private function _get_post_apli($id)
+     {
+         $diner_application 		= new stdClass();
+         $diner_application->diner 	= new stdClass();
+         $diner_application->user 	= new stdClass();
+          
+         $diner = $this->Diner_model->search_by_id($id)['diner'];
+         $diner_application->diner->id	            = $diner['idDiner'];
+         $diner_application->diner->name            = $diner['name'];
+         $diner_application->diner->state			= $diner['state'];
+         $diner_application->diner->street		    = $diner['street'];
+         $diner_application->diner->streetNumber	= $diner['streetNumber'];
+         $diner_application->diner->floor			= $diner['floor'];
+         $diner_application->diner->door			= $diner['door'];
+         $diner_application->diner->latitude		= $diner['latitude'];
+         $diner_application->diner->longitude		= $diner['longitude'];
+         $diner_application->diner->zipCode		    = $diner['zipCode'];
+         $diner_application->diner->phone			= $diner['phone'];
+         $diner_application->diner->description	    = $diner['description'];
+         $diner_application->diner->link			= $diner['link'];
+         $diner_application->diner->mail			= $diner['mail'];
+         $diner_application->diner->state			= $diner['state'];
+         $diner_application->user->idUser           = $id != NULL ? $id : $this->input->post('id');
+         $diner_application->user->name             = $this->input->post('name');
+         $diner_application->user->surname          = $this->input->post('surname');
+         $diner_application->user->mail             = $this->input->post('mail');
+         $diner_application->user->phone            = $this->input->post('phone');
+         $user_bornData                             = new DateTime($this->input->post('bornDate'));
+         $user_bornData                             = date_format($user_bornData, 'Y-m-d');
+         $diner_application->user->bornDate         = $user_bornData;
+         $diner_application->user->role             = $this->input->post('role');
+         $diner_application->user->pass             = $this->_generate_password();
+         $diner_application->user->alias            = $this->input->post('alias');
+         $diner_application->user->docNum           = $this->input->post('docNum');
+         $diner_application->user->street           = $this->input->post('street');
+         $diner_application->user->streetNumber     = $this->input->post('streetNumber');
+         $diner_application->user->floor            = $this->input->post('floor');
+         $diner_application->user->door             = $this->input->post('door');
+         $diner_application->user->diner            = $this->input->post('diner');
+         return $diner_application;
+     }
+      
+     
+     
 	}

@@ -27,7 +27,8 @@
 
             <ul class="dropdown-menu pull-right dm-icon">
             	 <li>
-                	<a href="<?php echo base_url('user_diner/save');?>"l"><i class="zmdi zmdi-account"></i> Mis Datos</a>
+					<?php $this->session->set_userdata('previous_page', uri_string());?>
+                	<a href="<?php echo base_url('user_diner/edit/'.$this->session->userdata['idUser'] );?>"><i class="zmdi zmdi-account"></i> Mis Datos</a>
                 </li>
                 <li>
                 	<a href="<?php echo base_url('password');?>"><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
