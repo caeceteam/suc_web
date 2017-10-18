@@ -33,6 +33,7 @@ class Event extends CI_Controller {
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->variables['controller-name'] = 'event';
 		$this->_initialize_fields();
+		$this->login->is_logged_in();
 	}
 	
 	/**
@@ -49,9 +50,11 @@ class Event extends CI_Controller {
 	 * Funcion que muestra el formulario de alta y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @return void
 	 */
-	public function add()
+	public function add2()
 	{
 		$this->variables['action'] = site_url('event/add');
+		$this->variables['request-action'] = 'POST';
+		$this->variables['redirect-url'] = site_url('event');
 		$this->_set_rules();
 		$html_ok = '<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
 		$html_error = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
@@ -79,6 +82,53 @@ class Event extends CI_Controller {
 		}
 		$this->load->view('event/save', $this->variables);
 	}
+	
+	/**
+	 * Funcion que muestra el formulario de alta y guarda la misma cuando la validacion del formulario no arroja errores
+	 * @return 	array 	$variables
+	 */
+	public function add()
+	{
+		$this->variables['action'] = site_url('event/add');
+		$this->variables['request-action'] = 'POST';
+		$this->variables['redirect-url'] = site_url('event');
+		$this->_set_rules();
+		if ($this->input->method() == "get")
+		{
+			$this->load->view('event/save', $this->variables);
+		}
+		else
+		{// Todo esto corresponde al POST
+			if ($this->form_validation->run() == FALSE)
+			{
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'empty-field';
+				$data = array(
+						'name' 				=> form_error('name'),
+						'street'			=> form_error('street'),
+						'streetNumber' 		=> form_error('streetNumber'),
+						'date' 				=> form_error('date'));
+				$this->variables['error-fields'] = $data;
+			}
+			else
+			{
+				$response = $this->Event_model->add($this->_get_post());
+				if (isset($response['errors']))
+				{
+					$this->output->set_status_header('500');
+					$this->variables['error-type'] = 'unique';
+					$this->variables['error-fields'] = $response['fields'];
+				}else{
+					//if($this->_send_mail($event->name, $event->description, $event->street . $event->streetNumber))
+					//	$this->variables['message'] = $html_ok . 'Se confirmó el Evento y se envió un correo con copia de los datos' . $html_close;
+					//else
+					//	$this->variables['message'] = $html_error . 'Ocurrió un error al enviar el mail de confirmación' . $html_close;
+						$this->variables['reset'] = TRUE;
+				}
+			}
+			echo json_encode($this->variables);
+		}
+	}
 
 	/**
 	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion
@@ -89,8 +139,10 @@ class Event extends CI_Controller {
 	public function edit($id=NULL)
 	{
 		$this->variables['action'] = site_url('event/edit');
+		$this->variables['request-action'] = 'PUT';
+		$this->variables['redirect-url'] = site_url('event');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if(!$this->input->post('name'))
+		if($this->input->method() == "get")
 		{
 			$event                       		= $this->Event_model->search_by_id($id);
 			$this->form_data->id             	= $event['idEvent'];
@@ -105,38 +157,62 @@ class Event extends CI_Controller {
 			$this->form_data->zipCode 			= $event['zipCode'];
 			$this->form_data->description 		= $event['description'];
 			$this->form_data->link 				= $event['link'];
-			$this->form_data->date 				= $event['date'];
-			//$this->form_data->time				= now();
-			//$this->form_data->idCity 			= $event['idCity'];
-			//$this->form_data->photo 			= $event['photo'];
+			$this->form_data->date 				= nice_date($event['date'], 'Y-m-d');
+			$this->form_data->time				= substr($event['date'], -13, 5);
+			$this->form_data->photo 			= isset($event['photos'][0]['url']) ? $event['photos'][0]['url'] : base_url('img/sin_imagen.png');
+			
+			$this->load->view('event/save', $this->variables);
 		}
 		else
 		{
 			$this->_initialize_fields();
 			$this->_set_rules();
 			$event = new stdClass();
-			if($this->form_validation->run() == FALSE)
+			if ($this->form_validation->run() == FALSE)// Todo esto corresponde al PUT
 			{
-				$this->variables['message']= validation_errors();
-			}
-			else if($this->Event_model->edit($this->_get_post())!=NULL)
-			{
-				$this->variables['message'] = 'Datos editados!';
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'empty-field';
+				$data = array(
+						'name'			=> form_error('name'),
+						'street' 		=> form_error('street'),
+						'streetNumber' 	=> form_error('streetNumber'),
+						'date' 			=> form_error('date'));
+				$this->variables['error-fields'] = $data;
 			}
 			else
 			{
-				$this->variables['message'] = 'Error al editar';
+				$response = $this->Event_model->edit($this->_get_post());
+				if (isset($response['errors']))
+				{
+					$this->output->set_status_header('500');
+					$this->variables['error-type'] = 'unique';
+					$this->variables['error-fields'] = $response['fields'];
+				}
 			}
+			echo json_encode( $this->variables );
 		}
-		$this->load->view('event/save', $this->variables);
+		
 	}
+	
+	/**
+	 * Funcion de baja
+	 * @param		string	$id
+	 * @return void
+	 */
+	public function delete($id = NULL)
+	{
+		$this->Event_model->delete($id);
+		$this->index();
+	}
+	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
 	 * @return		object		$event
 	 */
-	private function _get_post()
+	private function _get_post($id=NULL)
 	{
 		$event 	= new stdClass();
+		$event->id 				= $id != NULL ? $id : $this->input->post('id');
 		$event->name			= $this->input->post('name');
 		$event->street			= $this->input->post('street');
 		$event->streetNumber	= $this->input->post('streetNumber');
@@ -147,10 +223,14 @@ class Event extends CI_Controller {
 		$event->longitude		= $this->input->post('longitude');
 		$event->zipCode			= $this->input->post('zipCode');
 		$event->link			= $this->input->post('link');
-		$event->date			= nice_date($this->input->post('date'), 'Y-m-d');
-		$event->description		= $this->input->post('description');
+		
+			$event->description		= $this->input->post('description');
+		$event->idDiner 		= 1;//$this->input->post('idDiner');
 		$event->photos[0] 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+	
+		$event->date			= $this->input->post('date') . "T" . $this->input->post('time') . "Z";
 
+		
 		return $event;
 	}
 	
@@ -175,6 +255,8 @@ class Event extends CI_Controller {
 		$this->form_data->photo = '';
 		$this->form_data->date = '';
 		$this->form_data->time = '';
+		$this->form_data->id = '';
+		$this->form_data->idDiner = '';
 	}
 	
 	/**
@@ -212,14 +294,14 @@ class Event extends CI_Controller {
 	{
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
-		$this->form_validation->set_rules('streetNumber', 'Número', 'trim|required');
+		$this->form_validation->set_rules('streetNumber', 'Numero', 'trim|required');
 		$this->form_validation->set_rules('floor', 'Piso', 'trim');
 		$this->form_validation->set_rules('door', 'Departamento', 'trim');
 		$this->form_validation->set_rules('phone', 'Teléfono de contacto', 'trim');
 		$this->form_validation->set_rules('latitude', 'Latitud', 'trim');
 		$this->form_validation->set_rules('longitude', 'Longuitud', 'trim');
 		$this->form_validation->set_rules('zipCode', 'CP', 'trim');
-		$this->form_validation->set_rules('date', 'Fecha', 'trim');
+		$this->form_validation->set_rules('date', 'Fecha', 'trim|required');
 		$this->form_validation->set_rules('link', 'Página', 'trim');
 		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}

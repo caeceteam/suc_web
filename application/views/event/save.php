@@ -5,14 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
-
+        
 		<?php $this->load->view('templates/styles'); ?>
-		<link href="vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
-        <link href="vendors/bower_components/nouislider/distribute/jquery.nouislider.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-        <link href="vendors/farbtastic/farbtastic.css" rel="stylesheet">
-        <link href="vendors/bower_components/chosen/chosen.min.css" rel="stylesheet">
-        <link href="vendors/summernote/dist/summernote.css" rel="stylesheet">
 
     </head>
 
@@ -29,7 +23,8 @@
                     <div class="c-header">
                         <h2 style="font-size: 25px;">Alta de Evento</h2> <!--TODO CC: Pass style inline to css class-->
                     </div>
-
+					
+					
                     <div class="card">
                         <div class="card-body card-padding">
                             <small>Ingrese los datos correspondientes al evento que desee dar de alta para el comedor</small>
@@ -65,10 +60,10 @@
 											<div class="fg-float form-group col-xs-3" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
 													<input value="<?php echo ($reset) ? '' : set_value('door',$this->form_data->door); ?>" type="text" name="door" class="input-sm form-control fg-input">
-													<label class="fg-label">Departamento</label>
+													<label class="fg-label">Depto.</label>
 												</div>
 											</div>
-											<div class="fg-float form-group col-xs-6"; style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
+											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
 													<input value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>" type="text" name="phone" class="input-sm form-control fg-input">
 													<label class="fg-label">Teléfono de contacto</label>
@@ -86,36 +81,39 @@
 													<label class="fg-label">Descripción del evento</label>
 												</div>
 											</div>
-											<div class="card-padding card-header">
-
-				                            <div class="row">
-				                                <div class="col-sm-4">
-				                                    <p class="c-black f-500 m-b-20">Fecha</p>
-				
-				                                    <div class="input-group form-group">
-				                                        <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-				                                            <div class="dtp-container fg-line">
-				                                            <input type='text' class="form-control date-picker" placeholder="Click here...">
-				                                        </div>
-				                                    </div>
-				                                </div>
-				
-				                                <div class="col-sm-4">
-				                                    <p class="c-black f-500 m-b-20">Hora</p>
-				
-				                                    <div class="input-group form-group">
-				                                        <span class="input-group-addon"><i class="zmdi zmdi-time"></i></span>
-				                                            <div class="dtp-container fg-line">
-				                                            <input type='text' class="form-control time-picker" placeholder="Click here...">
-				                                        </div>
-				                                    </div>
-				                                </div>
-				                            </div>
-										  	<p></p>										
-											<p><b>Subir foto del Evento</b></p>
-											<p>Seleccione la imágen que desee subir del evento.</p>
-											<div class="fileinput fileinput-new" data-provides="fileinput">
-												<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+											
+											<br/><br/>
+				                            <p class="c-black f-500 m-b-5 m-t-20">Cuándo sucederá el evento?</p>
+				                            <small>Ingrese fecha y hora del evento</small>
+				                            <br/>
+				                            <br/>
+				                            <br/>
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="date">
+														<input type="text" id="date" name="date" class="form-control input-mask" data-mask="0000-00-00" value="<?php echo ($reset) ? '' : set_value('date',$this->form_data->date); ?>">
+														<label class="fg-label">Fecha (año-mes-día)</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="time">
+														<input type="text" id="time" name="time" class="form-control input-mask" data-mask="00:00" value="<?php echo ($reset) ? '' : set_value('time',$this->form_data->time); ?>">
+														<label class="fg-label">Hora (hora:min)</label>
+													</div>
+												</div>
+											</div>
+										</div>
+											<!--<div class="card-padding card-header">		-->									
+										<p></p>
+										<br/>
+				                        <br/>
+				                        <br/>										
+										<p><b>Subir foto del Evento</b></p>
+										<p>Seleccione la imágen que desee subir del evento.</p>
+										<div class="fileinput fileinput-new" data-provides="fileinput">
+											<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
 												<div>
 													<span class="btn btn-info btn-file">
 														<span class="fileinput-new">Seleccionar archivo</span>
@@ -124,30 +122,27 @@
 													</span>
 													<a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Quitar</a>
 												</div>
-											</div>
-
-											<br/>
-											<br/>
-											<div class="pmb-block">
-												<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
-												<a href="<?php echo site_url('event'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>	
-											</div>
-
-											</br>
-											
-											 
 										</div>
-									</form>
+
+										<br/>
+										<br/>
+										<?php $this->load->view('templates/alerts'); ?>
+											
+										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
+										<a href="<?php echo site_url('event'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
+										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
+									
+									</form>		 
                                 </div>
-                            </div>
-       
-                        <br/>
+                        </div>
                     </div>
+            		<br/>
                 </div>
             </section>
 
 			<?php $this->load->view('templates/footer'); ?>
-
+			<input hidden id="redirect-url" value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
+			<input hidden id="request-action" value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
         </section>
 
         <!-- Page Loader -->
@@ -160,33 +155,24 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
-		
-		<script src="vendors/bower_components/moment/min/moment.min.js"></script>
-        <script src="vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
-        <script src="vendors/bower_components/nouislider/distribute/jquery.nouislider.all.min.js"></script>
-        <script src="vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script>
-        <script src="vendors/summernote/dist/summernote-updated.min.js"></script>
-		
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
-
 		<script>
 			$('.event-form').submit(function() {
 				showConfirmDialog({
-					title: "Está seguro guardar el evento?",
-					text: "El evento generará en el comedor",
+					title: "¿Está seguro grabar este evento?",
+					text: "El evento se grabará en el sistema",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
-					successText: "Se creó/modificó el evento exitosamente.",
-					failedText: "No se pudo crear/modificar el evento.",
+					successText: "El evento se ha grabado en el sistema.",
+					failedText: "El evento no pudo ser grabado en el sistema.",
 					redirectUrl: $("#redirect-url")[0].value,
-					containImage: true
+					containImage: false,
 				});
 				return false;
 			}); 
 			
         </script>
-
+        
 		<script>
 		  // This example displays an address form, using the autocomplete feature
 		  // of the Google Places API to help users fill in the information.

@@ -139,7 +139,7 @@
 
 		<?php $this->load->view('templates/scripts'); ?>
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
-				<script>
+		<script>
 			$('.diner-food-form').submit(function() {
 				showConfirmDialog({
 					title: "¿Está seguro grabar este alimento?",

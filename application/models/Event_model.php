@@ -18,23 +18,22 @@ class Event_model extends CI_Model {
 	 * @return void
 	 */
 	public function __construct()
-	{
+{
 		parent::__construct();
 		$this->config->load('api');
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
-		$token = isset($this->session->token) ? $this->session->token : '';
-		$this->client = new Client([
-			'headers' => ['x-access-token' => $token],//Se agrega el header con los datos de la session
-			'base_uri' => $this->base_uri,
-			'timeout'  => $this->timeout,
+		$this->client   = new Client([
+			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
+			'base_uri' 	=> $this->base_uri,
+			'timeout'  	=> $this->timeout,
 			]);
 	}
 	
 	/**
 	* Consulta de evento
 	* 
-	* Consulta de insumos a la API
+	* Consulta de eventos a la API
 	* @param 		string 		$url
 	* @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	*/
@@ -77,16 +76,20 @@ class Event_model extends CI_Model {
 	 */
 	public function add($event)
 	{
-		$response = $this->client->request('POST', 'api/events', [
+		try {
+			$response = $this->client->request('POST', 'api/events', [
 				'json' => $event
-		]);
-		if($response->getStatusCode()==HTTP_CREATED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
-		}
-		else
+			]);
+			if($response->getStatusCode()==HTTP_CREATED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
 			return NULL;
+		}
+		catch (ServerException $e) {
+			return $this->errorMessage($e);
+		}
 	}
 	
 	/**
@@ -96,15 +99,51 @@ class Event_model extends CI_Model {
 	 */
 	public function edit($event)
 	{
-		$response = $this->client->request('PUT', 'api/events/' . $event['event']['idEvent'], [
-				'json' => $event
-		]);
-		if($response->getStatusCode()==HTTP_ACCEPTED)
+		try {
+			$response = $this->client->request('PUT', 'api/events/' . $event->id, [
+					'json' => $event
+			]);
+			if($response->getStatusCode()==HTTP_ACCEPTED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
+		}
+		catch (Exception $e) {
+			return $this->errorMessage($e);
+		}
+	}
+	
+	/**
+	 * Función que mapea el mensaje de error desde la API usado en los editores
+	 * @param 	exception $exceptionData
+	 */
+	private function errorMessage($exceptionData)
+	{
+		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
+		$errorResponse['errors'] = TRUE;
+		if($exceptionData->getCode() == 500)
 		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+			return $errorResponse;
+		}
+		return NULL;
+	}
+	
+	/**
+	 * Delete de Evento
+	 * @param		string	$id
+	 * @return 		bool   Si la baja fue exitosa, devuelve TRUE
+	 */
+	public function delete($id)
+	{
+		$response = $this->client->request('DELETE', 'api/events/' . $id);
+		if($response->getStatusCode()==HTTP_OK)
+		{
+			return TRUE;
 		}
 		else
-			return NULL;
+			return FALSE;
 	}
 };
