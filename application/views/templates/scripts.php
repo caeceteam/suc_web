@@ -12,6 +12,7 @@
 <script src="<?php echo base_url('vendors/bower_components/nouislider/distribute/jquery.nouislider.all.min.js')?>"></script>
 <script src="<?php echo base_url('vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js')?>"></script>
 <script src="<?php echo base_url('vendors/bower_components/autosize/dist/autosize.min.js')?>"></script>
+<script src="<?php echo base_url('vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')?>"></script>
 
 <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
 <script src="<?php echo base_url('vendors/bootgrid/jquery.bootgrid.updated.min.js')?>"></script>
