@@ -19,3 +19,16 @@
 .btn-default[title='Actualizar'] {
 	display: none;
 }
+
+.checkbox-component {
+	position: relative;	
+}
+
+.checkbox.col-sm-12 {
+	padding-left: 0px;
+	margin-top: 0px;
+}
+
+.checkbox.col-sm-12 .first {
+	margin-top: -5px;
+}

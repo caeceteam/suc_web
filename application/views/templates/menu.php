@@ -27,11 +27,7 @@
 	</div>
 </aside>
 <aside id="s-main-menu" class="sidebar">
-	<div class="smm-header">
-    	<i class="zmdi zmdi-long-arrow-left" data-ma-action="sidebar-close"></i>
-	</div>
-
-    <ul class="smm-alerts" style="margin: 30px 0 60px 120px; padding-left: 0px;"><!-- TODO CC: Add style to css class-->
+    <ul class="smm-alerts" style="margin: 15px 0 15px 120px; padding-left: 0px;"><!-- TODO CC: Add style to css class-->
     	<li data-user-alert="sua-notifications" data-ma-action="sidebar-open" data-ma-target="user-alerts">
         	<i class="zmdi zmdi-notifications"></i>
         </li>
@@ -53,10 +49,10 @@
 			<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-local-dining"></i> Comedores</a>
 			<ul>
 				<li class="sub-menu">
-                	<a href="" data-ma-action="submenu-toggle">Administración</a>
+                	<a href="" data-ma-action="submenu-toggle">AdministraciÃ³n</a>
 
                     <ul>
-                        <li><a href="<?php echo base_url('diner_food');?>"> Almacén </a></li>
+                        <li><a href="<?php echo base_url('diner_food');?>"> AlmacÃ©n </a></li>
                         <li><a href="<?php echo base_url('diner_input');?>"> Insumos </a></li>
             			<li><a href="<?php echo base_url('event');?>"> Eventos</a></li>
 						<li><a href="<?php echo base_url('diner');?>"> Personal</a></li>
@@ -74,7 +70,22 @@
             	<!--<li><a href="colors.html">Insumos</a></li>-->
 				<li><a href="<?php echo base_url('input_type');?>">Tipo de Insumos</a></li>
 				<li><a href="<?php echo base_url('food_type');?>">Tipo de Alimento</a></li>
-				<li><a href="">Asignación de Roles</a></li>
+				<li><a href="">AsignaciÃ³n de Roles</a></li>
+			</ul>
+        </li>
+
+        <li>
+        	<a href="<?php echo base_url('assistant');?>">
+        		<!-- <i class="zmdi zmdi-swap-alt"></i> TODO Revisar icono-->
+        		Concurrentes
+        	</a>
+      </li>
+
+        
+        <li class="sub-menu"> 
+        	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-account"></i> Personal</a>
+            <ul>
+				  <li><a href="<?php echo base_url('user_diner');?>">Alta personal</a></li>
 			</ul>
         </li>
 	</ul>

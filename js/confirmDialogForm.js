@@ -32,7 +32,7 @@ function showConfirmDialog(params) {
 				{
 					$.ajax({
 						type : 'POST',
-						dataType:'json',
+						dataType: 'json',
 						data: params.formData,
 				       	url: params.requestUrl, // target element(s) to be updated with server response 
 				       	cache : false,
