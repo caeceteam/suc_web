@@ -192,7 +192,6 @@ class Diner extends CI_Controller {
  		$diner->mail 				= $this->input->post('mail');
  		$diner->idCity 				= $this->input->post('idCity'); 	
  		$diner->state				= $this->input->post('state');
- 		$diner->site				= $this->input->post('site');
  		$diner->photos[0]->url 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
  		return $diner;
 	}
@@ -218,6 +217,7 @@ class Diner extends CI_Controller {
 		$this->form_data->mail 			= '';
 		$this->form_data->idCity 		= '';
 		$this->form_data->photo			= '';
+		$this->form_data->site			= '';
 	}
 	
 	/**
