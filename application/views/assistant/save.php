@@ -52,7 +52,7 @@
 											<div class="form-group fg-float col-sm-3">
 												<div class="fg-line" data-id="bornDate">
 													<input type="text" class="input-sm form-control input-mask fg-input" id="bornDate" name="bornDate" data-mask="0000-00-00" value="<?php echo ($reset) ? '' : set_value('bornDate', $this->form_data->bornDate); ?>">
-													<label class="fg-label">Fecha de nacimiento</label>
+													<label class="fg-label">Fecha de nacimiento (YYYY-MM-DD)</label>
 												</div>
 											</div>
 											<div class="form-group fg-float col-sm-3">
