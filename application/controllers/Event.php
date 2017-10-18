@@ -159,7 +159,9 @@ class Event extends CI_Controller {
 			$this->form_data->link 				= $event['link'];
 			$this->form_data->date 				= nice_date($event['date'], 'Y-m-d');
 			$this->form_data->time				= substr($event['date'], -13, 5);
-			$this->form_data->photo 			= isset($event['photos'][0]['url']) ? $event['photos'][0]['url'] : base_url('img/sin_imagen.png');
+			//$this->form_data->time				= now();
+			//$this->form_data->idCity 			= $event['idCity'];
+			//$this->form_data->photo 			= $event['photo'];
 			
 			$this->load->view('event/save', $this->variables);
 		}
@@ -224,9 +226,9 @@ class Event extends CI_Controller {
 		$event->zipCode			= $this->input->post('zipCode');
 		$event->link			= $this->input->post('link');
 		
-			$event->description		= $this->input->post('description');
+		$event->description		= $this->input->post('description');
 		$event->idDiner 		= 1;//$this->input->post('idDiner');
-		$event->photos[0] 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+		//$event->photos[0] 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
 	
 		$event->date			= $this->input->post('date') . "T" . $this->input->post('time') . "Z";
 
@@ -294,7 +296,7 @@ class Event extends CI_Controller {
 	{
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
-		$this->form_validation->set_rules('streetNumber', 'Numero', 'trim|required');
+		$this->form_validation->set_rules('streetNumber', 'Número', 'trim|required');
 		$this->form_validation->set_rules('floor', 'Piso', 'trim');
 		$this->form_validation->set_rules('door', 'Departamento', 'trim');
 		$this->form_validation->set_rules('phone', 'Teléfono de contacto', 'trim');

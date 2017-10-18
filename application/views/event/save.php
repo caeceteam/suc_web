@@ -165,8 +165,7 @@
 					formData: $("form").serializeArray(),
 					successText: "El evento se ha grabado en el sistema.",
 					failedText: "El evento no pudo ser grabado en el sistema.",
-					redirectUrl: $("#redirect-url")[0].value,
-					containImage: false,
+					redirectUrl: $("#redirect-url")[0].value
 				});
 				return false;
 			}); 
