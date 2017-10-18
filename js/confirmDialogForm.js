@@ -63,9 +63,10 @@ function successAction(successText, redirectUrl) {
 			
 function failedAction(response, failedText, uniqueValues) {
 	$(".fg-line").removeClass("has-error");
-   	$(".alert").addClass("hide-alert");   
-   	var errorType = response.responseJSON["error-type"];
-   	var errorFields = response.responseJSON["error-fields"];
+   	$(".alert").addClass("hide-alert");
+   	var responseJSON = JSON.parse(response.responseText);
+   	var errorType = responseJSON["error-type"];
+   	var errorFields = responseJSON["error-fields"];
    	var alertsContainer = $("#error-alert-container");
    	for (var key in errorFields) {
     	if (errorFields[key] !== "") {

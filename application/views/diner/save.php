@@ -76,7 +76,7 @@
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<input type="text" name="site" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('link',$this->form_data->link); ?>">
+													<input type="text" name="link" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('link',$this->form_data->link); ?>">
 													<label class="fg-label">Página del comedor</label>
 												</div>
 											</div>
