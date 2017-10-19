@@ -44,8 +44,8 @@ class User_diner extends CI_Controller
         // Instancio una clase vacia para evitar el warning "Creating default object from empty value"         
         $this->form_data = new stdClass(); 
         $this->variables['idUser'] = '';
-        $this->pass_view    = 'display:block;';
-        $this->pass_no_view = 'display:none;';
+        $this->pass_view           = 'display:block;';
+        $this->pass_no_view        = 'display:none;';
         
         // Variable para indicar si hay que resetear los campos del formulario
         $this->variables['reset'] = FALSE; 
@@ -153,7 +153,9 @@ class User_diner extends CI_Controller
                  $this->variables['message']     = form_error($msj_erro_500);
                     
                 } else{ 
-                    if($this->_send_mail($this->_get_post())){
+                    $user_diner = $this->_get_post();
+                    $mail       = $this->_send_mail($user_diner['user'],$user_diner['diner'] );
+                    if($mail){
                         $this->variables['message'] = 'Se envío un mail con el estado de la solicitud.';
                     }else{
                         $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
@@ -182,24 +184,26 @@ class User_diner extends CI_Controller
         // para editar
         if ($this->input->method() == "get") {
             $this->new_pass = $this->pass_view;
-            $user_diner                     = $this->User_diner_model->search_by_id($id);
-            $this->form_data->id            = $user_diner['idUser'];
-            $this->form_data->name          = $user_diner['name'];
-            $this->form_data->surname       = $user_diner['surname'];
-            $this->form_data->mail          = $user_diner['mail'];
-            $this->form_data->phone         = $user_diner['phone'];
-            $this->form_data->role          = $user_diner['role'];
-            $this->form_data->pass          = $user_diner['pass'];
-            $this->form_data->alias         = $user_diner['alias'];
-            $this->form_data->docNum        = $user_diner['docNum'];
-            $user_bornData                  = new DateTime($user_diner['bornDate']);
+            $user_and_diner                 = $this->User_diner_model->search_by_id($id);
+            $user_dat                       = $user_and_diner['user'];
+            $diner_dat                      = $user_and_diner['diner'];
+            $this->form_data->id            = $user_dat['idUser'];
+            $this->form_data->name          = $user_dat['name'];
+            $this->form_data->surname       = $user_dat['surname'];
+            $this->form_data->mail          = $user_dat['mail'];
+            $this->form_data->phone         = $user_dat['phone'];
+            $this->form_data->role          = $user_dat['role'];
+            $this->form_data->pass          = $user_dat['pass'];
+            $this->form_data->alias         = $user_dat['alias'];
+            $this->form_data->docNum        = $user_dat['docNum'];
+            $user_bornData                  = new DateTime($user_dat['bornDate']);
             $this->form_data->bornDate      = date_format($user_bornData, "d-m-Y");
-            $this->form_data->street        = $user_diner['street'];
-            $this->form_data->streetNumber  = $user_diner['streetNumber'];
-            $this->form_data->floor         = $user_diner['floor'];
-            $this->form_data->door          = $user_diner['door'];
+            $this->form_data->street        = $user_dat['street'];
+            $this->form_data->streetNumber  = $user_dat['streetNumber'];
+            $this->form_data->floor         = $user_dat['floor'];
+            $this->form_data->door          = $user_dat['door'];
             $idDiner                        = $this->session->userdata['idDiner'];                
-            $this->form_data->idDiner       = $idDiner;
+            $this->form_data->idDiner       = $idDiner['Diner']['idDiner'];
             $this->load->view('user_diner/save', $this->variables);
             
         } else {
@@ -227,8 +231,10 @@ class User_diner extends CI_Controller
                     $this->variables['error-fields'] = $response['fields'];
                 }
                 else{ 
-                    if($this->_send_mail($this->_get_post())){
-                        $this->variables['message'] = 'Se envío un mail con el estado de la solicitud.';
+                    $user_diner = $this->_get_post();
+                    $mail       = $this->_send_mail($user_diner['user'],$user_diner['diner'] );
+                    if($mail){
+                        $this->variables['message'] = 'Se envio un mail con el estado de la solicitud.';
                     }else{
                         $this->variables['message'] = 'Ocurrio un error al enviar el mail.';
                     }
@@ -360,34 +366,50 @@ class User_diner extends CI_Controller
 	 * @param    $user_diner 	array  array del user diner
 	 * @return   bool 			indica si el mail se pudo enviar
 	 */
-	private function _send_mail( $user_info )
+	private function _send_mail( $user_info, $diner_info )
 	{
-	    $this->email->from('suc@no-reply.com', 'Sistema Ãšnico de Comedores');
+	    $this->email->from('suc@no-reply.com', 'Sistema ušnico de Comedores');
 	    $this->email->to($user_info->mail);
 	    //$this->email->to("");
-	    
+	    	    
 	    if ($this->variables['request-action'] == 'PUT'){
-	        $this->email->subject('ModificaciÃ³n de datos usuario');
-	        $this->email->message('Su datos de usuarios han sido actualizados correctamente. <br/>
-			Ante cualquier inconveniente dirigirse al administrador del comedor. <br/>
-			Att Sistema SUC,. <br/>');
+	        $this->email->subject('Modificación de datos usuario');
+	        
+	        $body = $this->load->view('email/notification_changes_user_data.php', $data, TRUE); //cargo el PHP
+	        $this->email->message($body); //adjunto el php al cuerpo del mail
+	        $this->email->set_newline("\r\n");//Sin esta liñea falla el envio
+        
+	        //$this->email->message('Su datos de usuarios han sido actualizados correctamente. <br/>
+			//Ante cualquier inconveniente dirigirse al administrador del comedor. <br/>
+			//Att Sistema SUC,. <br/>');
 	    }
 	    elseif ($this->variables['request-action'] == 'POST')
 	    {  
 	        $this->email->subject('Alta usuario');                                         
-	        $this->email->message('Se ha dado de alta el usuario ' . $user_info->alias .' <br/> 
-			Su clave de acceso para ingresar es: ' . $user_info->pass . ' .<br/>
-			Acceda al sistema mediante la siguiente URL. <br/>');
+	        $data = array(
+	                'name'		=> $user_info['name'],
+	                'diner'		=> $diner_info['name'],
+	                'alias'		=> $user_info['alias'],
+	                'passwprd'	=> $user_info['pass'],
+	                'url'		=> site_url('')
+	        );
+	        $body = $this->load->view('email/notification_new_user.php', $data, TRUE ); //cargo el PHP
+	        $this->email->message($body); //adjunto el php al cuerpo del mail
+	        $this->email->set_newline("\r\n");//Sin esta liñea falla el envio
+	        
+	        //$this->email->message('Se ha dado de alta el usuario ' . $user_info->alias .' <br/> 
+			//Su clave de acceso para ingresar es: ' . $user_info->pass . ' .<br/>
+			//Acceda al sistema mediante la siguiente URL. <br/>');
 	    }
 	    $this->email->set_newline("\r\n");//Sin esta lÃ­nea falla el envio
 	    return $this->email->send();
 	}	
 	
 	/**
-	 * FunciÃ³n que genera una contraseÃ±a en forma aleatorio
+	 * FunciÃ³n que genera una contraseña en forma aleatorio
 	 * @param    $chars_min largo minimo (opcional, default 6)
-	 * @param    $chars_max largo mÃ¡ximo (opcional, default 8)
-	 * @param    $use_upper_case boolean para indicar si se usan mayÃºsuculas (opcional, default false)
+	 * @param    $chars_max largo máximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan maásuculas (opcional, default false)
 	 * @param    $include_numbers boolean para indicar si se usan nÃºmeros (opcional, default false)
 	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
 	 * @return    string containing a random password

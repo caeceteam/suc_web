@@ -63,7 +63,7 @@
 								<!-- FILA 02- DOCUMENTO -->
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
-										<label>NÃºmero de documento</label> 
+										<label>Número de documento</label> 
 										<input min="1000000" max="999999999"
 											class="form-control input-mask" data-mask="99.999.999" placeholder="ej. 99.99.999"
 											id="docNum" name="docNum"
@@ -121,7 +121,7 @@
 								<!-- FINAL 04 - TELEFONO PARTICULAR-->
 								<div class="col-sm-6">
 									<div class="form-group fg-line">
-										<label>TelÃ©fono particular</label> <input type="text"
+										<label>Telefono particular</label> <input type="text"
 											class="form-control" id="phone" name="phone"
 											value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>">
 									</div>
@@ -208,8 +208,8 @@
 			$('.user-diner-form').submit(function() {
 				debugger;
 				showConfirmDialog({
-		     		title: "Â¿EstÃ¡ seguro de grabar los cambios?",
-					text: "Los datos de usuario serÃ¡n grabados",
+		     		title: "¿Está seguro de grabar los cambios?",
+					text: "Los datos de usuario serán grabados",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
 					successText: "Se han grabado los datos de Usuario.",
