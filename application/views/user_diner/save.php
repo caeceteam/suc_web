@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 <head>
-<meta charset="utf-8">
+<!--<meta charset="utf-8">-->
+<meta charset="ISO-8859-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SUC</title>
@@ -86,7 +87,7 @@
 									<label>Rol</label> <select class="chosen"
 										data-placeholder="<?php echo ($reset) ? 'Tareas en el comedor' : set_value('rol',$this->form_data->role); ?>"
 										id="role" name="role">
-										<option value="99""></option>
+										<option value="99"></option>
 										<option value="00"
 											<?php if ($this->form_data->role == '00'){echo 'selected';} ?>>Administrador</option>
 										<option value="01"
@@ -102,7 +103,7 @@
 										<option value="06"
 											<?php if ($this->form_data->role == '06'){echo 'selected';}; ?>>Psicologo</option>
 										<option value="07"
-											<?php if ($this->form_data->role == '07'){echo 'selected';}; ?>>AcompaÃ±ante</option>
+											<?php if ($this->form_data->role == '07'){echo 'selected';}; ?>>Acompañante</option>
 										<option value="08"
 											<?php if ($this->form_data->role == '08'){echo 'selected';}; ?>>Tareas
 											Varias</option>
