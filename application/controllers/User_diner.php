@@ -38,12 +38,14 @@ class User_diner extends CI_Controller
     {
         parent::__construct();
         // $this->load->library('form_validation');
+        
         $this->load->library(
                 array(
                         'form_validation',
                         'session',
                         'upload',
-                        'notification'
+                        'email'
+                        //'notification'
                 ));
         $this->load->helper(
                 array(
@@ -171,7 +173,7 @@ class User_diner extends CI_Controller
                             'pass'  => $user_diner['ducNum']
                     );
                     try {
-                        $this->Notification->_send_mail($mail_user, 'html', $this->variables['request-action'], $this->load);
+                        //$this->Notification->_send_mail($mail_user, 'html', $this->variables['request-action'], $this->load);
                     } catch (Exceptionn $exs) {
                         $msj_erro_500 = '<p>' . $exs->getmessage() . '</p>';
                         $this->variables['message']     = $msj_erro_500;
@@ -263,7 +265,7 @@ class User_diner extends CI_Controller
                                     'pass'  => $user_diner['ducNum']
                             );
                             try {
-                                $this->Notification->_send_mail($mail_user, 'html', $this->variables['request-action'], $this->load);
+                               // $this->Notification->_send_mail($mail_user, 'html', $this->variables['request-action'], $this->load);
                             }catch (Exceptionn $exs) {
                                     $msj_erro_500 = '<p>' . $exs->getmessage() . '</p>';
                                     $this->variables['message']     = $msj_erro_500;
