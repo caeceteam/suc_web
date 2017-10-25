@@ -162,8 +162,8 @@ class Assistant extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'code' => form_error('code'),
-						'name' => form_error('name'));// TODO: review
+						'code' => utf8_encode(form_error('code')),
+						'name' => utf8_encode(form_error('name')));// TODO: review
 				$this->variables['error-fields'] = $data;
 			}
 			else
@@ -261,5 +261,9 @@ class Assistant extends CI_Controller {
 		$this->form_validation->set_rules('surname', 'Apellido', 'trim|required');
 		$this->form_validation->set_rules('bornDate', 'Fecha de nacimiento', 'trim|required');
 		$this->form_validation->set_rules('document', 'Nro. de documento', 'trim|required');
+		$this->form_validation->set_rules('scholarship', 'Año escolar', 'trim');
+		$this->form_validation->set_rules('economicSituation', 'Situación economica', 'trim');
+		$this->form_validation->set_rules('contactName', 'Nombre del contacto', 'trim');
+		$this->form_validation->set_rules('phone', 'Teléfono del contacto', 'trim');
 	}
 }
