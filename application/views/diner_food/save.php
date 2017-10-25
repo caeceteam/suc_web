@@ -49,7 +49,7 @@
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="name">
-														<input type="text" id="name" name="name" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? : ''; ?> value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
+														<input type="text" id="name" name="name" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? : ''; ?> value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
 														<label class="fg-label">Nombre</label>
 													</div>
 												</div>
@@ -58,7 +58,7 @@
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="expirationDate">
-														<input type="text" id="expirationDate" name="expirationDate" class="form-control input-mask" data-mask="0000-00-00" value="<?php echo ($reset) ? '' : set_value('expirationDate',$this->form_data->expirationDate); ?>">
+														<input type="text" id="expirationDate" name="expirationDate" class="form-control input-mask" data-mask="0000-00-00" value="<?php echo ($reset) ? '' : set_value('expirationDate', utf8_decode($this->form_data->expirationDate)); ?>">
 														<label class="fg-label">Vencimiento (año-mes-día)</label>
 													</div>
 												</div>
@@ -69,7 +69,7 @@
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="quantity">
-														<input type="text" id="quantity" name="quantity" class="form-control input-mask" data-mask="00000" value="<?php echo ($reset) ? '' : set_value('quantity',$this->form_data->quantity); ?>">
+														<input type="text" id="quantity" name="quantity" class="form-control input-mask" data-mask="00000" value="<?php echo ($reset) ? '' : set_value('quantity', utf8_decode($this->form_data->quantity)); ?>">
 														<label class="fg-label">Cantidad</label>
 													</div>
 												</div>
@@ -78,7 +78,7 @@
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="quantity">
-														<input type="text" id="unity" name="unity" class="input-sm form-control fg-input" placeholder="" value="<?php echo ($reset) ? '' : set_value('unity',$this->form_data->unity); ?>">
+														<input type="text" id="unity" name="unity" class="input-sm form-control fg-input" placeholder="" value="<?php echo ($reset) ? '' : set_value('unity', utf8_decode($this->form_data->unity)); ?>">
 														<label class="fg-label">Unidad de Med. (PACK / Gramos / Kg / Litros)</label>
 													</div>
 												</div>
@@ -88,7 +88,7 @@
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="creationDate">
-														<input type="text" id="creationDate" name="creationDate" class="form-control input-mask" data-mask="0000-00-00" disabled="" value="<?php echo ($reset) ? : set_value('creationDate',$this->form_data->creationDate); ?>">
+														<input type="text" id="creationDate" name="creationDate" class="form-control input-mask" data-mask="0000-00-00" disabled="" value="<?php echo ($reset) ? : set_value('creationDate', utf8_decode($this->form_data->creationDate)); ?>">
 														<label class="fg-label">Fecha de creación (año-mes-día)</label>
 													</div>
 												</div>
@@ -98,7 +98,7 @@
 											
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="description">
-												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
+												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description', utf8_decode($this->form_data->description)); ?></textarea>
 												<label class="fg-label">Descripción</label>
 											</div>
 										</div>
