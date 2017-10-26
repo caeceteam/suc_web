@@ -40,7 +40,7 @@
 												<div class="form-group">
 													<div class="fg-line" data-id="idFoodType">
 														<div class="select">
-															<?php echo form_dropdown('idFoodType', $food_types, $food_type, 'class="form-control"'); ?>
+															<?php echo form_dropdown('idFoodType', array_map("utf8_decode", $food_types), $food_type, 'class="form-control"'); ?>
 														</div>
 													</div>
 												</div>

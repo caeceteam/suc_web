@@ -100,7 +100,7 @@ class Diner_food extends CI_Controller {
 						'quantity'			=> form_error('quantity'),
 						'unity' 			=> form_error('unity'),
 						'expirationDate' 	=> form_error('expirationDate'));
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -154,10 +154,10 @@ class Diner_food extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'quantity'			=> utf8_encode(form_error('quantity')),
-						'unity' 			=> utf8_encode(form_error('unity')),
-						'expirationDate' 	=> utf8_encode(form_error('expirationDate')));
-				$this->variables['error-fields'] = $data;
+						'quantity'			=> form_error('quantity'),
+						'unity' 			=> form_error('unity'),
+						'expirationDate' 	=> form_error('expirationDate'));
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{

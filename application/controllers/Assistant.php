@@ -99,7 +99,7 @@ class Assistant extends CI_Controller {
 						'bornDate' 	=> form_error('bornDate'),
 						'document' 	=> form_error('document'),
 				);
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -162,9 +162,9 @@ class Assistant extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'code' => utf8_encode(form_error('code')),
-						'name' => utf8_encode(form_error('name')));// TODO: review
-				$this->variables['error-fields'] = $data;
+						'code' => form_error('code'),
+						'name' => form_error('name'));
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{

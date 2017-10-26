@@ -58,18 +58,29 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-
-	 * Consulta de tipos de insumos por pÃ¡gina y bÃºsqueda para el listado
+	 * Consulta de tipos de insumos por página y búsqueda para el listado
 	 * @param 	string 	$page
 	 * 			string	$searchTxt
 	 */
-	// TODO: Cambiar bÃºsqueda por name por bÃºsqueda genÃ©rica
+	// TODO: Cambiar búsqueda por name por búsqueda genérica
 	public function get_inputtypes_by_page_and_search($page, $searchTxt)
 	{
 		$url = 'api/inputtypes?page=' . $page . '&code=' . $searchTxt;
 		return $this->search($url);
 	}
-		
+
+	/**
+	* Consulta de tipos de insumos por p¿aágina y básqueda para el listado
+	* @param 	string 	$page
+	* 			string	$searchTxt
+	*/
+	// TODO: Cambiar búsqueda por name por búsqueda genérica
+	public function get_inputtypes_by_page($page)
+	{
+		$url = 'api/inputtypes?page=' . $page;
+		return $this->search($url);
+	}	
+	
 	/**
 	 * Alta de input type
 	 * @param		object	$input_type
@@ -94,9 +105,9 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * EdiciÃƒÂƒÃ‚Â³n de input type
+	 * Edición de input type
 	 * @param		object	$input_type
-	 * @return 		array   Si la ediciÃƒÂƒÃ‚Â³n fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
 	 */
 	public function edit($input_type)
 	{
@@ -118,7 +129,7 @@ class Input_type_model extends CI_Model {
 	}
 	
 	/**
-	 * FunciÃƒÂ³n que mapea el mensaje de error desde la API usado en los editores
+	 * Función que mapea el mensaje de error desde la API usado en los editores
 	 * @param 	exception $exceptionData
 	 */
 	private function errorMessage($exceptionData) 
