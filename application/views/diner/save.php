@@ -35,13 +35,13 @@
 										<div class="row">
 											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line" data-id="name">
-													<input type="text" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
+													<input type="text" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
 													<label class="fg-label">Nombre del comedor</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line" data-id="mail">
-													<input type="text" name="mail" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('mail',$this->form_data->mail); ?>">
+													<input type="text" name="mail" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('mail', utf8_decode($this->form_data->mail)); ?>">
 													<label class="fg-label">Mail del comedor</label>
 												</div>
 											</div>
@@ -58,31 +58,31 @@
 											</div>
 											<div class="fg-float form-group col-xs-3" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<input type="text" name="floor" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('floor',$this->form_data->floor); ?>">
+													<input type="text" name="floor" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('floor', utf8_decode($this->form_data->floor)); ?>">
 													<label class="fg-label">Piso</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-3" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<input type="text" name="door" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('door',$this->form_data->door); ?>">
+													<input type="text" name="door" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('door', utf8_decode($this->form_data->door)); ?>">
 													<label class="fg-label">Departamento</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line" data-id="phone">
-													<input type="text" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>">
+													<input type="text" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone', utf8_decode($this->form_data->phone)); ?>">
 													<label class="fg-label">Teléfono</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<input type="text" name="link" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('link',$this->form_data->link); ?>">
+													<input type="text" name="link" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('link', utf8_decode($this->form_data->link)); ?>">
 													<label class="fg-label">Página del comedor</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-12" style="padding-left: 0;padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<textarea class="form-control auto-size" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
+													<textarea class="form-control auto-size" name="description"><?php echo ($reset) ? '' : set_value('description', utf8_decode($this->form_data->description)); ?></textarea>
 													<label class="fg-label">Descripción del comedor</label>
 												</div>
 											</div>

@@ -124,9 +124,8 @@ class Diner extends CI_Controller {
 			$this->_initialize_fields();
 			$this->_set_rules();
 			$diner = new stdClass();
-			$isImageSaved = $this->_save_image($_FILES['photo']['tmp_name']);
 			// Todo esto corresponde al PUT
-			if (!$this->form_validation->run() || !$isImageSaved)
+			if (!$this->form_validation->run())
 			{
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
@@ -136,13 +135,21 @@ class Diner extends CI_Controller {
 						'street' 	=> form_error('street'),
 						'phone' 	=> form_error('phone')
 				);
-				if (!$isImageSaved) {
-					$data['photo'] = 'Error al guardar la foto del comedor.';
-				}
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
+				if ($_FILES['photo']['tmp_name'] != "") {
+					$isImageSaved = $this->_save_image($_FILES['photo']['tmp_name']);
+					if (!$isImageSaved) {
+						$this->output->set_status_header('500');
+						$data['photo'] = 'Error al guardar la foto del comedor.';
+						$this->variables['error-fields'] = array_map("utf8_encode", $data);
+						echo json_encode( $this->variables );
+						exit();
+					}
+				}
+				
 				$response = $this->Diner_model->edit($this->_get_post());
 				if (isset($response['errors']))
 				{
@@ -192,7 +199,9 @@ class Diner extends CI_Controller {
  		$diner->mail 				= $this->input->post('mail');
  		$diner->idCity 				= $this->input->post('idCity'); 	
  		$diner->state				= $this->input->post('state');
- 		$diner->photos[0]->url 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+ 		if ($this->form_data->photo != "") {
+ 			$diner->photos[0]->url 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+ 		}
  		return $diner;
 	}
 	
@@ -229,7 +238,7 @@ class Diner extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
-		$this->form_validation->set_rules('phone', 'Telefono', 'trim|required');
+		$this->form_validation->set_rules('phone', 'Teléfono', 'trim|required');
 	}
 
 	/**
@@ -241,14 +250,14 @@ class Diner extends CI_Controller {
 	{
 		if (!$this->upload->do_upload('photo'))
 		{
-			//$this->variables['message'] = $this->upload->display_errors();
 			return false;
 		}
 		else
 		{
 			$response = \Cloudinary\Uploader::upload($photo);//La subo a cloudinary
 			$this->form_data->photo = $response['url'];
-			delete_files('uploads', FALSE, TRUE);
+			delete_files('uploads', FALSE, TRUE);			
+
 			return true;
 		}
 	}
