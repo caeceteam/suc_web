@@ -31,3 +31,4 @@
 <script src="<?php echo base_url('js/actions.js')?>"></script>
 <script src="<?php echo base_url('js/demo.js')?>"></script>
 <script src="<?php echo base_url('js/inputTypeForm.js')?>"></script>
+

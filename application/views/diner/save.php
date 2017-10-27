@@ -7,7 +7,7 @@
         <title>SUC</title>
 	
         <?php $this->load->view('templates/styles'); ?>
-        
+        <link href="<?php echo base_url('vendors/bower_components/lightgallery/dist/css/lightgallery.min.css')?>" rel="stylesheet">
     </head>
 
     <body data-ma-header="teal">
@@ -87,7 +87,23 @@
 												</div>
 											</div>
 											
-											<p><b>Subir foto del Comedor</b></p>
+											<p><b>Imágenes</b></p>
+											<p>Galería</p>
+											
+											<div class="lightbox row">
+												<?php foreach($this->form_data->photos as $photo)
+													{
+													    echo 
+													    	'<div data-src="' . $photo['url'] . '" class="col-sm-2 col-xs-6">
+				                                    			<div class="lightbox-item">
+				                                        			<img src="' . $photo['url'] . '" alt="" />
+							                                    </div>
+        														<button style="margin-bottom: 5px;">Borrar</button>
+							                                </div>';
+													}
+												?>
+				                            </div>
+											<br/>
 											<p>Seleccione la imagen que desee subir del comedor.</p>
 											<div class="fileinput fileinput-new" data-provides="fileinput">
 												<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
@@ -142,9 +158,11 @@
 
 		<?php $this->load->view('templates/scripts'); ?>
 		<?php $this->load->view('templates/googleApiMap'); ?>		
+		<script src="<?php echo base_url('vendors/bower_components/lightgallery/dist/js/lightgallery-all.min.js')?>"></script>
 		<script src="<?php echo base_url('vendors/fileinput/fileinput.min.js')?>"></script>
 		<script src="<?php echo base_url('vendors/farbtastic/farbtastic.min.js')?>"></script>
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
+		
 		
 		<script>
 			$('.diner-form').submit(function() {
