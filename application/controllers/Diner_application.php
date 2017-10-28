@@ -27,6 +27,7 @@ class Diner_application extends CI_Controller {
 		$this->load->library(array('form_validation', 'email', 'upload', 'login'));
 		$this->load->helper(array('url', 'form', 'file'));
 		$this->load->model('Diner_application_model');
+		$this->load->model('Emails_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
@@ -200,27 +201,14 @@ class Diner_application extends CI_Controller {
 	 */
 	private function _send_mail($to, $user, $password)
 	{
-		$this->email->from('suc@no-reply.com', 'Sistema Úšnico de Comedores');
-		$this->email->to($to);
-		$this->email->subject('Solicitud de alta de comedor');
-		/**
-		$this->email->message('Bienvenido al sistema Único de comedores. <br/>
-			Su solicitud de alta se encuetra pendiente, recibirá un mail indicando si fue aprobada o no. <br/>
-			Su contraseña es: ' . $user . $password . ' .<br/>' . site_url(''));
-		*/
-		
-		//Genero el array con los datos
 		$data = array(
-				'user'		=> $user,
-				'password'	=> $password,
-				'url'		=> site_url('')
+				'mail_type' 		=> REGISTRATION_MAIL,
+				'destination_email' => $to,
+				'user_name'			=> $user, 
+				'password'			=> $password,
+				'url'				=> site_url('')
 		);
-		//$this->email->set_mailtype("html"); //Seteo que el mail va a ser HTML
-		$body = $this->load->view('email/registration.php',$data ,TRUE); //cargo el PHP
-		$this->email->message($body); //adjunto el php al cuerpo del mail
-		
-		$this->email->set_newline("\r\n");//Sin esta línea falla el envio
-		return $this->email->send();
+		return $this->Emails_model->send_mail_api($data);
 	}
 	
 	/**
