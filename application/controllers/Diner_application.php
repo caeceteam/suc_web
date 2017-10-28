@@ -64,7 +64,7 @@ class Diner_application extends CI_Controller {
 			$diner_application = ($this->_get_post());
 			if(($this->Diner_application_model->add($diner_application))!=NULL)
 			{
-				if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $diner_application->diner->name, $this->variables['password']))
+				if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
 					$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
 				else 
 					$this->variables['message'] = $html_error . 'Ocurrió un error al enviar el mail, por favor revise el campo mail!' . $html_close;

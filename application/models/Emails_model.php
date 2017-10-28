@@ -57,10 +57,9 @@ class Emails_model extends CI_Model {
 			$response = $this->client->request('POST', 'emails', [
 				'json' => $data
 			]);
-			if($response->getStatusCode()==HTTP_CREATED)
+			if($response->getStatusCode()==HTTP_OK)
 			{
-				$body = $response->getBody();
-				return json_decode(TRUE);
+				return TRUE;
 			}
 			return FALSE;
 		}
