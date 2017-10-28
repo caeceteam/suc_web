@@ -180,13 +180,25 @@ class Admin_application extends CI_Controller {
 	 */
 	private function _send_mail($diner_application)
 	{	
-		$data = array(
-				'mail_type' 		=> $diner_application['diner']['state'] == DINER_APPROVED ? APPROVAL_EMAIL : REJECTION_EMAIL,
-				'destination_email' => $diner_application['user']['mail'],
-				'user_name'			=> $diner_application['user']['name'],
-				'diner_name'		=> $diner_application['diner']['name'],
-				'url'				=> site_url('')
-		);
+		if ($diner_application['diner']['state'] == DINER_APPROVED)
+		{
+			$data = array(
+					'mail_type' 		=> APPROVAL_MAIL,
+					'destination_email' => $diner_application['user']['mail'],
+					'user_name'			=> $diner_application['user']['name'],
+					'diner_name'		=> $diner_application['diner']['name'],
+					'url'				=> site_url('')
+			);
+		}else{
+			$data = array(
+					'mail_type' 		=> REJECTION_MAIL,
+					'destination_email' => $diner_application['user']['mail'],
+					'diner_name'		=> $diner_application['diner']['name'],
+					'comment'			=> $this->input->post('reject_reason'),
+					'url'				=> site_url('')
+			);
+		}
+		
 		return $this->Emails_model->send_mail_api($data);
 		
 	}

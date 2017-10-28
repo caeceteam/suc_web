@@ -54,7 +54,7 @@ class Emails_model extends CI_Model {
 	public function send_mail_api($data)
 	{
 		try {
-			$response = $this->client->request('POST', 'api/emails', [
+			$response = $this->client->request('POST', 'emails', [
 				'json' => $data
 			]);
 			if($response->getStatusCode()==HTTP_CREATED)
