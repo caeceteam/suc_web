@@ -204,7 +204,7 @@ class Diner_application extends CI_Controller {
 		$data = array(
 				'mail_type' 		=> REGISTRATION_MAIL,
 				'destination_email' => $to,
-				'user_name'			=> $user,
+				'user_name'			=> $user, 
 				'password'			=> $password,
 				'url'				=> site_url('')
 		);
