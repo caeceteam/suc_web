@@ -18,7 +18,6 @@ class User_diner extends CI_Controller
      * @var array
      */
     private $variables;
-
     private $dinerUser;
 
     /**
@@ -97,10 +96,10 @@ class User_diner extends CI_Controller
         
         $render_data['rows'] = [];
         foreach ($user_diner_data as $user_diner) {
-            $row_data['id'] = $user_diner['idUser'];
-            $row_data['name'] = $user_diner['name'];
+            $row_data['id']      = $user_diner['idUser'];
+            $row_data['name']    = $user_diner['name'];
             $row_data['surname'] = $user_diner['surname'];
-            $row_data['phone'] = $user_diner['phone'];
+            $row_data['phone']   = $user_diner['phone'];
             array_push($render_data['rows'], $row_data);
         }
         echo json_encode($render_data, TRUE);
@@ -129,10 +128,12 @@ class User_diner extends CI_Controller
         $msj_erro_500 = '';
         $this->variables['action'] = site_url('user_diner/add');
         $this->variables['request-action'] = 'POST';
+        $this->variables['redirect-url']   = site_url('user_diner');
+        $this->form_data->redirect         = site_url('user_diner');
         $seccion;
         
         // Redirijo la url para que no se vea la de origen
-        $this->variables['redirect-url'] = site_url('user_diner');
+        //$this->variables['redirect-url'] = $this->get_redirect();
         $this->_set_rules();
         
         if ($this->input->method() == "get") {
@@ -143,12 +144,12 @@ class User_diner extends CI_Controller
                 $this->output->set_status_header('500');
                 $this->variables['error-type'] = 'empty-field';
                 $data = array(
-                        'name' => form_error('name'),
-                        'surname' => form_error('surname'),
-                        'role' => form_error('role'),
-                        'alias' => form_error('alias'),
-                        'docNum' => form_error('ducNum'),
-                        'mail' => form_error('mail')
+                        'name'      => form_error('name'),
+                        'surname'   => form_error('surname'),
+                        'role'      => form_error('role'),
+                        'alias'     => form_error('alias'),
+                        'docNum'    => form_error('docNum'),
+                        'mail'      => form_error('mail')
                 );
                 
                 $this->variables['error-fields'] = $data;
@@ -170,7 +171,7 @@ class User_diner extends CI_Controller
                             'mail'  => $user_diner['mail'],
                             'name'  => $user_diner['name'],
                             'alias' => $user_diner['alias'],
-                            'pass'  => $user_diner['ducNum']
+                            'pass'  => $user_diner['docNum']
                     );
                     try {
                         //$this->Notification->_send_mail($mail_user, 'html', $this->variables['request-action'], $this->load);
@@ -198,14 +199,16 @@ class User_diner extends CI_Controller
     {
         $this->variables['action'] = site_url('user_diner/edit');
         $this->variables['request-action'] = 'PUT';
-        $this->variables['redirect-url'] = site_url('user_diner');
+        $this->variables['redirect-url']   = $this->get_redirect();
+        $this->form_data->redirect         = $this->variables['redirect-url'];
+        //$this->variables['redirect-url']   = site_url('user_diner');
         $page = $this->session->get_userdata();
         
         //Si no es un post, no se llama al editar y solo se muestran los campos para editar
         if ($this->input->method() == "get") {
-            $user_and_diner = $this->User_diner_model->search_by_id($id);
-            $user_dat       = $user_and_diner['user'];
-            $diner_dat      = $user_and_diner['diners'];
+            $user_and_diner             = $this->User_diner_model->search_by_id($id);
+            $user_dat                   = $user_and_diner['user'];
+            $diner_dat                  = $user_and_diner['diners'];
             $this->form_data->id        = $user_dat['idUser'];
             $this->form_data->name      = $user_dat['name'];
             $this->form_data->surname   = $user_dat['surname'];
@@ -230,7 +233,7 @@ class User_diner extends CI_Controller
         }else {
             $this->_initialize_fields();
             $this->_set_rules();
-            $this->variables[idUser] = $idDiner['Diner']['idDiner'];
+            //$this->variables[idUser] = $idDiner['Diner']['idDiner'];
             $user_diner = new stdClass();
             // Todo esto corresponde al PUT
             if ($this->form_validation->run() == FALSE) {
@@ -241,7 +244,7 @@ class User_diner extends CI_Controller
                         'surname'  => form_error('surname'),
                         'role'     => form_error('role'),
                         'alias'    => form_error('alias'),
-                        'docNum'   => form_error('ducNum'),
+                        'docNum'   => form_error('docNum'),
                         'mail'     => form_error('mail')
                 );
                 
@@ -253,16 +256,16 @@ class User_diner extends CI_Controller
 
                     if (isset($response['errors']) && $response['errors']) {
                         $this->output->set_status_header('500');
-                        $this->variables['error-type'] = 'unique';
+                        $this->variables['error-type']   = 'unique';
                         $this->variables['error-fields'] = $response['fields'];
                  // Sin errores de campo, ni API
                     } else{
                             $user_diner = $this->_get_post();
                             $mail_user = array(
-                                    'mail'  => $user_diner['mail'],
-                                    'name'  => $user_diner['name'],
-                                    'alias' => $user_diner['alias'],
-                                    'pass'  => $user_diner['ducNum']
+                                    'mail'  => $user_diner->mail,
+                                    'name'  => $user_diner->name,
+                                    'alias' => $user_diner->alias,
+                                    'pass'  => $user_diner->docNum
                             );
                             try {
                                // $this->Notification->_send_mail($mail_user, 'html', $this->variables['request-action'], $this->load);
@@ -290,19 +293,19 @@ class User_diner extends CI_Controller
         $this->variables['action'] = site_url('user_diner/vew');
         if ($this->input->method() == "get") {
             $user_diner = $this->User_diner_model->search($id);
-            $this->form_data->id = $user_diner['idUser'];
-            $this->form_data->name = $user_diner['name'];
-            $this->form_data->surname = $user_diner['surname'];
-            $this->form_data->mail = $user_diner['mail'];
-            $this->form_data->phone = $user_diner['phone'];
-            $this->form_data->role = $user_diner['role'];
-            $this->form_data->pass = $user_diner['pass'];
-            $this->form_data->alias = $user_diner['alias'];
-            $this->form_data->docNum = $user_diner['docNum'];
-            $this->form_data->street = $user_diner['street'];
-            $this->form_data->streetNumber = $user_diner['streetNumber'];
-            $this->form_data->floor = $user_diner['floor'];
-            $this->form_data->door = $user_diner['door'];
+            $this->form_data->id            = $user_diner['idUser'];
+            $this->form_data->name          = $user_diner['name'];
+            $this->form_data->surname       = $user_diner['surname'];
+            $this->form_data->mail          = $user_diner['mail'];
+            $this->form_data->phone         = $user_diner['phone'];
+            $this->form_data->role          = $user_diner['role'];
+            $this->form_data->pass          = $user_diner['pass'];
+            $this->form_data->alias         = $user_diner['alias'];
+            $this->form_data->docNum        = $user_diner['docNum'];
+            $this->form_data->street        = $user_diner['street'];
+            $this->form_data->streetNumber  = $user_diner['streetNumber'];
+            $this->form_data->floor         = $user_diner['floor'];
+            $this->form_data->door          = $user_diner['door'];
             
             $this->load->view('user_diner/view', $this->variables);
         }
@@ -349,8 +352,8 @@ class User_diner extends CI_Controller
         // Caracteres de validación
         $lower_case = '/[a-z]/';
         $upper_case = '/[A-Z]/';
-        $number = '/[0-9]/';
-        $special = '/[!@#$%^&*()\-_=+{};:,<.>]/';
+        $number     = '/[0-9]/';
+        $special    = '/[!@#$%^&*()\-_=+{};:,<.>]/';
         
         // Contiene caracteres mayuscula
         if (preg_match_all($lower_case, $password) < 1) {
@@ -439,26 +442,24 @@ class User_diner extends CI_Controller
      */
     private function _get_post ($id = NULL)
     {
-        $user_diner = new stdClass();
-        $user_diner->idUser = $id != NULL ? $id : $this->input->post('id');
-        $user_diner->name = $this->input->post('name');
-        $user_diner->surname = $this->input->post('surname');
-        $user_diner->mail = $this->input->post('mail');
-        $user_diner->phone = $this->input->post('phone');
-        
-        $user_bornData = new DateTime($this->input->post('bornDate'));
-        $user_bornData = date_format($user_bornData, 'Y-m-d');
-        $user_diner->bornDate = $user_bornData;
-        $user_diner->role = $this->input->post('role');
-        $user_diner->pass = $this->_generate_password();
-        $user_diner->alias = $this->input->post('alias');
-        $user_diner->docNum = $this->input->post('docNum');
-        $user_diner->street = $this->input->post('street');
+        $user_diner               = new stdClass();
+        $user_diner->idUser       = $id != NULL ? $id : $this->input->post('id');
+        $user_diner->name         = $this->input->post('name');
+        $user_diner->surname      = $this->input->post('surname');
+        $user_diner->mail         = $this->input->post('mail');
+        $user_diner->phone        = $this->input->post('phone');
+        $user_bornData            = new DateTime($this->input->post('bornDate'));
+        $user_bornData            = date_format($user_bornData, 'Y-m-d');
+        $user_diner->bornDate     = $user_bornData;
+        $user_diner->role         = $this->input->post('role');
+        $user_diner->pass         = $this->_generate_password();
+        $user_diner->alias        = $this->input->post('alias');
+        $user_diner->docNum       = $this->input->post('docNum');
+        $user_diner->street       = $this->input->post('street');
         $user_diner->streetNumber = $this->input->post('streetNumber');
-        $user_diner->floor = $this->input->post('floor');
-        $user_diner->door = $this->input->post('door');
-        $user_diner->diner = $this->input->post('diner');
-        
+        $user_diner->floor        = $this->input->post('floor');
+        $user_diner->door         = $this->input->post('door');
+        $user_diner->diner        = $this->input->post('diner');
         return $user_diner;
     }
 
@@ -470,25 +471,25 @@ class User_diner extends CI_Controller
      */
     private function _initialize_fields ()
     {
-        $this->form_data->id = '';
-        $this->form_data->name = '';
-        $this->form_data->surname = '';
-        $this->form_data->mail = '';
-        $this->form_data->phone = '';
-        $this->form_data->bornDate = '';
-        $this->form_data->role = '';
-        $this->form_data->pass = '';
-        $this->form_data->passCheck = '';
-        $this->form_data->alias = '';
-        $this->form_data->docNum = '';
-        $this->form_data->street = '';
-        $this->form_data->streetNumber = '';
-        $this->form_data->floor = '';
-        $this->form_data->door = '';
-        $this->form_data->diner = '';
-        $this->form_data->newPassConf = '';
-        $this->form_data->newPass = '';
-        $this->form_data->idDiner = '';
+        $this->form_data->id            = '';
+        $this->form_data->name          = '';
+        $this->form_data->surname       = '';
+        $this->form_data->mail          = '';
+        $this->form_data->phone         = '';
+        $this->form_data->bornDate      = '';
+        $this->form_data->role          = '';
+        $this->form_data->pass          = '';
+        $this->form_data->passCheck     = '';
+        $this->form_data->alias         = '';
+        $this->form_data->docNum        = '';
+        $this->form_data->street        = '';
+        $this->form_data->streetNumber  = '';
+        $this->form_data->floor         = '';
+        $this->form_data->door          = '';
+        $this->form_data->diner         = '';
+        $this->form_data->newPassConf   = '';
+        $this->form_data->newPass       = '';
+        $this->form_data->idDiner       = '';
     }
 
     /**
@@ -510,7 +511,32 @@ class User_diner extends CI_Controller
         $this->form_validation->set_rules('docNum', 'Documento', 
                 'trim|required');
         $this->form_validation->set_rules('street', 'Calle', 'trim|required');
-        $this->form_validation->set_rules('streetNumber', 'Numero', 
-                'trim|required');
+        $this->form_validation->set_rules('streetNumber', 'Numero', 'trim|required');
     }
+
+    /**
+     * Funcion que define donde redireccionar la pagina
+     *
+     * @return redirect
+     */
+   private function get_redirect() {
+        //if ( $this->session->userdata['lastpage'] != 'user_diner'){
+       /*if( $_SESSION['last_page'] != null && ! strpos($_SESSION['last_page'],'user_diner/edit')){
+            if (strpos($_SESSION['last_page'],'user_diner')){
+                return site_url('user_diner');
+            }else{
+                return site_url($_SESSION['last_page']);
+            }
+        }*/
+       
+       if( $_SERVER['PHP_SELF'] != null && ! strpos($_SERVER['PHP_SELF'],'user_diner/edit')){
+           if (strpos($_SERVER['PHP_SELF'],'user_diner')){
+               return site_url('user_diner');
+           }else{
+               return site_url($_SERVER['PHP_SELF']);
+           }
+       }elseif($_SERVER['PHP_SELF'] == null ){
+           return site_url('home');          
+       }
+   } 
 }

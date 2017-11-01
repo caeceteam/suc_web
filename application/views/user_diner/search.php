@@ -20,6 +20,7 @@
                 <div class="container">
                     <div class="c-header">
                         <h2 style="font-size: 25px;">Gestion de usuarios</h2> <!--TODO CC: Pass style inline to css class-->
+                   		<!-- <?php $_SESSION['last_page'] = $_SERVER['PHP_SELF']?> -->
                     </div>
 
 					<div class="card">
@@ -49,7 +50,7 @@
 						            <th data-column-id="name"    data-order="desc">Nombre</th>
 						            <th data-column-id="surname" data-order="desc">Apellido</th>
 									<th data-column-id="phone">Telefono</th>
-									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Ver/Modificar/Borrar</th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
 						        </tr>
 						    </thead>
 						</table>
