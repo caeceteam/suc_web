@@ -90,20 +90,29 @@
 											<p><b>Imágenes</b></p>
 											<p>Galería</p>
 											
-											<div class="lightbox row">
-												<?php foreach($this->form_data->photos as $photo)
+											<div id="photo-gallery-container">
+												<?php 
+													if (count($this->form_data->photos) == 0)
 													{
-														echo 
-													    	'
-        														<div data-src="' . $photo['url'] . '" data-idPhoto="' . $photo['idPhoto'] . '" class="image-item col-sm-2">
-				                                    				<div class="lightbox-item">
-				                                        				<img src="' . $photo['url'] . '" alt="" />
-							                                    	</div>
-        															<div>
+														echo
+															'<p class="col-xs-12" style="font-weight: bold;"> No hay imágenes cargadas </p>';
+													}
+													else 
+													{
+														foreach($this->form_data->photos as $photo)
+														{
+															echo
+															'<div class="lightbox row">
+	        													<div data-src="' . $photo['url'] . '" data-idPhoto="' . $photo['idPhoto'] . '" class="image-item col-sm-2">
+					                                   				<div class="lightbox-item">
+					                                       				<img src="' . $photo['url'] . '" alt="" />
+								                                   	</div>
+	        														<div>
 																		<a data-idPhoto="' . $photo['idPhoto'] . '" style="margin-bottom:10px; margin-top:3px;" class="btn remove-diner-photo-btn btn-danger fileinput-exists waves-effect" data-dismiss="fileinput">Quitar</a>
 																	</div>
-        														</div>
-        													';
+	        													</div>
+	        												</div>';
+														}														
 													}
 												?>
 				                            </div>
@@ -191,7 +200,11 @@
 					       	url: "<?php echo site_url('diner/deleteDinerImage/') ?>", // target element(s) to be updated with server response 
 					       	cache : false,
 					       	success : function(response){
-						       	$("div.image-item[data-idPhoto=" + idPhoto + "]").remove();
+						       	$("div.image-item[data-idPhoto=" + idPhoto + "]").parent().remove();
+						       	if ($("div.image-item").size() === 0) {
+									$("#photo-gallery-container").append("<p class='col-xs-12' style='font-weight: bold;'> No hay imágenes cargadas </p>");
+							    }
+						       	 
 					       	   	swal({
 					       			title: "Borrado", 
 					       			text: "La imagen fue borrada exitosamente", 
