@@ -20,22 +20,22 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2>Concurrentes</h2>
+                        <h2 style="font-size: 25px;">Eventos</h2> <!--TODO CC: Pass style inline to css class-->
                     </div>
-
+                    
 					<div class="card">
 						<div class="card-body card-padding">
 							<form class="row" role="form">
                                 <div class="col-sm-4">
                                     <div style="position: relative;display: block;margin-top: 10px;margin-bottom: 10px;"> <!--TODO CC: Pass style inline to css class-->
                                         <label>
-                                            ¿Desea crear un nuevo concurrente?
+                                            ¿Desea crear un nuevo evento?
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <a href="<?php echo base_url('assistant/add/') . $this->session->idDiner;?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
+                                    <a href="<?php echo base_url('event/add');?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
                                 </div>
                             </form>			
 						</div>
@@ -46,11 +46,10 @@
 						<table id="data-table-command" class="table table-striped table-vmiddle bootgrid-table">
 						    <thead>
 						        <tr>
-						            <th data-column-id="idAssistant" data-visible="false">ID</th>
 						            <th data-column-id="name" data-order="desc">Nombre</th>
-						            <th data-column-id="surname" data-order="desc">Apellido</th>
-									<th data-column-id="address">Domicilio</th>
-									<th data-column-id="phone">Teléfono</th>
+						            <th data-column-id="date" data-order="desc">Fecha</th>
+						            <th data-column-id="street" data-order="desc">Dirección</th>
+						            <th data-column-id="phone" data-order="desc">Teléfono</th>
 									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
 						        </tr>
 						    </thead>
@@ -73,13 +72,13 @@
         	loadBootgrid({
         		selector: "#data-table-command",
         		requestUrl: $("#data-request-url")[0].value,
-        		noResultText: "No hay concurrentes cargados",
-        		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} concurrentes",
-        		editUrl: "<?php echo site_url('assistant/edit/') ?>",
-        		deleteUrl: "<?php echo site_url('assistant/delete/') ?>",
-        		deleteDialogTitle: "¿Está seguro en borrar al concurrente seleccionado?",
-        		deleteDialogText: "El concurrente se borrará permanentemente del sistema",
-        		deleteDialogSuccess: "El concurrente se ha borrado del sistema."
+        		noResultText: "No hay eventos creados todavía para este comedor",
+        		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} eventos",
+        		editUrl: "<?php echo site_url('event/edit/') ?>",
+        		deleteUrl: "<?php echo site_url('event/delete/') ?>",
+        		deleteDialogTitle: "¿Está seguro en borrar este evento?",
+        		deleteDialogText: "El evento se borrará permanentemente del sistema",
+        		deleteDialogSuccess: "El evento se ha borrado del sistema."
             });
 
         </script>

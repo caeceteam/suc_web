@@ -1,4 +1,4 @@
-<header id="header" class="media">
+<header id="header" class="media" style="position: fixed; width: 100%; top: 0; height: 105px; padding-top: 15px;">
 	<div class="pull-left h-logo">
 		<a href="<?php echo base_url('');?>" class="hidden-xs">
         	 
@@ -21,7 +21,7 @@
 		</li>
 		<li class="dropdown hm-profile">
         	<a data-toggle="dropdown" href="">
-        		<span class="user-name"><?php echo isset($this->session->userName) ? $this->session->userName : 'Invitado' ?></span>
+        		<span class="user-name"><?php echo isset($this->session->userName) ? $this->session->userName . ' - ' . $this->login->get_role_description($this->session->role) : 'Invitado' ?></span>
             	<img src="<?php echo base_url('img/profile-pics/2.gif')?>" alt="">
             </a>
 
@@ -39,3 +39,4 @@
 		</li>
     </ul>
 </header>
+<div id="header" class="media" style="top: 0; height: 105px; padding-top: 15px; position: inherit;"></div>

@@ -45,7 +45,7 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion para retornar la informaciÃ³n a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la información a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
 	public function render_table_response()
 	{
@@ -95,8 +95,8 @@ class Input_type extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'code' => form_error('code'),
-						'name' => form_error('name'));
+						'code' => utf8_encode(form_error('code')),
+						'name' => utf8_encode(form_error('name')));
 				$this->variables['error-fields'] = $data;
 			}
 			else
@@ -114,7 +114,7 @@ class Input_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de ediciÃ³n y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -127,10 +127,10 @@ class Input_type extends CI_Controller {
 		if($this->input->method() == "get")
 		{
 			$input_type = $this->Input_type_model->search_by_id($id);
-			$this->form_data->id = $input_type['idInputType'];
-			$this->form_data->code = $input_type['code'];
-			$this->form_data->name = $input_type['name'];
-			$this->form_data->description = $input_type['description'];
+			$this->form_data->id 			= $input_type['idInputType'];
+			$this->form_data->code 			= $input_type['code'];
+			$this->form_data->name 			= $input_type['name'];
+			$this->form_data->description 	= $input_type['description'];
 			$this->load->view('input_type/save', $this->variables);
 		}
 		else
@@ -144,8 +144,8 @@ class Input_type extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'code' => form_error('code'),
-						'name' => form_error('name'));
+						'code' => utf8_encode(form_error('code')),
+						'name' => utf8_encode(form_error('name')));
 				$this->variables['error-fields'] = $data;
 			}
 			else
@@ -207,7 +207,7 @@ class Input_type extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('code', 'Codigo', 'trim|required');
+		$this->form_validation->set_rules('code', 'Código', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('description', 'Descripcion', 'trim');
 	}

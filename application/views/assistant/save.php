@@ -37,34 +37,42 @@
 										<div class="row">
 											<div class="form-group fg-float col-sm-6">
 												<div class="fg-line" data-id="name">
-													<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name', $this->form_data->name); ?>">
-													<label class="fg-label">Nombre</label>
+												<input type="text" id="name" name="name"
+													class="input-sm form-control fg-input"
+													value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
+												<label class="fg-label">Nombre</label>
 												</div>
 											</div>
 											
 											<div class="form-group fg-float col-sm-6">
 												<div class="fg-line" data-id="surname">
-													<input type="text" id="surname" name="surname" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('surname', $this->form_data->surname); ?>">
+													<input type="text" id="surname" name="surname" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('surname', utf8_decode($this->form_data->surname)); ?>">
 													<label class="fg-label">Apellido</label>
 												</div>
 											</div>
 											<br/>
 											<div class="form-group fg-float col-sm-3">
 												<div class="fg-line" data-id="bornDate">
-													<input type="text" class="input-sm form-control input-mask fg-input" id="bornDate" name="bornDate" data-mask="00/00/0000" value="<?php echo ($reset) ? '' : set_value('bornDate', $this->form_data->bornDate); ?>">
-													<label class="fg-label">Fecha de nacimiento</label>
-												</div>
-											</div>
-											<div class="form-group fg-float col-sm-6">
-												<div class="fg-line" data-id="scholarship">
-													<input type="text" id="scholarship" name="scholarship" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('scholarship', $this->form_data->scholarship); ?>">
-													<label class="fg-label">Año escolar</label>
+													<input type="text" class="input-sm form-control input-mask fg-input" id="bornDate" name="bornDate" data-mask="0000-00-00" value="<?php echo ($reset) ? '' : set_value('bornDate', $this->form_data->bornDate); ?>">
+													<label class="fg-label">Fecha de nacimiento (YYYY-MM-DD)</label>
 												</div>
 											</div>
 											<div class="form-group fg-float col-sm-3">
 												<div class="fg-line" data-id="document">
-													<input type="text" id="document" name="document" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name', $this->form_data->name); ?>">
+													<input type="text" id="document" name="document" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('document', utf8_decode($this->form_data->document)); ?>">
 													<label class="fg-label">Nro. de documento</label>
+												</div>
+											</div>
+											<div class="form-group fg-float col-sm-3">
+												<div class="fg-line" data-id="scholarship">
+													<input type="text" id="scholarship" name="scholarship" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('scholarship', utf8_decode($this->form_data->scholarship)); ?>">
+													<label class="fg-label">Año escolar</label>
+												</div>
+											</div>
+											<div class="form-group fg-float col-sm-3">
+												<div class="fg-line" data-id="economicSituation">
+													<input type="text" id="economicSituation" name="economicSituation" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('economicSituation', utf8_decode($this->form_data->economicSituation)); ?>">
+													<label class="fg-label">Situación ecónimica familiar</label>
 												</div>
 											</div>
 											<br/>
@@ -79,25 +87,19 @@
 													<?php echo form_hidden('zipCode', ($reset) ? '' : set_value('zipCode',$this->form_data->zipCode)); ?>
 												</div>
 											</div>
-											<div class="form-group fg-float col-sm-6">
-												<div class="fg-line" data-id="economicSituation">
-													<input type="text" id="economicSituation" name="economicSituation" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('economicSituation', $this->form_data->economicSituation); ?>">
-													<label class="fg-label">Situación ecónimica familiar</label>
-												</div>
-											</div>
 											<br/>
-											<div class="form-group fg-float col-sm-3">
-												<div class="fg-line" data-id="phone">
-													<input type="text" id="phone" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone', $this->form_data->phone); ?>">
-													<label class="fg-label">Télefono del contacto</label>
-												</div>
-											</div>
 											<div class="form-group fg-float col-sm-9">
 												<div class="fg-line" data-id="contactName">
-													<input type="text" id="contactName" name="contactName" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('contactName', $this->form_data->contactName); ?>">
+													<input type="text" id="contactName" name="contactName" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('contactName', utf8_decode($this->form_data->contactName)); ?>">
 													<label class="fg-label">Nombre del contacto</label>
 												</div>
-											</div>											
+											</div>	
+											<div class="form-group fg-float col-sm-3">
+												<div class="fg-line" data-id="phone">
+													<input type="text" id="phone" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone', utf8_decode($this->form_data->phone)); ?>">
+													<label class="fg-label">Télefono del contacto</label>
+												</div>
+											</div>										
 											<br/>
 											<div class="checkbox col-sm-12">
 												<div class="first checkbox col-sm-3">
@@ -133,18 +135,10 @@
 											</div>
 										</div>
 																				
-										<div id="unique-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Existe otro concurrente
-				                        </div>
-				                        
-										<div id="empty-error-alert" class="alert alert-danger alert-dismissible hide-alert" role="alert">
-				                        	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				                          	Por favor ingrese datos en los campos marcados
-				                        </div>				                        
+										<?php $this->load->view('templates/alerts'); ?>				                        
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
-										<a href="<?php echo site_url('assistant'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
+										<a href="<?php echo site_url('assistant') . '/' . $this->form_data->idDiner; ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
 										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
 										<?php echo form_hidden('idDiner', ($reset) ? '' : set_value('id',$this->form_data->idDiner)); ?>
 									</form>								
@@ -171,6 +165,7 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
+		<?php $this->load->view('templates/googleApiMap'); ?>
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
 		<script>
@@ -178,18 +173,16 @@
 				showConfirmDialog({
 					title: "¿Está seguro grabar este concurrente?",
 					text: "El concurrente se grabará en el sistema",
-					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
+					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action + "/" + $("input[name='idDiner']")[0].value : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
 					successText: "El concurrente se ha grabado en el sistema.",
 					failedText: "El concurrente no pudo ser grabado en el sistema.",
-					redirectUrl: $("#redirect-url")[0].value
+					redirectUrl: $("#redirect-url")[0].value + "/" + $("input[name='idDiner']")[0].value
 				});
 				return false;
 			}); 
 			
         </script>
-        
-		<script src="<?php echo base_url('js/mapsFunction.js')?>"></script>    
         
     </body>
 </html>

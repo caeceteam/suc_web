@@ -7,7 +7,7 @@
         <title>SUC</title>
 	
         <?php $this->load->view('templates/styles'); ?>
-        
+        <link href="<?php echo base_url('vendors/bower_components/lightgallery/dist/css/lightgallery.min.css')?>" rel="stylesheet">
     </head>
 
     <body data-ma-header="teal">
@@ -35,13 +35,13 @@
 										<div class="row">
 											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line" data-id="name">
-													<input type="text" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
+													<input type="text" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
 													<label class="fg-label">Nombre del comedor</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line" data-id="mail">
-													<input type="text" name="mail" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('mail',$this->form_data->mail); ?>">
+													<input type="text" name="mail" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('mail', utf8_decode($this->form_data->mail)); ?>">
 													<label class="fg-label">Mail del comedor</label>
 												</div>
 											</div>
@@ -58,36 +58,65 @@
 											</div>
 											<div class="fg-float form-group col-xs-3" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<input type="text" name="floor" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('floor',$this->form_data->floor); ?>">
+													<input type="text" name="floor" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('floor', utf8_decode($this->form_data->floor)); ?>">
 													<label class="fg-label">Piso</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-3" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<input type="text" name="door" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('door',$this->form_data->door); ?>">
+													<input type="text" name="door" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('door', utf8_decode($this->form_data->door)); ?>">
 													<label class="fg-label">Departamento</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line" data-id="phone">
-													<input type="text" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>">
+													<input type="text" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone', utf8_decode($this->form_data->phone)); ?>">
 													<label class="fg-label">Teléfono</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-6" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<input type="text" name="site" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('link',$this->form_data->link); ?>">
+													<input type="text" name="link" class="input-sm form-control fg-input"  value="<?php echo ($reset) ? '' : set_value('link', utf8_decode($this->form_data->link)); ?>">
 													<label class="fg-label">Página del comedor</label>
 												</div>
 											</div>
 											<div class="fg-float form-group col-xs-12" style="padding-left: 0;padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 												<div class="fg-line">
-													<textarea class="form-control auto-size" name="description "><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
+													<textarea class="form-control auto-size" name="description"><?php echo ($reset) ? '' : set_value('description', utf8_decode($this->form_data->description)); ?></textarea>
 													<label class="fg-label">Descripción del comedor</label>
 												</div>
 											</div>
 											
-											<p><b>Subir foto del Comedor</b></p>
+											<p><b>Imágenes</b></p>
+											<p>Galería</p>
+											
+											<div id="photo-gallery-container">
+												<?php 
+													if (count($this->form_data->photos) == 0)
+													{
+														echo
+															'<p class="col-xs-12" style="font-weight: bold;"> No hay imágenes cargadas </p>';
+													}
+													else 
+													{
+														foreach($this->form_data->photos as $photo)
+														{
+															echo
+															'<div class="lightbox row">
+	        													<div data-src="' . $photo['url'] . '" data-idPhoto="' . $photo['idPhoto'] . '" class="image-item col-sm-2">
+					                                   				<div class="lightbox-item">
+					                                       				<img src="' . $photo['url'] . '" alt="" />
+								                                   	</div>
+	        														<div>
+																		<a data-idPhoto="' . $photo['idPhoto'] . '" style="margin-bottom:10px; margin-top:3px;" class="btn remove-diner-photo-btn btn-danger fileinput-exists waves-effect" data-dismiss="fileinput">Quitar</a>
+																	</div>
+	        													</div>
+	        												</div>';
+														}														
+													}
+												?>
+				                            </div>
+											<br/>
 											<p>Seleccione la imagen que desee subir del comedor.</p>
 											<div class="fileinput fileinput-new" data-provides="fileinput">
 												<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
@@ -142,9 +171,58 @@
 
 		<?php $this->load->view('templates/scripts'); ?>
 		<?php $this->load->view('templates/googleApiMap'); ?>		
+		<script src="<?php echo base_url('vendors/bower_components/lightgallery/dist/js/lightgallery-all.min.js')?>"></script>
 		<script src="<?php echo base_url('vendors/fileinput/fileinput.min.js')?>"></script>
 		<script src="<?php echo base_url('vendors/farbtastic/farbtastic.min.js')?>"></script>
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
+		
+		<script>
+			$(".remove-diner-photo-btn").click(function() {
+				var idPhoto = this.getAttribute("data-idphoto");
+				$('.lightbox').data('lightGallery').destroy(false);
+				swal({
+					title: "¿Está seguro que desea borrarla imagen?",
+					text: "La imágen se borrará del sistema",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Si",
+					cancelButtonText: "No",
+					closeOnConfirm: false,
+				}, function(isConfirm){
+					if (isConfirm) {
+						$.ajax({
+							type : 'POST',
+							data: {
+								idDiner: $("input[name='id']").val(),
+								idPhoto: idPhoto
+							},
+					       	url: "<?php echo site_url('diner/deleteDinerImage/') ?>", // target element(s) to be updated with server response 
+					       	cache : false,
+					       	success : function(response){
+						       	$("div.image-item[data-idPhoto=" + idPhoto + "]").parent().remove();
+						       	if ($("div.image-item").size() === 0) {
+									$("#photo-gallery-container").append("<p class='col-xs-12' style='font-weight: bold;'> No hay imágenes cargadas </p>");
+							    }
+						       	 
+					       	   	swal({
+					       			title: "Borrado", 
+					       			text: "La imagen fue borrada exitosamente", 
+					       			type: "success"
+					       		});
+					       	},
+					       	error : function(response){
+					       		swal({
+					       	   		title: "Error", 
+					       	   		text: "Hubo un problema en el sistema", 
+					       	   		type: "error"
+					       	   	});		       
+					       	}
+						}); 
+					}
+				});
+			});
+		</script>
 		
 		<script>
 			$('.diner-form').submit(function() {

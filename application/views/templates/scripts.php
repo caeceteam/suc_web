@@ -12,6 +12,7 @@
 <script src="<?php echo base_url('vendors/bower_components/nouislider/distribute/jquery.nouislider.all.min.js')?>"></script>
 <script src="<?php echo base_url('vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js')?>"></script>
 <script src="<?php echo base_url('vendors/bower_components/autosize/dist/autosize.min.js')?>"></script>
+<script src="<?php echo base_url('vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')?>"></script>
 
 <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
 <script src="<?php echo base_url('vendors/bootgrid/jquery.bootgrid.updated.min.js')?>"></script>
@@ -31,4 +32,3 @@
 <script src="<?php echo base_url('js/demo.js')?>"></script>
 <script src="<?php echo base_url('js/inputTypeForm.js')?>"></script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQI7u6RI5Mtxh6FFqgPY9eMccFYmxLVzU&libraries=places&callback=initAutocomplete" async defer></script>

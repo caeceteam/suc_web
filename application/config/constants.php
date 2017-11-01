@@ -86,7 +86,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 /*
  |--------------------------------------------------------------------------
- | C�digos de status HTTP
+ | Codigos de status HTTP
  |--------------------------------------------------------------------------
  |
  | Usados para validar las llamadas a la API.
@@ -104,7 +104,7 @@ defined('HTTP_INTERNAL_SERVER') OR define('HTTP_INTERNAL_SERVER', 500);
 
 /*
  |--------------------------------------------------------------------------
- | C�digos de estados de comedor
+ | Codigos de estados de comedor
  |--------------------------------------------------------------------------
  |
  | Usados para manejar los estados de las solicitudes de comedores
@@ -116,7 +116,7 @@ defined('DINER_REJECTED')      	OR define('DINER_REJECTED', 2);
 
 /*
  |--------------------------------------------------------------------------
- | C�digos de estados de usuario
+ | Codigos de estados de usuario
  |--------------------------------------------------------------------------
  |
  | Usados para manejar los estados de la adminsitraci�n de usuarios
@@ -124,3 +124,29 @@ defined('DINER_REJECTED')      	OR define('DINER_REJECTED', 2);
  */
 defined('USER_INACTIVE')     	OR define('USER_INACTIVE', 0);
 defined('USER_ACTIVE')      	OR define('USER_ACTIVE', 1);
+
+/*
+ |--------------------------------------------------------------------------
+ | Codigos de roles de usuario
+ |--------------------------------------------------------------------------
+ |
+ | Usados para manejar los roles de usuarios
+ |
+ */
+defined('SYS_ADMIN')     		OR define('SYS_ADMIN', 0);
+defined('DINER_ADMIN')      	OR define('DINER_ADMIN', 1);
+defined('EMPLOYEE')      		OR define('EMPLOYEE', 2);
+defined('COLABORATOR')      	OR define('COLABORATOR', 3);
+defined('GUEST')      			OR define('GUEST', 4);
+
+/*
+ |--------------------------------------------------------------------------
+ | Codigos de Mail Type
+ |--------------------------------------------------------------------------
+ |
+ | Usados para manejar los tipos de mail de la api /emails/
+ |
+ */
+defined('REGISTRATION_MAIL')     	OR define('REGISTRATION_MAIL', 0);
+defined('APPROVAL_MAIL')      		OR define('APPROVAL_MAIL', 1);
+defined('REJECTION_MAIL')      		OR define('REJECTION_MAIL', 2);

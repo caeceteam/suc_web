@@ -27,6 +27,7 @@ class Diner_application extends CI_Controller {
 		$this->load->library(array('form_validation', 'email', 'upload', 'login'));
 		$this->load->helper(array('url', 'form', 'file'));
 		$this->load->model('Diner_application_model');
+		$this->load->model('Emails_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
@@ -105,12 +106,12 @@ class Diner_application extends CI_Controller {
 		$diner_application->user->alias 		= $this->input->post('alias');
 		$diner_application->user->mail			= $this->input->post('user_mail');
 		$diner_application->user->state 		= USER_INACTIVE;
-		$diner_application->user->role 			= 1;//@TODO Ver como resolvemos esto
+		$diner_application->user->role 			= DINER_ADMIN;
 		return $diner_application;
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici√≥n
+	 * Funcion que inicializa las variables de los campos del formulario para la ediciÛn
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -151,15 +152,15 @@ class Diner_application extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
-		$this->form_validation->set_rules('streetNumber', 'N√∫mero', 'trim|required');
+		$this->form_validation->set_rules('streetNumber', 'N˙mero', 'trim|required');
 		$this->form_validation->set_rules('floor', 'Piso', 'trim');
 		$this->form_validation->set_rules('door', 'Departamento', 'trim');
 		$this->form_validation->set_rules('latitude', 'Latitud', 'trim');
 		$this->form_validation->set_rules('longitude', 'Longuitud', 'trim');
 		$this->form_validation->set_rules('zipCode', 'CP', 'trim|required');
-		$this->form_validation->set_rules('phone', 'Tel√©fono', 'trim|required');
-		$this->form_validation->set_rules('link', 'P√°gina', 'trim');
-		$this->form_validation->set_rules('description', 'Descripci√≥n', 'trim');
+		$this->form_validation->set_rules('phone', 'TelÈfono', 'trim|required');
+		$this->form_validation->set_rules('link', 'P·gina', 'trim');
+		$this->form_validation->set_rules('description', 'DescripciÛn', 'trim');
 		$this->form_validation->set_rules('user_name', 'Nombre del solicitante', 'trim|required');
 		$this->form_validation->set_rules('surname', 'Apellido del solicitante', 'trim|required');
 		$this->form_validation->set_rules('user_mail', 'Mail del solicitante', 'trim|required');
@@ -167,11 +168,11 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funci√≥n que genera una contrase√±a en forma aleatorio
+	 * FunciÛn que genera una contraseÒa en forma aleatorio
 	 * @param    $chars_min largo minimo (opcional, default 6)
-	 * @param    $chars_max largo m√°ximo (opcional, default 8)
-	 * @param    $use_upper_case boolean para indicar si se usan may√∫suculas (opcional, default false)
-	 * @param    $include_numbers boolean para indicar si se usan n√∫meros (opcional, default false)
+	 * @param    $chars_max largo m·ximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan may˙suculas (opcional, default false)
+	 * @param    $include_numbers boolean para indicar si se usan n˙meros (opcional, default false)
 	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
 	 * @return    string containing a random password
 	 */
@@ -192,7 +193,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funci√≥n que envia un mail a un destinatario con su contrase√±a
+	 * FunciÛn que envia un mail a un destinatario con su contraseÒa
 	 * @param    $to 		string destinatario
 	 * @param	 $user		string usuario
 	 * @param    $password 	string password
@@ -200,31 +201,18 @@ class Diner_application extends CI_Controller {
 	 */
 	private function _send_mail($to, $user, $password)
 	{
-		$this->email->from('suc@no-reply.com', 'Sistema √önico de Comedores');
-		$this->email->to($to);
-		$this->email->subject('Solicitud de alta de comedor');
-		/**
-		$this->email->message('Bienvenido al sistema √∫nico de comedores. <br/>
-			Su solicitud de alta se encuetra pendiente, recibir√° un mail indicando si fue aprobada o no. <br/>
-			Su contrase√±a es: ' . $user . $password . ' .<br/>' . site_url(''));
-		*/
-		
-		//Genero el array con los datos
 		$data = array(
-				'user'		=> $user,
-				'password'	=> $password,
-				'url'		=> site_url('')
+				'mail_type' 		=> REGISTRATION_MAIL,
+				'destination_email' => $to,
+				'user_name'			=> $user, 
+				'password'			=> $password,
+				'url'				=> site_url('')
 		);
-		//$this->email->set_mailtype("html"); //Seteo que el mail va a ser HTML
-		$body = $this->load->view('email/registration.php',$data ,TRUE); //cargo el PHP
-		$this->email->message($body); //adjunto el php al cuerpo del mail
-		
-		$this->email->set_newline("\r\n");//Sin esta l√≠nea falla el envio
-		return $this->email->send();
+		return $this->Emails_model->send_mail_api($data);
 	}
 	
 	/**
-	 * Funci√≥n que guarda una imagen en la nube usando la API de cloudinary
+	 * FunciÛn que guarda una imagen en la nube usando la API de cloudinary
 	 * @param    $photo 	string ruta de la imagen a guardar
 	 * @return   bool 		indica si la imagen se guardo correctamente
 	 */
@@ -245,7 +233,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funci√≥n que configura la API de cloudinary
+	 * FunciÛn que configura la API de cloudinary
 	 * @return   void
 	 */
 	private function _cloudinary_init()
