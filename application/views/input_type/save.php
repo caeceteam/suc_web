@@ -36,21 +36,21 @@
 									<form role="form" action="<?php echo $action; ?>" class="input-type-form" method="POST" enctype="multipart/form-data">
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="name">
-												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
+												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
 												<label class="fg-label">Nombre</label>
 											</div>
 										</div>
 										<br/>
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="code">
-												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code',$this->form_data->code); ?>">
+												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code', utf8_decode($this->form_data->code)); ?>">
 												<label class="fg-label">Código</label>
 											</div>
 										</div>
 										<br/>
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="description">
-												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
+												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description', utf8_decode($this->form_data->description)); ?></textarea>
 												<label class="fg-label">Descripción</label>
 											</div>
 										</div>
@@ -93,7 +93,6 @@
 		
 		<script>
 			$('.input-type-form').submit(function() {
-				debugger;
 				showConfirmDialog({
 					title: "¿Está seguro grabar este tipo de insumo?",
 					text: "El tipo de insumo se grabará en el sistema",

@@ -63,7 +63,6 @@ class Diner_food extends CI_Controller {
 		foreach ($diner_foods_data as $diner_food)
 		{
 			$row_data['id'] 			= $diner_food['idDinerFood'];
-			//$row_data['creationDate'] 	= $diner_food['creationDate'];
 			$row_data['foodTypeName'] 	= $diner_food['foodType']['name'];
 			$row_data['name'] 			= $diner_food['name'];
 			$row_data['quantity'] 		= $diner_food['quantity'];
@@ -101,7 +100,7 @@ class Diner_food extends CI_Controller {
 						'quantity'			=> form_error('quantity'),
 						'unity' 			=> form_error('unity'),
 						'expirationDate' 	=> form_error('expirationDate'));
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -158,7 +157,7 @@ class Diner_food extends CI_Controller {
 						'quantity'			=> form_error('quantity'),
 						'unity' 			=> form_error('unity'),
 						'expirationDate' 	=> form_error('expirationDate'));
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{

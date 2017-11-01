@@ -99,7 +99,7 @@ class Assistant extends CI_Controller {
 						'bornDate' 	=> form_error('bornDate'),
 						'document' 	=> form_error('document'),
 				);
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -163,8 +163,8 @@ class Assistant extends CI_Controller {
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
 						'code' => form_error('code'),
-						'name' => form_error('name'));// TODO: review
-				$this->variables['error-fields'] = $data;
+						'name' => form_error('name'));
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -261,5 +261,9 @@ class Assistant extends CI_Controller {
 		$this->form_validation->set_rules('surname', 'Apellido', 'trim|required');
 		$this->form_validation->set_rules('bornDate', 'Fecha de nacimiento', 'trim|required');
 		$this->form_validation->set_rules('document', 'Nro. de documento', 'trim|required');
+		$this->form_validation->set_rules('scholarship', 'Año escolar', 'trim');
+		$this->form_validation->set_rules('economicSituation', 'Situación economica', 'trim');
+		$this->form_validation->set_rules('contactName', 'Nombre del contacto', 'trim');
+		$this->form_validation->set_rules('phone', 'Teléfono del contacto', 'trim');
 	}
 }

@@ -93,7 +93,7 @@ class Diner_input extends CI_Controller {
 						'idInputType' 	=> form_error('idInputType'),
 						'genderType' 	=> form_error('genderType'),
 						'quantity'		=> form_error('quantity'));
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -147,7 +147,7 @@ class Diner_input extends CI_Controller {
 						'idInputType' 	=> form_error('idInputType'),
 						'genderType' 	=> form_error('genderType'),
 						'quantity'		=> form_error('quantity'));
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -217,11 +217,10 @@ class Diner_input extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		//$this->form_validation->set_rules('idDiner', 'Comedor', 'trim|required');
 		$this->form_validation->set_rules('idInputType', 'Tipo de insumo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim');
 		$this->form_validation->set_rules('size', 'Talle', 'trim');
-		$this->form_validation->set_rules('genderType', 'Genero', 'trim|required');
+		$this->form_validation->set_rules('genderType', 'Género', 'trim|required');
 		$this->form_validation->set_rules('quantity', 'Cantidad', 'trim|required');
 		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}
@@ -239,7 +238,7 @@ class Diner_input extends CI_Controller {
 		{
 			$descripcion[$i['idInputType']] = $i['name'];
 		}
-		$this->variables['input_types']=$descripcion;
-		$this->variables['input_type']= isset($id_input_type) ? $id_input_type : '';
+		$this->variables['input_types'] = $descripcion;
+		$this->variables['input_type'] = isset($id_input_type) ? $id_input_type : '';
 	}
 }
