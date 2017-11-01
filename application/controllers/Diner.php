@@ -89,7 +89,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de ediciÃ³n y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -101,7 +101,8 @@ class Diner extends CI_Controller {
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if($this->input->method() == "get")
 		{
-			$diner = $this->Diner_model->search_by_id($id)['diner'];
+			$responseData = $this->Diner_model->search_by_id($id); 
+			$diner = $responseData['diner'];
 			$this->form_data->id			= $diner['idDiner'];		
 			$this->form_data->name			= $diner['name'];			
 			$this->form_data->state			= $diner['state'];			
@@ -117,6 +118,8 @@ class Diner extends CI_Controller {
 			$this->form_data->link			= $diner['link'];			
 			$this->form_data->mail			= $diner['mail'];
 			$this->form_data->state			= $diner['state'];
+			$dinerPhotos = $responseData['photos'];
+			$this->form_data->photos		= $dinerPhotos;
 			$this->load->view('diner/save', $this->variables);
 		}
 		else
@@ -164,6 +167,21 @@ class Diner extends CI_Controller {
 			echo json_encode( $this->variables );
 		}
 	}
+	
+	/**
+	 * Funcion de borrar imagén
+	 * @param		string	$id
+	 * @return void
+	 */
+	public function deleteDinerImage()
+	{
+		$successResponse = $this->Diner_model->deleteImage($this->input->post('idDiner'), $this->input->post('idPhoto'));
+		$this->output->set_status_header('202');
+		if (!$successResponse) {
+			$this->output->set_status_header('500');
+		}
+		echo "Imagen borrada";
+	}	
 	
 	/**
 	 * Funcion de baja

@@ -110,6 +110,23 @@ class Diner_model extends CI_Model {
 	}
 	
 	/**
+	 * Borrar imagen de comedor
+	 * @param		string	$idDiner
+	 * 				string	$idPhoto
+	 * @return 		array   Si la edición fue exitosa, devuelve un array con el diner, sino devuelve NULL
+	 */
+	public function deleteImage($idDiner, $idPhoto)
+	{
+		$response = $this->client->request('DELETE', 'api/dinerPhotos/' . $idDiner . '/' . $idPhoto);
+		if($response->getStatusCode()==HTTP_NO_CONTENT)
+		{
+			return TRUE;
+		}
+		else
+			return FALSE;
+	}	
+	
+	/**
 	 * Función que mapea el mensaje de error desde la API usado en los editores
 	 * @param 	exception $exceptionData
 	 */
