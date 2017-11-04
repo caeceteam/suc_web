@@ -153,7 +153,7 @@ class User_diner extends CI_Controller
                                   'docNum'  => form_error('ducNum'),
                                   'mail'    => form_error('mail'));
 
-                $this->variables['error-fields'] = $data;
+                $this->variables['error-fields'] = array_map("utf8_encode", $data);
 
             } else {
                  $response = $this->User_diner_model->add($this->_get_post());
@@ -227,7 +227,7 @@ class User_diner extends CI_Controller
                                   'docNum'  => form_error('ducNum'),
                                   'mail'    => form_error('mail'));
 
-                $this->variables['error-fields'] = $data;
+                $this->variables['error-fields'] = array_map("utf8_encode", $data);
 
             } else {
                 $response = $this->User_diner_model->edit($this->_get_post());

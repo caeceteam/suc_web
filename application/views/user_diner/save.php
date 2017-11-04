@@ -39,7 +39,7 @@
 									<div class="form-group fg-line">
 										<label>Nombre</label> <input type="text" class="form-control"
 											id="name" name="name"
-											value="<?php echo ($reset) ? '' : set_value('name',$this->form_data->name); ?>">
+											value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
 									</div>
 								</div>
 
@@ -48,7 +48,7 @@
 									<div class="form-group fg-line">
 										<label>Apellido</label> <input type="text"
 											class="form-control" id="surname" name="surname"
-											value="<?php echo ($reset) ? '' : set_value('surname',$this->form_data->surname); ?>">
+											value="<?php echo ($reset) ? '' : set_value('surname', utf8_decode($this->form_data->surname)); ?>">
 									</div>
 								</div>
 
@@ -57,7 +57,7 @@
 									<div class="form-group fg-line">
 										<label>Alias</label> <input type="text" class="form-control"
 											id="alias" name="alias" placeholder="Alias en el sistema."
-											value="<?php echo ($reset) ? '' : set_value('alias',$this->form_data->alias); ?>">
+											value="<?php echo ($reset) ? '' : set_value('alias', utf8_decode($this->form_data->alias)); ?>">
 									</div>
 								</div>
 
@@ -68,7 +68,7 @@
 										<input min="1000000" max="999999999"
 											class="form-control input-mask" data-mask="99.999.999" placeholder="ej. 99.99.999"
 											id="docNum" name="docNum"
-											value="<?php echo ($reset) ? '' : set_value('docNum',$this->form_data->docNum); ?>">
+											value="<?php echo ($reset) ? '' : set_value('docNum', utf8_decode($this->form_data->docNum)); ?>">
 									</div>
 								</div>
 
@@ -78,14 +78,14 @@
 										<label>Fecha de naciomiento</label> <input type="text"
 											class="form-control input-mask" data-mask="00-00-0000"
 											placeholder="ej. 31-12-1900" id="bornDate" name="bornDate"
-											value="<?php echo ($reset) ? '' : set_value('bornDate',$this->form_data->bornDate); ?>">
+											value="<?php echo ($reset) ? '' : set_value('bornDate', utf8_decode($this->form_data->bornDate)); ?>">
 									</div>
 								</div>
 
 								<!-- FINAL 03 - ROL DE LA PERSONA -->
 								<div class="col-sm-4">
 									<label>Rol</label> <select class="chosen"
-										data-placeholder="<?php echo ($reset) ? 'Tareas en el comedor' : set_value('rol',$this->form_data->role); ?>"
+										data-placeholder="<?php echo ($reset) ? 'Tareas en el comedor' : set_value('rol', utf8_decode($this->form_data->role)); ?>"
 										id="role" name="role">
 										<option value="99""></option>
 										<option value="00"
@@ -115,7 +115,7 @@
 									<div class="form-group fg-line">
 										<label>Email particular</label> <input type="email"
 											class="form-control" id="mail" name="mail"
-											value="<?php echo ($reset) ? '' : set_value('mail',$this->form_data->mail); ?>">
+											value="<?php echo ($reset) ? '' : set_value('mail', utf8_decode($this->form_data->mail)); ?>">
 									</div>
 								</div>
 
@@ -124,7 +124,7 @@
 									<div class="form-group fg-line">
 										<label>Teléfono particular</label> <input type="text"
 											class="form-control" id="phone" name="phone"
-											value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>">
+											value="<?php echo ($reset) ? '' : set_value('phone', utf8_decode($this->form_data->phone)); ?>">
 									</div>
 								</div>
 
@@ -133,7 +133,7 @@
 									<div class="form-group fg-line">
 										<label>Calle y localidad</label> <input type="text"
 											class="form-control" id="street" name="street"
-											value="<?php echo ($reset) ? '' : set_value('street',$this->form_data->street); ?>">
+											value="<?php echo ($reset) ? '' : set_value('street', utf8_decode($this->form_data->street)); ?>">
 									</div>
 								</div>
 								<!--FILA 05 ALTURA-->
@@ -141,7 +141,7 @@
 									<div class="form-group fg-line">
 										<label>Altura</label> 
 										<input class="form-control" id="streetNumber" name="streetNumber" type="nume"
-											value="<?php echo ($reset) ? '' : set_value('streetNumber',$this->form_data->streetNumber); ?>">
+											value="<?php echo ($reset) ? '' : set_value('streetNumber', utf8_decode($this->form_data->streetNumber)); ?>">
 									</div>
 								</div>
 								
@@ -150,7 +150,7 @@
 									<div class="form-group fg-line">
 										<label>Piso</label> 
 										<input class="form-control" id="floor" name="floor"
-											value="<?php echo ($reset) ? '' : set_value('floor',$this->form_data->floor); ?>">
+											value="<?php echo ($reset) ? '' : set_value('floor', utf8_decode($this->form_data->floor)); ?>">
 									</div>
 								</div>
 								<!--FILA Puerta-->
@@ -158,7 +158,7 @@
 									<div class="form-group fg-line">
 										<label>Puerta</label> 
 										<input class="form-control" id="door" name="door"
-											value="<?php echo ($reset) ? '' : set_value('door',$this->form_data->door); ?>">
+											value="<?php echo ($reset) ? '' : set_value('door', utf8_decode($this->form_data->door)); ?>">
 									</div>
 								</div>
 

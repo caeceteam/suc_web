@@ -95,9 +95,9 @@ class Input_type extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'code' => utf8_encode(form_error('code')),
-						'name' => utf8_encode(form_error('name')));
-				$this->variables['error-fields'] = $data;
+						'code' => form_error('code'),
+						'name' => form_error('name'));
+				$this->variables['error-fields'] =  array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -144,9 +144,9 @@ class Input_type extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'code' => utf8_encode(form_error('code')),
-						'name' => utf8_encode(form_error('name')));
-				$this->variables['error-fields'] = $data;
+						'code' => form_error('code'),
+						'name' => form_error('name'));
+				$this->variables['error-fields'] =  array_map("utf8_encode", $data);
 			}
 			else
 			{
