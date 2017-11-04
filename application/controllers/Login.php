@@ -60,6 +60,7 @@ class Login extends CI_Controller {
 			{
 				$data = array(
 						'userName' 		=> $this->input->post('userName'),
+				        'idUser'        => $response['user']['idUser'],
 						'token'			=> $response['token'],
 						'idDiner'		=> $response['diners'][0]['idDiner'],
 						'is_logged_in' 	=> true,

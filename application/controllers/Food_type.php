@@ -13,9 +13,11 @@ class Food_type extends CI_Controller {
 
 	// Array para guardar todas las variables de la pagina
 	private $variables;
+	private $pass;
 	
 	// Array para guardar exclusivamente los values del formulario
-	public $form_data; 
+	public  $form_data; 
+
 	 
 	/**
 	 * Constructor de clase
@@ -52,14 +54,9 @@ class Food_type extends CI_Controller {
 	 */
 	 public function search($name=NULL)
 	{
-		//$this->_setear_variables(lang('html_persona_titulo_consulta'), '', site_url('persona/consulta'), '', '');
-		//$cuil = $this->input->post('cuil');
 		if ($name!=NULL){
 			$food_type = $this->Food_type_model->search($name);
 			$this->render_table(NULL, $food_type);
-			/*$this->load->view('templates/header', $this->variables);
-			$this->load->view('personas/buscar_persona', $this->variables);
-			$this->load->view('templates/footer');*/
 		}
 		else
 			$this->index();
@@ -91,6 +88,8 @@ class Food_type extends CI_Controller {
 			}
 		}
 		$this->load->view('food_type/save', $this->variables);
+		$this->pass = '';
+		
 	}
 	
 	/**
