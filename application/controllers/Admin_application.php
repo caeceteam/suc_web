@@ -26,6 +26,7 @@ class Admin_application extends CI_Controller {
 		$this->load->library(array('form_validation', 'session', 'email', 'login'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Diner_application_model');
+		$this->load->model('Emails_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
@@ -178,38 +179,27 @@ class Admin_application extends CI_Controller {
 	 * @return   bool 					indica si el mail se pudo enviar
 	 */
 	private function _send_mail($diner_application)
-	{
-		$this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
-		$this->email->to($diner_application['user']['mail']);
-		$this->email->subject('Estado de solicitud de alta de comedor');
-		if($diner_application['diner']['state'] == DINER_APPROVED)
+	{	
+		if ($diner_application['diner']['state'] == DINER_APPROVED)
 		{
-			
-			//Genero el array con los datos
 			$data = array(
-					'user_name'		=> $diner_application['user']['name'],
-					'diner_name'	=> $diner_application['diner']['name'],
-					'url'			=> site_url('')
+					'mail_type' 		=> APPROVAL_MAIL,
+					'destination_email' => $diner_application['user']['mail'],
+					'user_name'			=> $diner_application['user']['name'],
+					'diner_name'		=> $diner_application['diner']['name'],
+					'url'				=> site_url('')
 			);
-			
-			$body = $this->load->view('email/registration_approved.php',$data ,TRUE); //cargo el PHP
-
-		}
-		else
-		{
-			//Genero el array con los datos
+		}else{
 			$data = array(
-					'comment'		=> $this->input->post('reject_reason'),
-					'diner_name'	=> $diner_application['diner']['name'],
-					'url'			=> site_url('')
+					'mail_type' 		=> REJECTION_MAIL,
+					'destination_email' => $diner_application['user']['mail'],
+					'diner_name'		=> $diner_application['diner']['name'],
+					'comment'			=> $this->input->post('reject_reason'),
+					'url'				=> site_url('')
 			);
-				
-			$body = $this->load->view('email/registration_rejected.php',$data ,TRUE); //cargo el PHP
-			
 		}
 		
-		$this->email->message($body); //adjunto el php al cuerpo del mail
-		$this->email->set_newline("\r\n");//Sin esta línea falla el envio
-		return $this->email->send();
+		return $this->Emails_model->send_mail_api($data);
+		
 	}
 }

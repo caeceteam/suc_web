@@ -59,7 +59,9 @@
         		deleteUrl: "<?php echo site_url('diner/delete/') ?>",
         		deleteDialogTitle: "¿Está seguro en borrar este comedor?",
         		deleteDialogText: "El comedor se borrará permanentemente del sistema",
-        		deleteDialogSuccess: "El comedor se ha borrado del sistema."
+        		deleteDialogSuccess: "El comedor se ha borrado del sistema.",
+        		hasAssistants: true,
+        		assistantUrl: "<?php echo site_url('/assistant/') ?>"
             });
         </script>
     </body>

@@ -11,7 +11,6 @@
 
     <body data-ma-header="teal">
 		<?php $this->load->view('templates/header'); ?>
-
         <section id="main">
 			
 			<?php $this->load->view('templates/menu'); ?>
@@ -29,7 +28,7 @@
                                 <div class="col-sm-4">
                                     <div style="position: relative;display: block;margin-top: 10px;margin-bottom: 10px;"> <!--TODO CC: Pass style inline to css class-->
                                         <label>
-                                            ¿Desea dar de alta un nuevo usuario?
+                                            Â¿Desea dar de alta un nuevo usuario?
                                         </label>
                                     </div>
                                 </div>
@@ -76,7 +75,7 @@
         		//viewUrl: 	"<?php echo site_url('user_diner/view/') ?>",
         		editUrl: 	"<?php echo site_url('user_diner/edit/') ?>",
         		deleteUrl: 	"<?php echo site_url('user_diner/delete/') ?>",
-        		deleteDialogTitle: 	 "!Está¡ seguro de dar de baja al usuario en el comedor?",
+        		deleteDialogTitle: 	 "!EstÃ¡Â¡ seguro de dar de baja al usuario en el comedor?",
         		deleteDialogText: 	 "El usuario sera dado de baja en el comedor",
         		deleteDialogSuccess: "El usuario fue dado de baja en el comedor ."
             });

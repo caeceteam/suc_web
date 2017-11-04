@@ -44,7 +44,7 @@ function loadBootgrid(params) {
 						type: "DELETE",
 					   	url: deleteUrl,
 					   	success: function(data){
-					   		swal("¡Borrado!", params.deleteDialogSuccess, "success");
+					   		swal("Borrado", params.deleteDialogSuccess, "success");
 						   	$('#data-table-command').bootgrid('reload');
 					   	}
 					});

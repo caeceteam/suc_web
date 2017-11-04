@@ -51,7 +51,27 @@ class Food_type_model extends CI_Model {
 			return json_decode($body,TRUE);
 		}
 		else
-			return NULL;
+			return NULL;		
+	}
+
+	/**
+	 * Consulta de tipos de insumos by id
+	 * @param 	int 	$id
+	 */
+	public function search_by_id($id)
+	{
+		$url = 'api/foodtypes/' . $id;
+		return $this->search($url);
+	}
+	
+	/**
+	 * Consulta de tipos de insumos por página para el listado
+	 * @param 	string 	$page
+	 */
+	public function get_foodtypes_by_page($page)
+	{
+		//$url = 'api/foodtypes?page=' . $page;
+		return $this->search();
 	}
 	
 	/**
