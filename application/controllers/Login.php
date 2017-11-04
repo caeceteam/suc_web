@@ -197,14 +197,4 @@ class Login extends CI_Controller {
 				}
 				return $password;
 	}
-	
-	/**
-	 * Funciƒón que envia un mail a un destinatario con su contraseña
-	 * @param    $to 		string destinatario
-	 * @param    $password 	string password
-	 */
-	private function _send_mail($to, $password)
-	{
-		return true;
-	}
 }
