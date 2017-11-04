@@ -141,17 +141,14 @@ class User_diner extends CI_Controller
             if ($this->form_validation->run() == FALSE) {
                 $this->output->set_status_header('500');
                 $this->variables['error-type'] = 'empty-field';
-                $data = array(
-                        'name'      => form_error('name'),
-                        'surname'   => form_error('surname'),
-                        'role'      => form_error('role'),
-                        'alias'     => form_error('alias'),
-                        'docNum'    => form_error('docNum'),
-                        'mail'      => form_error('mail')
-                );
-                
-                $this->variables['error-fields'] = $data;
-            //Campos correctos hago el Post    
+                $data = array(    'name'    => form_error('name'),
+                                  'surname' => form_error('surname'),
+                                  'role'    => form_error('role'),
+                                  'alias'   => form_error('alias'),
+                                  'docNum'  => form_error('ducNum'),
+                                  'mail'    => form_error('mail'));
+
+                $this->variables['error-fields'] = array_map("utf8_encode", $data);
             } else {
                 $response = $this->User_diner_model->add($this->_get_post());
                 
@@ -237,17 +234,14 @@ class User_diner extends CI_Controller
             if ($this->form_validation->run() == FALSE) {
                 $this->output->set_status_header('500');
                 $this->variables['error-type'] = 'empty-field';
-               $data = array(
-                        'name'     => form_error('name'),
-                        'surname'  => form_error('surname'),
-                        'role'     => form_error('role'),
-                        'alias'    => form_error('alias'),
-                        'docNum'   => form_error('docNum'),
-                        'mail'     => form_error('mail')
-                );
-                
-                $this->variables['error-fields'] = $data;
-           //Los campos son correctos
+                $data = array(    'name'    => form_error('name'),
+                                  'surname' => form_error('surname'),
+                                  'role'    => form_error('role'),
+                                  'alias'   => form_error('alias'),
+                                  'docNum'  => form_error('ducNum'),
+                                  'mail'    => form_error('mail'));
+
+                $this->variables['error-fields'] = array_map("utf8_encode", $data);
             } else {
                     $user_diner = $this->_get_post();
                     $response   = $this->User_diner_model->edit($user_diner);
