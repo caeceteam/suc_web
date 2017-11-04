@@ -10,9 +10,7 @@
     </head>
 
     <body data-ma-header="teal">
-
 		<?php $this->load->view('templates/header'); ?>
-
         <section id="main">
 			
 			<?php $this->load->view('templates/menu'); ?>
@@ -21,6 +19,7 @@
                 <div class="container">
                     <div class="c-header">
                         <h2 style="font-size: 25px;">Gestion de usuarios</h2> <!--TODO CC: Pass style inline to css class-->
+                   		<!-- <?php $_SESSION['last_page'] = $_SERVER['PHP_SELF']?> -->
                     </div>
 
 					<div class="card">
@@ -29,7 +28,7 @@
                                 <div class="col-sm-4">
                                     <div style="position: relative;display: block;margin-top: 10px;margin-bottom: 10px;"> <!--TODO CC: Pass style inline to css class-->
                                         <label>
-                                            ¿Desea dar de alta un nuevo usuario?
+                                            Â¿Desea dar de alta un nuevo usuario?
                                         </label>
                                     </div>
                                 </div>
@@ -50,7 +49,7 @@
 						            <th data-column-id="name"    data-order="desc">Nombre</th>
 						            <th data-column-id="surname" data-order="desc">Apellido</th>
 									<th data-column-id="phone">Telefono</th>
-									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Ver/Modificar/Borrar</th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
 						        </tr>
 						    </thead>
 						</table>
@@ -61,8 +60,7 @@
             </section>
 
 			<?php $this->load->view('templates/footer'); ?>
-			
-        </section>
+      </section>
 
 		<?php $this->load->view('templates/scripts'); ?>
 		<script src="<?php echo base_url('js/tableGrid.js')?>"></script>
@@ -77,7 +75,7 @@
         		//viewUrl: 	"<?php echo site_url('user_diner/view/') ?>",
         		editUrl: 	"<?php echo site_url('user_diner/edit/') ?>",
         		deleteUrl: 	"<?php echo site_url('user_diner/delete/') ?>",
-        		deleteDialogTitle: 	 "¿Está seguro de dar de baja al usuario en el comedor?",
+        		deleteDialogTitle: 	 "!EstÃ¡Â¡ seguro de dar de baja al usuario en el comedor?",
         		deleteDialogText: 	 "El usuario sera dado de baja en el comedor",
         		deleteDialogSuccess: "El usuario fue dado de baja en el comedor ."
             });

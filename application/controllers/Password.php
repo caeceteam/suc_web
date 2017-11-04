@@ -65,7 +65,8 @@ class Password extends CI_Controller {
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
 						'oldPassword' 	=> form_error('oldPassword'),
-						'newPassword'	=> form_error('newPassword'));
+						'newPassword'	=> form_error('newPassword'),
+				        'confPassword'	=> form_error('confPassword'));
 				$this->variables['error-fields'] = $data;
 			}
 			else
@@ -84,7 +85,7 @@ class Password extends CI_Controller {
 		
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del diner input para cuando se trata de una ediciÃ³n
+	 * @param 		integer 	$id id del diner input para cuando se trata de una edición
 	 * @return		object		$password
 	 */
 	private function _get_post()
@@ -93,17 +94,19 @@ class Password extends CI_Controller {
 		$password->userName 	= $this->session->userName;
 		$password->oldPassword 	= $this->input->post('oldPassword');
 		$password->newPassword 	= $this->input->post('newPassword');
+		$password->confPassword = $this->input->post('confPassword');
 		return $password;
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la ediciÃ³n
+	 * Funcion que inicializa las variables de los campos del formulario para la edición
 	 * @return void
 	 */
 	private function _initialize_fields()
 	{
-		$this->form_data->oldPassword = '';
-		$this->form_data->newPassword = '';
+		$this->form_data->oldPassword  = '';
+		$this->form_data->newPassword  = '';
+		$this->form_data->confPassword = '';
 	}
 	
 	/**
@@ -112,7 +115,8 @@ class Password extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('oldPassword', 'contraseña actual', 'required');
-		$this->form_validation->set_rules('newPassword', 'nueva contraseña', 'required');
+		$this->form_validation->set_rules('oldPassword',  'clave actual', 'required');
+		$this->form_validation->set_rules('newPassword',  'nueva clave', 'required');
+		$this->form_validation->set_rules('confPassword', 'confirmacion de clave', 'matches[newPassword]');
 	}
 }

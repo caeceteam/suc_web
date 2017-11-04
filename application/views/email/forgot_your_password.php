@@ -116,26 +116,23 @@
 							<td data-bgcolor="bg-module" bgcolor="#eaeced">
 								<table class="flexible" width="600" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0" >
 									<tr bgcolor="#009688">
-										<td class="img-flex" align="center" ><img src="http://res.cloudinary.com/caeceteam/image/upload/v1509310858/suc_ntekru.png" style="vertical-align:top;" width="200" height="100" alt="SUC"/></td>
+										<td class="img-flex"><img src="http://res.cloudinary.com/caeceteam/image/upload/v1505600658/suc_oipe00.svg" style="vertical-align:top;" width="600" height="120" alt="SUC" /></td>
 									</tr>
 									<tr>
 										<td data-bgcolor="bg-block" class="holder" style="padding:65px 60px 50px;" bgcolor="#f9f9f9">
 											<table width="100%" cellpadding="0" cellspacing="0">
 												<tr>
 													<td data-color="title" data-size="size title" data-min="20" data-max="40" data-link-color="link title color" data-link-style="text-decoration:none; color:#292c34;" class="title" align="center" style="font:30px/33px Arial, Helvetica, sans-serif; color:#292c34; padding:0 0 24px;">
-														Sistema Único de comedores
-													</td>
-												</tr>
-												<tr>
-													<td data-color="text" data-size="size text" data-min="10" data-max="26" data-link-color="link text color" data-link-style="font-weight:bold; text-decoration:underline; color:#40aceb;" align="center" style="font:16px/29px Arial, Helvetica, sans-serif; color:#888; padding:0 0 21px;">
-														Se realizó exitosamente el cambio de contraseña.
+														Blanqueo de contraseña
 													</td>
 												</tr>
 												<tr>
 													<td data-color="text" data-size="size text" data-min="10" data-max="26" data-link-color="link text color" data-link-style="font-weight:bold; text-decoration:underline; color:#40aceb;" align="center" style="font:14px/10px Arial, Helvetica, sans-serif; color:#888; padding:0 0 21px;">
 														
-														<hr><br></br>
-														<strong>Nueva contraseña:</strong> <?php echo $new_password;?>
+														<hr></br></br>
+														<strong>Usuario:</strong> <?php echo $new_password;?>
+														</br></br>
+														<strong>Contraseña:</strong> <?php echo $new_password;?>
 													</td>
 												</tr>
 												<tr>

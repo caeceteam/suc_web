@@ -19,14 +19,14 @@
 			<?php $this->load->view('templates/menu'); ?>
 			
             <section id="content">
-                <div class="container">
+            <div class="container">
                     <div class="c-header">
                         <h2>Crear tipo de Insumo</h2>
                     </div>
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creación del tipo de insumo.</small>
+                                <small>Ingrese los datos para la creación del tipo de insumo.</small>
 
                             <br/><br/>
 
@@ -93,6 +93,7 @@
 		
 		<script>
 			$('.input-type-form').submit(function() {
+				debugger;
 				showConfirmDialog({
 					title: "¿Está seguro grabar este tipo de insumo?",
 					text: "El tipo de insumo se grabará en el sistema",
