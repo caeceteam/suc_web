@@ -28,7 +28,8 @@
 					<div class="card">
 						<div class="card-header">
 							<h2>
-								Información personal.<small>Aquí­ se encuentran los datos
+
+								InformaciÃ³n personal.<small>AquÃ­Â­ se encuentran los datos
 									personales del colaborador.</small>
 							</h2>
 						</div>
@@ -51,7 +52,6 @@
 											value="<?php echo ($reset) ? '' : set_value('surname',$this->form_data->surname); ?>">
 									</div>
 								</div>
-
 								<!-- FILA 01 - ALIAS DE LA PERSONA -->
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
@@ -64,7 +64,7 @@
 								<!-- FILA 02- DOCUMENTO -->
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
-										<label>Número de documento</label> 
+										<label>NÃºmero de documento</label> 
 										<input min="1000000" max="999999999"
 											class="form-control input-mask" data-mask="99.999.999" placeholder="ej. 99.99.999"
 											id="docNum" name="docNum"
@@ -103,7 +103,7 @@
 										<option value="06"
 											<?php if ($this->form_data->role == '06'){echo 'selected';}; ?>>Psicologo</option>
 										<option value="07"
-											<?php if ($this->form_data->role == '07'){echo 'selected';}; ?>>Acompañante</option>
+											<?php if ($this->form_data->role == '07'){echo 'selected';}; ?>>AcompaÃ±ante</option>
 										<option value="08"
 											<?php if ($this->form_data->role == '08'){echo 'selected';}; ?>>Tareas
 											Varias</option>
@@ -123,6 +123,7 @@
 								<div class="col-sm-6">
 									<div class="form-group fg-line">
 										<label>Telefono particular</label> <input type="text"
+
 											class="form-control" id="phone" name="phone"
 											value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>">
 									</div>
@@ -188,7 +189,6 @@
 								<input hidden id="request-action"
 									value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
 							</div>
-
 						</div>
 					</div>
 				</div>
@@ -215,8 +215,8 @@
 			$('.user-diner-form').submit(function() {
 				debugger;
 				showConfirmDialog({
-		     		title: "¿Está seguro de grabar los cambios?",
-					text: "Los datos de usuario serán grabados",
+		     		title: "Â¿EstÃ¡ seguro de grabar los cambios?",
+					text: "Los datos de usuario serÃ¡n grabados",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
 					successText: "Se han grabado los datos de Usuario.",

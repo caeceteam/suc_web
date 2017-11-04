@@ -21,26 +21,26 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2>Crear Insumo</h2>
+                        <h2>Crear Alimento</h2>
                     </div>
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creación del insumo.</small>
+                            <small>Ingrese los datos para la creaciónn del alimento.</small>
 
                             <br/><br/>
 
                             <div class="row">
                                 <div class="card-body card-padding">
 								
-									<form role="form" action="<?php echo $action; ?>" class="diner-input-form" method="POST">
+									<form role="form" action="<?php echo $action; ?>" class="diner-food-form" method="POST">
 									
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="form-group">
-													<div class="fg-line" data-id="idInputType">
+													<div class="fg-line" data-id="idFoodType">
 														<div class="select">
-															<?php echo form_dropdown('idInputType', array_map("utf8_decode", $input_types), $input_type, 'class="form-control"'); ?>
+															<?php echo form_dropdown('idFoodType', array_map("utf8_decode", $food_types), $food_type, 'class="form-control"'); ?>
 														</div>
 													</div>
 												</div>
@@ -49,7 +49,7 @@
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="name">
-														<input type="text" id="name" name="name" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
+														<input type="text" id="name" name="name" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? : ''; ?> value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
 														<label class="fg-label">Nombre</label>
 													</div>
 												</div>
@@ -57,9 +57,9 @@
 	
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
-													<div class="fg-line" data-id="size">
-														<input type="text" id="size" name="size" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('size', utf8_decode($this->form_data->size)); ?>">
-														<label class="fg-label">Talle</label>
+													<div class="fg-line" data-id="expirationDate">
+														<input type="text" id="expirationDate" name="expirationDate" class="form-control input-mask" data-mask="0000-00-00" value="<?php echo ($reset) ? '' : set_value('expirationDate', utf8_decode($this->form_data->expirationDate)); ?>">
+														<label class="fg-label">Vencimiento (año-mes-día)</label>
 													</div>
 												</div>
 											</div>
@@ -68,9 +68,9 @@
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
-													<div class="fg-line" data-id="genderType">
-														<input type="text" id="genderType" name="genderType" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('genderType', utf8_decode($this->form_data->genderType)); ?>">
-														<label class="fg-label">Género</label>
+													<div class="fg-line" data-id="quantity">
+														<input type="text" id="quantity" name="quantity" class="form-control input-mask" data-mask="00000" value="<?php echo ($reset) ? '' : set_value('quantity', utf8_decode($this->form_data->quantity)); ?>">
+														<label class="fg-label">Cantidad</label>
 													</div>
 												</div>
 											</div>
@@ -78,11 +78,22 @@
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="quantity">
-														<input type="text" id="quantity" name="quantity" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('quantity', utf8_decode($this->form_data->quantity)); ?>">
-														<label class="fg-label">Cantidad</label>
+														<input type="text" id="unity" name="unity" class="input-sm form-control fg-input" placeholder="" value="<?php echo ($reset) ? '' : set_value('unity', utf8_decode($this->form_data->unity)); ?>">
+														<label class="fg-label">Unidad de Med. (PACK / Gramos / Kg / Litros)</label>
 													</div>
 												</div>
 											</div>
+											
+											<!-- 
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="creationDate">
+														<input type="text" id="creationDate" name="creationDate" class="form-control input-mask" data-mask="0000-00-00" disabled="" value="<?php echo ($reset) ? : set_value('creationDate', utf8_decode($this->form_data->creationDate)); ?>">
+														<label class="fg-label">Fecha de creación (año-mes-día)</label>
+													</div>
+												</div>
+											</div>
+											-->
 										</div>
 											
 										<div class="form-group fg-float">
@@ -95,8 +106,9 @@
 										<?php $this->load->view('templates/alerts'); ?>
 										
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
-										<a href="<?php echo site_url('diner_input'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
+										<a href="<?php echo site_url('diner_food'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
 										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
+										<?php echo form_hidden('creationDate', ($reset) ? '' : set_value('creationDate',$this->form_data->creationDate)); ?>
 									</form>								
                                 </div>
                             </div>
@@ -126,24 +138,21 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
-		
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
-
 		<script>
-			$('.diner-input-form').submit(function() {
+			$('.diner-food-form').submit(function() {
 				showConfirmDialog({
-					title: "¿Está seguro grabar este insumo?",
-					text: "El insumo se grabará en el sistema",
+					title: "¿Está seguro grabar este alimento?",
+					text: "El alimento se grabará en el sistema",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
-					successText: "El insumo se ha grabado en el sistema.",
-					failedText: "El insumo no pudo ser grabado en el sistema.",
+					successText: "El alimento se ha grabado en el sistema.",
+					failedText: "El alimento no pudo ser grabado en el sistema.",
 					redirectUrl: $("#redirect-url")[0].value
 				});
 				return false;
 			}); 
 			
         </script>
-        
     </body>
 </html>

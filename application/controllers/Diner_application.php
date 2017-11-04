@@ -27,6 +27,7 @@ class Diner_application extends CI_Controller {
 		$this->load->library(array('form_validation', 'email', 'upload', 'login'));
 		$this->load->helper(array('url', 'form', 'file'));
 		$this->load->model('Diner_application_model');
+		$this->load->model('Emails_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
@@ -64,9 +65,9 @@ class Diner_application extends CI_Controller {
 			if(($this->Diner_application_model->add($diner_application))!=NULL)
 			{
 				if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
-					$this->variables['message'] = $html_ok . 'Se enviÛ un mail con su contraseÒa!' . $html_close;
+					$this->variables['message'] = $html_ok . 'Se envi√≥ un mail con su contrase√±a!' . $html_close;
 				else 
-					$this->variables['message'] = $html_error . 'OcurriÛ un error al enviar el mail, por favor revise el campo mail!' . $html_close;
+					$this->variables['message'] = $html_error . 'Ocurri√≥ un error al enviar el mail, por favor revise el campo mail!' . $html_close;
 				$this->variables['reset'] = TRUE;
 			}
 			else
@@ -105,7 +106,7 @@ class Diner_application extends CI_Controller {
 		$diner_application->user->alias 		= $this->input->post('alias');
 		$diner_application->user->mail			= $this->input->post('user_mail');
 		$diner_application->user->state 		= USER_INACTIVE;
-		$diner_application->user->role 			= 1;//@TODO Ver como resolvemos esto
+		$diner_application->user->role 			= DINER_ADMIN;
 		return $diner_application;
 	}
 	
@@ -151,15 +152,15 @@ class Diner_application extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
-		$this->form_validation->set_rules('streetNumber', 'N˙mero', 'trim|required');
+		$this->form_validation->set_rules('streetNumber', 'N√∫mero', 'trim|required');
 		$this->form_validation->set_rules('floor', 'Piso', 'trim');
 		$this->form_validation->set_rules('door', 'Departamento', 'trim');
 		$this->form_validation->set_rules('latitude', 'Latitud', 'trim');
 		$this->form_validation->set_rules('longitude', 'Longuitud', 'trim');
 		//$this->form_validation->set_rules('zipCode', 'CP', 'trim|required');
-		$this->form_validation->set_rules('phone', 'TelÈfono', 'trim|required');
-		$this->form_validation->set_rules('link', 'P·gina', 'trim');
-		$this->form_validation->set_rules('description', 'DescripciÛn', 'trim');
+		$this->form_validation->set_rules('phone', 'Tel√©fono', 'trim|required');
+		$this->form_validation->set_rules('link', 'P√°gina', 'trim');
+		$this->form_validation->set_rules('description', 'Descripci√≥n', 'trim');
 		$this->form_validation->set_rules('user_name', 'Nombre del solicitante', 'trim|required');
 		$this->form_validation->set_rules('surname', 'Apellido del solicitante', 'trim|required');
 		$this->form_validation->set_rules('user_mail', 'Mail del solicitante', 'trim|required');
@@ -200,27 +201,14 @@ class Diner_application extends CI_Controller {
 	 */
 	private function _send_mail($to, $user, $password)
 	{
-		$this->email->from('suc@no-reply.com', 'Sistema √önico de Comedores');
-		$this->email->to($to);
-		$this->email->subject('Solicitud de alta de comedor');
-		/**
-		$this->email->message('Bienvenido al sistema √∫nico de comedores. <br/>
-			Su solicitud de alta se encuetra pendiente, recibir√° un mail indicando si fue aprobada o no. <br/>
-			Su contrase√±a es: ' . $user . $password . ' .<br/>' . site_url(''));
-		*/
-		
-		//Genero el array con los datos
 		$data = array(
-				'user'		=> $user,
-				'password'	=> $password,
-				'url'		=> site_url('')
+				'mail_type' 		=> REGISTRATION_MAIL,
+				'destination_email' => $to,
+				'user_name'			=> $user, 
+				'password'			=> $password,
+				'url'				=> site_url('')
 		);
-		//$this->email->set_mailtype("html"); //Seteo que el mail va a ser HTML
-		$body = $this->load->view('email/registration.php',$data ,TRUE); //cargo el PHP
-		$this->email->message($body); //adjunto el php al cuerpo del mail
-		
-		$this->email->set_newline("\r\n");//Sin esta l√≠nea falla el envio
-		return $this->email->send();
+		return $this->Emails_model->send_mail_api($data);
 	}
 	
 	/**

@@ -10042,7 +10042,7 @@ html {
 
 body:before {
   content: '';
-  height: 265px;
+  height: 200px;
   width: 100%;
   position: absolute;
   left: 0;
@@ -13369,6 +13369,7 @@ html:not(.ie9) .select.fg-line:before {
 .lightbox .lightbox-item > img {
   width: 100%;
   border-radius: 2px;
+  height: 100px;
 }
 
 .lightbox .lightbox-item:hover {

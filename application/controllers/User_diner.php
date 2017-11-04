@@ -1,19 +1,19 @@
 <?php
  defined('BASEPATH') OR exit('No direct script access allowed');
 
-/**
- * ****************************************************************************************************
+ /******************************************************************************************************
  * CLASE USER_DINER
- * *****************************************************************************************************
+ *******************************************************************************************************
  * HISTORIA: HU021
  * TITULO: Usuario comedor
- * ****************************************************************************************************
+ ********************************************************************************************************
  */
 class User_diner extends CI_Controller
 {
 
     /**
      * Array para guardar todas las variables de la pagina
+
      *
      * @var array
      */
@@ -26,7 +26,6 @@ class User_diner extends CI_Controller
      * @var array
      */
     public $form_data;
-
     /**
      * Constructor de clase
      * Se encarga de hacer el load de los modulos necesarios
@@ -104,7 +103,6 @@ class User_diner extends CI_Controller
         }
         echo json_encode($render_data, TRUE);
     }
-
     /**
      * Funcion de baja
      *
@@ -189,7 +187,7 @@ class User_diner extends CI_Controller
     }
 
     /**
-     * Funcion que muestra el formulario de edici�n y guarda la misma cuando la
+     * Funcion que muestra el formulario de edición y guarda la misma cuando la
      * validacion del formulario no arroja errores
      *
      * @param string $id            
@@ -239,7 +237,7 @@ class User_diner extends CI_Controller
             if ($this->form_validation->run() == FALSE) {
                 $this->output->set_status_header('500');
                 $this->variables['error-type'] = 'empty-field';
-                $data = array(
+               $data = array(
                         'name'     => form_error('name'),
                         'surname'  => form_error('surname'),
                         'role'     => form_error('role'),
@@ -322,17 +320,17 @@ class User_diner extends CI_Controller
         elseif (empty($oldPass) || empty($oldPass) || empty($oldPass)) {
             return FALSE;
         } else {
-            // Es erronea la confirmación
+            // Es erronea la confirmaciÃ³n
             if ($newPass != $confPass) {
                 return FALSE;
             }
             
-            // Es erronea la confirmación
+            // Es erronea la confirmaciÃ³n
             if ($oldPass != $this->form_data->pass ||
                      $this->form_data->pass == $newPass) {
                 return FALSE;
             }
-            // Validación individual de claves
+            // ValidaciÃ³n individual de claves
             if (! $this->valid_single_password($oldPass)) {
                 return FALSE;
             }
@@ -349,7 +347,7 @@ class User_diner extends CI_Controller
 
     public function valid_single_password ($password = '')
     {
-        // Caracteres de validaci�n
+        // Caracteres de validación
         $lower_case = '/[a-z]/';
         $upper_case = '/[A-Z]/';
         $number     = '/[0-9]/';
@@ -397,16 +395,16 @@ class User_diner extends CI_Controller
     }
 
      /**
-     * Funci�n que genera una contrase�a en forma aleatorio
+     * Función que genera una contraseña en forma aleatorio
      *
      * @param $chars_min largo
      *            minimo (opcional, default 6)
      * @param $chars_max largo
-     *            m�ximo (opcional, default 8)
+     *            máximo (opcional, default 8)
      * @param $use_upper_case boolean
-     *            para indicar si se usan ma�suculas (opcional, default false)
+     *            para indicar si se usan maásuculas (opcional, default false)
      * @param $include_numbers boolean
-     *            para indicar si se usan números (opcional, default false)
+     *            para indicar si se usan nÃºmeros (opcional, default false)
      * @param $include_special_chars boolean
      *            para indicar si se usan caracteres especiales (opcional,
      *            default false)
@@ -437,7 +435,7 @@ class User_diner extends CI_Controller
      * Obtiene los datos del post y los devuelve en forma de objeto
      *
      * @param integer $id
-     *            id del input type para cuando se trata de una edición
+     *            id del input type para cuando se trata de una ediciÃ³n
      * @return object $user_diner
      */
     private function _get_post ($id = NULL)

@@ -20,7 +20,7 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2 style="font-size: 25px;">Tipos de Insumos</h2> <!--TODO CC: Pass style inline to css class-->
+                        <h2>Tipos de Insumos</h2> <!--TODO CC: Pass style inline to css class-->
                     </div>
 
 					<div class="card">
