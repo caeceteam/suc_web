@@ -47,7 +47,7 @@
 						    <thead>
 						        <tr>
 						            <th data-column-id="name" data-order="desc">Nombre</th>
-						            <th data-column-id="date" data-order="desc">Fecha</th>
+						            <th data-column-id="date" data-order="desc">Fecha y Hora</th>
 						            <th data-column-id="street" data-order="desc">Dirección</th>
 						            <th data-column-id="phone" data-order="desc">Teléfono</th>
 									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>

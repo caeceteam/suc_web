@@ -116,7 +116,7 @@
 							<td data-bgcolor="bg-module" bgcolor="#eaeced">
 								<table class="flexible" width="600" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0" >
 									<tr bgcolor="#009688">
-										<td class="img-flex"><img src="http://res.cloudinary.com/caeceteam/image/upload/v1505600658/suc_oipe00.svg" style="vertical-align:top;" width="600" height="120" alt="SUC" /></td>
+										<td class="img-flex" align="center" ><img src="http://res.cloudinary.com/caeceteam/image/upload/v1509310858/suc_ntekru.png" style="vertical-align:top;" width="200" height="100" alt="SUC"/></td>
 									</tr>
 									<tr>
 										<td data-bgcolor="bg-block" class="holder" style="padding:65px 60px 50px;" bgcolor="#f9f9f9">

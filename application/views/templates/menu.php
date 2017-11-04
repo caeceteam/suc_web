@@ -50,10 +50,10 @@
 			<ul>
 				<li><a href="<?php echo base_url('diner');?>"> Listado</a></li>
 				<li class="sub-menu">
-                	<a href="" data-ma-action="submenu-toggle">Administración</a>
+                	<a href="" data-ma-action="submenu-toggle">AdministraciÃ³n</a>
 
                     <ul>
-                        <li><a href="<?php echo base_url('diner_food');?>"> Almacén </a></li>
+                        <li><a href="<?php echo base_url('diner_food');?>"> AlmacÃ©n </a></li>
                         <li><a href="<?php echo base_url('diner_input');?>"> Insumos </a></li>
             			<li><a href="<?php echo base_url('event');?>"> Eventos</a></li>
 						<li><a href="<?php echo base_url('diner');?>"> Personal</a></li>
@@ -71,14 +71,14 @@
             	<!--<li><a href="colors.html">Insumos</a></li>-->
 				<li><a href="<?php echo base_url('input_type');?>">Tipo de Insumos</a></li>
 				<li><a href="<?php echo base_url('food_type');?>">Tipo de Alimento</a></li>
-				<li><a href="">Asignación de Roles</a></li>
+				<li><a href="">AsignaciÃ³n de Roles</a></li>
 			</ul>
         </li>
-
+      
         <li class="sub-menu"> 
         	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-account"></i> Personal</a>
             <ul>
-				  <li><a href="<?php echo base_url('user_diner');?>">Alta personal</a></li>
+				  <li><a href="<?php echo base_url('user_diner'); ?>">Alta personal</a></li>
 			</ul>
         </li>
 	</ul>
