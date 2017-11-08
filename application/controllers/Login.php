@@ -42,7 +42,7 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que valida usuario y contraseÃ±a
+	 * Funcion que valida usuario y contraseña
 	 * @return void
 	 */
 	public function validate_credentials()
@@ -72,7 +72,7 @@ class Login extends CI_Controller {
 			}
 			else
 			{
-				$this->variables['message'] = '<div class="alert alert-danger" role="alert">Nombre de usuario/contraseÃ±a incorrectos.</div>';
+				$this->variables['message'] = '<div class="alert alert-danger" role="alert">Nombre de usuario/contraseña incorrectos.</div>';
 				$this->load->view('login/save', $this->variables);
 			}
 		}
@@ -89,7 +89,7 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que le envia una nueva contraseÃ±a al usuario a su mail
+	 * Funcion que le envia una nueva contraseña al usuario a su mail
 	 * @return		void
 	 */
 	public function forgot_password()
@@ -109,11 +109,11 @@ class Login extends CI_Controller {
 			$password = ($this->_get_post_forgot_password());
 			if(($this->Login_model->reset_password($password))!=NULL)
 			{
-				$this->variables['message'] = $html_ok . 'Se enviÃ³ un mail con su contraseÃ±a!' . $html_close;
+				$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
 			}
 			else
 			{
-				$this->variables['message'] = $html_error . 'Â¡Ups! OcurriÃ³ un error' . $html_close;
+				$this->variables['message'] = $html_error . '¡Ups! Ocurrió un error' . $html_close;
 			}
 		}
 		$this->load->view('login/reset_password', $this->variables);
@@ -162,7 +162,7 @@ class Login extends CI_Controller {
 	{
 		$this->form_validation->set_message('required', 'Complete {field}.');
 		$this->form_validation->set_rules('userName', 'Nombre de usuario/Email', 'required');
-		$this->form_validation->set_rules('password', 'ContraseÃ±a', 'trim|required');
+		$this->form_validation->set_rules('password', 'Contraseña', 'trim|required');
 	}
 	
 	/**

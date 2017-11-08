@@ -135,9 +135,7 @@
 										</div>
 										<br>
 											
-										<div id="alerts" class="pmb-block">
-											<?php echo $message?>
-										</div>
+										<?php $this->load->view('templates/alerts'); ?>
 											
 									</div>
 								</form>
@@ -165,76 +163,7 @@
 		<?php $this->load->view('templates/scripts'); ?>
 
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
-
-		<script>
-		  // This example displays an address form, using the autocomplete feature
-		  // of the Google Places API to help users fill in the information.
-
-		  // This example requires the Places library. Include the libraries=places
-		  // parameter when you first load the API. For example:
-		  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-		  var placeSearch, autocomplete, geocoder;
-		  var componentForm = {
-			street_number: 'short_name',
-			route: 'long_name',
-			locality: 'long_name',
-			administrative_area_level_1: 'short_name',
-			country: 'long_name',
-			postal_code: 'short_name'
-		  };
-
-		  function initAutocomplete() {
-				geocoder = new google.maps.Geocoder;
-				  
-				// Create the autocomplete object, restricting the search to geographical
-				// location types.
-				autocomplete = new google.maps.places.Autocomplete(
-					/** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
-					{types: ['geocode']});
-	
-				// When the user selects an address from the dropdown, populate the address
-				// fields in the form.
-				autocomplete.addListener('place_changed', fillInAddress);
-
-				getAddressDescription();
-	      }
-
-		  function fillInAddress() {
-				// Get the place details from the autocomplete object.
-				var place = autocomplete.getPlace();
-
-				var addressComponentsByType = {};
-				for (var i = 0; i < place.address_components.length; i++) {
-				  var c = place.address_components[i];
-				  addressComponentsByType[c.types[0]] = c;
-				}
-				$('input[name="street"]').val(addressComponentsByType["route"].short_name);
-				$('input[name="streetNumber"]').val(addressComponentsByType["street_number"].short_name);
-				if (addressComponentsByType["postal_code"])
-				{
-					$('input[name="zipCode"]').val(addressComponentsByType["postal_code"].short_name);
-				}	
-				$('input[name="longitude"]').val(place.geometry.location.lng());
-				$('input[name="latitude"]').val(place.geometry.location.lat());
-			}
-
-		  	function getAddressDescription() {
-		  		latitude=$('input[name="latitude"]').val();               
-		  		longitude=$('input[name="longitude"]').val();
-		  		var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-
-		  		geocoder.geocode({'location': latlng}, function(results, status) {
-		  			if (status === google.maps.GeocoderStatus.OK) {
-		  		    	if (results[0]) {
-			  		    	$('#autocomplete').val(results[0].formatted_address);
-			  		    	$($("#autocomplete")[0].parentNode).addClass("fg-toggled")
-		  		      	}
-		  		    } 
-		  		});
-			};		  
-		</script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQI7u6RI5Mtxh6FFqgPY9eMccFYmxLVzU&libraries=places&callback=initAutocomplete" async defer></script>
+		<?php $this->load->view('templates/googleApiMap'); ?>	
 		
     </body>
 </html>
