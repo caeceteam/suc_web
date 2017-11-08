@@ -187,7 +187,7 @@ class User_diner_model extends CI_Model
     }
 
     /**
-     * FunciÃ³n que mapea el mensaje de error desde la API usado en los editores
+     * Función que mapea el mensaje de error desde la API usado en los editores
      * 
      * @param exception $exceptionData            
      */
