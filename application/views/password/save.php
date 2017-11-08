@@ -36,7 +36,7 @@
 									<form role="form" action="<?php echo $action; ?>" class="diner-input-form" method="POST">
 																			
 										<div class="row">
-											<div class="col-sm-6">
+											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="quantity">
 														<input type="password" id="oldPassword" name="oldPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('oldPassword',$this->form_data->oldPassword); ?>">
@@ -45,7 +45,7 @@
 												</div>
 											</div>
 											
-											<div class="col-sm-6">
+											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="quantity">
 														<input type="password" id="newPassword" name="newPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('newPassword',$this->form_data->newPassword); ?>">
@@ -53,6 +53,16 @@
 													</div>
 												</div>
 											</div>
+											
+											<div class="col-sm-4">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="quantity">
+														<input type="password" id="confPassword" name="confPassword" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('confPassword',$this->form_data->confPassword); ?>">
+														<label class="fg-label">Confirma contraseña</label>
+													</div>
+												</div>
+											</div>
+											
 										</div>								
 										
 										<?php $this->load->view('templates/alerts'); ?>

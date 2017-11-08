@@ -2,7 +2,7 @@
 	<div class="pull-left h-logo">
 		<a href="<?php echo base_url('');?>" class="hidden-xs">
         	 
-            <!--  SUC <small>Sistema Único de Comedores</small>-->
+            <!--  SUC <small>Sistema Ãšnico de Comedores</small>-->
             <img src="<?php echo base_url('img/suc.svg')?>" alt="SUC" height="80" width="190" >
 		</a>
 
@@ -27,13 +27,14 @@
 
             <ul class="dropdown-menu pull-right dm-icon">
             	 <li>
-                	<a href="<?php echo base_url('user_diner/save');?>"l"><i class="zmdi zmdi-account"></i> Mis Datos</a>
+					<?php $this->session->set_userdata('previous_page', uri_string());?>
+                	<a href="<?php echo base_url('user_diner/edit/'.$this->session->userdata['idUser'] );?>"><i class="zmdi zmdi-account"></i> Mis Datos</a>
                 </li>
                 <li>
-                	<a href="<?php echo base_url('password');?>"><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
+                	<a href="<?php echo base_url('password');?>"><i class="zmdi zmdi-settings"></i> Cambiar contraseÃ±a</a>
                 </li>
                 <li>
-                	<a href="<?php echo base_url('login/logout');?>"><i class="zmdi zmdi-close"></i> Cerrar sesión</a>
+                	<a href="<?php echo base_url('login/logout');?>"><i class="zmdi zmdi-close"></i> Cerrar sesiÃ³n</a>
                 </li>
             </ul>
 		</li>
