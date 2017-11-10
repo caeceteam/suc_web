@@ -8,6 +8,7 @@ class Food_type extends CI_Controller {
 	 * @var array
 	 */
 	private $variables;
+	private $pass;
 	
 	/**
 	 * Array para guardar exclusivamente los values del formulario
@@ -45,10 +46,11 @@ class Food_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion para retornar la informaci髇 a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la informaci贸n a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
 	public function render_table_response()
 	{
+
 		$service_data = $this->Food_type_model->get_foodtypes_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
 		$pagination_data = $service_data['pagination'];
 		$food_types_data = $service_data['foodTypes'];
@@ -117,7 +119,7 @@ class Food_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -182,7 +184,7 @@ class Food_type extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del foot type para cuando se trata de una edici贸n
+	 * @param 		integer 	$id id del foot type para cuando se trata de una edici脙鲁n
 	 * @return		object		$food_type
 	 */
 	private function _get_post($id=NULL)
@@ -199,7 +201,7 @@ class Food_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici贸n
+	 * Funcion que inicializa las variables de los campos del formulario para la edici脙鲁n
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -219,12 +221,12 @@ class Food_type extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('code', 'C骴igo', 'trim|required');
+		$this->form_validation->set_rules('code', 'C贸digo', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('description', 'Descripcion', 'trim');
 		$this->form_validation->set_rules('perishable', 'Con vencimiento', 'trim');
-		$this->form_validation->set_rules('celiac', 'Apto cel韆co', 'trim');
-		$this->form_validation->set_rules('diabetic', 'Apto diab閠ico', 'trim');
+		$this->form_validation->set_rules('celiac', 'Apto cel铆aco', 'trim');
+		$this->form_validation->set_rules('diabetic', 'Apto diab茅tico', 'trim');
 	}
 }
 

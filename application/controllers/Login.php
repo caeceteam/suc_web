@@ -26,6 +26,7 @@ class Login extends CI_Controller {
 		$this->load->library(array('form_validation', 'session', 'email'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Login_model');
+		$this->load->model('Emails_model');
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->variables['action'] = site_url('login/validate_credentials');
 		$this->_initialize_fields();
@@ -60,6 +61,7 @@ class Login extends CI_Controller {
 			{
 				$data = array(
 						'userName' 		=> $this->input->post('userName'),
+				        'idUser'        => $response['user']['idUser'],
 						'token'			=> $response['token'],
 						'idDiner'		=> $response['diners'][0]['idDiner'],
 						'is_logged_in' 	=> true,
@@ -107,10 +109,7 @@ class Login extends CI_Controller {
 			$password = ($this->_get_post_forgot_password());
 			if(($this->Login_model->reset_password($password))!=NULL)
 			{
-				if($this->_send_mail($password->userName, $password->newPassword))
-					$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
-					else
-						$this->variables['message'] = $html_error . 'Ocurrió un error al enviar el mail, por favor revise el campo mail!' . $html_close;
+				$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
 			}
 			else
 			{
@@ -176,11 +175,11 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Función que genera una contraseÃ±a en forma aleatorio
+	 * Función que genera una contraseña en forma aleatorio
 	 * @param    $chars_min largo minimo (opcional, default 6)
-	 * @param    $chars_max largo mÃ¡ximo (opcional, default 8)
-	 * @param    $use_upper_case boolean para indicar si se usan mayÃºsuculas (opcional, default false)
-	 * @param    $include_numbers boolean para indicar si se usan nÃºmeros (opcional, default false)
+	 * @param    $chars_max largo máximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan mayúsuculas (opcional, default false)
+	 * @param    $include_numbers boolean para indicar si se usan numeros (opcional, default false)
 	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
 	 * @return    string containing a random password
 	 */
@@ -201,20 +200,12 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * FunciÃ³n que envia un mail a un destinatario con su contraseÃ±a
+	 * Función que envia un mail a un destinatario con su contraseña
 	 * @param    $to 		string destinatario
-	 * @param	 $user		string usuario
 	 * @param    $password 	string password
-	 * @return   bool 		indica si el mail se pudo enviar
 	 */
 	private function _send_mail($to, $password)
-	{
-		$this->email->from('suc@no-reply.com', 'Sistema Único de Comedores');
-		$this->email->to($to);
-		$this->email->subject('Cambio de contraseña');
-		$this->email->message('Su nueva contraseña fue generada exitosamente. <br/>
-		Su contraseña es: ' . $password . ' .<br/>');
-		$this->email->set_newline("\r\n");//Sin esta línea falla el envio
-		return $this->email->send();
+  {
+		return true;
 	}
 }

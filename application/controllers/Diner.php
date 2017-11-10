@@ -257,6 +257,11 @@ class Diner extends CI_Controller {
 		$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
 		$this->form_validation->set_rules('phone', 'Teléfono', 'trim|required');
+		$this->form_validation->set_rules('floor', 'Piso', 'trim');
+		$this->form_validation->set_rules('door', 'Departamento', 'trim');	
+		$this->form_validation->set_rules('description', 'Descripción', 'trim');	
+		$this->form_validation->set_rules('link', 'Link', 'trim');	
+		$this->form_validation->set_rules('site', 'Sitio', 'trim');
 	}
 
 	/**
