@@ -21,6 +21,7 @@
 <script src="<?php echo base_url('vendors/input-mask/input-mask.min.js')?>"></script>
 <script src="<?php echo base_url('vendors/farbtastic/farbtastic.min.js')?>"></script>
 <script src="<?php echo base_url('vendors/summernote/dist/summernote-updated.min.js')?>"></script>
+<script src="<?php echo base_url('vendors/bower_components/autosize/dist/autosize.min.js')?>"></script>
 
 <!-- Placeholder for IE9 -->
 <!--[if IE 9 ]>
