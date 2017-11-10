@@ -20,7 +20,7 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2 style="font-size: 25px;">Tipos de alimento</h2> <!--TODO CC: Pass style inline to css class-->
+                        <h2>Tipos de Alimentos</h2> <!--TODO CC: Pass style inline to css class-->
                     </div>
 
 					<div class="card">
@@ -35,105 +35,53 @@
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <a href="<?php echo base_url('Food_type/add');?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
+                                    <a href="<?php echo base_url('food_type/add');?>" class="btn btn-primary btn-sm m-t-5 waves-effect">Crear</a>
                                 </div>
                             </form>			
 						</div>
 					</div>					
-			        <div class="card">
+					
+					<div class="card">
 						<div class="card-body card-padding" style="padding-bottom:0"></div> <!--TODO CC: Pass style inline to css class-->
-							<?php echo $table?>
+						<table id="data-table-command" class="table table-striped table-vmiddle bootgrid-table">
+						    <thead>
+						        <tr>
+						            <th data-column-id="id" data-visible="false">ID</th>
+						            <th data-column-id="code" data-order="desc">Código</th>
+						            <th data-column-id="name" data-order="desc">Nombre</th>
+									<th data-column-id="description">Descripción</th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
+						        </tr>
+						    </thead>
+						</table>
                     </div>
                 </div>
+                <input hidden id="data-request-url" value="<?php echo isset($_ci_vars['data-request-url']) ? $_ci_vars['data-request-url'] : '' ?>"></input>
+                
             </section>
 
-            <footer id="footer">
-                Copyright &copy; 2015 Material Admin
-
-                <ul class="f-menu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Dashboard</a></li>
-                    <li><a href="">Reports</a></li>
-                    <li><a href="">Support</a></li>
-                    <li><a href="">Contact</a></li>
-                </ul>
-            </footer>
-
+			<?php $this->load->view('templates/footer'); ?>
+			
         </section>
 
-        <!-- Page Loader -->
-        <div class="page-loader palette-Teal bg">
-            <div class="preloader pl-xl pls-white">
-                <svg class="pl-circular" viewBox="25 25 50 50">
-                    <circle class="plc-path" cx="50" cy="50" r="20"/>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Javascript Libraries -->
-        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
-        
-        <script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootgrid/jquery.bootgrid.updated.min.js')?>"></script>
-
-        <!-- Placeholder for IE9 -->
-        <!--[if IE 9 ]>
-            <script src="<?php echo base_url('vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js')?>"></script>
-        <![endif]-->
-        
-        <script src="<?php echo base_url('js/functions.js')?>"></script>
-        <script src="<?php echo base_url('js/actions.js')?>"></script>
-        <script src="<?php echo base_url('js/demo.js')?>"></script>
-
-        <!-- Data Table -->
+		<?php $this->load->view('templates/scripts'); ?>
+		<script src="<?php echo base_url('js/tableGrid.js')?>"></script>
+		
+		<!-- Data Table -->
         <script type="text/javascript">
-            $(document).ready(function(){
-                //Basic Example
-                $("#data-table-basic").bootgrid({
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
-                    },
-                });
-                
-                //Selection
-                $("#data-table-selection").bootgrid({
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
-                    },
-                    selection: true,
-                    multiSelect: true,
-                    rowSelect: true,
-                    keepSelection: true
-                });
-                
-                //Command Buttons
-                $("#data-table-command").bootgrid({
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
-                    },
-                    formatters: {
-                        "commands": function(column, row) {
-                            return "<a type=\"button\" href=\"" + "<?php echo site_url('food_type/edit/') ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
-                                "<a href=\"" + "<?php echo site_url('food_type/delete/') ?>" + row.id + "\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
-                        }
-                    }
-                });
+        	loadBootgrid({
+        		selector: "#data-table-command",
+        		requestUrl: $("#data-request-url")[0].value,
+        		noResultText: "No hay tipos de alimentos cargados",
+        		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} tipos de alimento",
+        		editUrl: "<?php echo site_url('food_type/edit/') ?>",
+        		deleteUrl: "<?php echo site_url('food_type/delete/') ?>",
+        		deleteDialogTitle: "¿Está seguro en borrar este tipo de alimento?",
+        		deleteDialogText: "El tipo de alimento se borrará permanentemente del sistema",
+        		deleteDialogSuccess: "El tipo de alimento se ha borrado del sistema."
             });
+
         </script>
-    </body>
-  </html>
+
+	</body>
+</html>

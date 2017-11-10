@@ -168,6 +168,7 @@ class Event extends CI_Controller {
 			$this->form_data->link 				= $event['link'];
 			$this->form_data->date 				= nice_date($event['date'], 'Y-m-d');
 			$this->form_data->time				= substr($event['date'], -13, 5);
+			$this->form_data->photos			= $event ['photos'];
 			$this->load->view('event/save', $this->variables);
 		}
 		else
@@ -175,9 +176,8 @@ class Event extends CI_Controller {
 			$this->_initialize_fields();
 			$this->_set_rules();
 			$event = new stdClass();
-			$isImageSaved = $this->_save_image($_FILES['photo']['tmp_name']);
 			// Todo esto corresponde al PUT
-			if (!$this->form_validation->run() || !$isImageSaved)
+			if (!$this->form_validation->run())
 			{
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
@@ -192,6 +192,17 @@ class Event extends CI_Controller {
 			}
 			else
 			{
+				if ($_FILES['photo']['tmp_name'] != "") {
+					$isImageSaved = $this->_save_image($_FILES['photo']['tmp_name']);
+					if (!$isImageSaved) {
+						$this->output->set_status_header('500');
+						$data['photo'] = 'Error al guardar la foto del evento.';
+						$this->variables['error-fields'] = array_map("utf8_encode", $data);
+						echo json_encode( $this->variables );
+						exit();
+					}
+				}
+				
 				$response = $this->Event_model->edit($this->_get_post());
 				if (isset($response['errors']))
 				{
@@ -205,6 +216,21 @@ class Event extends CI_Controller {
 			}
 			echo json_encode( $this->variables );
 		}
+	}
+	
+	/**
+	 * Funcion de borrar imagén
+	 * @param		string	$id
+	 * @return void
+	 */
+	public function deleteEventImage()
+	{
+		$successResponse = $this->Event_model->deleteImage($this->input->post('idEvent'), $this->input->post('idPhoto'));
+		$this->output->set_status_header('202');
+		if (!$successResponse) {
+			$this->output->set_status_header('500');
+		}
+		echo "Imagen borrada";
 	}
 	
 	/**
@@ -239,8 +265,11 @@ class Event extends CI_Controller {
 		$event->link			= $this->input->post('link');		
 		$event->description		= $this->input->post('description');
 		$event->idDiner 		= 1;//$this->input->post('idDiner');
- 		$event->photos[0] 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
  		$event->date			= $this->input->post('date') . "T" . $this->input->post('time') . "Z";
+ 		
+ 		if ($this->form_data->photo != "") {
+ 			$event->photos[0]->url 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+ 		}
  		return $event;
 	}
 	
@@ -261,7 +290,6 @@ class Event extends CI_Controller {
 		$this->form_data->zipCode = '';
 		$this->form_data->description = '';
 		$this->form_data->link = '';
-		$this->form_data->idCity = '';
 		$this->form_data->photo = '';
 		$this->form_data->date = '';
 		$this->form_data->time = '';
@@ -279,6 +307,12 @@ class Event extends CI_Controller {
 		$this->form_validation->set_rules('date', 'Fecha', 'trim|required');
 		$this->form_validation->set_rules('time', 'Fecha', 'trim');
 		$this->form_validation->set_rules('street', 'Dirección', 'trim|required');
+		$this->form_validation->set_rules('floor', 'Piso', 'trim');
+		$this->form_validation->set_rules('phone', 'Teléfono', 'trim');
+		$this->form_validation->set_rules('door', 'Puerta', 'trim');
+		$this->form_validation->set_rules('date', 'Fecha', 'trim');
+		$this->form_validation->set_rules('link', 'Enlace', 'trim');
+		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}
 
 	/**
