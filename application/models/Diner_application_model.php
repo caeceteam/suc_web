@@ -60,16 +60,21 @@ class Diner_application_model extends CI_Model {
 	 */
 	public function add($diner_application)
 	{
-		$response = $this->client->request('POST', 'api/diners', [
-				'json' => $diner_application
-		]);
-		if($response->getStatusCode()==HTTP_CREATED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try {
+			$response = $this->client->request('POST', 'api/diners', [
+					'json' => $diner_application
+			]);
+			if($response->getStatusCode()==HTTP_CREATED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
-			return NULL;
+		catch (ServerException $e) {
+			return $this->errorMessage($e);
+		}
 	}
 	
 	/**
@@ -89,5 +94,20 @@ class Diner_application_model extends CI_Model {
 		}
 		else
 			return NULL;
+	}
+	
+	/**
+	 * Función que mapea el mensaje de error desde la API usado en los editores
+	 * @param 	exception $exceptionData
+	 */
+	private function errorMessage($exceptionData)
+	{
+		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
+		$errorResponse['errors'] = TRUE;
+		if($exceptionData->getCode() == HTTP_INTERNAL_SERVER)
+		{
+			return $errorResponse;
+		}
+		return NULL;
 	}
 };
