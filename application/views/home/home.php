@@ -44,17 +44,17 @@
 
                                         <div class="media-body">
                                             <div class="lgi-heading">Aprobaciones de comedores</div>
-                                            <small class="lgi-text"><?php echo $this->form_data->pending_approvals; ?></small>
+                                            <small class="lgi-text"><?php echo $this->form_data->diner_pending_approvals; ?></small>
                                         </div>
                                     </a>
 
-                                    <a href="" class="list-group-item media">
+                                    <a href="<?php echo base_url('donation');?>" class="list-group-item media">
                                         <div class="pull-left">
                                             <img class="avatar-img" src="vendors/bower_components/material-design-iconic-font/svg/google/action/account-circle.svg" alt="">
                                         </div>
                                         <div class="media-body">
-                                            <div class="lgi-heading">Aprobaciones de personas</div>
-                                            <small class="lgi-text">1 aprobacion/es pendiente/s</small>
+                                            <div class="lgi-heading">Aprobaciones de donaciones</div>
+                                            <small class="lgi-text"><?php echo $this->form_data->donation_pending_approvals; ?></small>
                                         </div>
                                     </a>
                                 </div>                                

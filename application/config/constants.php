@@ -113,7 +113,17 @@ defined('HTTP_INTERNAL_SERVER') OR define('HTTP_INTERNAL_SERVER', 500);
 defined('DINER_PENDING')      	OR define('DINER_PENDING', 0);
 defined('DINER_APPROVED')      	OR define('DINER_APPROVED', 1);
 defined('DINER_REJECTED')      	OR define('DINER_REJECTED', 2);
-
+/*
+ |--------------------------------------------------------------------------
+ | Codigos de estados de donación
+ |--------------------------------------------------------------------------
+ |
+ | Usados para manejar los estados de las solicitudes de donaciones
+ |
+ */
+defined('DONATION_PENDING')      	OR define('DONATION_PENDING', 0);
+defined('DONATION_APPROVED')      	OR define('DONATION_APPROVED', 1);
+defined('DONATION_REJECTED')      	OR define('DONATION_REJECTED', 2);
 /*
  |--------------------------------------------------------------------------
  | Codigos de estados de usuario

@@ -31,13 +31,13 @@ class Home_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de diner application
+	 * Consulta de diner search
 	 *
 	 * Consulta diner application por id o estado, o devuelve todos los que tengan estado pendiente
 	 * @param 		string 		$id
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL, $state=NULL)
+	public function diner_search($id=NULL, $state=NULL)
 	{
 		if(isset($id))
 			$response = $this->client->request('GET', 'api/diners/' . $id);
@@ -50,5 +50,26 @@ class Home_model extends CI_Model {
 		}
 		else
 			return NULL;
+	}
+	/**
+	 * Consulta de donation search
+	 *
+	 * Consulta donation por id o estado, o devuelve todos los que tengan estado pendiente
+	 * @param 		string 		$id
+	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
+	 */
+	public function donation_search($id=NULL, $status=NULL)
+	{
+		if(isset($id))
+			$response = $this->client->request('GET', 'api/donations/' . $id);
+		else
+			$response = $this->client->request('GET', $status !== NULL ? 'api/donations?status=' . $status : 'api/donations/');
+			if($response->getStatusCode()==HTTP_OK)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 	}
 };

@@ -42,7 +42,7 @@
         	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> Aprobaciones pendientes</a>
 			<ul>
             	<li><a href="<?php echo base_url('admin_application');?>"> De comedores</a></li>
-				<li><a href=""> De personas</a></li>
+				<li><a href="<?php echo base_url('donation');?>"> De donaciones</a></li>
             </ul>
         </li>
 		<li class="sub-menu">
