@@ -2,7 +2,7 @@
 	<div class="pull-left h-logo">
 		<a href="<?php echo base_url('');?>" class="hidden-xs">
         	 
-            <!--  SUC <small>Sistema Único de Comedores</small>-->
+            <!--  SUC <small>Sistema ښnico de Comedores</small>-->
             <img src="<?php echo base_url('img/suc.svg')?>" alt="SUC" height="80" width="190" >
 		</a>
 
@@ -20,10 +20,17 @@
 			<a href=""><i class="hm-icon zmdi zmdi-notifications"></i></a>
 		</li>
 		<li class="dropdown hm-profile">
-        	<a data-toggle="dropdown" href="">
-        		<span class="user-name"><?php echo isset($this->session->userName) ? $this->session->userName . ' - ' . $this->login->get_role_description($this->session->role) : 'Invitado' ?></span>
-            	<img src="<?php echo base_url('img/profile-pics/2.gif')?>" alt="">
-            </a>
+			<?php 	if (isset($this->session->userName)) {
+						echo '	<a data-toggle="dropdown" href="">
+        							<span class="user-name">' . $this->session->userName . ' - ' . $this->login->get_role_description($this->session->role) . '</span>
+            						<img src="' . base_url("img/profile-pics/2.gif") . '?>" alt="">
+            					</a>';
+					} else {
+						echo '	<a>
+        							<span class="user-name">Invitado</span>
+            						<img src="' . base_url("img/profile-pics/2.gif") . '?>" alt="">
+            					</a>';						
+					}?>
 
             <ul class="dropdown-menu pull-right dm-icon">
             	 <li>

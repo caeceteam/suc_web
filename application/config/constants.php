@@ -150,3 +150,4 @@ defined('GUEST')      			OR define('GUEST', 4);
 defined('REGISTRATION_MAIL')     	OR define('REGISTRATION_MAIL', 0);
 defined('APPROVAL_MAIL')      		OR define('APPROVAL_MAIL', 1);
 defined('REJECTION_MAIL')      		OR define('REJECTION_MAIL', 2);
+defined('FORGOT_YOUR_PASSWORD')		OR define('FORGOT_YOUR_PASSWORD', 3);

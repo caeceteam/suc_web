@@ -115,6 +115,22 @@ class Event_model extends CI_Model {
 			return $this->errorMessage($e);
 		}
 	}
+	/**
+	 * Borrar imagen del evento
+	 * @param		string	$idEvent
+	 * 				string	$idPhoto
+	 * @return 		array   Si la edición fue exitosa, devuelve un array con el diner, sino devuelve NULL
+	 */
+	public function deleteImage($idEvent, $idPhoto)
+	{
+		$response = $this->client->request('DELETE', 'api/eventPhotos/' . $idEvent . '/' . $idPhoto);
+		if($response->getStatusCode()==HTTP_NO_CONTENT)
+		{
+			return TRUE;
+		}
+		else
+			return FALSE;
+	}
 	
 	/**
 	 * Función que mapea el mensaje de error desde la API usado en los editores

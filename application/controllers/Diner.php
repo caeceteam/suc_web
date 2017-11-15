@@ -196,7 +196,7 @@ class Diner extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del diner para cuando se trata de una ediciÃ³n
+	 * @param 		integer 	$id id del diner para cuando se trata de una edición
 	 * @return		object		$diner
 	 */
 	private function _get_post($id=NULL)
@@ -224,7 +224,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la ediciÃ³n
+	 * Funcion que inicializa las variables de los campos del formulario para la edición
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -257,6 +257,11 @@ class Diner extends CI_Controller {
 		$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
 		$this->form_validation->set_rules('phone', 'Teléfono', 'trim|required');
+		$this->form_validation->set_rules('floor', 'Piso', 'trim');
+		$this->form_validation->set_rules('door', 'Departamento', 'trim');	
+		$this->form_validation->set_rules('description', 'Descripción', 'trim');	
+		$this->form_validation->set_rules('link', 'Link', 'trim');	
+		$this->form_validation->set_rules('site', 'Sitio', 'trim');
 	}
 
 	/**
