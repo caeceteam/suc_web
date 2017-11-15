@@ -29,7 +29,7 @@
 						<div class="card-header">
 							<h2>
 
-								InformaciÃ³n personal.<small>AquÃ­Â­ se encuentran los datos
+								Información personal.<small>Aquí se encuentran los datos
 									personales del colaborador.</small>
 							</h2>
 						</div>
@@ -64,7 +64,7 @@
 								<!-- FILA 02- DOCUMENTO -->
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
-										<label>NÃºmero de documento</label> 
+										<label>Número de documento</label> 
 										<input min="1000000" max="999999999"
 											class="form-control input-mask" data-mask="99.999.999" placeholder="ej. 99.99.999"
 											id="docNum" name="docNum"
@@ -103,7 +103,7 @@
 										<option value="06"
 											<?php if ($this->form_data->role == '06'){echo 'selected';}; ?>>Psicologo</option>
 										<option value="07"
-											<?php if ($this->form_data->role == '07'){echo 'selected';}; ?>>AcompaÃ±ante</option>
+											<?php if ($this->form_data->role == '07'){echo 'selected';}; ?>>Acompañante</option>
 										<option value="08"
 											<?php if ($this->form_data->role == '08'){echo 'selected';}; ?>>Tareas
 											Varias</option>
@@ -215,8 +215,8 @@
 			$('.user-diner-form').submit(function() {
 				debugger;
 				showConfirmDialog({
-		     		title: "Â¿EstÃ¡ seguro de grabar los cambios?",
-					text: "Los datos de usuario serÃ¡n grabados",
+		     		title: "¿Está seguro de grabar los cambios?",
+					text: "Los datos de usuario serán grabados",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
 					successText: "Se han grabado los datos de Usuario.",

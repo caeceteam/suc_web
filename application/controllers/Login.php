@@ -42,7 +42,7 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que valida usuario y contrase√±a
+	 * Funcion que valida usuario y contraseÒa
 	 * @return void
 	 */
 	public function validate_credentials()
@@ -72,7 +72,7 @@ class Login extends CI_Controller {
 			}
 			else
 			{
-				$this->variables['message'] = '<div class="alert alert-danger" role="alert">Nombre de usuario/contrase√±a incorrectos.</div>';
+				$this->variables['message'] = '<div class="alert alert-danger" role="alert">Nombre de usuario/contraseÒa incorrectos.</div>';
 				$this->load->view('login/save', $this->variables);
 			}
 		}
@@ -89,7 +89,7 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que le envia una nueva contrase√±a al usuario a su mail
+	 * Funcion que le envia una nueva contraseÒa al usuario a su mail
 	 * @return		void
 	 */
 	public function forgot_password()
@@ -109,11 +109,11 @@ class Login extends CI_Controller {
 			$password = ($this->_get_post_forgot_password());
 			if(($this->Login_model->reset_password($password))!=NULL)
 			{
-				$this->variables['message'] = $html_ok . 'Se envi√≥ un mail con su contrase√±a!' . $html_close;
+				$this->variables['message'] = $html_ok . 'Se enviÛ un mail con su contraseÒa!' . $html_close;
 			}
 			else
 			{
-				$this->variables['message'] = $html_error . '¬°Ups! Ocurri√≥ un error' . $html_close;
+				$this->variables['message'] = $html_error . '°Ups! OcurriÛ un error' . $html_close;
 			}
 		}
 		$this->load->view('login/reset_password', $this->variables);
@@ -144,7 +144,7 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici√≥n
+	 * Funcion que inicializa las variables de los campos del formulario para la ediciÛn
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -162,7 +162,7 @@ class Login extends CI_Controller {
 	{
 		$this->form_validation->set_message('required', 'Complete {field}.');
 		$this->form_validation->set_rules('userName', 'Nombre de usuario/Email', 'required');
-		$this->form_validation->set_rules('password', 'Contrase√±a', 'trim|required');
+		$this->form_validation->set_rules('password', 'ContraseÒa', 'trim|required');
 	}
 	
 	/**
@@ -175,10 +175,10 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Funci√≥n que genera una contrase√±a en forma aleatorio
+	 * FunciÛn que genera una contraseÒa en forma aleatorio
 	 * @param    $chars_min largo minimo (opcional, default 6)
-	 * @param    $chars_max largo m√°ximo (opcional, default 8)
-	 * @param    $use_upper_case boolean para indicar si se usan may√∫suculas (opcional, default false)
+	 * @param    $chars_max largo m·ximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan may˙suculas (opcional, default false)
 	 * @param    $include_numbers boolean para indicar si se usan numeros (opcional, default false)
 	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
 	 * @return    string containing a random password
@@ -197,15 +197,5 @@ class Login extends CI_Controller {
 					$password .=  $current_letter;
 				}
 				return $password;
-	}
-	
-	/**
-	 * Funci√≥n que envia un mail a un destinatario con su contrase√±a
-	 * @param    $to 		string destinatario
-	 * @param    $password 	string password
-	 */
-	private function _send_mail($to, $password)
-  {
-		return true;
 	}
 }

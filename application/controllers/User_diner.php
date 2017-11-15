@@ -184,7 +184,7 @@ class User_diner extends CI_Controller
     }
 
     /**
-     * Funcion que muestra el formulario de ediciÃ³n y guarda la misma cuando la
+     * Funcion que muestra el formulario de edición y guarda la misma cuando la
      * validacion del formulario no arroja errores
      *
      * @param string $id            
@@ -314,17 +314,17 @@ class User_diner extends CI_Controller
         elseif (empty($oldPass) || empty($oldPass) || empty($oldPass)) {
             return FALSE;
         } else {
-            // Es erronea la confirmaciÃƒÂ³n
+            // Es erronea la confirmación
             if ($newPass != $confPass) {
                 return FALSE;
             }
             
-            // Es erronea la confirmaciÃƒÂ³n
+            // Es erronea la confirmación
             if ($oldPass != $this->form_data->pass ||
                      $this->form_data->pass == $newPass) {
                 return FALSE;
             }
-            // ValidaciÃƒÂ³n individual de claves
+            // Validación individual de claves
             if (! $this->valid_single_password($oldPass)) {
                 return FALSE;
             }
@@ -341,7 +341,7 @@ class User_diner extends CI_Controller
 
     public function valid_single_password ($password = '')
     {
-        // Caracteres de validaciÃ³n
+        // Caracteres de validación
         $lower_case = '/[a-z]/';
         $upper_case = '/[A-Z]/';
         $number     = '/[0-9]/';
@@ -389,16 +389,16 @@ class User_diner extends CI_Controller
     }
 
      /**
-     * FunciÃ³n que genera una contraseÃ±a en forma aleatorio
+     * Función que genera una contraseña en forma aleatorio
      *
      * @param $chars_min largo
      *            minimo (opcional, default 6)
      * @param $chars_max largo
-     *            mÃ¡ximo (opcional, default 8)
+     *            máximo (opcional, default 8)
      * @param $use_upper_case boolean
-     *            para indicar si se usan maÃ¡suculas (opcional, default false)
+     *            para indicar si se usan mayúsuculas (opcional, default false)
      * @param $include_numbers boolean
-     *            para indicar si se usan nÃƒÂºmeros (opcional, default false)
+     *            para indicar si se usan números (opcional, default false)
      * @param $include_special_chars boolean
      *            para indicar si se usan caracteres especiales (opcional,
      *            default false)
@@ -429,7 +429,7 @@ class User_diner extends CI_Controller
      * Obtiene los datos del post y los devuelve en forma de objeto
      *
      * @param integer $id
-     *            id del input type para cuando se trata de una ediciÃƒÂ³n
+     *            id del input type para cuando se trata de una edición
      * @return object $user_diner
      */
     private function _get_post ($id = NULL)
