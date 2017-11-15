@@ -175,7 +175,7 @@
 					text: "El comedor se grabará en el sistema",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: formData,
-					successText: "El comedor se ha grabado en el sistema.",
+					successText: "Se envió un mail con su contraseña.",
 					failedText: "El comedor no pudo ser grabado en el sistema.",
 					redirectUrl: $("#redirect-url")[0].value,
 					containImage: true

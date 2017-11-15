@@ -72,7 +72,7 @@ class Diner_application_model extends CI_Model {
 			else
 				return NULL;
 		}
-		catch (ServerException $e) {
+		catch (Exception $e) {
 			return $this->errorMessage($e);
 		}
 	}
