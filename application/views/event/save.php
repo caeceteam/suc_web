@@ -7,7 +7,7 @@
         <title>SUC</title>
 	
         <?php $this->load->view('templates/styles'); ?>
-        
+        <link href="<?php echo base_url('vendors/bower_components/lightgallery/dist/css/lightgallery.min.css')?>" rel="stylesheet">
     </head>
 
     <body data-ma-header="teal">
@@ -94,7 +94,36 @@
 												</div>
 											</div>
 											
-											<p><b>Subir foto del Evento</b></p>
+											<p><b>Imágenes</b></p>
+											<p>Galería</p>
+											
+											<div id="photo-gallery-container" class="row">
+												<?php 
+													if (count($this->form_data->photos) == 0)
+													{
+														echo
+															'<p class="col-xs-12" style="font-weight: bold;"> No hay imágenes cargadas </p>';
+													}
+													else 
+													{
+														echo '<div class="lightbox">';
+														foreach($this->form_data->photos as $photo)
+														{
+															echo
+																'<div data-src="' . $photo['url'] . '" data-idPhoto="' . $photo['idPhoto'] . '" class="image-item col-sm-2">
+					                                   				<div class="lightbox-item">
+					                                       				<img src="' . $photo['url'] . '" alt="" />
+								                                   	</div>
+	        														<div>
+																		<a data-idPhoto="' . $photo['idPhoto'] . '" style="margin-bottom:10px; margin-top:3px;" class="btn remove-event-photo-btn btn-danger fileinput-exists waves-effect" data-dismiss="fileinput">Quitar</a>
+																	</div>
+	        													</div>';
+														}	
+														echo '</div>';
+													}
+												?>
+				                            </div>
+											<br/>
 											<p>Seleccione la imagen que desee subir del evento.</p>
 											<div class="fileinput fileinput-new" data-provides="fileinput">
 												<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
@@ -149,9 +178,59 @@
 
 		<?php $this->load->view('templates/scripts'); ?>
 		<?php $this->load->view('templates/googleApiMap'); ?>		
+		<script src="<?php echo base_url('vendors/bower_components/lightgallery/dist/js/lightgallery-all.min.js')?>"></script>
 		<script src="<?php echo base_url('vendors/fileinput/fileinput.min.js')?>"></script>
 		<script src="<?php echo base_url('vendors/farbtastic/farbtastic.min.js')?>"></script>
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
+		
+		<script>
+			$(".remove-event-photo-btn").click(function() {
+				var idPhoto = this.getAttribute("data-idphoto");
+				swal({
+					title: "¿Está seguro que desea borrarla imagen?",
+					text: "La imágen se borrará del sistema",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "Si",
+					cancelButtonText: "No",
+					closeOnConfirm: false,
+				}, function(isConfirm){
+					if (isConfirm) {
+						$.ajax({
+							type : 'POST',
+							data: {
+								idEvent: $("input[name='id']").val(),
+								idDiner: $("input[name='idDiner']").val(),
+								idPhoto: idPhoto
+							},
+					       	url: "<?php echo site_url('event/deleteEventImage/') ?>", // target element(s) to be updated with server response 
+					       	cache : false,
+					       	success : function(response){
+						       	$("div.image-item[data-idPhoto=" + idPhoto + "]").remove();
+						       	if ($("div.image-item").size() === 0) {
+									$("#photo-gallery-container").append("<p class='col-xs-12' style='font-weight: bold;'> No hay imágenes cargadas </p>");
+							    }
+						       	 
+					       	   	swal({
+					       			title: "Borrado", 
+					       			text: "La imagen fue borrada exitosamente", 
+					       			type: "success"
+					       		});
+					       	},
+					       	error : function(response){
+					       		swal({
+					       	   		title: "Error", 
+					       	   		text: "Hubo un problema en el sistema", 
+					       	   		type: "error"
+					       	   	});		       
+					       	}
+						}); 
+					}
+				});
+				$('.lightbox').data('lightGallery').destroy(false);
+			});
+		</script>
 		
 		<script>
 			$('.event-form').submit(function() {

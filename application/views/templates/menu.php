@@ -54,7 +54,11 @@
                 	<a href="" data-ma-action="submenu-toggle">Administración</a>
 
                     <ul>
+<<<<<<< HEAD
                         <li><a href="<?php echo base_url('diner_food');?>"> Almacén </a></li>
+=======
+                        <li><a href="<?php echo base_url('diner_food');?>"> Almacen </a></li>
+>>>>>>> c0f0f99426530380e3d658dddea8e06d18ea9c1c
                         <li><a href="<?php echo base_url('diner_input');?>"> Insumos </a></li>
             			<li><a href="<?php echo base_url('event');?>"> Eventos</a></li>
 						<li><a href="<?php echo base_url('diner');?>"> Personal</a></li>

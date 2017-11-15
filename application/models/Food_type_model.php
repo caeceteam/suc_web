@@ -2,6 +2,9 @@
 
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 
 class Food_type_model extends CI_Model {
 	/**
@@ -12,39 +15,29 @@ class Food_type_model extends CI_Model {
 	private $client;
 	private $timeout;
 	
-	/**
-	 * Variables para los atributos del modelo
-	 * @var string
-	 */
-	public $id;
-	public $code;
-	public $name;
-	public $description;
-	public $perishable;
-	
 	public function __construct()
 	{
 		parent::__construct();
 		$this->config->load('api');
 		$this->base_uri = $this->config->item('api_base_uri');
 		$this->timeout	= $this->config->item('api_timeout');
-		$this->client  	= new Client([
+		$this->client   = new Client([
 			'headers' => ['x-access-token' => $this->session->token],//Se agrega el header con los datos de la session
 			'base_uri' 	=> $this->base_uri,
-			'timeout'  	=> $this->timeout,
+			'timeout'  	=> $this->timeout
 			]);
 	}
 	
 	/**
-	 * Consulta de tipo de insumo
+	 * Consulta de tipo de alimento
 	 * 
-	 * Consulta tipos de insumo por id o devuelve toda la tabla
-	 * @param 		string 		$id
+	 * Consulta de tipos de alimento a la API
+	 * @param 		string 		$url
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL)
+	private function search($url)
 	{
-		$response = $this->client->request('GET', $id != NULL ? 'api/foodtypes/' . $id : 'api/foodtypes/');
+		$response = $this->client->request('GET', $url);		
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -53,9 +46,9 @@ class Food_type_model extends CI_Model {
 		else
 			return NULL;		
 	}
-
+	
 	/**
-	 * Consulta de tipos de insumos by id
+	 * Consulta de tipos de foodtypes by id
 	 * @param 	int 	$id
 	 */
 	public function search_by_id($id)
@@ -65,55 +58,93 @@ class Food_type_model extends CI_Model {
 	}
 	
 	/**
-	 * Consulta de tipos de insumos por página para el listado
+	 * Consulta de tipos de alimento por página y búsqueda para el listado
 	 * @param 	string 	$page
+	 * 			string	$searchTxt
 	 */
+	// TODO: Cambiar búsqueda por name por búsqueda genérica
+	public function get_foodtypes_by_page_and_search($page, $searchTxt)
+	{
+		$url = 'api/foodtypes?page=' . $page . '&code=' . $searchTxt;
+		return $this->search($url);
+	}
+
+	/**
+	* Consulta de tipos de alimento por p¿aágina y básqueda para el listado
+	* @param 	string 	$page
+	* 			string	$searchTxt
+	*/
+	// TODO: Cambiar búsqueda por name por búsqueda genérica
 	public function get_foodtypes_by_page($page)
 	{
-		//$url = 'api/foodtypes?page=' . $page;
-		return $this->search();
-	}
+		$url = 'api/foodtypes?page=' . $page;
+		return $this->search($url);
+	}	
 	
 	/**
-	 * Alta de input type
+	 * Alta de food type
 	 * @param		object	$food_type
-	 * @return 		array   Si el alta fue exitosa, devuelve un array con el input type, sino devuelve NULL
-	 */
+	 * @return 		array   Si el alta fue exitosa, devuelve un array con el food type, sino devuelve NULL
+	 */		
 	public function add($food_type)
 	{
-		$response = $this->client->request('POST', 'api/foodtypes', [
-				    'json' => $food_type
-					]);
-		if($response->getStatusCode()==HTTP_CREATED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
-		}
-		else
+		try {
+			$response = $this->client->request('POST', 'api/foodtypes', [
+				'json' => $food_type
+			]);
+			if($response->getStatusCode()==HTTP_CREATED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
 			return NULL;
+		}
+		catch (ServerException $e) {
+			return $this->errorMessage($e);
+		}
 	}
 	
 	/**
-	 * Edición de input type
+	 * Edición de food type
 	 * @param		object	$food_type
-	 * @return 		array   Si la edición fue exitosa, devuelve un array con el input type, sino devuelve NULL
+	 * @return 		array   Si la edición fue exitosa, devuelve un array con el food type, sino devuelve NULL
 	 */
 	public function edit($food_type)
 	{
-		$response = $this->client->request('PUT', 'api/foodtypes/' . $food_type->id, [
-				    'json' => $food_type
-					]);
-		if($response->getStatusCode()==HTTP_ACCEPTED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try {
+			$response = $this->client->request('PUT', 'api/foodtypes/' . $food_type->id, [
+					'json' => $food_type
+			]);
+			if($response->getStatusCode()==HTTP_ACCEPTED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
-			return NULL;
+		catch (Exception $e) {
+			return $this->errorMessage($e);
+		}
 	}
 	
 	/**
-	 * Delete de input type
+	 * Función que mapea el mensaje de error desde la API usado en los editores
+	 * @param 	exception $exceptionData
+	 */
+	private function errorMessage($exceptionData) 
+	{
+		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
+		$errorResponse['errors'] = TRUE;
+		if($exceptionData->getCode() == HTTP_INTERNAL_SERVER)
+		{
+			return $errorResponse;
+		}
+		return NULL;
+	}
+	
+	/**
+	 * Delete de food type
 	 * @param		string	$id
 	 * @return 		bool   Si la baja fue exitosa, devuelve TRUE
 	 */
@@ -128,3 +159,4 @@ class Food_type_model extends CI_Model {
 			return FALSE;
 	}
 };
+

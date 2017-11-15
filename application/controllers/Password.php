@@ -85,7 +85,7 @@ class Password extends CI_Controller {
 		
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del diner input para cuando se trata de una ediciÃ³n
+	 * @param 		integer 	$id id del diner input para cuando se trata de una edición
 	 * @return		object		$password
 	 */
 	private function _get_post()
@@ -99,7 +99,7 @@ class Password extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la ediciÃ³n
+	 * Funcion que inicializa las variables de los campos del formulario para la edición
 	 * @return void
 	 */
 	private function _initialize_fields()
