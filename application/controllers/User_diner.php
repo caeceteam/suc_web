@@ -42,7 +42,8 @@ class User_diner extends CI_Controller
                         'form_validation',
                         'session',
                         'upload',
-                        'email'
+                        'email',
+                        'login'
                         //'notification'
                 ));
         $this->load->helper(
