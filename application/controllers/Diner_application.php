@@ -81,7 +81,6 @@ class Diner_application extends CI_Controller {
 							'alias' => form_error('alias'));
 					$data['photo'] = $_FILES['photo']['tmp_name'] == "" ? '<p>Debe elegir una imagen</p>' : (!$isImageSaved ? '<p>Hubo un error al guardar la imagén</p>' : '');
 					$this->variables['error-fields'] =  array_map("utf8_encode", $data);
->>>>>>> c0f0f99426530380e3d658dddea8e06d18ea9c1c
 			}
 			else
 			{
