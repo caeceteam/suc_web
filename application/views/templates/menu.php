@@ -73,7 +73,7 @@
             	<!--<li><a href="colors.html">Insumos</a></li>-->
 				<li><a href="<?php echo base_url('input_type');?>">Tipo de Insumos</a></li>
 				<li><a href="<?php echo base_url('food_type');?>">Tipo de Alimento</a></li>
-				<li><a href="">AsignaciÃ³n de Roles</a></li>
+				<li><a href="">Asignación de Roles</a></li>
 			</ul>
         </li>
       
