@@ -44,12 +44,15 @@
 				class="zmdi zmdi-local-dining"></i> Comedores</a>
 			<ul>
 				<li><a href="<?php echo base_url('diner');?>"> Listado</a></li>
-				<li class="sub-menu"><a href="" data-ma-action="submenu-toggle">AdministraciÛn</a>
+			    <li><a href="<?php echo base_url('Map_diners'); ?>">Mapa de comedoe</a></li>
+				<li class="sub-menu">
+                	<a href="" data-ma-action="submenu-toggle">Administraci√≥n</a>
 
-					<ul>
-						<li><a href="<?php echo base_url('diner_food');?>"> Almacen </a></li>
-						<li><a href="<?php echo base_url('diner_input');?>"> Insumos </a></li>
-						<li><a href="<?php echo base_url('event');?>"> Eventos</a></li>
+                    <ul>
+                        <li><a href="<?php echo base_url('diner_food');?>"> Almac√©n </a></li>
+
+                        <li><a href="<?php echo base_url('diner_input');?>"> Insumos </a></li>
+            			<li><a href="<?php echo base_url('event');?>"> Eventos</a></li>
 						<li><a href="<?php echo base_url('diner');?>"> Personal</a></li>
 						<li><a href="<?php echo base_url('diner');?>"> Concurrentes</a></li>
 					</ul></li>
@@ -63,13 +66,15 @@
 				<!--<li><a href="colors.html">Insumos</a></li>-->
 				<li><a href="<?php echo base_url('input_type');?>">Tipo de Insumos</a></li>
 				<li><a href="<?php echo base_url('food_type');?>">Tipo de Alimento</a></li>
-				<li><a href="">AsignaciÛn de Roles</a></li>
-			</ul></li>
-
-		<li class="sub-menu"><a href="" data-ma-action="submenu-toggle"><i
-				class="zmdi zmdi-account"></i> Personal</a>
-			<ul>
-				<li><a href="<?php echo base_url('user_diner'); ?>">Alta personal</a></li>
-			</ul></li>
+				<li><a href="">Asignaci√≥n de Roles</a></li>
+			</ul>
+        </li>
+      
+        <li class="sub-menu"> 
+        	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-account"></i> Personal</a>
+            <ul>
+				  <li><a href="<?php echo base_url('user_diner'); ?>">Alta personal</a></li>
+			</ul>
+        </li>
 	</ul>
 </aside>

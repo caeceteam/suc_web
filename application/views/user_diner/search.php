@@ -28,7 +28,7 @@
                                 <div class="col-sm-4">
                                     <div style="position: relative;display: block;margin-top: 10px;margin-bottom: 10px;"> <!--TODO CC: Pass style inline to css class-->
                                         <label>
-                                            Â¿Desea dar de alta un nuevo usuario?
+                                            ¿Desea dar de alta un nuevo usuario?
                                         </label>
                                     </div>
                                 </div>
