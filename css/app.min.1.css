@@ -10042,7 +10042,7 @@ html {
 
 body:before {
   content: '';
-  height: 200px;
+  height: 155px;
   width: 100%;
   position: absolute;
   left: 0;
@@ -10172,7 +10172,7 @@ pre {
 
 @media (max-width: 1279px) {
   .h-logo .menu-collapse {
-    margin-top: 8px;
+    margin-top: 4px;
     float: left;
   }
 }
@@ -10533,7 +10533,7 @@ pre {
     width: 270px;
     position: absolute;
     height: 100%;
-    top: 0;
+    top: 35px;
   }
 }
 
@@ -15083,12 +15083,21 @@ html:not(.ie9) .select.fg-line:before {
   transition-duration: 300ms;
 }
 
+@media (min-width: 500px) {
+	.menu-collapse {
+		  cursor: pointer;
+		  position: relative;
+		  width: 30px;
+		  height: 35px;
+		  padding: 0px 0 0 8px !important;
+	}
+}
 .menu-collapse {
   cursor: pointer;
   position: relative;
-  width: 55px;
+  width: 30px;
   height: 35px;
-  padding: 12px 0 0 8px;
+  padding: 16px 0 0 8px;
 }
 
 .menu-collapse:before {

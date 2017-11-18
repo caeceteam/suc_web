@@ -101,9 +101,10 @@ class Diner_application extends CI_Controller {
 						$this->variables['error-fields'] = array('send_mail' => 'Hubo un error al enviar el mail con su contraseña');
 					}					
 				}
+				echo json_encode($this->variables, TRUE);
 			}
 		}
-		echo json_encode($this->variables, TRUE);
+		
 	}
 	
 	/**
