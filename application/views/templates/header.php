@@ -16,9 +16,6 @@
 	</div>
 
 	<ul class="pull-right h-menu">
-		<li class="hm-alerts" data-user-alert="sua-messages" data-ma-action="sidebar-open" data-ma-target="user-alerts">
-			<a href=""><i class="hm-icon zmdi zmdi-notifications"></i></a>
-		</li>
 		<li class="dropdown hm-profile">
 			<?php 	if (isset($this->session->userName)) {
 						echo '	<a data-toggle="dropdown" href="">

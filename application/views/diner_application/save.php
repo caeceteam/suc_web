@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <!--[if IE 9 ]><html class="ie9"><![endif]-->
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
