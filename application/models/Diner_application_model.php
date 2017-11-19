@@ -34,16 +34,13 @@ class Diner_application_model extends CI_Model {
 	/**
 	 * Consulta de diner application
 	 *
-	 * Consulta diner application por id o estado, o devuelve todos los que tengan estado pendiente
-	 * @param 		string 		$id
+	 * Consulta diner application por url, o devuelve todos los que tengan estado pendiente
+	 * @param 		string 		$url
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL, $state=NULL)
+	public function search($url)
 	{
-		if(isset($id))
-			$response = $this->client->request('GET', 'api/diners/' . $id);
-		else
-			$response = $this->client->request('GET', $state !== NULL ? 'api/diners?state=' . $state : 'api/diners/');
+		$response = $this->client->request('GET', $url);
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -52,6 +49,27 @@ class Diner_application_model extends CI_Model {
 		else
 			return NULL;
 	}
+	
+	/**
+	 * Consulta de comedores by id
+	 * @param 	int 	$id
+	 */
+	public function search_by_id($id)
+	{
+		$url = 'api/diners/' . $id;
+		return $this->search($url);
+	}
+	
+	/**
+	 * Consulta de comedores pentientes de aprobación por página para el listado
+	 * @param 	string 	$page
+	 */
+	public function get_pending_diners_by_page($page)
+	{
+		$url = 'api/diners?page=' . $page . '&state=0';
+		return $this->search($url);
+	}
+	
 	
 	/**
 	 * Alta de comedor y usuario

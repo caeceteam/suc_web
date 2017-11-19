@@ -40,9 +40,34 @@ class Admin_application extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->render_table(NULL, $this->Diner_application_model->search(NULL,DINER_PENDING)['diners']);
+		$this->variables['data-request-url'] = site_url('admin_application/render_table_response');
 		$this->load->view('admin_application/search', $this->variables);
 	}
+
+	/**
+	 * Funcion para retornar la informacin a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * @return		array		$pending_diner
+	 */
+	public function render_table_response()
+	{
+		$service_data = $this->Diner_application_model->get_pending_diners_by_page($this->input->post('current') - 1);
+		$diners_data = $service_data['diners'];
+		$pagination_data = $service_data['pagination'];
+	
+		$render_data['current'] = (int)$this->input->post('current');
+		$render_data['total'] = $pagination_data['total_elements'];
+	
+		$render_data['rows'] = [];
+		foreach ($diners_data as $diner)
+		{
+			$row_data['id'] 	= $diner['idDiner'];
+			$row_data['name'] 	= $diner['name'];
+			$row_data['address']= $diner['street'] . ' ' . $diner['streetNumber'];
+			$row_data['mail'] 	= $diner['mail'];
+			array_push($render_data['rows'], $row_data);
+		}
+		echo json_encode($render_data, TRUE);
+	}	
 	
 	/**
 	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
@@ -55,7 +80,7 @@ class Admin_application extends CI_Controller {
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if(!$this->input->post('aprobar') && !$this->input->post('rechazar'))
 		{
-			$this->session->diner_application = $this->Diner_application_model->search($id);
+			$this->session->diner_application = $this->Diner_application_model->search_by_id($id);
 			$this->_fill_form($this->session->diner_application);
 		}
 		else
