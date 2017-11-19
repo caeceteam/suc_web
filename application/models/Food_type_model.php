@@ -36,8 +36,11 @@ class Food_type_model extends CI_Model {
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
 	private function search($url)
-	{
+	{  try{
 		$response = $this->client->request('GET', $url);		
+	   }catch(Exception $e){
+	       return NULL;
+	   }
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();

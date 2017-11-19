@@ -46,7 +46,7 @@ class Food_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion para retornar la informaciÃ³n a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la información a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
 	public function render_table_response()
 	{
