@@ -12350,6 +12350,15 @@ html:not(.ie9) .select.fg-line:before {
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
 }
+@media (max-width: 1279px) {
+	.menu-collapse {
+		  cursor: pointer;
+		  position: relative;
+		  width: 55px;
+		  height: 35px;
+		  padding: 0 0 0 8px;
+	}
+}
 .menu-collapse {
   cursor: pointer;
   position: relative;

@@ -91,7 +91,7 @@ class Diner_input_model extends CI_Model {
 	/**
 	 * Edición de diner input
 	 * @param		object	$diner_input
-	 * @return 		array   Si la ediciÃ³n fue exitosa, devuelve un array con el diner input, sino devuelve NULL
+	 * @return 		array   Si la edición fue exitosa, devuelve un array con el diner input, sino devuelve NULL
 	 */
 	public function edit($diner_input)
 	{

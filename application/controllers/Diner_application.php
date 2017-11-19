@@ -50,32 +50,66 @@ class Diner_application extends CI_Controller {
 	public function add()
 	{
 		$this->variables['action'] = site_url('diner_application/add');
+		$this->variables['request-action'] = 'POST';
+		$this->variables['redirect-url'] = site_url('home');
 		$this->_set_rules();
-		$html_ok = '<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-		$html_error = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-		$html_close = '</div>';
-		if($this->form_validation->run() == FALSE || $this->_save_image($_FILES['photo']['tmp_name']) == FALSE)
+		
+		if ($this->input->method() == "get")
 		{
-			$this->variables['message'] = isset($this->variables['message']) ? $this->variables['message'].validation_errors() : validation_errors();
-			$this->variables['message'] = $this->variables['message'] != '' ? $html_error . $this->variables['message'] . $html_close : '';
+			$this->load->view('diner_application/save', $this->variables);
 		}
 		else
 		{
-			$diner_application = ($this->_get_post());
-			if(($this->Diner_application_model->add($diner_application))!=NULL)
+			$isImageSaved = $this->upload->do_upload('photo');
+			if(!$this->form_validation->run() || !$isImageSaved)
 			{
 				if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
-					$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
+					$this->variables['message'] = $html_ok . 'Se enviá un mail con su contraseña!' . $html_close;
 				else 
 					$this->variables['message'] = $html_error . 'Ocurrió un error al enviar el mail, por favor revise el campo mail!' . $html_close;
 				$this->variables['reset'] = TRUE;
+					$this->output->set_status_header('500');
+					$this->variables['error-type'] = 'empty-field';
+					$data = array(
+							'name' => form_error('name'),
+							'mail' => form_error('mail'),
+							'street' => form_error('streetNumber') == '' ? '' : '<p>Verifique haber ingresado una dirección válida</p>',
+							'phone' => form_error('phone'),
+							'user_name' => form_error('user_name'),
+							'surname' => form_error('surname'),
+							'user_mail' => form_error('user_mail'),
+							'alias' => form_error('alias'));
+					$data['photo'] = $_FILES['photo']['tmp_name'] == "" ? '<p>Debe elegir una imagen</p>' : (!$isImageSaved ? '<p>Hubo un error al guardar la imagén</p>' : '');
+					$this->variables['error-fields'] =  array_map("utf8_encode", $data);
 			}
 			else
 			{
-				$this->variables['message'] = $html_error . 'Error al guardar' . $html_close;
+				$this->_save_image($_FILES['photo']['tmp_name']);
+				$diner_application = ($this->_get_post());
+				$response = $this->Diner_application_model->add($diner_application);
+				if(isset($response['errors']))
+				{
+					$this->output->set_status_header('500');
+					$this->variables['error-type'] = 'unique';
+					$this->variables['error-fields'] = 	array(
+						'alias' => isset($response['fields']['alias']) ? 'Ya existe un usuario con el mismo alias' : '',
+						'mail'  => isset($response['fields']['mail']) ? 'Ya existe un usuario con el mismo alias' : ''
+					);
+				}
+				else {
+					if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
+					{
+						$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
+					}
+					else
+					{
+						$this->variables['error-fields'] = array('send_mail' => 'Hubo un error al enviar el mail con su contraseña');
+					}					
+				}
+				echo json_encode($this->variables, TRUE);
 			}
 		}
-		$this->load->view('diner_application/save', $this->variables);
+		
 	}
 	
 	/**
@@ -157,7 +191,6 @@ class Diner_application extends CI_Controller {
 		$this->form_validation->set_rules('door', 'Departamento', 'trim');
 		$this->form_validation->set_rules('latitude', 'Latitud', 'trim');
 		$this->form_validation->set_rules('longitude', 'Longuitud', 'trim');
-		//$this->form_validation->set_rules('zipCode', 'CP', 'trim|required');
 		$this->form_validation->set_rules('phone', 'Teléfono', 'trim|required');
 		$this->form_validation->set_rules('link', 'Página', 'trim');
 		$this->form_validation->set_rules('description', 'Descripción', 'trim');
@@ -218,18 +251,9 @@ class Diner_application extends CI_Controller {
 	 */
 	private function _save_image($photo)
 	{
-		if (!$this->upload->do_upload('photo'))
-		{
-			$this->variables['message'] = $this->upload->display_errors();
-			return false;
-		}
-		else
-		{
-			$response = \Cloudinary\Uploader::upload($photo);//La subo a cloudinary
-			$this->form_data->photo = $response['url'];
-			delete_files('uploads', FALSE, TRUE);
-			return true;
-		}
+		$response = \Cloudinary\Uploader::upload($photo);//La subo a cloudinary
+		$this->form_data->photo = $response['url'];
+		delete_files('uploads', FALSE, TRUE);
 	}
 	
 	/**
