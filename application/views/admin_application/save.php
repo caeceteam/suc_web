@@ -6,18 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
     
-        <!-- Vendor CSS -->
-        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
-
-        <!-- CSS -->
-        <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
+		<?php $this->load->view('templates/styles'); ?>
+		
     </head>
 
     <body data-ma-header="teal">
+    
 		<?php $this->load->view('templates/header'); ?>
 
         <section id="main">
@@ -101,6 +95,7 @@
 								<div class="btn-colors btn-demo">
 									<button type="submit" name="aprobar" value="aprobar" id="approve-button" class="btn palette-Green bg">Aprobar</button>
 									<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
+									<a id="cancel-button" href="<?php echo site_url('admin_application')?>" class="btn btn-primary">Cancelar</a>
 								</div>
                             </div>
                            </form> 
@@ -109,17 +104,7 @@
                 </div>
             </section>
 
-            <footer id="footer">
-                Copyright &copy; 2015 Material Admin
-
-                <ul class="f-menu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Dashboard</a></li>
-                    <li><a href="">Reports</a></li>
-                    <li><a href="">Support</a></li>
-                    <li><a href="">Contact</a></li>
-                </ul>
-            </footer>
+            <?php $this->load->view('templates/footer'); ?>
         </section>
 
         <!-- Page Loader -->
@@ -131,19 +116,7 @@
             </div>
         </div>
     
-        <!-- Javascript Libraries -->
-        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
-        
-		<script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/moment/min/moment.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/autosize/dist/autosize.min.js')?>"></script>
-		
-        <script src="<?php echo base_url('js/functions.js')?>"></script>
-        <script src="<?php echo base_url('js/actions.js')?>"></script>
-        <script src="<?php echo base_url('js/demo.js')?>"></script>
+		<?php $this->load->view('templates/scripts'); ?>
 		
 		<script type="text/javascript">
 			$("#reject-button").click(function() {
