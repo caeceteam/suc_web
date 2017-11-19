@@ -42,16 +42,27 @@ class Home extends CI_Controller {
 	 */
 	private function _initialize_fields()
 	{
-		$this->form_data->pending_approvals = $this->get_pending_approvals();
+		$this->form_data->diner_pending_approvals = $this->get_diner_pending_approvals();
+		$this->form_data->donation_pending_approvals = $this->get_donation_pending_approvals();
 	}
 	
 	/**
 	 * Funcion que devuelve la cantidad pendiente de aprobaciones de comedor
 	 * @return int
 	 */
-	public function get_pending_approvals()
+	public function get_diner_pending_approvals()
 	{
-		$response = $this->Home_model->search(NULL,DINER_PENDING);
-		return $response['pagination']['number_of_elements'];	
+		$response = $this->Home_model->diner_search(NULL,DINER_PENDING);
+		return $response['pagination']['total_elements'];	
+	}
+	
+	/**
+	 * Funcion que devuelve la cantidad pendiente de aprobaciones de donaciones
+	 * @return int
+	 */
+	public function get_donation_pending_approvals()
+	{
+		$response = $this->Home_model->donation_search(NULL,DONATION_PENDING);
+		return $response['pagination']['total_elements'];
 	}
 }
