@@ -23,7 +23,8 @@ class Login extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library(array('form_validation', 'session', 'email'));
+		
+		$this->load->library(array('form_validation', 'session', 'email' ));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Login_model');
 		$this->load->model('Emails_model');
@@ -42,7 +43,7 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que valida usuario y contraseÃ±a
+	 * Funcion que valida usuario y contraseña
 	 * @return void
 	 */
 	public function validate_credentials()
@@ -66,13 +67,13 @@ class Login extends CI_Controller {
 						'idDiner'		=> $response['diners'][0]['idDiner'],
 						'is_logged_in' 	=> true,
 						'role'			=> $response['user']['role'] 
-				);
+				);				
 				$this->session->set_userdata($data);
 				redirect('home');
 			}
 			else
 			{
-				$this->variables['message'] = '<div class="alert alert-danger" role="alert">Nombre de usuario/contraseÃ±a incorrectos.</div>';
+				$this->variables['message'] = '<div class="alert alert-danger" role="alert">Nombre de usuario/contraseña incorrectos.</div>';
 				$this->load->view('login/save', $this->variables);
 			}
 		}
@@ -205,7 +206,7 @@ class Login extends CI_Controller {
 	 * @param    $password 	string password
 	 */
 	private function _send_mail($to, $password)
-  {
+  	{
 		return true;
 	}
 }

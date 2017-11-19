@@ -13,14 +13,12 @@
 		<li class="sub-menu">
         	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-notifications-active"></i> Aprobaciones pendientes</a>
 			<ul>
-            	<li><a href="<?php echo base_url('admin_application');?>"> De comedores</a></li>
-				<li><a href="<?php echo base_url('donation');?>"> De donaciones</a></li>
+            	<li><a href="<?php echo base_url('donation');?>"> De donaciones</a></li>
             </ul>
         </li>
 		<li class="sub-menu">
 			<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-local-dining"></i> Comedores</a>
 			<ul>
-				<li><a href="<?php echo base_url('diner');?>"> Editar</a></li>
 				<li class="sub-menu">
                 	<a href="" data-ma-action="submenu-toggle"> Administrar</a>
 
@@ -36,14 +34,5 @@
 				<li><a href=""> Comedores Cercanos</a></li>
 	        </ul>
 		</li>
-                    
-        <li class="sub-menu">
-        	<a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-swap-alt"></i> Mantenimiento SUC</a>
-            <ul>
-            	<!--<li><a href="colors.html">Insumos</a></li>-->
-				<li><a href="<?php echo base_url('input_type');?>">Tipo de Insumos</a></li>
-				<li><a href="<?php echo base_url('food_type');?>">Tipo de Alimento</a></li>
-			</ul>
-        </li>
 	</ul>
 </aside>
