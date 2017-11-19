@@ -63,24 +63,20 @@ class Diner_application extends CI_Controller {
 			$isImageSaved = $this->upload->do_upload('photo');
 			if(!$this->form_validation->run() || !$isImageSaved)
 			{
-				if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
-					$this->variables['message'] = $html_ok . 'Se envi√° un mail con su contrase√±a!' . $html_close;
-				else 
-					$this->variables['message'] = $html_error . 'Ocurri√≥ un error al enviar el mail, por favor revise el campo mail!' . $html_close;
 				$this->variables['reset'] = TRUE;
-					$this->output->set_status_header('500');
-					$this->variables['error-type'] = 'empty-field';
-					$data = array(
-							'name' => form_error('name'),
-							'mail' => form_error('mail'),
-							'street' => form_error('streetNumber') == '' ? '' : '<p>Verifique haber ingresado una direcci√≥n v√°lida</p>',
-							'phone' => form_error('phone'),
-							'user_name' => form_error('user_name'),
-							'surname' => form_error('surname'),
-							'user_mail' => form_error('user_mail'),
-							'alias' => form_error('alias'));
-					$data['photo'] = $_FILES['photo']['tmp_name'] == "" ? '<p>Debe elegir una imagen</p>' : (!$isImageSaved ? '<p>Hubo un error al guardar la imag√©n</p>' : '');
-					$this->variables['error-fields'] =  array_map("utf8_encode", $data);
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'empty-field';
+				$data = array(
+						'name' => form_error('name'),
+						'mail' => form_error('mail'),
+						'street' => form_error('streetNumber') == '' ? '' : '<p>Verifique haber ingresado una direcciÛn v·lida</p>',
+						'phone' => form_error('phone'),
+						'user_name' => form_error('user_name'),
+						'surname' => form_error('surname'),
+						'user_mail' => form_error('user_mail'),
+						'alias' => form_error('alias'));
+				$data['photo'] = $_FILES['photo']['tmp_name'] == "" ? '<p>Debe elegir una imagen</p>' : (!$isImageSaved ? '<p>Hubo un error al guardar la imagen</p>' : '');
+				$this->variables['error-fields'] =  array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -93,17 +89,17 @@ class Diner_application extends CI_Controller {
 					$this->variables['error-type'] = 'unique';
 					$this->variables['error-fields'] = 	array(
 						'alias' => isset($response['fields']['alias']) ? 'Ya existe un usuario con el mismo alias' : '',
-						'mail'  => isset($response['fields']['mail']) ? 'Ya existe un usuario con el mismo alias' : ''
+						'user_mail'  => isset($response['fields']['mail']) ? 'Ya existe un usuario con el mismo mail' : ''
 					);
 				}
 				else {
 					if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
 					{
-						$this->variables['message'] = $html_ok . 'Se envi√≥ un mail con su contrase√±a!' . $html_close;
+						$this->variables['message'] = $html_ok . 'Se enviÛ un mail con su contraseÒa!' . $html_close;
 					}
 					else
 					{
-						$this->variables['error-fields'] = array('send_mail' => 'Hubo un error al enviar el mail con su contrase√±a');
+						$this->variables['error-fields'] = array('send_mail' => 'Hubo un error al enviar el mail con su contraseÒa');
 					}					
 				}
 				echo json_encode($this->variables, TRUE);
@@ -145,7 +141,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici√≥n
+	 * Funcion que inicializa las variables de los campos del formulario para la ediciÛn
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -186,14 +182,14 @@ class Diner_application extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
-		$this->form_validation->set_rules('streetNumber', 'N√∫mero', 'trim|required');
+		$this->form_validation->set_rules('streetNumber', 'N˙mero', 'trim|required');
 		$this->form_validation->set_rules('floor', 'Piso', 'trim');
 		$this->form_validation->set_rules('door', 'Departamento', 'trim');
 		$this->form_validation->set_rules('latitude', 'Latitud', 'trim');
 		$this->form_validation->set_rules('longitude', 'Longuitud', 'trim');
-		$this->form_validation->set_rules('phone', 'Tel√©fono', 'trim|required');
-		$this->form_validation->set_rules('link', 'P√°gina', 'trim');
-		$this->form_validation->set_rules('description', 'Descripci√≥n', 'trim');
+		$this->form_validation->set_rules('phone', 'TelÈfono', 'trim|required');
+		$this->form_validation->set_rules('link', 'P·gina', 'trim');
+		$this->form_validation->set_rules('description', 'DescripciÛn', 'trim');
 		$this->form_validation->set_rules('user_name', 'Nombre del solicitante', 'trim|required');
 		$this->form_validation->set_rules('surname', 'Apellido del solicitante', 'trim|required');
 		$this->form_validation->set_rules('user_mail', 'Mail del solicitante', 'trim|required');
@@ -201,11 +197,11 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funci√≥n que genera una contrase√±a en forma aleatorio
+	 * FunciÛn que genera una contraseÒa en forma aleatorio
 	 * @param    $chars_min largo minimo (opcional, default 6)
-	 * @param    $chars_max largo m√°ximo (opcional, default 8)
-	 * @param    $use_upper_case boolean para indicar si se usan may√∫suculas (opcional, default false)
-	 * @param    $include_numbers boolean para indicar si se usan n√∫meros (opcional, default false)
+	 * @param    $chars_max largo m·ximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan may˙suculas (opcional, default false)
+	 * @param    $include_numbers boolean para indicar si se usan n˙meros (opcional, default false)
 	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
 	 * @return    string containing a random password
 	 */
@@ -226,7 +222,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funci√≥n que envia un mail a un destinatario con su contrase√±a
+	 * FunciÛn que envia un mail a un destinatario con su contraseÒa
 	 * @param    $to 		string destinatario
 	 * @param	 $user		string usuario
 	 * @param    $password 	string password
@@ -245,7 +241,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funci√≥n que guarda una imagen en la nube usando la API de cloudinary
+	 * FunciÛn que guarda una imagen en la nube usando la API de cloudinary
 	 * @param    $photo 	string ruta de la imagen a guardar
 	 * @return   bool 		indica si la imagen se guardo correctamente
 	 */
@@ -257,7 +253,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funci√≥n que configura la API de cloudinary
+	 * FunciÛn que configura la API de cloudinary
 	 * @return   void
 	 */
 	private function _cloudinary_init()
