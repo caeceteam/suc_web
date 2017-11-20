@@ -26,6 +26,10 @@ class Home extends CI_Controller {
 		$this->load->library(array('form_validation', 'login'));
 		$this->load->helper(array('url', 'form'));
 		$this->load->model('Home_model');
+		$this->load->model('Diner_model');
+		$this->load->model('Event_model');
+		$this->load->model('Assistant_model');
+		$this->load->model('User_diner_model');
 		$this->form_data = new stdClass();
 		$this->login->is_logged_in();
 		$this->_initialize_fields();
@@ -44,6 +48,13 @@ class Home extends CI_Controller {
 	{
 		$this->form_data->diner_pending_approvals = $this->get_diner_pending_approvals();
 		$this->form_data->donation_pending_approvals = $this->get_donation_pending_approvals();
+		$diner = $this->Diner_model->search_by_id($this->session->idDiner); 
+		$this->form_data->diner_name = $diner['diner']['name'];
+		$this->form_data->diner_address = $diner['diner']['street'].' '.$diner['diner']['streetNumber'];
+		$this->form_data->diner_phone = $diner['diner']['phone'];
+		$this->form_data->pending_events = $this->get_pending_events($this->session->idDiner);
+		$this->form_data->assistants_count = $this->get_assistants_count($this->session->idDiner);
+		$this->form_data->users_diners_count = $this->get_users_diners_count($this->session->idDiner);
 	}
 	
 	/**
@@ -65,4 +76,35 @@ class Home extends CI_Controller {
 		$response = $this->Home_model->donation_search(NULL,DONATION_PENDING);
 		return $response['pagination']['total_elements'];
 	}
+	
+	/**
+	 * Funcion que devuelve la cantidad de eventos del comedor
+	 * @return int
+	 */
+	public function get_pending_events($idDiner)
+	{
+		$response = $this->Event_model->get_events_by_idDiner($idDiner);
+		return $response['pagination']['total_elements'];
+	}
+	
+	/**
+	 * Funcion que devuelve la cantidad de concurrentes del comedor
+	 * @return int
+	 */
+	public function get_assistants_count($idDiner)
+	{
+		$response = $this->Assistant_model->get_assistants_by_idDiner($idDiner);
+		return $response['pagination']['total_elements'];
+	}
+
+	/**
+	 * Funcion que devuelve la cantidad de concurrentes del comedor
+	 * @return int
+	 */
+	public function get_users_diners_count($idDiner)
+	{
+		$response = $this->User_diner_model->get_user_diner_by_idDiner($idDiner);
+		return $response['pagination']['total_elements'];
+	}	
+	
 }

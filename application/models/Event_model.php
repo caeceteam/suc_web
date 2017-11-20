@@ -68,6 +68,16 @@ class Event_model extends CI_Model {
 		$url = 'api/events?page=' . $page;
 		return $this->search($url);
 	}
+
+	/**
+	 * Consulta de Eventos por página para el listado
+	 * @param 	string 	$idDiner
+	 */
+	public function get_events_by_idDiner($idDiner)
+	{
+		$url = 'api/events?idDiner=' . $idDiner;
+		return $this->search($url);
+	}	
 	
 	/**
 	 * Alta de comedor y usuario
