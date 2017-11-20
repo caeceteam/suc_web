@@ -78,7 +78,8 @@
         		deleteUrl: "<?php echo site_url('food_type/delete/') ?>",
         		deleteDialogTitle: "¿Está seguro en borrar este tipo de alimento?",
         		deleteDialogText: "El tipo de alimento se borrará permanentemente del sistema",
-        		deleteDialogSuccess: "El tipo de alimento se ha borrado del sistema."
+        		deleteDialogSuccess: "El tipo de alimento se ha borrado del sistema.",
+        		searchTxt: "Buscar por nombre"
             });
 
         </script>

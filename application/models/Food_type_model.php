@@ -68,7 +68,7 @@ class Food_type_model extends CI_Model {
 	// TODO: Cambiar búsqueda por name por búsqueda genérica
 	public function get_foodtypes_by_page_and_search($page, $searchTxt)
 	{
-		$url = 'api/foodtypes?page=' . $page . '&code=' . $searchTxt;
+		$url = 'api/foodtypes?page=' . $page . '&name=' . $searchTxt;
 		return $this->search($url);
 	}
 
