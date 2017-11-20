@@ -144,13 +144,19 @@ class Diner_food_model extends CI_Model {
 	 */
 	public function delete($id)
 	{
-		$response = $this->client->request('DELETE', 'api/dinerfoods/' . $id);
-		if($response->getStatusCode()==HTTP_OK)
-		{
-			return TRUE;
+		try {
+			$response = $this->client->request('DELETE', 'api/dinerfoods/' . $id);
+			if($response->getStatusCode()==HTTP_OK || $response->getStatusCode()==HTTP_NO_CONTENT)
+			{
+				return TRUE;
+			}
+			else
+				return FALSE;
 		}
-		else
-			return FALSE;
+		catch(Exception $e)
+		{
+			return $this->errorMessage($e);
+		}
 	}
 };
 

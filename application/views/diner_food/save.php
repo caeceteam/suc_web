@@ -26,7 +26,7 @@
 
                     <div class="card">
                         <div class="card-body card-padding">
-                            <small>Ingrese los datos para la creaciónn del alimento.</small>
+                            <small>Ingrese los datos para la creación del alimento.</small>
 
                             <br/><br/>
 
