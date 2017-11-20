@@ -70,6 +70,16 @@ class Diner_application_model extends CI_Model {
 		return $this->search($url);
 	}
 	
+	/**
+	 * Consulta de comedores pentientes de aprobación por página y texto para el listado
+	 * @param 	string 	$page
+	 */
+	public function get_pending_diners_by_page_and_search_text($page, $searchTxt)
+	{
+		$url = 'api/diners?page=' . $page . '&state=0&name=' . $searchTxt;
+		return $this->search($url);
+	}
+	
 	
 	/**
 	 * Alta de comedor y usuario
