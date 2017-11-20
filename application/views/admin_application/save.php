@@ -78,30 +78,42 @@
                                     </div>
 								</div>
                             </div>		
-							<form role="form" action="<?php echo $action; ?>" method="POST">
-							<div class="pmb-block" id="reject-reason-block" hidden>
-									<div class="form-group fg-float">
-										<div class="fg-line">
-											<textarea name="reject_reason" id="reject-reason-textarea" class="form-control auto-size"></textarea>
-											<label class="fg-label">Motivo de rechazo</label>
+							<form class="diner-application-form" role="form" action="<?php echo $action; ?>" method="POST">
+								<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
+								<?php echo form_hidden('diner_name', ($reset) ? '' : set_value('id',$this->form_data->diner_name)); ?>
+								<?php echo form_hidden('id_user', ($reset) ? '' : set_value('id_user',$this->form_data->id_user)); ?>
+								<?php echo form_hidden('alias', ($reset) ? '' : set_value('alias',$this->form_data->alias)); ?>
+								<?php echo form_hidden('user_mail', ($reset) ? '' : set_value('user_mail',$this->form_data->user_mail)); ?>
+								
+								<div class="pmb-block" id="reject-reason-block" hidden>
+										<div class="form-group fg-float">
+											<div class="fg-line">
+												<textarea name="reject_reason" id="reject-reason-textarea" class="form-control auto-size"></textarea>
+												<label class="fg-label">Motivo de rechazo</label>
+											</div>
 										</div>
-									</div>
-
-									<button type="submit" name="rechazar" value="rechazar" id="reject-reason-accept-button" class="btn palette-Green bg">Aceptar</button>
-									<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>	
-							</div>
-							
-                            <div class="pmb-block" id="buttons-block">
-								<div class="btn-colors btn-demo">
-									<button type="submit" name="aprobar" value="aprobar" id="approve-button" class="btn palette-Green bg">Aprobar</button>
-									<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
-									<a id="cancel-button" href="<?php echo site_url('admin_application')?>" class="btn btn-primary">Cancelar</a>
+	
+										<button type="submit" name="rechazar" value="rechazar" id="reject-reason-accept-button" class="btn palette-Green bg">Aceptar</button>
+										<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>	
 								</div>
-                            </div>
+								
+	                            <div class="pmb-block" id="buttons-block">
+									<div class="btn-colors btn-demo">
+										<button type="submit" name="aprobar" value="aprobar" id="approve-button" class="btn palette-Green bg">Aprobar</button>
+										<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
+										<a id="cancel-button" href="<?php echo site_url('admin_application')?>" class="btn btn-primary">Cancelar</a>
+									</div>
+	                            </div>
                            </form> 
+                           
+                           <?php $this->load->view('templates/alerts'); ?>
                         </div>
                     </div>
                 </div>
+                
+                <input hidden id="redirect-url" value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
+				<input hidden id="request-action" value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
+                
             </section>
 
             <?php $this->load->view('templates/footer'); ?>
@@ -117,6 +129,7 @@
         </div>
     
 		<?php $this->load->view('templates/scripts'); ?>
+		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
 		<script type="text/javascript">
 			$("#reject-button").click(function() {
@@ -129,6 +142,20 @@
 				$("#reject-reason-block").hide();
 				$("#reject-reason-textarea").val("");
 				$("#reject-reason-textarea").attr("style", "overflow: hidden; word-wrap: break-word;")
+			});
+
+			$('.diner-application-form').submit(function() {
+				showConfirmDialog({
+					title: "¿Está seguro que desea aprobar esta solicitud?",
+					text: "La solicitud será aprobada en el sistema",
+					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action + "/" + $("input[name='id']")[0].value : $("form")[0].action + "/" + $("input[name='id']")[0].value,
+					formData: $("form").serializeArray(),
+					successText: "La solicitud ha sido aprobada.",
+					failedText: "Hubo un error al aprobar la solicitud.",
+					redirectUrl: $("#redirect-url")[0].value,
+					successTitle: "Aprobado"
+				});
+				return false;
 			});
 		</script>
     </body>

@@ -32,7 +32,7 @@
 						            <th data-column-id="name" data-order="desc">Nombre</th>
 						           	<th data-column-id="address">Domicilio</th>
 									<th data-column-id="mail">Mail</th>
-									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Ir a solicitud</th>
 						        </tr>
 						    </thead>
 						</table>
@@ -65,7 +65,7 @@
         		requestUrl: $("#data-request-url")[0].value,
         		noResultText: "No hay concurrentes cargados",
         		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} concurrentes",
-        		editUrl: "<?php echo site_url('admin_application/edit/') ?>",
+        		editUrl: "<?php echo site_url('admin_application/accept/') ?>",
         		deleteUrl: "<?php echo site_url('admin_application/delete/') ?>",
         		deleteDialogTitle: "¿Está seguro en borrar al concurrente seleccionado?",
         		deleteDialogText: "El concurrente se borrará permanentemente del sistema",
