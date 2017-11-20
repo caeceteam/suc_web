@@ -78,7 +78,8 @@
         		deleteUrl: "<?php echo site_url('event/delete/') ?>",
         		deleteDialogTitle: "¿Está seguro en borrar este evento?",
         		deleteDialogText: "El evento se borrará permanentemente del sistema",
-        		deleteDialogSuccess: "El evento se ha borrado del sistema."
+        		deleteDialogSuccess: "El evento se ha borrado del sistema.",
+        		searchTxt: "Buscar por nombre"
             });
 
         </script>
