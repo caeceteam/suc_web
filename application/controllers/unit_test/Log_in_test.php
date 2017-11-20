@@ -128,6 +128,8 @@ class Log_in_test extends CI_Controller {
     public function log_in_forgot_test($tit_test)
     {
         //Crear datos
+        //La nueva clave se esta generando del lado de la API, por eso no toma el pass que le doy 
+        // y da NULL la respuesta del T001.
 		$password 				= new stdClass();
 		$password->userName 	= $this->user_name_test;
 		$password->newPassword	= $this->user_pass_test;

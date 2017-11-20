@@ -69,7 +69,7 @@ class Food_type_test extends CI_Controller {
 		//Test - Editar
 		$this->editar('T006 - Editar Correcto - Buscar y edita un tipo de alimento');
 		$this->editar_inc('T007 - Editar Incorrecto - Buscar y edita sin campo obligatorio');
-		
+
 		//Test - Borrado
 		$this->baja_test('T008 - Editar Incorrecto - Buscar y edita sin campo obligatorio');
 		//$this->baja_inc_test('T009 - Editar Incorrecto - Buscar y edita sin campo obligatorio');
@@ -213,6 +213,7 @@ class Food_type_test extends CI_Controller {
 	    $notes      = var_export($test, true);
 	    $this->unit->run($test, 'is_array' , $test_name, $notes);
 	}
+	
 	
 	/**
 	* Testo Baja - La baja erronea.
