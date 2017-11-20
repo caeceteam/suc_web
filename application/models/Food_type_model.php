@@ -36,8 +36,11 @@ class Food_type_model extends CI_Model {
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
 	private function search($url)
-	{
+	{  try{
 		$response = $this->client->request('GET', $url);		
+	   }catch(Exception $e){
+	       return NULL;
+	   }
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -151,7 +154,7 @@ class Food_type_model extends CI_Model {
 	public function delete($id)
 	{
 		$response = $this->client->request('DELETE', 'api/foodtypes/' . $id);
-		if($response->getStatusCode()==HTTP_OK)
+		if($response->getStatusCode()==HTTP_OK  || $response->getStatusCode()==HTTP_NO_CONTENT)
 		{
 			return TRUE;
 		}
