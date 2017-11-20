@@ -76,8 +76,8 @@
         		requestUrl: $("#data-request-url")[0].value,
         		noResultText: "No hay alimentos cargados",
         		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} alimentos",
-        		editUrl: "<?php echo site_url('diner_food/edit/') ?>",
-        		deleteUrl: "<?php echo site_url('diner_food/delete/') ?>",
+        		editUrl: "<?php echo site_url($this->strategy_context->get_url('diner_food/edit/')) ?>",
+        		deleteUrl: "<?php echo site_url($this->strategy_context->get_url('diner_food/delete/')) ?>",
         		deleteDialogTitle: "¿Está seguro en borrar este alimento?",
         		deleteDialogText: "El alimento se borrará permanentemente del sistema",
         		deleteDialogSuccess: "El alimento se ha borrado del sistema."

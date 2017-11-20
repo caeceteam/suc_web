@@ -31,10 +31,10 @@
                 	<a href="<?php echo base_url('user_diner/edit/'.$this->session->userdata['idUser'] );?>"><i class="zmdi zmdi-account"></i> Mis Datos</a>
                 </li>
                 <li>
-                	<a href="<?php echo base_url('password');?>"><i class="zmdi zmdi-settings"></i> Cambiar contraseÃ±a</a>
+                	<a href="<?php echo base_url('password');?>"><i class="zmdi zmdi-settings"></i> Cambiar contraseña</a>
                 </li>
                 <li>
-                	<a href="<?php echo base_url('login/logout');?>"><i class="zmdi zmdi-close"></i> Cerrar sesiÃ³n</a>
+                	<a href="<?php echo base_url('login/logout');?>"><i class="zmdi zmdi-close"></i> Cerrar sesión</a>
                 </li>
             </ul>
 		</li>

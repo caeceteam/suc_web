@@ -31,7 +31,7 @@ class Admin_application extends CI_Controller {
 		$this->variables['id'] = '';
 		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->_initialize_fields();
-		$this->login->is_logged_in();
+		$this->login->is_logged_in();		
 	}
 	
 	/**
@@ -41,19 +41,8 @@ class Admin_application extends CI_Controller {
 	public function index()
 	{
 		$this->render_table(NULL, $this->Diner_application_model->search(NULL,DINER_PENDING)['diners']);
-		
-		//Valido que el usuario pueda ver la URL
-		$url = 'admin_application/search';
-		if ( $this->strategy_context->validate_url($url) == FALSE )
-		{
-			//Muestro error
-			$this->load->view('errors/html/error_403');
-		}else{
-			//Cargo vista
-			$this->load->view($url, $this->variables);
-		}
-		
-	}
+		$this->load->view($this->strategy_context->get_url('admin_application/search'), $this->variables);	
+	}	
 	
 	/**
 	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
@@ -90,7 +79,7 @@ class Admin_application extends CI_Controller {
 				$this->variables['message'] = 'Error al editar';
 			}
 		}
-		$this->load->view('admin_application/save', $this->variables);
+		$this->load->view($this->strategy_context->get_url('admin_application/save'), $this->variables);
 	}
 		
 	/**

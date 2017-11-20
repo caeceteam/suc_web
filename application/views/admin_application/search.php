@@ -120,7 +120,7 @@
                     },
                     formatters: {
                         "commands": function(column, row) {
-                            return "<a type=\"button\" href=\"" + "<?php echo site_url('admin_application/edit/') ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> ";
+                            return "<a type=\"button\" href=\"" + "<?php echo site_url($this->strategy_context->get_url('admin_application/edit/')) ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> ";
                         }
                     }
                 });

@@ -55,8 +55,8 @@
         		requestUrl: $("#data-request-url")[0].value,
         		noResultText: "No hay donaciones pendientes de aprobación",
         		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} donaciones",
-        		editUrl: "<?php echo site_url('donation/edit/') ?>",
-        		deleteUrl: "<?php echo site_url('donation/delete/') ?>",
+        		editUrl: "<?php echo site_url($this->strategy_context->get_url('donation/edit/')) ?>",
+        		deleteUrl: "<?php echo site_url($this->strategy_context->get_url('donation/delete/')) ?>",
         		deleteDialogTitle: "¿Está seguro en borrar esta donación?",
         		deleteDialogText: "La donación se borrará permanentemente del sistema",
         		deleteDialogSuccess: "La donación se ha borrado del sistema."

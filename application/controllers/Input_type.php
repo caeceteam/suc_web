@@ -41,7 +41,7 @@ class Input_type extends CI_Controller {
 	public function index()
 	{
 		$this->variables['data-request-url'] = site_url('input_type/render_table_response');
-		$this->load->view('input_type/search', $this->variables);
+		$this->load->view($this->strategy_context->get_url('input_type/search'), $this->variables);
 	}
 	
 	/**
@@ -85,7 +85,7 @@ class Input_type extends CI_Controller {
 		$this->_set_rules();
 		if ($this->input->method() == "get")
 		{
-			$this->load->view('input_type/save', $this->variables);
+			$this->load->view($this->strategy_context->get_url('input_type/save'), $this->variables);
 		}
 		else
 		{
@@ -127,11 +127,14 @@ class Input_type extends CI_Controller {
 		if($this->input->method() == "get")
 		{
 			$input_type = $this->Input_type_model->search_by_id($id);
-			$this->form_data->id 			= $input_type['idInputType'];
-			$this->form_data->code 			= $input_type['code'];
-			$this->form_data->name 			= $input_type['name'];
-			$this->form_data->description 	= $input_type['description'];
-			$this->load->view('input_type/save', $this->variables);
+			if ( $input_type == !NULL )
+			{
+				$this->form_data->id 			= $input_type['idInputType'];
+				$this->form_data->code 			= $input_type['code'];
+				$this->form_data->name 			= $input_type['name'];
+				$this->form_data->description 	= $input_type['description'];
+			}
+			$this->load->view($this->strategy_context->get_url('input_type/save'), $this->variables);
 		}
 		else
 		{
@@ -209,7 +212,7 @@ class Input_type extends CI_Controller {
 	{
 		$this->form_validation->set_rules('code', 'Código', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-		$this->form_validation->set_rules('description', 'Descripcion', 'trim');
+		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 	}
 }
 

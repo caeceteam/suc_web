@@ -20,7 +20,6 @@ class Strategy_context
 		$this->CI->load->library(array('sys_admin', 'diner_admin', 'colaborator' ,'employee', 'guest', 'session'  ));
 
 		$this->set_role($this->CI->session->role);		
-		
 	}
 	
 	/**
@@ -70,6 +69,15 @@ class Strategy_context
 				$this->strategy = new Guest();
 				break;
 		}
+	}
+	
+	/**
+	 * Funcion que devuelve la URL según el permiso
+	 * del usuario
+	 */
+	public function get_url($url)
+	{
+		return $this->validate_url($url) ? $url : 'errors/html/error_403';
 	}
 	
 	/**
@@ -125,6 +133,12 @@ class Strategy_context
 		if (   (strpos($url, 'diner_application'	)	!== false	)	)
 		{
 			return $authorization_flags->diner_application_form;
+		}
+		
+		// URL del HOME
+		if (   (strpos($url, 'home'	)	!== false	)	)
+		{
+			return $authorization_flags->home;
 		}
 	}
 }

@@ -42,7 +42,7 @@ class Assistant extends CI_Controller {
 	{		
 		$idDinerForSearch = $idDiner == NULL ? $this->session->idDiner : $idDiner;
 		$this->variables['data-request-url'] = site_url('assistant/render_table_response/') . $idDinerForSearch;
-		$this->load->view('assistant/search', $this->variables);
+		$this->load->view($this->strategy_context->get_url('assistant/search'), $this->variables);
 	}	
 	
 	/**
@@ -84,7 +84,7 @@ class Assistant extends CI_Controller {
 		if ($this->input->method() == "get")
 		{
 			$this->input->idDiner = $idDiner;
-			$this->load->view('assistant/save', $this->variables);
+			$this->load->view($this->strategy_context->get_url('assistant/save'), $this->variables);
 		}
 		else
 		{
@@ -129,27 +129,30 @@ class Assistant extends CI_Controller {
 		if($this->input->method() == "get")
 		{
 			$data = $this->Assistant_model->search_by_id($id);
-			$this->form_data->id					= $data['assistant']['idAssistant'];
-			$this->form_data->idDiner				= $data['diner'][0]['idDiner'];
-			$this->form_data->name 					= $data['assistant']['name'];
-			$this->form_data->surname 				= $data['assistant']['surname'];
-			$this->form_data->bornDate 				= date("Y-m-d", strtotime($data['assistant']['bornDate'] . ' +1 day'));
-			$this->form_data->street 				= $data['assistant']['street'];
-			$this->form_data->streetNumber 			= $data['assistant']['streetNumber'];
-			$this->form_data->floor 				= $data['assistant']['floor'];
-			$this->form_data->door 					= $data['assistant']['door'];
-			$this->form_data->zipcode 				= $data['assistant']['zipCode'];
-			$this->form_data->latitude 				= $data['assistant']['latitude'];
-			$this->form_data->longitude				= $data['assistant']['longitude'];
-			$this->form_data->phone 				= $data['assistant']['phone'];
-			$this->form_data->contactName 			= $data['assistant']['contactName'];
-			$this->form_data->scholarship 			= $data['assistant']['scholarship'];
-			$this->form_data->eatAtOwnHouse 		= $data['assistant']['eatAtOwnHouse'];
-			$this->form_data->economicSituation 	= $data['assistant']['economicSituation'];
-			$this->form_data->celiac 				= $data['assistant']['celiac'];
-			$this->form_data->diabetic 				= $data['assistant']['diabetic'];
-			$this->form_data->document 				= $data['assistant']['document'];
-			$this->load->view('assistant/save', $this->variables);
+			if ($data == !NULL )
+			{
+				$this->form_data->id					= $data['assistant']['idAssistant'];
+				$this->form_data->idDiner				= $data['diner'][0]['idDiner'];
+				$this->form_data->name 					= $data['assistant']['name'];
+				$this->form_data->surname 				= $data['assistant']['surname'];
+				$this->form_data->bornDate 				= date("Y-m-d", strtotime($data['assistant']['bornDate'] . ' +1 day'));
+				$this->form_data->street 				= $data['assistant']['street'];
+				$this->form_data->streetNumber 			= $data['assistant']['streetNumber'];
+				$this->form_data->floor 				= $data['assistant']['floor'];
+				$this->form_data->door 					= $data['assistant']['door'];
+				$this->form_data->zipcode 				= $data['assistant']['zipCode'];
+				$this->form_data->latitude 				= $data['assistant']['latitude'];
+				$this->form_data->longitude				= $data['assistant']['longitude'];
+				$this->form_data->phone 				= $data['assistant']['phone'];
+				$this->form_data->contactName 			= $data['assistant']['contactName'];
+				$this->form_data->scholarship 			= $data['assistant']['scholarship'];
+				$this->form_data->eatAtOwnHouse 		= $data['assistant']['eatAtOwnHouse'];
+				$this->form_data->economicSituation 	= $data['assistant']['economicSituation'];
+				$this->form_data->celiac 				= $data['assistant']['celiac'];
+				$this->form_data->diabetic 				= $data['assistant']['diabetic'];
+				$this->form_data->document 				= $data['assistant']['document'];
+			}
+			$this->load->view($this->strategy_context->get_url('assistant/save'), $this->variables);
 		}
 		else
 		{

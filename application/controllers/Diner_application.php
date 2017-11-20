@@ -65,9 +65,9 @@ class Diner_application extends CI_Controller {
 			if(($this->Diner_application_model->add($diner_application))!=NULL)
 			{
 				if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
-					$this->variables['message'] = $html_ok . 'Se enviÃ³ un mail con su contraseÃ±a!' . $html_close;
+					$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
 				else 
-					$this->variables['message'] = $html_error . 'OcurriÃ³ un error al enviar el mail, por favor revise el campo mail!' . $html_close;
+					$this->variables['message'] = $html_error . 'Ocurrió un error al enviar el mail, por favor revise el campo mail!' . $html_close;
 				$this->variables['reset'] = TRUE;
 			}
 			else
@@ -75,7 +75,7 @@ class Diner_application extends CI_Controller {
 				$this->variables['message'] = $html_error . 'Error al guardar' . $html_close;
 			}
 		}
-		$this->load->view('diner_application/save', $this->variables);
+		$this->load->view($this->strategy_context->get_url('diner_application/save'), $this->variables);
 	}
 	
 	/**
@@ -152,14 +152,14 @@ class Diner_application extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
-		$this->form_validation->set_rules('streetNumber', 'NÃºmero', 'trim|required');
+		$this->form_validation->set_rules('streetNumber', 'Número', 'trim|required');
 		$this->form_validation->set_rules('floor', 'Piso', 'trim');
 		$this->form_validation->set_rules('door', 'Departamento', 'trim');
 		$this->form_validation->set_rules('latitude', 'Latitud', 'trim');
 		$this->form_validation->set_rules('longitude', 'Longuitud', 'trim');
 		//$this->form_validation->set_rules('zipCode', 'CP', 'trim|required');
-		$this->form_validation->set_rules('phone', 'TelÃ©fono', 'trim|required');
-		$this->form_validation->set_rules('link', 'PÃ¡gina', 'trim');
+		$this->form_validation->set_rules('phone', 'Teléfono', 'trim|required');
+		$this->form_validation->set_rules('link', 'Página', 'trim');
 		$this->form_validation->set_rules('description', 'DescripciÃ³n', 'trim');
 		$this->form_validation->set_rules('user_name', 'Nombre del solicitante', 'trim|required');
 		$this->form_validation->set_rules('surname', 'Apellido del solicitante', 'trim|required');

@@ -25,7 +25,7 @@ class Sys_admin implements Role_interface
         $this->authorization_flags->diner_edit = TRUE;
         $this->authorization_flags->suc_maintenance = TRUE;	
         $this->authorization_flags->diner_application_form = TRUE;	
-        $this->authorization_flags->menu = TRUE;
+        $this->authorization_flags->home = TRUE;
     }
     public function get_authorization()
     {

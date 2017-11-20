@@ -14,10 +14,9 @@ class Guest implements Role_interface
 	
 	private $authorization_flags;
 	
-    public function _construct($user_role)
+    public function __construct()
     {
     	$this->CI =& get_instance();
-		//$this->load->library(array('role_interface'));
     	$this->authorization_flags = new stdClass();
         $this->authorization_flags->diner_approval = FALSE;
         $this->authorization_flags->donation_approval = FALSE;
@@ -25,7 +24,7 @@ class Guest implements Role_interface
         $this->authorization_flags->diner_edit = TRUE;
         $this->authorization_flags->suc_maintenance = FALSE;
         $this->authorization_flags->diner_application_form = TRUE;
-        $this->authorization_flags->menu = FALSE;
+        $this->authorization_flags->home = FALSE;
     }
     public function get_authorization()
     {

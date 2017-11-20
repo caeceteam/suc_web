@@ -42,7 +42,7 @@ class Diner extends CI_Controller {
 	public function index()
 	{
 		$this->variables['data-request-url'] = site_url('diner/render_table_response');
-		$this->load->view('diner/search', $this->variables);
+		$this->load->view($this->strategy_context->get_url('diner/search'), $this->variables);
 	}
 	
 	/**
@@ -123,24 +123,27 @@ class Diner extends CI_Controller {
 		{
 			$responseData = $this->Diner_model->search_by_id($id); 
 			$diner = $responseData['diner'];
-			$this->form_data->id			= $diner['idDiner'];		
-			$this->form_data->name			= $diner['name'];			
-			$this->form_data->state			= $diner['state'];			
-			$this->form_data->street		= $diner['street'];		
-			$this->form_data->streetNumber	= $diner['streetNumber'];	
-			$this->form_data->floor			= $diner['floor'];			
-			$this->form_data->door			= $diner['door'];			
-			$this->form_data->latitude		= $diner['latitude'];		
-			$this->form_data->longitude		= $diner['longitude'];		
-			$this->form_data->zipCode		= $diner['zipCode'];		
-			$this->form_data->phone			= $diner['phone'];			
-			$this->form_data->description	= $diner['description'];	
-			$this->form_data->link			= $diner['link'];			
-			$this->form_data->mail			= $diner['mail'];
-			$this->form_data->state			= $diner['state'];
-			$dinerPhotos = $responseData['photos'];
-			$this->form_data->photos		= $dinerPhotos;
-			$this->load->view('diner/save', $this->variables);
+			if ( $diner == !NULL )
+			{
+				$this->form_data->id			= $diner['idDiner'];		
+				$this->form_data->name			= $diner['name'];			
+				$this->form_data->state			= $diner['state'];			
+				$this->form_data->street		= $diner['street'];		
+				$this->form_data->streetNumber	= $diner['streetNumber'];	
+				$this->form_data->floor			= $diner['floor'];			
+				$this->form_data->door			= $diner['door'];			
+				$this->form_data->latitude		= $diner['latitude'];		
+				$this->form_data->longitude		= $diner['longitude'];		
+				$this->form_data->zipCode		= $diner['zipCode'];		
+				$this->form_data->phone			= $diner['phone'];			
+				$this->form_data->description	= $diner['description'];	
+				$this->form_data->link			= $diner['link'];			
+				$this->form_data->mail			= $diner['mail'];
+				$this->form_data->state			= $diner['state'];
+				$dinerPhotos = $responseData['photos'];
+				$this->form_data->photos		= $dinerPhotos;
+			}
+			$this->load->view($this->strategy_context->get_url('diner/save'), $this->variables);
 		}
 		else
 		{

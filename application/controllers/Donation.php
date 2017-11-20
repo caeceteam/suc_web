@@ -42,7 +42,7 @@ class Donation extends CI_Controller {
 	public function index()
 	{
 		$this->variables['data-request-url'] = site_url('donation/render_table_response');
-		$this->load->view('donation/search', $this->variables);
+		$this->load->view($this->strategy_context->get_url('donation/search'), $this->variables);
 	}
 	
 	/**
@@ -108,16 +108,19 @@ class Donation extends CI_Controller {
 		if($this->input->method() == "get")
 		{
 			$donation 							= $this->Donation_model->search_by_id($id); 
-			$this->form_data->id				= $donation['idDonation'];		
-			$this->form_data->idUserSender		= $donation['idUserSender'];	
-			$this->form_data->nameUserSender	= $donation['idUserSender'];
-			$this->form_data->idDinerReceiver	= $donation['idDinerReceiver'];			
-			$this->form_data->title				= $donation['title'];		
-			$this->form_data->description		= $donation['description'];	
-			$this->form_data->creationDate		= nice_date($donation['creationDate'], 'Y-m-d');
-			$this->form_data->creationTime		= substr($donation['creationDate'], -13, 5);
-			$this->form_data->status			= $donation['status'];
-			$this->load->view('donation/save', $this->variables);
+			if ( $donation == !NULL )
+			{
+				$this->form_data->id				= $donation['idDonation'];		
+				$this->form_data->idUserSender		= $donation['idUserSender'];	
+				$this->form_data->nameUserSender	= $donation['idUserSender'];
+				$this->form_data->idDinerReceiver	= $donation['idDinerReceiver'];			
+				$this->form_data->title				= $donation['title'];		
+				$this->form_data->description		= $donation['description'];	
+				$this->form_data->creationDate		= nice_date($donation['creationDate'], 'Y-m-d');
+				$this->form_data->creationTime		= substr($donation['creationDate'], -13, 5);
+				$this->form_data->status			= $donation['status'];
+			}
+			$this->load->view($this->strategy_context->get_url('donation/save'), $this->variables);
 		}
 		else
 		{
