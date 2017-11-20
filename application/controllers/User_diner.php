@@ -86,8 +86,8 @@ class User_diner extends CI_Controller
      */
     public function render_table_response ()
     {
-        $service_data = $this->User_diner_model->get_userdiner_by_page(
-                $this->input->post('current') - 1);
+        $service_data = $this->User_diner_model->get_user_diner_by_page_and_searchTxt(
+                $this->input->post('current') - 1, $this->input->post('searchPhrase'));
         $pagination_data = $service_data['pagination'];
         $user_diner_data = $service_data['users'];
         

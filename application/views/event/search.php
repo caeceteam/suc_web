@@ -79,7 +79,8 @@
         		deleteDialogTitle: "¿Está seguro en borrar este evento?",
         		deleteDialogText: "El evento se borrará permanentemente del sistema",
         		deleteDialogSuccess: "El evento se ha borrado del sistema.",
-        		searchTxt: "Buscar por nombre"
+        		searchTxt: "Buscar por nombre",
+        		showDelete: true
             });
 
         </script>

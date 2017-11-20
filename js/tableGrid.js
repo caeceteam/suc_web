@@ -18,21 +18,22 @@ function loadBootgrid(params) {
         	"commands": function(column, row) {
         		var editButtons = "<a title=\"Editar\" type=\"button\" href=\"" + params.editUrl + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> ";
               	var deleteButton = "<a title=\"Borrar\" id=\"sa-warning\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a> "; 
-        		
+        		var buttons = editButtons;
+              	
         		if (params.hasAssistants) {
         			var assistantButtons =  " <a title=\"Concurrentes\" type=\"button\" href=\"" + params.assistantUrl + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-accounts zmdi-hc-fw\"></span></a> ";
-        			return assistantButtons + editButtons + deleteButton;	
+        			return assistantButtons + buttons;	
         		}
         		if (params.isDonationGrid) {
         			if (row.state === "Aprobado") {
         				return "";
         			}
         		}
-        		if (!params.showDelete) {
-        			return editButtons;
+        		if (params.showDelete) {
+        			return buttons = buttons + deleteButton;
         		}
 
-        		return editButtons + deleteButton;            
+        		return buttons;            
         	}
         }
     }).on("loaded.rs.jquery.bootgrid", function () {
