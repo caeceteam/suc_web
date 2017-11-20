@@ -14,9 +14,10 @@
 
 		<?php $this->load->view('templates/header'); ?>
 			
-        <section id="main">
-                
-		    <section id="content">
+        <section id="main">        
+			  <?php $this->load->view($this->strategy_context->get_menu()); ?>
+        
+            <section id="content">
                 <div class="container">
                     <div class="c-header">
                         <h2 style="font-size: 25px;">Solicitud de Alta de Comedor</h2> <!--TODO CC: Pass style inline to css class-->
@@ -44,7 +45,7 @@
 										<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 											<div class="fg-line" data-id="street">
 												<input id="autocomplete" placeholder="" type="text" name="address" class="input-sm form-control fg-input">
-												<label class="fg-label">Calle y número</label>
+												<label class="fg-label">Calle y nÃºmero</label>
 												<input value="<?php echo ($reset) ? '' : set_value('street',$this->form_data->street); ?>" type="text" id="street" name="street" hidden>
 												<input value="<?php echo ($reset) ? '' : set_value('streetNumber',$this->form_data->streetNumber); ?>" type="text" id="streetNumber" name="streetNumber" hidden>
 												<input value="<?php echo ($reset) ? '' : set_value('latitude',$this->form_data->latitude); ?>" type="text" id="latitude" name="latitude" hidden>
@@ -68,20 +69,20 @@
 										<div class="fg-float form-group col-xs-2" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 											<div class="fg-line" data-id="phone">
 												<input value="<?php echo ($reset) ? '' : set_value('phone',$this->form_data->phone); ?>" type="text" name="phone" class="input-sm form-control fg-input">
-												<label class="fg-label">Teléfono</label>
+												<label class="fg-label">TelÃ©fono</label>
 											</div>
 										</div>
 										<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 											<div class="fg-line">
 												<input value="<?php echo ($reset) ? '' : set_value('link',$this->form_data->link); ?>" type="text" name="link" class="input-sm form-control fg-input">
-												<label class="fg-label">Página del comedor</label>
+												<label class="fg-label">PÃ¡gina del comedor</label>
 											</div>
 										</div>
 										<div class="fg-float form-group col-xs-6" style="padding-right: 0;"></div>
 										<div class="fg-float form-group col-xs-12" style="padding-left: 0;padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 											<div class="fg-line">
 												<textarea class="form-control auto-size" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
-												<label class="fg-label">Descripción del comedor</label>
+												<label class="fg-label">DescripciÃ³n del comedor</label>
 											</div>
 										</div>
 										<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
@@ -111,7 +112,7 @@
 										
 										<div class="fg-float form-group col-xs-12" style="padding-left: 0;">
 											<p><b>Subir foto del Comedor</b></p>
-											<p>Seleccione la imágen que desee subir del comedor.</p>
+											<p>Seleccione la imÃ¡gen que desee subir del comedor.</p>
 											
 											<div class="fileinput fileinput-new" data-provides="fileinput">
 												<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
@@ -171,11 +172,11 @@
 			$(".pmb-block button").click(function() {
 				var formData = new FormData($("form")[0]);
 				showConfirmDialog({
-					title: "¿Está seguro crear este comedor?",
-					text: "El comedor se grabará en el sistema",
+					title: "Â¿EstÃ¡ seguro crear este comedor?",
+					text: "El comedor se grabarÃ¡ en el sistema",
 					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: formData,
-					successText: "Se envió un mail con su contraseña.",
+					successText: "Se enviÃ³ un mail con su contraseÃ±a.",
 					failedText: "El comedor no pudo ser grabado en el sistema.",
 					redirectUrl: $("#redirect-url")[0].value,
 					containImage: true

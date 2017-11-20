@@ -15,7 +15,7 @@
 
         <section id="main">
 			
-			<?php $this->load->view('templates/menu'); ?>
+			<?php $this->load->view($this->strategy_context->get_menu()); ?>
 			
             <section id="content">
                 <div class="container">
@@ -67,10 +67,10 @@
         		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} concurrentes",
         		editUrl: "<?php echo site_url('admin_application/edit/') ?>",
         		deleteUrl: "<?php echo site_url('admin_application/delete/') ?>",
-        		deleteDialogTitle: "¿Está seguro en borrar al concurrente seleccionado?",
-        		deleteDialogText: "El concurrente se borrará permanentemente del sistema",
+        		deleteDialogTitle: "Â¿EstÃ¡ seguro en borrar al concurrente seleccionado?",
+        		deleteDialogText: "El concurrente se borrarÃ¡ permanentemente del sistema",
         		deleteDialogSuccess: "El concurrente se ha borrado del sistema.",
-            	showDelete: false
+            showDelete: false
             });
         </script>
     </body>

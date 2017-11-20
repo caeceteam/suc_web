@@ -15,7 +15,7 @@
 
         <section id="main">
 			
-			<?php $this->load->view('templates/menu'); ?>
+			<?php $this->load->view($this->strategy_context->get_menu()); ?>
 			
             <section id="content">
                 <div class="container">
@@ -74,8 +74,8 @@
         		requestUrl: $("#data-request-url")[0].value,
         		noResultText: "No hay tipos de alimentos cargados",
         		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} tipos de alimento",
-        		editUrl: "<?php echo site_url('food_type/edit/') ?>",
-        		deleteUrl: "<?php echo site_url('food_type/delete/') ?>",
+        		editUrl: "<?php echo site_url($this->strategy_context->get_url('food_type/edit/')) ?>",
+        		deleteUrl: "<?php echo site_url($this->strategy_context->get_url('food_type/delete/')) ?>",
         		deleteDialogTitle: "¿Está seguro en borrar este tipo de alimento?",
         		deleteDialogText: "El tipo de alimento se borrará permanentemente del sistema",
         		deleteDialogSuccess: "El tipo de alimento se ha borrado del sistema."

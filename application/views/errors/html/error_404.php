@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC - 404</title>
         <!-- CSS -->
-        <?php $this->load->view('templates/styles'); ?>
+		<link href="/suc_web/css/app.min.1.css" rel="stylesheet">
     </head>
     
     <body>
@@ -17,7 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<td class="img-flex" align="center" ><img src="http://res.cloudinary.com/caeceteam/image/upload/v1509310858/suc_ntekru.png" style="vertical-align:top;" width="200" height="100" alt="SUC"/></td>
                 <p></p>
 				<h2>Ups!</h2>
-                <p>PÃ¡gina no encontrada: Error 404</p>
+				<p></p>
+                <p>Página no encontrada: Error 404</p>
             </div>
         </div>
     </body>

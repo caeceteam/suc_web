@@ -42,7 +42,7 @@ class Food_type extends CI_Controller {
 	public function index()
 	{
 		$this->variables['data-request-url'] = site_url('food_type/render_table_response');
-		$this->load->view('food_type/search', $this->variables);
+		$this->load->view($this->strategy_context->get_url('food_type/search'), $this->variables);
 	}
 	
 	/**
@@ -90,7 +90,7 @@ class Food_type extends CI_Controller {
 		$this->_set_rules();
 		if ($this->input->method() == "get")
 		{
-			$this->load->view('food_type/save', $this->variables);
+			$this->load->view($this->strategy_context->get_url('food_type/save'), $this->variables);
 		}
 		else
 		{
@@ -132,14 +132,17 @@ class Food_type extends CI_Controller {
 		if($this->input->method() == "get")
 		{
 			$food_type = $this->Food_type_model->search_by_id($id);
-			$this->form_data->id 			= $food_type['idFoodType'];
-			$this->form_data->code 			= $food_type['code'];
-			$this->form_data->name 			= $food_type['name'];
-			$this->form_data->description 	= $food_type['description'];
-			$this->form_data->perishable	= $food_type['perishable'];
-			$this->form_data->celiac 		= $food_type['celiac'];
-			$this->form_data->diabetic 		= $food_type['diabetic'];
-			$this->load->view('food_type/save', $this->variables);
+			if ( $food_type == !NULL )
+			{
+				$this->form_data->id 			= $food_type['idFoodType'];
+				$this->form_data->code 			= $food_type['code'];
+				$this->form_data->name 			= $food_type['name'];
+				$this->form_data->description 	= $food_type['description'];
+				$this->form_data->perishable	= $food_type['perishable'];
+				$this->form_data->celiac 		= $food_type['celiac'];
+				$this->form_data->diabetic 		= $food_type['diabetic'];
+			}
+			$this->load->view($this->strategy_context->get_url('food_type/save'), $this->variables);
 		}
 		else
 		{
@@ -221,12 +224,12 @@ class Food_type extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('code', 'CÃ³digo', 'trim|required');
+		$this->form_validation->set_rules('code', 'Código', 'trim|required');
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-		$this->form_validation->set_rules('description', 'Descripcion', 'trim');
+		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 		$this->form_validation->set_rules('perishable', 'Con vencimiento', 'trim');
-		$this->form_validation->set_rules('celiac', 'Apto celÃ­aco', 'trim');
-		$this->form_validation->set_rules('diabetic', 'Apto diabÃ©tico', 'trim');
+		$this->form_validation->set_rules('celiac', 'Apto celíaco', 'trim');
+		$this->form_validation->set_rules('diabetic', 'Apto diabético', 'trim');
 	}
 }
 

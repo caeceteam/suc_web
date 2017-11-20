@@ -43,7 +43,7 @@ class Diner_food extends CI_Controller {
 	public function index()
 	{
 		$this->variables['data-request-url'] = site_url('diner_food/render_table_response');
-		$this->load->view('diner_food/search', $this->variables);
+		$this->load->view($this->strategy_context->get_url('diner_food/search'), $this->variables);
 	}
 	
 	/**
@@ -86,7 +86,7 @@ class Diner_food extends CI_Controller {
 		$this->_set_rules();
 		if ($this->input->method() == "get")
 		{
-			$this->load->view('diner_food/save', $this->variables);
+			$this->load->view($this->strategy_context->get_url('diner_food/save'), $this->variables);
 		}
 		else
 		{// Todo esto corresponde al POST
@@ -130,19 +130,22 @@ class Diner_food extends CI_Controller {
 		if($this->input->method() == "get")
 		{
 			$diner_food = $this->Diner_food_model->search_by_id($id);
-			$this->form_data->id 				= $diner_food['idDinerFood'];
-			$this->form_data->idFoodType 		= $diner_food['foodType']['idFoodType'];
-			$this->form_data->name 				= $diner_food['name'];
-			$this->form_data->endingDate		= $diner_food['endingDate'];
-			$this->form_data->expirationDate	= $diner_food['expirationDate'];
-			$this->form_data->creationDate		= $diner_food['creationDate'];
-			$this->form_data->unity 			= $diner_food['unity'];
-			$this->form_data->quantity 			= $diner_food['quantity'];
-			$this->form_data->name 				= $diner_food['name'];
-			$this->form_data->description 		= $diner_food['description'];
 			
+			if ($diner_food == !NULL)
+			{
+				$this->form_data->id 				= $diner_food['idDinerFood'];
+				$this->form_data->idFoodType 		= $diner_food['foodType']['idFoodType'];
+				$this->form_data->name 				= $diner_food['name'];
+				$this->form_data->endingDate		= $diner_food['endingDate'];
+				$this->form_data->expirationDate	= $diner_food['expirationDate'];
+				$this->form_data->creationDate		= $diner_food['creationDate'];
+				$this->form_data->unity 			= $diner_food['unity'];
+				$this->form_data->quantity 			= $diner_food['quantity'];
+				$this->form_data->name 				= $diner_food['name'];
+				$this->form_data->description 		= $diner_food['description'];
+			}
 			$this->_render_dropdown($this->form_data->idFoodType);
-			$this->load->view('diner_food/save', $this->variables);
+			$this->load->view($this->strategy_context->get_url('diner_food/save'), $this->variables);
 		}
 		else
 		{

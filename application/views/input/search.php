@@ -15,7 +15,7 @@
 
         <section id="main">
 			
-			<?php $this->load->view('templates/menu'); ?>
+			<?php $this->load->view($this->strategy_context->get_menu()); ?>
 			
             <section id="content">
                 <div class="container">
@@ -75,7 +75,7 @@
                     },
                     formatters: {
                         "commands": function(column, row) {
-                            return "<a type=\"button\" href=\"" + "<?php echo site_url('input/edit/') ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
+                            return "<a type=\"button\" href=\"" + "<?php echo site_url($this->strategy_context->get_url('input/edit/')) ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> " + 
                                 "<a id=\"sa-warning\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></a>";
                         }
                     }
@@ -84,7 +84,7 @@
 	                	$(this).find(".command-edit").off();
     				/* Executes after data is loaded and rendered */
     				$(this).find(".command-delete").click(function (e) {
-    					var deleteUrl = "<?php echo site_url('input/delete/') ?>" + this.getAttribute("data-row-id");
+    					var deleteUrl = "<?php echo site_url($this->strategy_context->get_url('input/delete/')) ?>" + this.getAttribute("data-row-id");
     					swal({
     						title: "¿Está seguro en borrar este insumo?",
     						text: "El insumo se borrará permanentemente del sistema",

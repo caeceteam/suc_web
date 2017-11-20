@@ -42,11 +42,11 @@ class Donation extends CI_Controller {
 	public function index()
 	{
 		$this->variables['data-request-url'] = site_url('donation/render_table_response');
-		$this->load->view('donation/search', $this->variables);
+		$this->load->view($this->strategy_context->get_url('donation/search'), $this->variables);
 	}
 	
 	/**
-	 * Funcion para retornar la informaci髇 a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la informaci贸n a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
 	public function render_table_response()
 	{
@@ -124,7 +124,7 @@ class Donation extends CI_Controller {
 			$this->output->set_status_header('500');
 			$this->variables['error-type'] = 'empty-field';
 			$data = array(
-				'reject_reason' 	=> 'Debe ingresar alg鷑 motivo de rechazo'
+				'reject_reason' 	=> 'Debe ingresar alg煤n motivo de rechazo'
 			);
 			$this->variables['error-fields'] = array_map("utf8_encode", $data);
 		} else {
@@ -143,7 +143,7 @@ class Donation extends CI_Controller {
 	}	
 	
 	/**
-	 * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -181,7 +181,7 @@ class Donation extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del donation para cuando se trata de una edici髇
+	 * @param 		integer 	$id id del donation para cuando se trata de una edici贸n
 	 * @return		object		$donation
 	 */
 	private function _get_post($accept, $id=NULL)
@@ -193,7 +193,7 @@ class Donation extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici髇
+	 * Funcion que inicializa las variables de los campos del formulario para la edici贸n
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -215,7 +215,7 @@ class Donation extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('description', 'Descripci髇', 'trim|required');
+		$this->form_validation->set_rules('description', 'Descripci贸n', 'trim|required');
 	}
 
 }

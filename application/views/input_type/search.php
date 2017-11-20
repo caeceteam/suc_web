@@ -15,7 +15,7 @@
 
         <section id="main">
 			
-			<?php $this->load->view('templates/menu'); ?>
+			<?php $this->load->view($this->strategy_context->get_menu()); ?>
 			
             <section id="content">
                 <div class="container">
@@ -74,8 +74,8 @@
         		requestUrl: $("#data-request-url")[0].value,
         		noResultText: "No hay tipos de insumos cargados",
         		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} tipos de insumo",
-        		editUrl: "<?php echo site_url('input_type/edit/') ?>",
-        		deleteUrl: "<?php echo site_url('input_type/delete/') ?>",
+        		editUrl: "<?php echo site_url($this->strategy_context->get_url('input_type/edit/')) ?>",
+        		deleteUrl: "<?php echo site_url($this->strategy_context->get_url('input_type/delete/')) ?>",
         		deleteDialogTitle: "¿Está seguro en borrar este tipo de insumo?",
         		deleteDialogText: "El tipo de insumo se borrará permanentemente del sistema",
         		deleteDialogSuccess: "El tipo de insumo se ha borrado del sistema."
