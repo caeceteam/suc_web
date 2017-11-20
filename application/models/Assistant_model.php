@@ -88,6 +88,18 @@ class Assistant_model extends CI_Model {
 		$url = 'api/assistants?idDiner=' . $idDiner . '&page=' . $page;
 		return $this->search($url);
 	}
+	
+	/**
+	 * Consulta de concurrentes por página para el listado
+	 * @param 	string 	$page
+	 * 			string	$idDiner
+	 * 			string  $searchTxt
+	 */
+	public function get_assistants_by_page_and_idDiner_and_searchTxt($page, $idDiner, $searchTxt)
+	{
+		$url = 'api/assistants?idDiner=' . $idDiner . '&page=' . $page . '&surname=' . $searchTxt;
+		return $this->search($url);
+	}	
 
 	/**
 	 * Consulta de concurrentes por página para el listado

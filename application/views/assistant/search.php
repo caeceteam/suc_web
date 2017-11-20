@@ -79,7 +79,8 @@
         		deleteUrl: "<?php echo site_url('assistant/delete/') ?>",
         		deleteDialogTitle: "¿Está seguro en borrar al concurrente seleccionado?",
         		deleteDialogText: "El concurrente se borrará permanentemente del sistema",
-        		deleteDialogSuccess: "El concurrente se ha borrado del sistema."
+        		deleteDialogSuccess: "El concurrente se ha borrado del sistema.",
+        		searchTxt: "Buscar por apellido"
             });
 
         </script>

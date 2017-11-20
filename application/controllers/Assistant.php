@@ -50,7 +50,7 @@ class Assistant extends CI_Controller {
 	 */
 	public function render_table_response($idDiner=NULL)
 	{
-		$service_data = $this->Assistant_model->get_assistants_by_page_and_idDiner($this->input->post('current') - 1, $idDiner);
+		$service_data = $this->Assistant_model->get_assistants_by_page_and_idDiner_and_searchTxt($this->input->post('current') - 1, $idDiner, $this->input->post('searchPhrase'));
 		$pagination_data = $service_data['pagination'];
 		$assistants_data = $service_data['assistants'];
 		
