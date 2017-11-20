@@ -14,10 +14,10 @@ class Diner_admin implements Role_interface
 	
 	private $authorization_flags;
 	
-    public function _construct($user_role)
+    public function __construct()
     {
     	$this->CI =& get_instance();
-    	//$this->load->library(array('role_interface'));
+    	
     	$this->authorization_flags = new stdClass();
         $this->authorization_flags->diner_approval = FALSE;
         $this->authorization_flags->donation_approval = TRUE;

@@ -41,7 +41,18 @@ class Admin_application extends CI_Controller {
 	public function index()
 	{
 		$this->render_table(NULL, $this->Diner_application_model->search(NULL,DINER_PENDING)['diners']);
-		$this->load->view('admin_application/search', $this->variables);
+		
+		//Valido que el usuario pueda ver la URL
+		$url = 'admin_application/search';
+		if ( $this->strategy_context->validate_url($url) == FALSE )
+		{
+			//Muestro error
+			$this->load->view('errors/html/error_403');
+		}else{
+			//Cargo vista
+			$this->load->view($url, $this->variables);
+		}
+		
 	}
 	
 	/**

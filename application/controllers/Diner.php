@@ -63,14 +63,34 @@ class Diner extends CI_Controller {
 		}
 	
 		$render_data['rows'] = [];
-		foreach ($diners_data as $diner)
+		
+		if ( $this->session->role == SYS_ADMIN ) 
 		{
-			$row_data['id'] 	= $diner['idDiner'];
-			$row_data['name'] 	= $diner['name'];
-			$row_data['street'] = $diner['street'] . ' ' . $diner['streetNumber'];
-			array_push($render_data['rows'], $row_data);
+			// Administrador del sistema, puede ver todos los comedores
+			foreach ($diners_data as $diner)
+			{
+				$row_data['id'] 	= $diner['idDiner'];
+				$row_data['name'] 	= $diner['name'];
+				$row_data['street'] = $diner['street'] . ' ' . $diner['streetNumber'];
+				array_push($render_data['rows'], $row_data);
+			}
+			echo json_encode($render_data, TRUE);
+		}else{
+			// Es administrador del comedor, traer el/los comedores 
+			// que administra
+			foreach ($diners_data as $diner)
+			{	
+				if ( $diner['idDiner'] == $this->session->idDiner )
+				{
+					$row_data['id'] 	= $diner['idDiner'];
+					$row_data['name'] 	= $diner['name'];
+					$row_data['street'] = $diner['street'] . ' ' . $diner['streetNumber'];
+					array_push($render_data['rows'], $row_data);
+				}
+			}
+			echo json_encode($render_data, TRUE);
 		}
-		echo json_encode($render_data, TRUE);
+		
 	}
 	
 	/**
