@@ -78,7 +78,9 @@
         		deleteUrl: "<?php echo site_url('input_type/delete/') ?>",
         		deleteDialogTitle: "¿Está seguro en borrar este tipo de insumo?",
         		deleteDialogText: "El tipo de insumo se borrará permanentemente del sistema",
-        		deleteDialogSuccess: "El tipo de insumo se ha borrado del sistema."
+        		deleteDialogSuccess: "El tipo de insumo se ha borrado del sistema.",
+        		searchTxt: "Buscar por nombre",
+            	showDelete: true
             });
 
         </script>

@@ -68,7 +68,7 @@ class Input_type_model extends CI_Model {
 	// TODO: Cambiar búsqueda por name por búsqueda genérica
 	public function get_inputtypes_by_page_and_search($page, $searchTxt)
 	{
-		$url = 'api/inputtypes?page=' . $page . '&code=' . $searchTxt;
+		$url = 'api/inputtypes?page=' . $page . '&name=' . $searchTxt;
 		return $this->search($url);
 	}
 
