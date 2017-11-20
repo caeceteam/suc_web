@@ -46,10 +46,10 @@
 				<li><a href="<?php echo base_url('diner');?>"> Listado</a></li>
 			    <li><a href="<?php echo base_url('Map_diners'); ?>">Mapa de comedoe</a></li>
 				<li class="sub-menu">
-                	<a href="" data-ma-action="submenu-toggle">Administraci√≥n</a>
+                	<a href="" data-ma-action="submenu-toggle">Administracion</a>
 
                     <ul>
-                        <li><a href="<?php echo base_url('diner_food');?>"> Almac√©n </a></li>
+                        <li><a href="<?php echo base_url('diner_food');?>"> AlmacÈn </a></li>
 
                         <li><a href="<?php echo base_url('diner_input');?>"> Insumos </a></li>
             			<li><a href="<?php echo base_url('event');?>"> Eventos</a></li>
@@ -66,7 +66,7 @@
 				<!--<li><a href="colors.html">Insumos</a></li>-->
 				<li><a href="<?php echo base_url('input_type');?>">Tipo de Insumos</a></li>
 				<li><a href="<?php echo base_url('food_type');?>">Tipo de Alimento</a></li>
-				<li><a href="">Asignaci√≥n de Roles</a></li>
+				<li><a href="">AsignaciÛn de Roles</a></li>
 			</ul>
         </li>
       
