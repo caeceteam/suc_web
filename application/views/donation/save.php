@@ -59,51 +59,67 @@
                                 <div class="pmbb-header">
                                     <h4 style="margin-left: 30px;margin-top: 20px;margin-bottom: 25px;"><i class="zmdi zmdi-account m-r-5"></i>Items de la donación</h4>
 								</div>
-                    		</div>
-                    		
-                    		<div class="table-responsive">
-                            	<table class="table table-hover">
-	                            	<thead>
-	                                    <tr>
-	                                        <th>Descripción</th>
-	                                        <th>Cantidad</th>
-	                                    </tr>
-	                                </thead>
-                                	<tbody>
-                                    	<?php 
-											foreach($this->form_data->items as $donation_item)
-											{
-												echo '<tr>
-        											<td>' . $donation_item['description'] . '</td>
-        											<td>' . $donation_item['quantity'] . '</td>
-        										</tr>';
-											}
-										?>
-                                    </tbody>
-                            	</table>
-							</div>
-                    	</div>
-                    
-                        <div class="card-body card-padding">
-                            <div class="row">
-                                <div class="card-body card-padding">
 								
+								<div class="pmbb-body p-l-30" style="padding-left: 50px !important;padding-right: 40px !important;">
+									<div class="table-responsive">
+		                            	<table class="table table-hover">
+			                            	<thead>
+			                                    <tr>
+			                                        <th>Descripción</th>
+			                                        <th>Cantidad</th>
+			                                    </tr>
+			                                </thead>
+		                                	<tbody>
+		                                    	<?php 
+													foreach($this->form_data->items as $donation_item)
+													{
+														echo '<tr>
+		        											<td>' . $donation_item['description'] . '</td>
+		        											<td>' . $donation_item['quantity'] . '</td>
+		        										</tr>';
+													}
+												?>
+		                                    </tbody>
+		                            	</table>
+		                            	
+		                            	<form class="donation-form" role="form" action="<?php echo $action; ?>" method="POST">
+											<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
+											<?php echo form_hidden('idUserSender', ($reset) ? '' : set_value('idUserSender',$this->form_data->idUserSender)); ?>
+											<?php echo form_hidden('idDinerReceiver', ($reset) ? '' : set_value('idDinerReceiver',$this->form_data->idDinerReceiver)); ?>
+											<?php echo form_hidden('title', ($reset) ? '' : set_value('title',$this->form_data->title)); ?>
+											<?php echo form_hidden('description', ($reset) ? '' : set_value('description',$this->form_data->description)); ?>
+											<?php echo form_hidden('creationDate', ($reset) ? '' : set_value('creationDate',$this->form_data->creationDate)); ?>
+										
+											<div class="pmb-block" id="reject-reason-block" hidden style="margin-top: 65px; margin-bottom: 30px;">
+												<div class="form-group fg-float">
+													<div class="fg-line" data-id="reject_reason">
+														<textarea name="reject_reason" id="reject-reason-textarea" class="form-control auto-size"></textarea>
+														<label class="fg-label">Motivo de rechazo</label>
+													</div>
+												</div>
+					
+												<a name="rechazar" value="rechazar" id="reject-reason-accept-button" class="btn palette-Green bg">Aceptar</a>
+												<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>	
+											</div>
+												
+					                        <div class="pmb-block" id="buttons-block" style="margin-top: 65px; margin-bottom: 30px;">
+												<div class="btn-colors btn-demo">
+													<button type="submit" name="aprobar" value="aprobar" id="approve-button" class="btn palette-Green bg">Aprobar</button>
+													<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
+													<a id="cancel-button" href="<?php echo site_url('donation')?>" class="btn btn-primary">Cancelar</a>
+												</div>
+					                        </div>
+										</form> 
+										
 										<?php $this->load->view('templates/alerts'); ?>
-										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Aceptar</button>
-										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Rechazar</button>
-										<a href="<?php echo site_url('donation'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
-										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
-										<?php echo form_hidden('idUserSender', ($reset) ? '' : set_value('idUserSender',$this->form_data->idUserSender)); ?>
-										<?php echo form_hidden('idDinerReceiver', ($reset) ? '' : set_value('idDinerReceiver',$this->form_data->idDinerReceiver)); ?>
-									</form>								
-                                </div>
-                            </div>
-							
-                            <br/>
-							<br/>
-                        </div>
+									</div>										
+								
+								</div>
+														
+                    		</div>
+                    	</div>
 
-                        <br/>
+						
                     </div>
                 </div>
             </section>
@@ -112,6 +128,8 @@
 			
 			<input hidden id="redirect-url" value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
 			<input hidden id="request-action" value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
+			<input hidden id="reject-url" value="<?php echo isset($_ci_vars['reject-url']) ? $_ci_vars['reject-url'] : '' ?>"></input>
+
         </section>
 
         <!-- Page Loader -->
@@ -124,23 +142,49 @@
         </div>
 
 		<?php $this->load->view('templates/scripts'); ?>
-		<script src="<?php echo base_url('js/inputTypeForm.js')?>"></script>
 		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
-		<script>
-			$('.donation-form').submit(function() {
+		<script type="text/javascript">
+			$("#reject-button").click(function() {
+				$("#buttons-block").hide();
+				$("#reject-reason-block").show();
+			});
+		
+			$("#reject-reason-cancel-button").click(function() {
+				$("#buttons-block").show();
+				$("#reject-reason-block").hide();
+				$("#reject-reason-textarea").val("");
+				$("#reject-reason-textarea").attr("style", "overflow: hidden; word-wrap: break-word;")
+			});
+
+			$(".donation-form").submit(function() {
 				showConfirmDialog({
-					title: "Se grabarán las acciones",
-					text: "",
-					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action : $("form")[0].action + "/" + $("input[name='id']")[0].value,
+					title: "¿Está seguro que desea aprobar esta solicitud?",
+					text: "La solicitud será aprobada en el sistema",
+					requestUrl: $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
-					successText: "Se ha aprobado/rechazado la donación.",
-					failedText: "No se pudo aprobar/rechazar la donación.",
-					redirectUrl: $("#redirect-url")[0].value
+					successText: "La solicitud ha sido aprobada.",
+					failedText: "Hubo un error al aprobar la solicitud.",
+					redirectUrl: $("#redirect-url")[0].value,
+					successTitle: "Aprobado"
 				});
 				return false;
-			}); 
-        </script>
+			});
+
+			$("#reject-reason-accept-button").click(function() {
+				showConfirmDialog({
+					title: "¿Está seguro que desea rechazar esta solicitud?",
+					text: "La solicitud será rechazada en el sistema",
+					requestUrl: $("#reject-url")[0].value,
+					formData: $("form").serializeArray(),
+					successText: "La solicitud ha sido rechazada.",
+					failedText: "Hubo un error al rechazar la solicitud.",
+					redirectUrl: $("#redirect-url")[0].value,
+					successTitle: "Rechazado"
+				});
+				return false;
+			});
+		</script>
         
     </body>
 </html>

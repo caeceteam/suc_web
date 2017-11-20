@@ -70,7 +70,7 @@ class Admin_application extends CI_Controller {
 	}	
 	
 	/**
-	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion para acepta la solicitud
 	 * @param		string	$id
 	 * @return void
 	 */
