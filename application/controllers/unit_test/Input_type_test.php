@@ -1,8 +1,8 @@
 <?php
-class input_type_test extends CI_Controller {
+class Input_type_test extends CI_Controller {
 
 	/**
-	* input_type_test se usa para probar el ABPM de Tipos de insumos
+	* Input_type_test se usa para probar el ABPM de Tipos de insumos
 	*
 	*/
     //Id
@@ -10,7 +10,7 @@ class input_type_test extends CI_Controller {
 	public $id_inc_test    = 192;
 	public $id_edit_test   = 1;
 	
-	//Test Creaci髇
+	//Test Creaci贸n
 	public $name_test        = 'Utiles escolares' ;
 	public $code_test        = 'UTIL';
 	public $description_test = 'Utiles escolares';
@@ -21,7 +21,7 @@ class input_type_test extends CI_Controller {
 	public $description_test_dup = 'Hojas de carpeta';
 	public $code_test_inc_edi;
 	
-	//Test Edici髇
+	//Test Edici贸n
 	public $name_test_edi        = 'Utiles escolares';
 	public $code_test_edi        = 'UTIL';
 	public $description_test_edi = 'Utiles Escolaes basicos' ;
@@ -151,14 +151,14 @@ class input_type_test extends CI_Controller {
 	}
 	
 	/**
-	 * Testeo Edicion - Testeo para la edici髇 de documentos
+	 * Testeo Edicion - Testeo para la edici贸n de documentos
 	 * @return void
 	 */
 	public function editar($tit_test)
 	{
 	    $input_type = new stdClass();
 	
-	    //Inicializaci髇 variables Test
+	    //Inicializaci贸n variables Test
 	    $input_type->id           = $this->id_test;
 		$input_type->code         = $this->code_test_edi;
 		$input_type->name         = $this->name_test_edi;
@@ -173,13 +173,13 @@ class input_type_test extends CI_Controller {
 	
 	
 	/**
-	 * Testeo Edicion - Edici髇 erronea
+	 * Testeo Edicion - Edici贸n erronea
 	 * @return void
 	 */
 	public function editar_inc($tit_test)
 	{
 	    $input_type = new stdClass();
-	    //Inicializaci髇 variables Test   
+	    //Inicializaci贸n variables Test   
 	    $input_type->id           = $this->id_test;
 		$input_type->code         = $this->code_test_inc_edi;
 		$input_type->name         = $this->name_test_edi;
