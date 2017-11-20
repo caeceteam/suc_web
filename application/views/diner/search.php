@@ -61,7 +61,8 @@
         		deleteDialogText: "El comedor se borrará permanentemente del sistema",
         		deleteDialogSuccess: "El comedor se ha borrado del sistema.",
         		hasAssistants: true,
-        		assistantUrl: "<?php echo site_url('/assistant/') ?>"
+        		assistantUrl: "<?php echo site_url('/assistant/') ?>",
+        		searchTxt: "Buscar por nombre"
             });
         </script>
     </body>

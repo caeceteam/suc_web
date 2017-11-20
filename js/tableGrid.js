@@ -4,7 +4,7 @@ function loadBootgrid(params) {
     	url : params.requestUrl,
     	labels: {
         	noResults: params.noResultText,
-            search: "Buscar",
+            search: params.searchTxt == null ? "Buscar" : params.searchTxt,
             infos: params.infos
         },
         css: {
