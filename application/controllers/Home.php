@@ -49,9 +49,9 @@ class Home extends CI_Controller {
 		$this->form_data->diner_pending_approvals = $this->get_diner_pending_approvals();
 		$this->form_data->donation_pending_approvals = $this->get_donation_pending_approvals();
 		$diner = $this->Diner_model->search_by_id($this->session->idDiner); 
-		$this->form_data->diner_name = $diner['diner']['name'];
-		$this->form_data->diner_address = $diner['diner']['street'].' '.$diner['diner']['streetNumber'];
-		$this->form_data->diner_phone = $diner['diner']['phone'];
+		$this->form_data->diner_name = $diner['name'];
+		$this->form_data->diner_address = $diner['street'].' '.$diner['streetNumber'];
+		$this->form_data->diner_phone = $diner['phone'];
 		$this->form_data->pending_events = $this->get_pending_events($this->session->idDiner);
 		$this->form_data->assistants_count = $this->get_assistants_count($this->session->idDiner);
 		$this->form_data->users_diners_count = $this->get_users_diners_count($this->session->idDiner);

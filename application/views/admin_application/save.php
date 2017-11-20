@@ -144,7 +144,6 @@
 				$("#reject-reason-textarea").val("");
 				$("#reject-reason-textarea").attr("style", "overflow: hidden; word-wrap: break-word;")
 			});
-
 			$(".diner-application-form").submit(function() {
 				showConfirmDialog({
 					title: "¿Está seguro que desea aprobar esta solicitud?",
@@ -158,7 +157,6 @@
 				});
 				return false;
 			});
-
 			$("#reject-reason-accept-button").click(function() {
 				showConfirmDialog({
 					title: "¿Está seguro que desea rechazar esta solicitud?",
