@@ -28,7 +28,7 @@
                     	<div class="pm-body clearfix">
                             <div class="pmb-block">
                                 <div class="pmbb-header">
-                                    <h4 style="margin-left: 30px;margin-top: 20px;margin-bottom: 25px;"><i class="zmdi zmdi-account m-r-5"></i>Información de la donación</h4>
+                                    <h4 style="margin-left: 30px;margin-top: 20px;margin-bottom: 25px;"><i class="zmdi zmdi-info m-r-5"></i>Información de la donación</h4>
 								</div>
                                 <div class="pmbb-body p-l-30" style="padding-left: 50px !important;padding-right: 40px !important;">
 									<div class="pmbb-view" style="width: 40%; float:left">
@@ -57,7 +57,7 @@
                     	<div class="pm-body clearfix">
                             <div class="pmb-block">
                                 <div class="pmbb-header">
-                                    <h4 style="margin-left: 30px;margin-top: 20px;margin-bottom: 25px;"><i class="zmdi zmdi-account m-r-5"></i>Items de la donación</h4>
+                                    <h4 style="margin-left: 30px;margin-top: 20px;margin-bottom: 25px;"><i class="zmdi zmdi-format-list-bulleted m-r-5"></i>Items de la donación</h4>
 								</div>
 								
 								<div class="pmbb-body p-l-30" style="padding-left: 50px !important;padding-right: 40px !important;">
