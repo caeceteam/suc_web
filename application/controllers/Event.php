@@ -43,7 +43,7 @@ class Event extends CI_Controller {
 	public function index()
 	{
 		$this->variables['data-request-url'] = site_url('event/render_table_response');
-		$this->load->view('event/search', $this->variables);
+		$this->load->view($this->strategy_context->get_url('event/search'), $this->variables);
 	}
 	
 	/**
@@ -105,7 +105,7 @@ class Event extends CI_Controller {
 		$this->_set_rules();
 		if ($this->input->method() == "get")
 		{
-			$this->load->view('event/save', $this->variables);
+			$this->load->view($this->strategy_context->get_url('event/save'), $this->variables);
 		}
 		else
 		{// Todo esto corresponde al POST
@@ -154,22 +154,26 @@ class Event extends CI_Controller {
 		if($this->input->method() == "get")
 		{
 			$event                       		= $this->Event_model->search_by_id($id);
-			$this->form_data->id             	= $event['idEvent'];
-			$this->form_data->name 			 	= $event['name'];
-			$this->form_data->street 		 	= $event['street'];
-			$this->form_data->streetNumber 		= $event['streetNumber'];
-			$this->form_data->floor 			= $event['floor'];
-			$this->form_data->door 				= $event['door'];
-			$this->form_data->phone 			= $event['phone'];
-			$this->form_data->latitude 			= $event['latitude'];
-			$this->form_data->longitude			= $event['longitude'];
-			$this->form_data->zipCode 			= $event['zipCode'];
-			$this->form_data->description 		= $event['description'];
-			$this->form_data->link 				= $event['link'];
-			$this->form_data->date 				= nice_date($event['date'], 'Y-m-d');
-			$this->form_data->time				= substr($event['date'], -13, 5);
-			$this->form_data->photos			= $event ['photos'];
-			$this->load->view('event/save', $this->variables);
+			
+			if ( $event == !NULL )
+			{
+				$this->form_data->id             	= $event['idEvent'];
+				$this->form_data->name 			 	= $event['name'];
+				$this->form_data->street 		 	= $event['street'];
+				$this->form_data->streetNumber 		= $event['streetNumber'];
+				$this->form_data->floor 			= $event['floor'];
+				$this->form_data->door 				= $event['door'];
+				$this->form_data->phone 			= $event['phone'];
+				$this->form_data->latitude 			= $event['latitude'];
+				$this->form_data->longitude			= $event['longitude'];
+				$this->form_data->zipCode 			= $event['zipCode'];
+				$this->form_data->description 		= $event['description'];
+				$this->form_data->link 				= $event['link'];
+				$this->form_data->date 				= nice_date($event['date'], 'Y-m-d');
+				$this->form_data->time				= substr($event['date'], -13, 5);
+				$this->form_data->photos			= $event ['photos'];
+			}
+			$this->load->view($this->strategy_context->get_url('event/save'), $this->variables);
 		}
 		else
 		{

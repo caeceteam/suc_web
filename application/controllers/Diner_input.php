@@ -39,7 +39,7 @@ class Diner_input extends CI_Controller {
 	public function index()
 	{
 		$this->variables['data-request-url'] = site_url('diner_input/render_table_response');
-		$this->load->view('diner_input/search', $this->variables);
+		$this->load->view($this->strategy_context->get_url('diner_input/search'), $this->variables);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ class Diner_input extends CI_Controller {
 		$this->_set_rules();
 		if ($this->input->method() == "get")
 		{
-			$this->load->view('diner_input/save', $this->variables);
+			$this->load->view($this->strategy_context->get_url('diner_input/save'), $this->variables);
 		}
 		else
 		{// Todo esto corresponde al POST
@@ -123,16 +123,19 @@ class Diner_input extends CI_Controller {
 		if($this->input->method() == "get")
 		{
 			$diner_input = $this->Diner_input_model->search_by_id($id);
-			$this->form_data->id 			= $diner_input['idDinerInput'];
-			$this->form_data->idInputType 	= $diner_input['inputType']['idInputType'];
-			$this->form_data->name 			= $diner_input['name'];
-			$this->form_data->size 			= $diner_input['size'];
-			$this->form_data->genderType 	= $diner_input['genderType'];
-			$this->form_data->quantity 		= $diner_input['quantity'];
-			$this->form_data->name 			= $diner_input['name'];
-			$this->form_data->description 	= $diner_input['description'];
-			$this->_render_dropdown($this->form_data->idInputType);
-			$this->load->view('diner_input/save', $this->variables);
+			if ($diner_input == !NULL)
+			{
+				$this->form_data->id 			= $diner_input['idDinerInput'];
+				$this->form_data->idInputType 	= $diner_input['inputType']['idInputType'];
+				$this->form_data->name 			= $diner_input['name'];
+				$this->form_data->size 			= $diner_input['size'];
+				$this->form_data->genderType 	= $diner_input['genderType'];
+				$this->form_data->quantity 		= $diner_input['quantity'];
+				$this->form_data->name 			= $diner_input['name'];
+				$this->form_data->description 	= $diner_input['description'];
+				$this->_render_dropdown($this->form_data->idInputType);
+			}
+			$this->load->view($this->strategy_context->get_url('diner_input/save'), $this->variables);
 		}
 		else
 		{

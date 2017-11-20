@@ -15,7 +15,7 @@
 
         <section id="main">
 			
-			<?php $this->load->view('templates/menu'); ?>
+			<?php $this->load->view($this->strategy_context->get_menu()); ?>
 			
             <section id="content">
                 <div class="container">
@@ -74,8 +74,8 @@
         		requestUrl: $("#data-request-url")[0].value,
         		noResultText: "No hay eventos creados todavía para este comedor",
         		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} eventos",
-        		editUrl: "<?php echo site_url('event/edit/') ?>",
-        		deleteUrl: "<?php echo site_url('event/delete/') ?>",
+        		editUrl: "<?php echo site_url($this->strategy_context->get_url('event/edit/')) ?>",
+        		deleteUrl: "<?php echo site_url($this->strategy_context->get_url('event/delete/')) ?>",
         		deleteDialogTitle: "¿Está seguro en borrar este evento?",
         		deleteDialogText: "El evento se borrará permanentemente del sistema",
         		deleteDialogSuccess: "El evento se ha borrado del sistema.",
