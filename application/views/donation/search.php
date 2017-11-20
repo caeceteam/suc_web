@@ -31,7 +31,7 @@
 						            <th data-column-id="nameUserSender" data-order="desc">Usuario</th>
 									<th data-column-id="id" data-visible="false">id</th>
 									<th data-column-id="creationDate">Fecha</th>
-									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Tratar</th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Ir a solicitud</th>
 						        </tr>
 						    </thead>
 						</table>

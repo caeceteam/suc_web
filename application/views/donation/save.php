@@ -21,52 +21,73 @@
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2>Tratar Donación</h2>
+                        <h2>Solicitud de donación</h2>
                     </div>
 
                     <div class="card">
+                    	<div class="pm-body clearfix">
+                            <div class="pmb-block">
+                                <div class="pmbb-header">
+                                    <h4 style="margin-left: 30px;margin-top: 20px;margin-bottom: 25px;"><i class="zmdi zmdi-account m-r-5"></i>Información de la donación</h4>
+								</div>
+                                <div class="pmbb-body p-l-30" style="padding-left: 50px !important;padding-right: 40px !important;">
+									<div class="pmbb-view" style="width: 40%; float:left">
+                                        <dl class="dl-horizontal" >
+                                            <dt>Título</dt>
+                                            <dd style="margin-left: 150px;"><?php echo utf8_decode($this->form_data->title); ?></dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Donado por</dt>
+                                            <dd style="margin-left: 150px;"><?php echo utf8_decode($this->form_data->nameUserSender); ?></dd>
+                                        </dl>
+                                    </div>
+                                    <div class="pmbb-view" style="width: 60%; float:right">
+                                        <dl class="dl-horizontal">
+                                            <dt>Fecha de creación</dt>
+                                            <dd style="margin-left: 150px;"><?php echo $this->form_data->creationDate.' '.$this->form_data->creationTime; ?></dd>
+                                        </dl>
+                                        <dl class="dl-horizontal">
+                                            <dt>Descripción</dt>
+                                            <dd style="margin-left: 160px;"><?php echo utf8_decode($this->form_data->description); ?></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    	<div class="pm-body clearfix">
+                            <div class="pmb-block">
+                                <div class="pmbb-header">
+                                    <h4 style="margin-left: 30px;margin-top: 20px;margin-bottom: 25px;"><i class="zmdi zmdi-account m-r-5"></i>Items de la donación</h4>
+								</div>
+                    		</div>
+                    		
+                    		<div class="table-responsive">
+                            	<table class="table table-hover">
+	                            	<thead>
+	                                    <tr>
+	                                        <th>Descripción</th>
+	                                        <th>Cantidad</th>
+	                                    </tr>
+	                                </thead>
+                                	<tbody>
+                                    	<?php 
+											foreach($this->form_data->items as $donation_item)
+											{
+												echo '<tr>
+        											<td>' . $donation_item['description'] . '</td>
+        											<td>' . $donation_item['quantity'] . '</td>
+        										</tr>';
+											}
+										?>
+                                    </tbody>
+                            	</table>
+							</div>
+                    	</div>
+                    
                         <div class="card-body card-padding">
-                            <small>Apruebe o rechace la donación.</small>
-
-                            <br/><br/>
-
                             <div class="row">
                                 <div class="card-body card-padding">
 								
-									<form role="form" action="<?php echo $action; ?>" class="donation-form" method="POST" enctype="multipart/form-data">
-										<div class="form-group fg-float col-xs-6" style="padding-left: 0;">
-											<div class="fg-line" data-id="name">
-												<input type="text" id="title" name="title" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('title', utf8_decode($this->form_data->title)); ?>">
-												<label class="fg-label">Título</label>
-											</div>
-										</div>
-										<div class="form-group fg-float col-xs-6" style="padding-left: 0;">
-											<div class="fg-line" data-id="name">
-												<input type="text" id="nameUserSender" name="nameUserSender" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('nameUserSender', utf8_decode($this->form_data->nameUserSender)); ?>">
-												<label class="fg-label">Donado por</label>
-											</div>
-										</div>
-										<br/>
-										<div class="form-group fg-float col-xs-6" style="padding-left: 0;">
-											<div class="fg-line" data-id="creationDate">
-												<input type="text" id="creationDate" name="creationDate" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('creationDate', $this->form_data->creationDate); ?>">
-												<label class="fg-label">Fecha de creación</label>
-											</div>
-										</div>
-										<div class="form-group fg-float col-xs-6" style="padding-left: 0;">
-											<div class="fg-line" data-id="creationTime">
-												<input type="text" id="creationTime" name="creationTime" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('creationTime', $this->form_data->creationTime); ?>">
-												<label class="fg-label">Hora de creación</label>
-											</div>
-										</div>
-										<br/>
-										<div class="form-group fg-float">
-											<div class="fg-line" data-id="description">
-												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description', utf8_decode($this->form_data->description)); ?></textarea>
-												<label class="fg-label">Descripción</label>
-											</div>
-										</div>
-										</br>
 										<?php $this->load->view('templates/alerts'); ?>
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Aceptar</button>
 										<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Rechazar</button>
@@ -119,7 +140,6 @@
 				});
 				return false;
 			}); 
-			
         </script>
         
     </body>

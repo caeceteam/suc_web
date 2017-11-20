@@ -110,13 +110,15 @@ class Donation extends CI_Controller {
 			$donation 							= $this->Donation_model->search_by_id($id); 
 			$this->form_data->id				= $donation['idDonation'];		
 			$this->form_data->idUserSender		= $donation['idUserSender'];	
-			$this->form_data->nameUserSender	= $donation['idUserSender'];
+			$this->form_data->nameUserSender	= $this->Donation_model->search_user_name($donation['idUserSender']);
 			$this->form_data->idDinerReceiver	= $donation['idDinerReceiver'];			
 			$this->form_data->title				= $donation['title'];		
 			$this->form_data->description		= $donation['description'];	
 			$this->form_data->creationDate		= nice_date($donation['creationDate'], 'Y-m-d');
 			$this->form_data->creationTime		= substr($donation['creationDate'], -13, 5);
 			$this->form_data->status			= $donation['status'];
+			$this->form_data->status			= $donation['status'];
+			$this->form_data->items				= $donation['items'];
 			$this->load->view('donation/save', $this->variables);
 		}
 		else
