@@ -94,7 +94,7 @@ class User_diner_model extends CI_Model
     }
     
     /**
-     * Cusnulato los usuarios segun criterio de paginación
+     * Consulta los usuarios segun criterio de paginación
      * @param 	string 	$page
      */
     public function get_user_diner_by_page($page)
@@ -104,7 +104,17 @@ class User_diner_model extends CI_Model
     }
     
     /**
-     * Cusnulato los usuarios segun criterio de paginación
+     * Consulta los usuarios segun criterio de paginación
+     * @param 	string 	$page
+     */
+    public function get_user_diner_by_page_and_searchTxt($page, $searchTxt)
+    {
+    	$url = 'api/users?page=' . $page . '&surname=' . $searchTxt;
+    	return $this->search($url);
+    }    
+    
+    /**
+     * Consulta los usuarios segun criterio de paginación
      * @param 	string 	$idDiner
      */
     public function get_user_diner_by_idDiner($idDiner)

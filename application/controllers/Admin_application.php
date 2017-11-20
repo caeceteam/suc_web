@@ -50,7 +50,7 @@ class Admin_application extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Diner_application_model->get_pending_diners_by_page($this->input->post('current') - 1);
+		$service_data = $this->Diner_application_model->get_pending_diners_by_page_and_search_text($this->input->post('current') - 1, $this->input->post('searchPhrase'));
 		$diners_data = $service_data['diners'];
 		$pagination_data = $service_data['pagination'];
 	

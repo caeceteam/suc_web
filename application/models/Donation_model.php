@@ -72,7 +72,7 @@ class Donation_model extends CI_Model {
 	// TODO: Cambiar búsqueda por name por búsqueda genérica
 	public function get_donations_by_page_and_search($page, $searchTxt)
 	{
-		$url = 'api/donations?page=' . $page . '&code=' . $searchTxt;
+		$url = 'api/donations?page=' . $page . '&title=' . $searchTxt;
 		return $this->search($url);
 	}	
 	/**

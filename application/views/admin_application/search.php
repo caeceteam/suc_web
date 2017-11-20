@@ -70,7 +70,8 @@
         		deleteDialogTitle: "¿Está seguro en borrar al concurrente seleccionado?",
         		deleteDialogText: "El concurrente se borrará permanentemente del sistema",
         		deleteDialogSuccess: "El concurrente se ha borrado del sistema.",
-            showDelete: false
+           	showDelete: false,
+           	searchTxt: "Buscar por nombre"
             });
         </script>
     </body>

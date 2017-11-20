@@ -78,7 +78,9 @@
         		deleteUrl: "<?php echo site_url($this->strategy_context->get_url('diner_input/delete/')) ?>",
         		deleteDialogTitle: "¿Está seguro en borrar este insumo?",
         		deleteDialogText: "El insumo se borrará permanentemente del sistema",
-        		deleteDialogSuccess: "El insumo se ha borrado del sistema."
+        		deleteDialogSuccess: "El insumo se ha borrado del sistema.",
+        		searchTxt: "Buscar por nombre",
+        		showDelete: true
             });
 
         </script>

@@ -51,7 +51,7 @@ class Event extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Event_model->get_events_by_page($this->input->post('current') - 1);
+		$service_data = $this->Event_model->get_events_by_page_and_searchTxt($this->input->post('current') - 1, $this->input->post('searchPhrase'));
 		//$service_data 		= $this->Event_model->get_events_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
 		$pagination_data 	= $service_data['pagination'];
 		$events_data 		= $service_data['events'];

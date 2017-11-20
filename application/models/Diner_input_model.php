@@ -64,6 +64,17 @@ class Diner_input_model extends CI_Model {
 		$url = 'api/dinerinputs?page=' . $page;
 		return $this->search($url);
 	}
+	
+	/**
+	 * Consulta de insumos por página para el listado
+	 * @param 	string 	$page
+	 * 			string  $searchTxt
+	 */
+	public function get_dinerinputs_by_page_and_searchTxt($page, $searchTxt)
+	{
+		$url = 'api/dinerinputs?page=' . $page . '&name=' . $searchTxt;
+		return $this->search($url);
+	}	
 		
 	/**
 	 * Alta de diner input

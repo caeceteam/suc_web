@@ -61,7 +61,8 @@
         		deleteDialogTitle: "¿Está seguro en borrar esta donación?",
         		deleteDialogText: "La donación se borrará permanentemente del sistema",
         		deleteDialogSuccess: "La donación se ha borrado del sistema.",
-        		isDonationGrid: true
+        		isDonationGrid: true,
+        		searchTxt: "Buscar por título"
             });
 
         </script>
