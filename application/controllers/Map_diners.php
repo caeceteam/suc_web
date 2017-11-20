@@ -186,19 +186,22 @@ class Map_diners extends CI_Controller
         $this->googlemaps->add_marker($marker);
         
         //Cargo los distintos comedores
-        foreach ( $diner_ser as $diner)
-        {
-         
-            //Configuracion del Mapa.
-            $longitud = $diner['longitude'];
-            $latitude = $diner['latitude'];
-            
-            //Marcador del comedor en el que estoy logueado.
-            $marker = array();
-            $marker['position']           = $latitude . ','.  $longitud ;
-            $marker['infowindow_content'] =  $diner['name'] . ' - ' . $diner['mail'];
-            $this->googlemaps->add_marker($marker);
-        }
+		if($diner_ser)
+		{
+			foreach ( $diner_ser as $diner)
+			{
+
+				//Configuracion del Mapa.
+				$longitud = $diner['longitude'];
+				$latitude = $diner['latitude'];
+
+				//Marcador del comedor en el que estoy logueado.
+				$marker = array();
+				$marker['position']           = $latitude . ','.  $longitud ;
+				$marker['infowindow_content'] =  $diner['name'] . ' - ' . $diner['mail'];
+				$this->googlemaps->add_marker($marker);
+			}
+		}
          
        
         //Cargar mapa en las variables de salida [map]
