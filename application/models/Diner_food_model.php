@@ -64,6 +64,16 @@ class Diner_food_model extends CI_Model {
 		$url = 'api/dinerfoods?page=' . $page;
 		return $this->search($url);
 	}
+	
+	/**
+	 * Consulta de insumos por página para el listado
+	 * @param 	string 	$page
+	 */
+	public function get_dinerfoods_by_page_and_searchTxt($page, $searchTxt)
+	{
+		$url = 'api/dinerfoods?page=' . $page . '&name=' . $searchTxt;
+		return $this->search($url);
+	}
 		
 	/**
 	 * Alta de diner food
