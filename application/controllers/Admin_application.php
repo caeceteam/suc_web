@@ -76,32 +76,44 @@ class Admin_application extends CI_Controller {
 	 */
 	public function accept($id=NULL)
 	{
-		$this->variables['action'] = site_url('admin_application/accept');
-		$this->variables['request-action'] = 'PUT';
-		$this->variables['redirect-url'] = site_url('admin_application');
-		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if($this->input->method() == "get")
+		$this->_initialize_fields();
+		$admin_application = $this->_get_post(true);
+		$response = $this->Diner_application_model->edit($admin_application);
+		if (isset($response['errors']))
 		{
-			$diner = $this->Diner_application_model->search_by_id($id);
-			$this->form_data->id 				= $diner['idDiner'];
-			$this->form_data->photo				= isset($diner['photos'][0]) ? $diner['photos'][0]['url'] : '';
-			$this->form_data->id_user			= $diner['user']['idUser'];
-			$this->form_data->alias				= $diner['user']['alias'];
-			$this->form_data->user_name			= $diner['user']['name'];
-			$this->form_data->surname			= $diner['user']['surname'];
-			$this->form_data->user_mail			= $diner['user']['mail'];
-			$this->form_data->diner_name		= $diner['name'];
-			$this->form_data->street			= $diner['street'];
-			$this->form_data->streetNumber		= $diner['streetNumber'];
-			$this->form_data->floor				= $diner['floor'];
-			$this->form_data->door				= $diner['door'];
-			$this->form_data->diner_phone		= $diner['phone'];
-			
-			$this->load->view('admin_application/save', $this->variables);
+			$this->output->set_status_header('500');
+			$this->variables['error-type'] = 'unique';
+			$this->variables['error-fields'] = $response['fields'];
 		}
 		else {
+			if (!$this->_send_mail($admin_application)) {
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'mail';
+				$this->variables['error-fields'] = $response['fields'];
+			}
+		}
+			
+		echo json_encode( $this->variables );
+	}
+	
+	/**
+	 * Funcion para rechazar la solicitud
+	 * @param		string	$id
+	 * @return void
+	 */
+	public function reject($id=NULL)
+	{
+		if (trim($this->input->post('reject_reason')) == "")
+		{
+			$this->output->set_status_header('500');
+			$this->variables['error-type'] = 'empty-field';
+			$data = array(
+					'reject_reason' 	=> 'Debe ingresar algún motivo de rechazo'
+			);
+			$this->variables['error-fields'] = array_map("utf8_encode", $data);
+		} else {
 			$this->_initialize_fields();
-			$admin_application = $this->_get_post(true);
+			$admin_application = $this->_get_post(false);
 			$response = $this->Diner_application_model->edit($admin_application);
 			if (isset($response['errors']))
 			{
@@ -115,32 +127,9 @@ class Admin_application extends CI_Controller {
 					$this->variables['error-type'] = 'mail';
 					$this->variables['error-fields'] = $response['fields'];
 				}
-			}
-			
-			echo json_encode( $this->variables );
+			}			
 		}
-	}
-	
-	/**
-	 * Funcion para rechazar la solicitud
-	 * @param		string	$id
-	 * @return void
-	 */
-	public function reject($id=NULL)
-	{
-		$this->variables['action'] = site_url('admin_application/reject');
-		$this->variables['request-action'] = 'PUT';
-		$this->variables['redirect-url'] = site_url('admin_application');
-
-		$this->_initialize_fields();
-		$admin_application = new stdClass();
-		$response = $this->Diner_application_model->edit($this->_get_post(false));
-		if (isset($response['errors']))
-		{
-			$this->output->set_status_header('500');
-			$this->variables['error-type'] = 'unique';
-			$this->variables['error-fields'] = $response['fields'];
-		}
+		
 		echo json_encode( $this->variables );
 	}	
 	
@@ -151,35 +140,27 @@ class Admin_application extends CI_Controller {
 	 */
 	public function edit($id=NULL)
 	{
-		$this->variables['action'] = site_url('admin_application/edit');
-		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if(!$this->input->post('aprobar') && !$this->input->post('rechazar'))
-		{
-			$this->session->diner_application = $this->Diner_application_model->search_by_id($id);
-			$this->_fill_form($this->session->diner_application);
-		}
-		else
-		{
-			$this->_initialize_fields();
-			$this->_set_rules();
-			if($this->form_validation->run() == FALSE)
-			{
-				$this->variables['message']= validation_errors();
-			}
-			else if($this->Diner_application_model->edit($this->_get_post())!=NULL)
-			{
-				if($this->_send_mail($this->session->diner_application))
-					$this->variables['message'] = 'Se envío un mail con el estado de la solicitud.';
-				else
-					$this->variables['message'] = 'Ocurrio un error al enviar el mail.';
-				redirect('admin_application');//@TODO Pasarlo al refactor (input_type) que hizo Cris
-			}
-			else
-			{
-				$this->variables['message'] = 'Error al editar';
-			}
-		}
-		$this->load->view('admin_application/save', $this->variables);
+		$this->variables['action'] = site_url('admin_application/accept');
+		$this->variables['request-action'] = 'PUT';
+		$this->variables['redirect-url'] = site_url('admin_application');
+		$this->variables['reject-url'] = site_url('admin_application/reject');
+		
+		$diner = $this->Diner_application_model->search_by_id($id);
+		$this->form_data->id 				= $diner['idDiner'];
+		$this->form_data->photo				= isset($diner['photos'][0]) ? $diner['photos'][0]['url'] : '';
+		$this->form_data->id_user			= $diner['user']['idUser'];
+		$this->form_data->alias				= $diner['user']['alias'];
+		$this->form_data->user_name			= $diner['user']['name'];
+		$this->form_data->surname			= $diner['user']['surname'];
+		$this->form_data->user_mail			= $diner['user']['mail'];
+		$this->form_data->diner_name		= $diner['name'];
+		$this->form_data->street			= $diner['street'];
+		$this->form_data->streetNumber		= $diner['streetNumber'];
+		$this->form_data->floor				= $diner['floor'];
+		$this->form_data->door				= $diner['door'];
+		$this->form_data->diner_phone		= $diner['phone'];
+			
+		$this->load->view('admin_application/save', $this->variables);		
 	}
 		
 	/**
@@ -231,7 +212,7 @@ class Admin_application extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('reject_reason', 'Motivo de rechazo', 'trim');
+		$this->form_validation->set_rules('reject_reason', 'Motivo de rechazo', 'trim|required');
 	}
 	
 	/**

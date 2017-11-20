@@ -87,13 +87,13 @@
 								
 								<div class="pmb-block" id="reject-reason-block" hidden>
 										<div class="form-group fg-float">
-											<div class="fg-line">
+											<div class="fg-line" data-id="reject_reason">
 												<textarea name="reject_reason" id="reject-reason-textarea" class="form-control auto-size"></textarea>
 												<label class="fg-label">Motivo de rechazo</label>
 											</div>
 										</div>
 	
-										<button type="submit" name="rechazar" value="rechazar" id="reject-reason-accept-button" class="btn palette-Green bg">Aceptar</button>
+										<a name="rechazar" value="rechazar" id="reject-reason-accept-button" class="btn palette-Green bg">Aceptar</a>
 										<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>	
 								</div>
 								
@@ -112,7 +112,8 @@
                 </div>
                 
                 <input hidden id="redirect-url" value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
-				<input hidden id="request-action" value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
+                <input hidden id="request-action" value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
+				<input hidden id="reject-url" value="<?php echo isset($_ci_vars['reject-url']) ? $_ci_vars['reject-url'] : '' ?>"></input>
                 
             </section>
 
@@ -144,16 +145,30 @@
 				$("#reject-reason-textarea").attr("style", "overflow: hidden; word-wrap: break-word;")
 			});
 
-			$('.diner-application-form').submit(function() {
+			$(".diner-application-form").submit(function() {
 				showConfirmDialog({
 					title: "¿Está seguro que desea aprobar esta solicitud?",
 					text: "La solicitud será aprobada en el sistema",
-					requestUrl: $("#request-action")[0].value === "POST" ? $("form")[0].action + "/" + $("input[name='id']")[0].value : $("form")[0].action + "/" + $("input[name='id']")[0].value,
+					requestUrl: $("form")[0].action + "/" + $("input[name='id']")[0].value,
 					formData: $("form").serializeArray(),
 					successText: "La solicitud ha sido aprobada.",
 					failedText: "Hubo un error al aprobar la solicitud.",
 					redirectUrl: $("#redirect-url")[0].value,
 					successTitle: "Aprobado"
+				});
+				return false;
+			});
+
+			$("#reject-reason-accept-button").click(function() {
+				showConfirmDialog({
+					title: "¿Está seguro que desea rechazar esta solicitud?",
+					text: "La solicitud será rechazada en el sistema",
+					requestUrl: $("#reject-url")[0].value,
+					formData: $("form").serializeArray(),
+					successText: "La solicitud ha sido rechazada.",
+					failedText: "Hubo un error al rechazar la solicitud.",
+					redirectUrl: $("#redirect-url")[0].value,
+					successTitle: "Rechazado"
 				});
 				return false;
 			});

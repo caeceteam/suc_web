@@ -65,7 +65,7 @@
         		requestUrl: $("#data-request-url")[0].value,
         		noResultText: "No hay concurrentes cargados",
         		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} concurrentes",
-        		editUrl: "<?php echo site_url('admin_application/accept/') ?>",
+        		editUrl: "<?php echo site_url('admin_application/edit/') ?>",
         		deleteUrl: "<?php echo site_url('admin_application/delete/') ?>",
         		deleteDialogTitle: "¿Está seguro en borrar al concurrente seleccionado?",
         		deleteDialogText: "El concurrente se borrará permanentemente del sistema",
