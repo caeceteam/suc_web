@@ -48,7 +48,7 @@ class Diner_input extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Diner_input_model->get_dinerinputs_by_page($this->input->post('current') - 1);
+		$service_data = $this->Diner_input_model->get_dinerinputs_by_page_and_searchTxt($this->input->post('current') - 1, $this->input->post('searchPhrase'));
 		$pagination_data = $service_data['pagination'];
 		$diner_inputs_data = $service_data['dinerInputs'];
 		
