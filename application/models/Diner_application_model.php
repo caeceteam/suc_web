@@ -34,16 +34,13 @@ class Diner_application_model extends CI_Model {
 	/**
 	 * Consulta de diner application
 	 *
-	 * Consulta diner application por id o estado, o devuelve todos los que tengan estado pendiente
-	 * @param 		string 		$id
+	 * Consulta diner application por url, o devuelve todos los que tengan estado pendiente
+	 * @param 		string 		$url
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function search($id=NULL, $state=NULL)
+	public function search($url)
 	{
-		if(isset($id))
-			$response = $this->client->request('GET', 'api/diners/' . $id);
-		else
-			$response = $this->client->request('GET', $state !== NULL ? 'api/diners?state=' . $state : 'api/diners/');
+		$response = $this->client->request('GET', $url);
 		if($response->getStatusCode()==HTTP_OK)
 		{
 			$body = $response->getBody();
@@ -54,22 +51,48 @@ class Diner_application_model extends CI_Model {
 	}
 	
 	/**
+	 * Consulta de comedores by id
+	 * @param 	int 	$id
+	 */
+	public function search_by_id($id)
+	{
+		$url = 'api/diners/' . $id;
+		return $this->search($url);
+	}
+	
+	/**
+	 * Consulta de comedores pentientes de aprobación por página para el listado
+	 * @param 	string 	$page
+	 */
+	public function get_pending_diners_by_page($page)
+	{
+		$url = 'api/diners?page=' . $page . '&state=0';
+		return $this->search($url);
+	}
+	
+	
+	/**
 	 * Alta de comedor y usuario
 	 * @param		object	$diner_application
 	 * @return 		array   Si el alta fue exitosa, devuelve un array con el comedor y usuario, sino devuelve NULL
 	 */
 	public function add($diner_application)
 	{
-		$response = $this->client->request('POST', 'api/diners', [
-				'json' => $diner_application
-		]);
-		if($response->getStatusCode()==HTTP_CREATED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try {
+			$response = $this->client->request('POST', 'api/diners', [
+					'json' => $diner_application
+			]);
+			if($response->getStatusCode()==HTTP_CREATED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
-			return NULL;
+		catch (Exception $e) {
+			return $this->errorMessage($e);
+		}
 	}
 	
 	/**
@@ -79,15 +102,35 @@ class Diner_application_model extends CI_Model {
 	 */
 	public function edit($diner_application)
 	{
-		$response = $this->client->request('PUT', 'api/diners/' . $diner_application['diner']['idDiner'], [
-				'json' => $diner_application
-		]);
-		if($response->getStatusCode()==HTTP_ACCEPTED)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try {
+			$response = $this->client->request('PUT', 'api/diners/' . $diner_application->id, [
+					'json' => $diner_application
+			]);
+			if($response->getStatusCode()==HTTP_ACCEPTED)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;			
 		}
-		else
-			return NULL;
+		catch (Exception $e) {
+			return $this->errorMessage($e);
+		}
+	}
+	
+	/**
+	 * Función que mapea el mensaje de error desde la API usado en los editores
+	 * @param 	exception $exceptionData
+	 */
+	private function errorMessage($exceptionData)
+	{
+		$errorResponse = json_decode($exceptionData->getResponse()->getBody(), TRUE);
+		$errorResponse['errors'] = TRUE;
+		if($exceptionData->getCode() == HTTP_INTERNAL_SERVER)
+		{
+			return $errorResponse;
+		}
+		return NULL;
 	}
 };

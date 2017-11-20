@@ -29,7 +29,7 @@
                         <!-- Todo Lists -->
                         <div class="card" id="todo-lists">
                             <div class="card-header ch-dark palette-Orange-400 bg">
-                                <h2>Lista de aprobaciones pendientes <small>Existe un total de 5 aprobaciones pendientes	</small></h2>
+                                <h2>Lista de aprobaciones pendientes <small>Existe un total de <?php echo $this->form_data->diner_pending_approvals + $this->form_data->donation_pending_approvals; ?> aprobaciones pendientes	</small></h2>
                             </div>
 
                             <div class="card-body">
@@ -68,18 +68,17 @@
                             <div class="card-body card-padding">
                                 <div class="pmo-contact">
                                     <ul>
-                                    	<li class="ng-binding"><i class="zmdi zmdi-cutlery"></i> Comedor: Juventud</li>
+                                    	<li class="ng-binding"><i class="zmdi zmdi-cutlery"></i> Comedor: <?php echo $this->form_data->diner_name; ?></li>
                                         <li>
                                             <i class="zmdi zmdi-pin"></i>
                                             <address class="m-b-0 ng-binding">
-                                                Dirección: Calle falsa 123
+                                                Dirección: <?php echo $this->form_data->diner_address; ?>
                                             </address>
                                         </li>
-                                        <li class="ng-binding"><i class="zmdi zmdi-phone"></i> Teléfono: 1234567890</li>
-                                        <li class="ng-binding"><i class="zmdi zmdi-calendar-check"></i> Cantidad de eventos actuales: 3</li>
-                                        <li class="ng-binding"><i class="zmdi zmdi-account-circle"></i> Personas suscrpitas: 34</li>
-										<li class="ng-binding"><i class="zmdi zmdi-comment-edit"></i> Solicitudes a comedores: 1</li>
-										<li class="ng-binding"><i class="zmdi zmdi-walk"></i> Cantidad de concurrentes: 12</li>
+                                        <li class="ng-binding"><i class="zmdi zmdi-phone"></i> Teléfono: <?php echo $this->form_data->diner_phone; ?></li>
+                                        <li class="ng-binding"><i class="zmdi zmdi-calendar-check"></i> Cantidad de eventos actuales: <?php echo $this->form_data->pending_events;	 ?></li>
+                                        <li class="ng-binding"><i class="zmdi zmdi-account-circle"></i> Personas suscriptas: <?php echo $this->form_data->users_diners_count; ?></li>
+										<li class="ng-binding"><i class="zmdi zmdi-walk"></i> Cantidad de concurrentes: <?php echo $this->form_data->assistants_count; ?></li>
                                     </ul>
                                 </div>
                             </div>

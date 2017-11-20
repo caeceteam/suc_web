@@ -6,16 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
         
-        <!-- Vendor CSS -->
-        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bootgrid/jquery.bootgrid.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
-
-        <!-- CSS -->
-        <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
+        <?php $this->load->view('templates/styles'); ?>
     </head>
 
     <body data-ma-header="teal">
@@ -32,24 +23,26 @@
                         <h2 style="font-size: 25px;">Aprobaciones pendientes de comedores</h2> <!--TODO CC: Pass style inline to css class-->
                     </div>
 					
-                    <div class="card">
+					<div class="card">
 						<div class="card-body card-padding" style="padding-bottom:0"></div> <!--TODO CC: Pass style inline to css class-->
-							<?php echo $table?>
+						<table id="data-table-command" class="table table-striped table-vmiddle bootgrid-table">
+						    <thead>
+						        <tr>
+						            <th data-column-id="id" data-visible="false">ID</th>
+						            <th data-column-id="name" data-order="desc">Nombre</th>
+						           	<th data-column-id="address">Domicilio</th>
+									<th data-column-id="mail">Mail</th>
+									<th data-column-id="commands" data-formatter="commands" data-sortable="false">Ir a solicitud</th>
+						        </tr>
+						    </thead>
+						</table>
                     </div>
+                    <input hidden id="data-request-url" value="<?php echo isset($_ci_vars['data-request-url']) ? $_ci_vars['data-request-url'] : '' ?>"></input>
+                    
                 </div>
             </section>
 
-            <footer id="footer">
-                Copyright &copy; 2015 Material Admin
-
-                <ul class="f-menu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Dashboard</a></li>
-                    <li><a href="">Reports</a></li>
-                    <li><a href="">Support</a></li>
-                    <li><a href="">Contact</a></li>
-                </ul>
-            </footer>
+            <?php $this->load->view('templates/footer'); ?>
 
         </section>
 
@@ -62,68 +55,22 @@
             </div>
         </div>
 
-        <!-- Javascript Libraries -->
-        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
-        
-        <script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootgrid/jquery.bootgrid.updated.min.js')?>"></script>
-
-        <!-- Placeholder for IE9 -->
-        <!--[if IE 9 ]>
-            <script src="<?php echo base_url('vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js')?>"></script>
-        <![endif]-->
-        
-        <script src="<?php echo base_url('js/functions.js')?>"></script>
-        <script src="<?php echo base_url('js/actions.js')?>"></script>
-        <script src="<?php echo base_url('js/demo.js')?>"></script>
-
-        <!-- Data Table -->
+		<?php $this->load->view('templates/scripts'); ?>
+		<script src="<?php echo base_url('js/tableGrid.js')?>"></script>
+		
+		<!-- Data Table -->
         <script type="text/javascript">
-            $(document).ready(function(){
-                //Basic Example
-                $("#data-table-basic").bootgrid({
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
-                    },
-                });
-                
-                //Selection
-                $("#data-table-selection").bootgrid({
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
-                    },
-                    selection: true,
-                    multiSelect: true,
-                    rowSelect: true,
-                    keepSelection: true
-                });
-                
-                //Command Buttons
-                $("#data-table-command").bootgrid({
-                    css: {
-                        icon: 'zmdi icon',
-                        iconColumns: 'zmdi-view-module',
-                        iconDown: 'zmdi-expand-more',
-                        iconRefresh: 'zmdi-refresh',
-                        iconUp: 'zmdi-expand-less'
-                    },
-                    formatters: {
-                        "commands": function(column, row) {
-                            return "<a type=\"button\" href=\"" + "<?php echo site_url($this->strategy_context->get_url('admin_application/edit/')) ?>" + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></a> ";
-                        }
-                    }
-                });
+        	loadBootgrid({
+        		selector: "#data-table-command",
+        		requestUrl: $("#data-request-url")[0].value,
+        		noResultText: "No hay concurrentes cargados",
+        		infos: "Viendo {{ctx.start}} de {{ctx.end}} de {{ctx.total}} concurrentes",
+        		editUrl: "<?php echo site_url('admin_application/edit/') ?>",
+        		deleteUrl: "<?php echo site_url('admin_application/delete/') ?>",
+        		deleteDialogTitle: "¿Está seguro en borrar al concurrente seleccionado?",
+        		deleteDialogText: "El concurrente se borrará permanentemente del sistema",
+        		deleteDialogSuccess: "El concurrente se ha borrado del sistema.",
+            showDelete: false
             });
         </script>
     </body>

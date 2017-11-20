@@ -141,7 +141,7 @@ class Event extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de ediciÃ³n y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -250,7 +250,7 @@ class Event extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del event para cuando se trata de una ediciÃ³n
+	 * @param 		integer 	$id id del event para cuando se trata de una edición
 	 * @return		object		$event
 	 */
 	private function _get_post($id=NULL)
@@ -278,7 +278,7 @@ class Event extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la ediciÃ³n
+	 * Funcion que inicializa las variables de los campos del formulario para la edición
 	 * @return void
 	 */
 	private function _initialize_fields()

@@ -46,7 +46,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion para retornar la informaci髇 a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * Funcion para retornar la informaci贸n a cargar en las grillas con la estructura JSON requerida por bootgrid
 	 */
 	public function render_table_response()
 	{
@@ -109,7 +109,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion de borrar imag閚
+	 * Funcion de borrar imag茅n
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -279,16 +279,16 @@ class Diner extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
-		$this->form_validation->set_rules('phone', 'Tel閒ono', 'trim|required');
+		$this->form_validation->set_rules('phone', 'Tel茅fono', 'trim|required');
 		$this->form_validation->set_rules('floor', 'Piso', 'trim');
 		$this->form_validation->set_rules('door', 'Departamento', 'trim');	
-		$this->form_validation->set_rules('description', 'Descripci髇', 'trim');	
+		$this->form_validation->set_rules('description', 'Descripci贸n', 'trim');	
 		$this->form_validation->set_rules('link', 'Link', 'trim');	
 		$this->form_validation->set_rules('site', 'Sitio', 'trim');
 	}
 
 	/**
-	 * Funci髇 que guarda una imagen en la nube usando la API de cloudinary
+	 * Funci贸n que guarda una imagen en la nube usando la API de cloudinary
 	 * @param    $photo 	string ruta de la imagen a guardar
 	 * @return   bool 		indica si la imagen se guardo correctamente
 	 */
@@ -309,7 +309,7 @@ class Diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funci髇 que configura la API de cloudinary
+	 * Funci贸n que configura la API de cloudinary
 	 * @return   void
 	 */
 	private function _cloudinary_init()

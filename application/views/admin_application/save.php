@@ -6,18 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SUC</title>
     
-        <!-- Vendor CSS -->
-        <link href="<?php echo base_url('vendors/bower_components/animate.css/animate.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('vendors/bower_components/google-material-color/dist/palette.css')?>" rel="stylesheet">
-
-        <!-- CSS -->
-        <link href="<?php echo base_url('css/app.min.1.css')?>" rel="stylesheet">
-        <link href="<?php echo base_url('css/app.min.2.css')?>" rel="stylesheet">
+		<?php $this->load->view('templates/styles'); ?>
+		
     </head>
 
     <body data-ma-header="teal">
+    
 		<?php $this->load->view('templates/header'); ?>
 
         <section id="main">
@@ -84,42 +78,46 @@
                                     </div>
 								</div>
                             </div>		
-							<form role="form" action="<?php echo $action; ?>" method="POST">
-							<div class="pmb-block" id="reject-reason-block" hidden>
-									<div class="form-group fg-float">
-										<div class="fg-line">
-											<textarea name="reject_reason" id="reject-reason-textarea" class="form-control auto-size"></textarea>
-											<label class="fg-label">Motivo de rechazo</label>
+							<form class="diner-application-form" role="form" action="<?php echo $action; ?>" method="POST">
+								<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?>
+								<?php echo form_hidden('diner_name', ($reset) ? '' : set_value('id',$this->form_data->diner_name)); ?>
+								<?php echo form_hidden('id_user', ($reset) ? '' : set_value('id_user',$this->form_data->id_user)); ?>
+								<?php echo form_hidden('alias', ($reset) ? '' : set_value('alias',$this->form_data->alias)); ?>
+								<?php echo form_hidden('user_mail', ($reset) ? '' : set_value('user_mail',$this->form_data->user_mail)); ?>
+								
+								<div class="pmb-block" id="reject-reason-block" hidden>
+										<div class="form-group fg-float">
+											<div class="fg-line" data-id="reject_reason">
+												<textarea name="reject_reason" id="reject-reason-textarea" class="form-control auto-size"></textarea>
+												<label class="fg-label">Motivo de rechazo</label>
+											</div>
 										</div>
-									</div>
-
-									<button type="submit" name="rechazar" value="rechazar" id="reject-reason-accept-button" class="btn palette-Green bg">Aceptar</button>
-									<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>	
-							</div>
-							
-                            <div class="pmb-block" id="buttons-block">
-								<div class="btn-colors btn-demo">
-									<button type="submit" name="aprobar" value="aprobar" id="approve-button" class="btn palette-Green bg">Aprobar</button>
-									<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
+	
+										<a name="rechazar" value="rechazar" id="reject-reason-accept-button" class="btn palette-Green bg">Aceptar</a>
+										<a id="reject-reason-cancel-button" class="btn palette-Red bg">Cancelar</a>	
 								</div>
-                            </div>
+								
+	                            <div class="pmb-block" id="buttons-block">
+									<div class="btn-colors btn-demo">
+										<button type="submit" name="aprobar" value="aprobar" id="approve-button" class="btn palette-Green bg">Aprobar</button>
+										<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
+										<a id="cancel-button" href="<?php echo site_url('admin_application')?>" class="btn btn-primary">Cancelar</a>
+									</div>
+	                            </div>
                            </form> 
+                           
+                           <?php $this->load->view('templates/alerts'); ?>
                         </div>
                     </div>
                 </div>
+                
+                <input hidden id="redirect-url" value="<?php echo isset($_ci_vars['redirect-url']) ? $_ci_vars['redirect-url'] : '' ?>"></input>
+                <input hidden id="request-action" value="<?php echo isset($_ci_vars['request-action']) ? $_ci_vars['request-action'] : '' ?>"></input>
+				<input hidden id="reject-url" value="<?php echo isset($_ci_vars['reject-url']) ? $_ci_vars['reject-url'] : '' ?>"></input>
+                
             </section>
 
-            <footer id="footer">
-                Copyright &copy; 2015 Material Admin
-
-                <ul class="f-menu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Dashboard</a></li>
-                    <li><a href="">Reports</a></li>
-                    <li><a href="">Support</a></li>
-                    <li><a href="">Contact</a></li>
-                </ul>
-            </footer>
+            <?php $this->load->view('templates/footer'); ?>
         </section>
 
         <!-- Page Loader -->
@@ -131,19 +129,8 @@
             </div>
         </div>
     
-        <!-- Javascript Libraries -->
-        <script src="<?php echo base_url('vendors/bower_components/jquery/dist/jquery.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
-        
-		<script src="<?php echo base_url('vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/Waves/dist/waves.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bootstrap-growl/bootstrap-growl.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/moment/min/moment.min.js')?>"></script>
-        <script src="<?php echo base_url('vendors/bower_components/autosize/dist/autosize.min.js')?>"></script>
-		
-        <script src="<?php echo base_url('js/functions.js')?>"></script>
-        <script src="<?php echo base_url('js/actions.js')?>"></script>
-        <script src="<?php echo base_url('js/demo.js')?>"></script>
+		<?php $this->load->view('templates/scripts'); ?>
+		<script src="<?php echo base_url('js/confirmDialogForm.js')?>"></script>
 		
 		<script type="text/javascript">
 			$("#reject-button").click(function() {
@@ -156,6 +143,34 @@
 				$("#reject-reason-block").hide();
 				$("#reject-reason-textarea").val("");
 				$("#reject-reason-textarea").attr("style", "overflow: hidden; word-wrap: break-word;")
+			});
+
+			$(".diner-application-form").submit(function() {
+				showConfirmDialog({
+					title: "¿Está seguro que desea aprobar esta solicitud?",
+					text: "La solicitud será aprobada en el sistema",
+					requestUrl: $("form")[0].action + "/" + $("input[name='id']")[0].value,
+					formData: $("form").serializeArray(),
+					successText: "La solicitud ha sido aprobada.",
+					failedText: "Hubo un error al aprobar la solicitud.",
+					redirectUrl: $("#redirect-url")[0].value,
+					successTitle: "Aprobado"
+				});
+				return false;
+			});
+
+			$("#reject-reason-accept-button").click(function() {
+				showConfirmDialog({
+					title: "¿Está seguro que desea rechazar esta solicitud?",
+					text: "La solicitud será rechazada en el sistema",
+					requestUrl: $("#reject-url")[0].value,
+					formData: $("form").serializeArray(),
+					successText: "La solicitud ha sido rechazada.",
+					failedText: "Hubo un error al rechazar la solicitud.",
+					redirectUrl: $("#redirect-url")[0].value,
+					successTitle: "Rechazado"
+				});
+				return false;
 			});
 		</script>
     </body>

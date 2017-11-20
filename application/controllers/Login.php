@@ -43,7 +43,7 @@ class Login extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que valida usuario y contrase�a
+	 * Funcion que valida usuario y contraseña
 	 * @return void
 	 */
 	public function validate_credentials()
@@ -73,7 +73,7 @@ class Login extends CI_Controller {
 			}
 			else
 			{
-				$this->variables['message'] = '<div class="alert alert-danger" role="alert">Nombre de usuario/contrase�a incorrectos.</div>';
+				$this->variables['message'] = '<div class="alert alert-danger" role="alert">Nombre de usuario/contraseña incorrectos.</div>';
 				$this->load->view('login/save', $this->variables);
 			}
 		}
@@ -199,9 +199,9 @@ class Login extends CI_Controller {
 				}
 				return $password;
 	}
-	
+
 	/**
-	 * Función que envia un mail a un destinatario con su contraseña
+	 * FunciÃ³n que envia un mail a un destinatario con su contraseÃ±a
 	 * @param    $to 		string destinatario
 	 * @param    $password 	string password
 	 */
@@ -210,3 +210,4 @@ class Login extends CI_Controller {
 		return true;
 	}
 }
+

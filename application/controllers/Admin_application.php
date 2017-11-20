@@ -42,92 +42,154 @@ class Admin_application extends CI_Controller {
 	{
 		$this->render_table(NULL, $this->Diner_application_model->search(NULL,DINER_PENDING)['diners']);
 		$this->load->view($this->strategy_context->get_url('admin_application/search'), $this->variables);	
+	}
+
+	/**
+	 * Funcion para retornar la informacin a cargar en las grillas con la estructura JSON requerida por bootgrid
+	 * @return		array		$pending_diner
+	 */
+	public function render_table_response()
+	{
+		$service_data = $this->Diner_application_model->get_pending_diners_by_page($this->input->post('current') - 1);
+		$diners_data = $service_data['diners'];
+		$pagination_data = $service_data['pagination'];
+	
+		$render_data['current'] = (int)$this->input->post('current');
+		$render_data['total'] = $pagination_data['total_elements'];
+	
+		$render_data['rows'] = [];
+		foreach ($diners_data as $diner)
+		{
+			$row_data['id'] 	= $diner['idDiner'];
+			$row_data['name'] 	= $diner['name'];
+			$row_data['address']= $diner['street'] . ' ' . $diner['streetNumber'];
+			$row_data['mail'] 	= $diner['mail'];
+			array_push($render_data['rows'], $row_data);
+		}
+		echo json_encode($render_data, TRUE);
 	}	
 	
 	/**
-	 * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion para acepta la solicitud
+	 * @param		string	$id
+	 * @return void
+	 */
+	public function accept($id=NULL)
+	{
+		$this->_initialize_fields();
+		$admin_application = $this->_get_post(true);
+		$response = $this->Diner_application_model->edit($admin_application);
+		if (isset($response['errors']))
+		{
+			$this->output->set_status_header('500');
+			$this->variables['error-type'] = 'unique';
+			$this->variables['error-fields'] = $response['fields'];
+		}
+		else {
+			if (!$this->_send_mail($admin_application)) {
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'mail';
+				$this->variables['error-fields'] = $response['fields'];
+			}
+		}
+			
+		echo json_encode( $this->variables );
+	}
+	
+	/**
+	 * Funcion para rechazar la solicitud
+	 * @param		string	$id
+	 * @return void
+	 */
+	public function reject($id=NULL)
+	{
+		if (trim($this->input->post('reject_reason')) == "")
+		{
+			$this->output->set_status_header('500');
+			$this->variables['error-type'] = 'empty-field';
+			$data = array(
+					'reject_reason' 	=> 'Debe ingresar alg煤n motivo de rechazo'
+			);
+			$this->variables['error-fields'] = array_map("utf8_encode", $data);
+		} else {
+			$this->_initialize_fields();
+			$admin_application = $this->_get_post(false);
+			$response = $this->Diner_application_model->edit($admin_application);
+			if (isset($response['errors']))
+			{
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'unique';
+				$this->variables['error-fields'] = $response['fields'];
+			}
+			else {
+				if (!$this->_send_mail($admin_application)) {
+					$this->output->set_status_header('500');
+					$this->variables['error-type'] = 'mail';
+					$this->variables['error-fields'] = $response['fields'];
+				}
+			}			
+		}
+		$this->load->view($this->strategy_context->get_url('admin_application/save'), $this->variables);
+	}		
+		echo json_encode( $this->variables );
+	}	
+	
+	/**
+	 * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
 	public function edit($id=NULL)
 	{
-		$this->variables['action'] = site_url('admin_application/edit');
-		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if(!$this->input->post('aprobar') && !$this->input->post('rechazar'))
-		{
-			$this->session->diner_application = $this->Diner_application_model->search($id);
-			$this->_fill_form($this->session->diner_application);
-		}
-		else
-		{
-			$this->_initialize_fields();
-			$this->_set_rules();
-			if($this->form_validation->run() == FALSE)
-			{
-				$this->variables['message']= validation_errors();
-			}
-			else if($this->Diner_application_model->edit($this->_get_post())!=NULL)
-			{
-				if($this->_send_mail($this->session->diner_application))
-					$this->variables['message'] = 'Se env韔 un mail con el estado de la solicitud.';
-				else
-					$this->variables['message'] = 'Ocurrio un error al enviar el mail.';
-				redirect('admin_application');//@TODO Pasarlo al refactor (input_type) que hizo Cris
-			}
-			else
-			{
-				$this->variables['message'] = 'Error al editar';
-			}
-		}
-		$this->load->view($this->strategy_context->get_url('admin_application/save'), $this->variables);
+		$this->variables['action'] = site_url('admin_application/accept');
+		$this->variables['request-action'] = 'PUT';
+		$this->variables['redirect-url'] = site_url('admin_application');
+		$this->variables['reject-url'] = site_url('admin_application/reject');
+		
+		$diner = $this->Diner_application_model->search_by_id($id);
+		$this->form_data->id 				= $diner['idDiner'];
+		$this->form_data->photo				= isset($diner['photos'][0]) ? $diner['photos'][0]['url'] : '';
+		$this->form_data->id_user			= $diner['user']['idUser'];
+		$this->form_data->alias				= $diner['user']['alias'];
+		$this->form_data->user_name			= $diner['user']['name'];
+		$this->form_data->surname			= $diner['user']['surname'];
+		$this->form_data->user_mail			= $diner['user']['mail'];
+		$this->form_data->diner_name		= $diner['name'];
+		$this->form_data->street			= $diner['street'];
+		$this->form_data->streetNumber		= $diner['streetNumber'];
+		$this->form_data->floor				= $diner['floor'];
+		$this->form_data->door				= $diner['door'];
+		$this->form_data->diner_phone		= $diner['phone'];
+			
+		$this->load->view('admin_application/save', $this->variables);		
 	}
 		
 	/**
-	 * Renderiza una tabla en base a un template HTML y un object|array
-	 * @param		string		$template
-	 * @param		mixed 		object|array Puede recibir un objeto de un input type o un array de varios
-	 * @return		void
-	 */
-	public function render_table($template=NULL, $data)
-	{
-		$template = isset($template) ? $template : array(
-				'table_open' => '<table id="data-table-command" class="table table-striped table-vmiddle">');
-		$this->load->library('table');
-		$this->table->set_template($template);
-		$this->table->set_heading(
-				array('data' => 'Id', 'data-column-id' => 'id', 'data-visible' => 'false'),
-				array('data' => 'Nombre', 'data-column-id' => 'Usuario', 'data-order' => 'desc'),
-				array('data' => 'Direcci髇', 'data-column-id' => 'Direcci髇'),
-				array('data' => 'Email', 'data-column-id' => 'Email'),
-				array('data' => 'Ir a solicitud', 'data-column-id' => 'commands', 'data-formatter' => 'commands', 'data-sortable' => 'false')
-				);
-		foreach ($data as $diner_application)
-		{
-			$this->table->add_row($diner_application['idDiner'], $diner_application['name'], 
-					$diner_application['street'] . ' ' . $diner_application['streetNumber'] . ' ' . (empty($diner_application['floor']) ? '' : $diner_application['floor']) . ' ' . (empty($diner_application['door']) ? '' : $diner_application['door']), 
-					$diner_application['mail']);
-		}
-		$this->variables['table'] = $this->table->generate();
-	}
-	
-	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del diner para cuando se trata de una edici髇
+	 * @param 		integer 	$id id del diner para cuando se trata de una edici贸n
 	 * @return		object		$diner_application
 	 */
-	private function _get_post($id=NULL)
+	private function _get_post($accept, $id=NULL)
 	{
-		$diner_application = $this->session->diner_application;
-		$diner_application['diner']['state'] = ($this->input->post('aprobar')) ? DINER_APPROVED : DINER_REJECTED;
-		$diner_application['user']['active'] = ($this->input->post('aprobar')) ? USER_ACTIVE : USER_INACTIVE;
-		$diner_application['diner']['description'] = 
-		($this->input->post('reject_reason')) != '' ? $diner_application['diner']['description'] . ' Motivo de rechazo: ' . $this->input->post('reject_reason') : $diner_application['diner']['description'];
-		$this->session->set_userdata('diner_application', $diner_application);
-		return $this->session->diner_application;
+		$diner_application = new stdClass();
+		$diner_application->id				= $id != NULL ? $id : $this->input->post('id');
+		$diner_application->diner 				= new stdClass();
+		$diner_application->diner->name		    = $this->input->post('diner_name');
+		$diner_application->diner->state		= $accept ? DINER_APPROVED : DINER_REJECTED;
+		$diner_application->diner->description 	= $accept ? '' : 'Motivo de rechazo:' . $this->input->post('reject_reason');
+		$diner_application->photos = [];
+		$diner_application->user 			= new stdClass();
+		$diner_application->user->idUser    = $this->input->post('id_user');
+		$diner_application->user->alias  	= $this->input->post('alias');
+		$diner_application->user->mail		= $this->input->post('user_mail');
+		$diner_application->user->active 	= $accept ? USER_ACTIVE : USER_INACTIVE;
+		
+		//$this->session->set_userdata('diner_application', $diner_application);
+		return $diner_application;
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici髇
+	 * Funcion que inicializa las variables de los campos del formulario para la edici贸n
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -151,7 +213,7 @@ class Admin_application extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('reject_reason', 'Motivo de rechazo', 'trim');
+		$this->form_validation->set_rules('reject_reason', 'Motivo de rechazo', 'trim|required');
 	}
 	
 	/**
@@ -174,26 +236,26 @@ class Admin_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funci髇 que envia un mail a un destinatario indicando el estado de su solicitud
+	 * Funci贸n que envia un mail a un destinatario indicando el estado de su solicitud
 	 * @param    $diner_application 	array  array del diner application
 	 * @return   bool 					indica si el mail se pudo enviar
 	 */
 	private function _send_mail($diner_application)
 	{	
-		if ($diner_application['diner']['state'] == DINER_APPROVED)
+		if ($diner_application->diner->state == DINER_APPROVED)
 		{
 			$data = array(
 					'mail_type' 		=> APPROVAL_MAIL,
-					'destination_email' => $diner_application['user']['mail'],
-					'user_name'			=> $diner_application['user']['name'],
-					'diner_name'		=> $diner_application['diner']['name'],
+					'destination_email' => $diner_application->user->mail,
+					'user_name'			=> $diner_application->user->alias,
+					'diner_name'		=> $diner_application->diner->name,
 					'url'				=> site_url('')
 			);
 		}else{
 			$data = array(
 					'mail_type' 		=> REJECTION_MAIL,
-					'destination_email' => $diner_application['user']['mail'],
-					'diner_name'		=> $diner_application['diner']['name'],
+					'destination_email' => $diner_application->user->mail,
+					'diner_name'		=> $diner_application->diner->name,
 					'comment'			=> $this->input->post('reject_reason'),
 					'url'				=> site_url('')
 			);

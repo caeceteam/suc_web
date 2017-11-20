@@ -31,7 +31,7 @@
 						            <th data-column-id="id" data-visible="false">ID</th>
 						            <th data-column-id="name" data-order="desc">Nombre</th>
 						            <th data-column-id="street" data-order="desc">Calle</th>
-						            <th data-column-id="commands" data-formatter="commands" data-sortable="false">Modificar/Borrar</th>
+						            <th data-column-id="commands" data-formatter="commands" data-sortable="false">Acciones</th>
 						        </tr>
 						    </thead>
 						</table>
