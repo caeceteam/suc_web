@@ -103,6 +103,15 @@ class User_diner_model extends CI_Model
         return $this->search($url);
     }
     
+    /**
+     * Cusnulato los usuarios segun criterio de paginación
+     * @param 	string 	$idDiner
+     */
+    public function get_user_diner_by_idDiner($idDiner)
+    {
+    	$url = 'api/usersDiners?idDiner=' . $idDiner;
+    	return $this->search($url);
+    }    
       
     /**
      * ********************************************************************************************
