@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Diner_application extends CI_Controller {
-
 	/**
 	 * Array para guardar todas las variables de la pagina
 	 * @var array
@@ -69,7 +67,7 @@ class Diner_application extends CI_Controller {
 				$data = array(
 						'name' => form_error('name'),
 						'mail' => form_error('mail'),
-						'street' => form_error('streetNumber') == '' ? '' : '<p>Verifique haber ingresado una direcciÃ³n vÃ¡lida</p>',
+						'street' => form_error('streetNumber') == '' ? '' : '<p>Verifique haber ingresado una dirección válida</p>',
 						'phone' => form_error('phone'),
 						'user_name' => form_error('user_name'),
 						'surname' => form_error('surname'),
@@ -95,16 +93,17 @@ class Diner_application extends CI_Controller {
 				else {
 					if($this->_send_mail($diner_application->user->mail, $diner_application->user->alias, $this->variables['password']))
 					{
-						$this->variables['message'] = $html_ok . 'Se enviÃ³ un mail con su contraseÃ±a!' . $html_close;
+						$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
 					}
 					else
 					{
-						$this->variables['error-fields'] = array('send_mail' => 'Hubo un error al enviar el mail con su contraseÃ±a');
+						$this->variables['error-fields'] = array('send_mail' => 'Hubo un error al enviar el mail con su contraseña');
 					}					
 				}
 				echo json_encode($this->variables, TRUE);
 			}
 		}
+		
 	}
 	
 	/**
@@ -140,7 +139,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la ediciÃ³n
+	 * Funcion que inicializa las variables de los campos del formulario para la edición
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -181,14 +180,14 @@ class Diner_application extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
 		$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
 		$this->form_validation->set_rules('street', 'Calle', 'trim|required');
-		$this->form_validation->set_rules('streetNumber', 'NÃºmero', 'trim|required');
+		$this->form_validation->set_rules('streetNumber', 'Número', 'trim|required');
 		$this->form_validation->set_rules('floor', 'Piso', 'trim');
 		$this->form_validation->set_rules('door', 'Departamento', 'trim');
 		$this->form_validation->set_rules('latitude', 'Latitud', 'trim');
 		$this->form_validation->set_rules('longitude', 'Longuitud', 'trim');
-		$this->form_validation->set_rules('phone', 'TelÃ©fono', 'trim|required');
-		$this->form_validation->set_rules('link', 'PÃ¡gina', 'trim');
-		$this->form_validation->set_rules('description', 'DescripciÃ³n', 'trim');
+		$this->form_validation->set_rules('phone', 'Teléfono', 'trim|required');
+		$this->form_validation->set_rules('link', 'Página', 'trim');
+		$this->form_validation->set_rules('description', 'Descripción', 'trim');
 		$this->form_validation->set_rules('user_name', 'Nombre del solicitante', 'trim|required');
 		$this->form_validation->set_rules('surname', 'Apellido del solicitante', 'trim|required');
 		$this->form_validation->set_rules('user_mail', 'Mail del solicitante', 'trim|required');
@@ -196,11 +195,11 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * FunciÃ³n que genera una contraseÃ±a en forma aleatorio
+	 * Función que genera una contraseña en forma aleatorio
 	 * @param    $chars_min largo minimo (opcional, default 6)
-	 * @param    $chars_max largo mÃ¡ximo (opcional, default 8)
-	 * @param    $use_upper_case boolean para indicar si se usan mayÃºsuculas (opcional, default false)
-	 * @param    $include_numbers boolean para indicar si se usan nÃºmeros (opcional, default false)
+	 * @param    $chars_max largo máximo (opcional, default 8)
+	 * @param    $use_upper_case boolean para indicar si se usan mayúsuculas (opcional, default false)
+	 * @param    $include_numbers boolean para indicar si se usan números (opcional, default false)
 	 * @param    $include_special_chars boolean para indicar si se usan caracteres especiales (opcional, default false)
 	 * @return    string containing a random password
 	 */
@@ -221,7 +220,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * FunciÃ³n que envia un mail a un destinatario con su contraseÃ±a
+	 * Función que envia un mail a un destinatario con su contraseña
 	 * @param    $to 		string destinatario
 	 * @param	 $user		string usuario
 	 * @param    $password 	string password
@@ -240,7 +239,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * FunciÃ³n que guarda una imagen en la nube usando la API de cloudinary
+	 * Función que guarda una imagen en la nube usando la API de cloudinary
 	 * @param    $photo 	string ruta de la imagen a guardar
 	 * @return   bool 		indica si la imagen se guardo correctamente
 	 */
@@ -252,7 +251,7 @@ class Diner_application extends CI_Controller {
 	}
 	
 	/**
-	 * FunciÃ³n que configura la API de cloudinary
+	 * Función que configura la API de cloudinary
 	 * @return   void
 	 */
 	private function _cloudinary_init()

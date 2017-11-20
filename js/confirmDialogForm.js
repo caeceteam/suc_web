@@ -50,7 +50,7 @@ function showConfirmDialog(params) {
 };
 			
 function successAction(successTitle, successText, redirectUrl) {
-   	swal({
+	swal({
    			title: successTitle != null ? successTitle : "Grabado", 
    			text: successText, 
    			type: "success"

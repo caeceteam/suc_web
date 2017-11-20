@@ -16,7 +16,7 @@
         
         <section id="main">
         
-            <?php $this->load->view($this->strategy_context->get_menu()); ?>
+            <?php $this->load->view('templates/menu'); ?>
         
             <section id="content">
                 <div class="container">
@@ -235,7 +235,8 @@
 					successText: "El comedor se ha grabado en el sistema.",
 					failedText: "El comedor no pudo ser grabado en el sistema.",
 					redirectUrl: $("#redirect-url")[0].value,
-					containImage: true
+					containImage: true,
+					successTitle: "Grabado"
 				});
 				return false;
 			}); 

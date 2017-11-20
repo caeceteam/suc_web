@@ -103,8 +103,9 @@ class Strategy_context
 		}
 		
 		//URL de buscar y editar comedor
-		if (   ($url == 	 'diner/search' 	)
-			|| ($url == 	 'diner/edit'   	)	)
+		if (   (strpos($url, 'diner/search' )!== false		)
+			|| (strpos($url, 'diner/edit'   )!== false		)	
+			|| (strpos($url, 'diner/save'   )!== false		)	)
 		{
 			return $authorization_flags->diner_edit;
 		}

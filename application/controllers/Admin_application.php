@@ -40,8 +40,8 @@ class Admin_application extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->render_table(NULL, $this->Diner_application_model->search(NULL,DINER_PENDING)['diners']);
-		$this->load->view($this->strategy_context->get_url('admin_application/search'), $this->variables);	
+		$this->variables['data-request-url'] = site_url('admin_application/render_table_response');
+		$this->load->view('admin_application/search', $this->variables);
 	}
 
 	/**
@@ -129,8 +129,7 @@ class Admin_application extends CI_Controller {
 				}
 			}			
 		}
-		$this->load->view($this->strategy_context->get_url('admin_application/save'), $this->variables);
-	}		
+			
 		echo json_encode( $this->variables );
 	}	
 	
@@ -161,7 +160,7 @@ class Admin_application extends CI_Controller {
 		$this->form_data->door				= $diner['door'];
 		$this->form_data->diner_phone		= $diner['phone'];
 			
-		$this->load->view('admin_application/save', $this->variables);		
+		$this->load->view($this->strategy_context->get_url('admin_application/save'), $this->variables);
 	}
 		
 	/**
