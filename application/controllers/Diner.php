@@ -101,8 +101,7 @@ class Diner extends CI_Controller {
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if($this->input->method() == "get")
 		{
-			$responseData = $this->Diner_model->search_by_id($id); 
-			$diner = $responseData['diner'];
+			$diner = $this->Diner_model->search_by_id($id); 
 			$this->form_data->id			= $diner['idDiner'];		
 			$this->form_data->name			= $diner['name'];			
 			$this->form_data->state			= $diner['state'];			
@@ -118,7 +117,7 @@ class Diner extends CI_Controller {
 			$this->form_data->link			= $diner['link'];			
 			$this->form_data->mail			= $diner['mail'];
 			$this->form_data->state			= $diner['state'];
-			$dinerPhotos = $responseData['photos'];
+			$dinerPhotos = $diner['photos'];
 			$this->form_data->photos		= $dinerPhotos;
 			$this->load->view('diner/save', $this->variables);
 		}
