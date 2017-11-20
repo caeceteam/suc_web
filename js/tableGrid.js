@@ -23,6 +23,15 @@ function loadBootgrid(params) {
         			var assistantButtons =  " <a title=\"Concurrentes\" type=\"button\" href=\"" + params.assistantUrl + row.id + "\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-accounts zmdi-hc-fw\"></span></a> ";
         			return assistantButtons + editButtons + deleteButton;	
         		}
+        		if (params.isDonationGrid) {
+        			if (row.state === "Aprobado") {
+        				return "";
+        			}
+        		}
+        		if (!params.showDelete) {
+        			return editButtons;
+        		}
+
         		return editButtons + deleteButton;            
         	}
         }

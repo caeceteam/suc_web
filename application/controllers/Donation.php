@@ -72,8 +72,7 @@ class Donation extends CI_Controller {
 			$row_data['title'] 				= $donation['title'];
 			$row_data['description'] 		= $donation['description'];
 			$row_data['creationDate'] 		= nice_date($donation['creationDate'], 'Y-m-d') . ', ' . substr($donation['creationDate'], -13, 5) . 'hs' ;
-			
-			$row_data['state'] 				= $donation['status'];
+			$row_data['state'] 				= $donation['status'] == DONATION_PENDING ? 'Pendiente' : ($donation['status'] == DONATION_APPROVED ? 'Aprobado' : 'Rechazado');
 			array_push($render_data['rows'], $row_data);
 		}
 		echo json_encode($render_data, TRUE);
@@ -93,6 +92,55 @@ class Donation extends CI_Controller {
 		else
 			$this->index();
 	}
+
+	/**
+	 * Funcion para acepta la solicitud
+	 * @param		string	$id
+	 * @return void
+	 */
+	public function accept($id=NULL)
+	{
+		$donation = $this->_get_post(true);
+		$response = $this->Donation_model->edit($donation);
+		if (isset($response['errors']))
+		{
+			$this->output->set_status_header('500');
+			$this->variables['error-type'] = 'unique';
+			$this->variables['error-fields'] = $response['fields'];
+		}
+			
+		echo json_encode( $this->variables );
+	}
+	
+	/**
+	 * Funcion para rechazar la solicitud
+	 * @param		string	$id
+	 * @return void
+	 */
+	public function reject($id=NULL)
+	{
+		if (trim($this->input->post('reject_reason')) == "")
+		{
+			$this->output->set_status_header('500');
+			$this->variables['error-type'] = 'empty-field';
+			$data = array(
+				'reject_reason' 	=> 'Debe ingresar algún motivo de rechazo'
+			);
+			$this->variables['error-fields'] = array_map("utf8_encode", $data);
+		} else {
+			$this->_initialize_fields();
+			$donation = $this->_get_post(false);
+			$response = $this->Donation_model->edit($donation);
+			if (isset($response['errors']))
+			{
+				$this->output->set_status_header('500');
+				$this->variables['error-type'] = 'unique';
+				$this->variables['error-fields'] = $response['fields'];
+			}
+		}
+	
+		echo json_encode( $this->variables );
+	}	
 	
 	/**
 	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
@@ -101,57 +149,23 @@ class Donation extends CI_Controller {
 	 */
 	public function edit($id=NULL)
 	{
-		$this->variables['action'] 			= site_url('donation/edit');
+		$this->variables['action'] 			= site_url('donation/accept');
 		$this->variables['request-action'] 	= 'PUT';
 		$this->variables['redirect-url'] 	= site_url('donation');
-		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
-		if($this->input->method() == "get")
-		{
-			$donation 							= $this->Donation_model->search_by_id($id); 
-			$this->form_data->id				= $donation['idDonation'];		
-			$this->form_data->idUserSender		= $donation['idUserSender'];	
-			$this->form_data->nameUserSender	= $donation['idUserSender'];
-			$this->form_data->idDinerReceiver	= $donation['idDinerReceiver'];			
-			$this->form_data->title				= $donation['title'];		
-			$this->form_data->description		= $donation['description'];	
-			$this->form_data->creationDate		= nice_date($donation['creationDate'], 'Y-m-d');
-			$this->form_data->creationTime		= substr($donation['creationDate'], -13, 5);
-			$this->form_data->status			= $donation['status'];
-			$this->load->view('donation/save', $this->variables);
-		}
-		else
-		{
-			$this->_initialize_fields();
-			$this->_set_rules();
-			$donation = new stdClass();
-			// Todo esto corresponde al PUT
-			if (!$this->form_validation->run())
-			{
-				$this->output->set_status_header('500');
-				$this->variables['error-type'] = 'empty-field';
-				$data = array(
-						'title' 		=> form_error('title'),
-						'creationDate' 	=> form_error('creationDate'),
-						'description' 	=> form_error('description'),
-						'status' 		=> form_error('status')
-				);
-				$this->variables['error-fields'] = array_map("utf8_encode", $data);
-			}
-			else
-			{
-				$response = $this->Donation_model->edit($this->_get_post());
-				if (isset($response['errors']))
-				{
-					$this->output->set_status_header('500');
-					$this->variables['error-type'] 		= 'unique';
-					$this->variables['error-fields'] 	= $response['fields'];
-				}
-				else {
-					$this->output->set_status_header('202');
-				}
-			}
-			echo json_encode( $this->variables );
-		}
+		$this->variables['reject-url'] 		= site_url('donation/reject');
+		
+		$donation 							= $this->Donation_model->search_by_id($id); 
+		$this->form_data->id				= $donation['idDonation'];		
+		$this->form_data->idUserSender		= $donation['idUserSender'];	
+		$this->form_data->nameUserSender	= $this->Donation_model->search_user_name($donation['idUserSender']);
+		$this->form_data->idDinerReceiver	= $donation['idDinerReceiver'];			
+		$this->form_data->title				= $donation['title'];		
+		$this->form_data->description		= $donation['description'];	
+		$this->form_data->creationDate		= nice_date($donation['creationDate'], 'Y-m-d');
+		$this->form_data->creationTime		= substr($donation['creationDate'], -13, 5);
+		$this->form_data->status			= $donation['status'];
+		$this->form_data->items				= $donation['items'];
+		$this->load->view('donation/save', $this->variables);
 	}
 	
 	/**
@@ -170,16 +184,11 @@ class Donation extends CI_Controller {
 	 * @param 		integer 	$id id del donation para cuando se trata de una edición
 	 * @return		object		$donation
 	 */
-	private function _get_post($id=NULL)
+	private function _get_post($accept, $id=NULL)
 	{
  		$donation = new stdClass();
- 		$donation->id 					= $id != NULL ? $id : $this->input->post('id');
- 		$donation->idUserSender 		= $this->input->post('idUserSender');
- 		$donation->idDinerReceiver 		= $this->input->post('idDinerReceiver');
- 		$donation->title 				= $this->input->post('title');
- 		$donation->creationDate 		= $this->input->post('creationDate') . "T" . $this->input->post('creationTime') . "Z";
- 		$donation->description 			= $this->input->post('description');
- 		$donation->status 				= $this->input->post('status');
+ 		$donation->id 		= $id != NULL ? $id : $this->input->post('id');
+ 		$donation->status	= $accept ? DONATION_APPROVED : DONATION_REJECTED;
  		return $donation;
 	}
 	
@@ -206,9 +215,7 @@ class Donation extends CI_Controller {
 	 */
 	private function _set_rules()
 	{
-		$this->form_validation->set_rules('title', 'Título', 'trim');
-		$this->form_validation->set_rules('description', 'Descripción', 'trim');
-		$this->form_validation->set_rules('creationDate', 'Fecha de creación', 'trim');
+		$this->form_validation->set_rules('description', 'Descripción', 'trim|required');
 	}
 
 }
