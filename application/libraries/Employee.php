@@ -34,4 +34,8 @@ class Employee implements Role_interface
     {
     	return 'templates/menuEmployee';
     }
+    public function get_home()
+    {
+    	return 'home/employee_home';
+    }
 }

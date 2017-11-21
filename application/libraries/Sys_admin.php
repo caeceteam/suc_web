@@ -35,4 +35,8 @@ class Sys_admin implements Role_interface
     {
     	return 'templates/menuSysAdmin';
     }
+    public function get_home()
+    {
+    	return 'home/sys_admin_home';
+    }
 }

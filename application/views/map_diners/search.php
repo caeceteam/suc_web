@@ -11,9 +11,8 @@
 <body data-ma-header="teal">
 
 		<?php $this->load->view('templates/header'); ?>
-      <section id="main">
-			
-	 <?php $this->load->view('templates/menu'); ?>
+      	<section id="main">			
+	 	<?php $this->load->view($this->strategy_context->get_menu()); ?>
 		<section id="content">
 			<div class="container">
 				<div class="c-header">

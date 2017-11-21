@@ -40,6 +40,15 @@ class Strategy_context
 	}
 	
 	/**
+	 * Funcion que devuelve la URL del home según el permiso
+	 * del usuario
+	 */
+	public function get_home()
+	{
+		return $this->strategy->get_home();
+	}
+	
+	/**
 	 * Funcion para setear la estrategia según el rol
 	 */
 	public function set_role($role)
@@ -78,7 +87,7 @@ class Strategy_context
 	public function get_url($url)
 	{
 		return $this->validate_url($url) ? $url : 'errors/html/error_403';
-	}
+	}	
 	
 	/**
 	 * Funcion que valida si el usuario puede 
@@ -137,7 +146,7 @@ class Strategy_context
 		}
 		
 		// URL del HOME
-		if (   (strpos($url, 'home'	)	!== false	)	)
+		if (   $url == 'home'	)
 		{
 			return $authorization_flags->home;
 		}
