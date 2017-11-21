@@ -14,9 +14,9 @@
 
 		<?php $this->load->view('templates/header'); ?>
 
-      <section id="main">
+      	<section id="main">
 			
-	 <?php $this->load->view('templates/menu'); ?>
+	 	<?php $this->load->view($this->strategy_context->get_menu()); ?>
 		<form role="form" action="<?php echo $action; ?>" class="user-diner-form" method="POST">
 			<section id="content">
 				<div class="container">
