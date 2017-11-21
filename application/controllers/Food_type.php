@@ -111,7 +111,8 @@ class Food_type extends CI_Controller {
 				{
 					$this->output->set_status_header('500');
 					$this->variables['error-type'] = 'unique';
-					$this->variables['error-fields'] = $response['fields'];
+					$this->variables['error-fields'] = array_map("utf8_encode", array(
+						'code' => isset($response['fields']['code']) ? 'Ya existe un tipo de alimento con el mismo código' : ''));
 				}
 			}
 			echo json_encode( $this->variables );
@@ -119,7 +120,7 @@ class Food_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que muestra el formulario de ediciÃ³n y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edición y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -166,7 +167,8 @@ class Food_type extends CI_Controller {
 				{
 					$this->output->set_status_header('500');
 					$this->variables['error-type'] = 'unique';
-					$this->variables['error-fields'] = $response['fields'];
+					$this->variables['error-fields'] = array_map("utf8_encode", array(
+						'code' => isset($response['fields']['code']) ? 'Ya existe un tipo de alimento con el mismo código' : ''));
 				}
 			}
 			echo json_encode( $this->variables );
@@ -187,7 +189,7 @@ class Food_type extends CI_Controller {
 	
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del foot type para cuando se trata de una ediciÃƒÂ³n
+	 * @param 		integer 	$id id del foot type para cuando se trata de una edición
 	 * @return		object		$food_type
 	 */
 	private function _get_post($id=NULL)
@@ -204,7 +206,7 @@ class Food_type extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la ediciÃƒÂ³n
+	 * Funcion que inicializa las variables de los campos del formulario para la edición
 	 * @return void
 	 */
 	private function _initialize_fields()
