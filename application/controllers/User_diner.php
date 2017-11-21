@@ -493,16 +493,14 @@ class User_diner extends CI_Controller
      */
     private function _set_rules ()
     {
-        $this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-        $this->form_validation->set_rules('surname', 'Apellido', 
-                'trim|required');
-        $this->form_validation->set_rules('mail', 'Mail', 'trim|required');
-        $this->form_validation->set_rules('bornDate', 'Fecha Nacimiento', 
-                'trim|required');
-        $this->form_validation->set_rules('role', 'Puesto', 'trim|required');
-        $this->form_validation->set_rules('alias', 'Alias', 'trim|required');
-        $this->form_validation->set_rules('docNum', 'Documento', 
-                'trim|required');
+        
+        $this->form_validation->set_rules('bornDate', 'Fecha Nacimiento', 'trim|required');
+        $this->form_validation->set_rules('role', 'Puesto', 'trim');
+        //$this->form_validation->set_rules('alias', 'Alias', 'trim');
+        //$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
+        //$this->form_validation->set_rules('surname', 'Apellido', 'trim|required');
+        //$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
+        $this->form_validation->set_rules('docNum', 'Documento', 'trim');
         $this->form_validation->set_rules('street', 'Calle', 'trim|required');
         $this->form_validation->set_rules('streetNumber', 'Numero', 'trim|required');
     }

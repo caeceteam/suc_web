@@ -17,8 +17,7 @@
       <section id="main">
 			
 	 <?php $this->load->view('templates/menu'); ?>
-		<form role="form" action="<?php echo $action; ?>"
-			class="user-diner-form" method="POST">
+		<form role="form" action="<?php echo $action; ?>" class="user-diner-form" method="POST">
 			<section id="content">
 				<div class="container">
 					<div class="c-header">
@@ -39,7 +38,7 @@
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
 										<label>Nombre</label> <input type="text" class="form-control"
-											id="name" name="name"
+											id="name" name="name" readonly="readonly"
 											value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
 									</div>
 								</div>
@@ -48,16 +47,16 @@
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
 										<label>Apellido</label> <input type="text"
-											class="form-control" id="surname" name="surname"
-											value="<?php echo ($reset) ? '' : set_value('surname', utf8_decode($this->form_data->surname)); ?>">
+											class="form-control" id="surname" name="surname" readonly="readonly"
+											value="<?php echo ($reset) ? '' : set_value('surname', utf8_decode($this->form_data->surname)); ?>" >
 									</div>
 								</div>
 								<!-- FILA 01 - ALIAS DE LA PERSONA -->
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
 										<label>Alias</label> <input type="text" class="form-control"
-											id="alias" name="alias" placeholder="Alias en el sistema."
-											value="<?php echo ($reset) ? '' : set_value('alias', utf8_decode($this->form_data->alias)); ?>">
+											id="alias" name="alias" readonly="readonly" placeholder="Alias en el sistema."
+											value="<?php echo ($reset) ? '' : set_value('alias', utf8_decode($this->form_data->alias)); ?>" >
 									</div>
 								</div>
 
@@ -114,8 +113,8 @@
 								<div class="col-sm-6">
 									<div class="form-group fg-line">
 										<label>Email particular</label> <input type="email"
-											class="form-control" id="mail" name="mail"
-											value="<?php echo ($reset) ? '' : set_value('mail', utf8_decode($this->form_data->mail)); ?>">
+											class="form-control" id="mail" name="mail" readonly="readonly"
+											value="<?php echo ($reset) ? '' : set_value('mail', utf8_decode($this->form_data->mail)); ?>" >
 									</div>
 								</div>
 
