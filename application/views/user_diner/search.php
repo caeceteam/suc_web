@@ -13,12 +13,12 @@
 		<?php $this->load->view('templates/header'); ?>
         <section id="main">
 			
-			<?php $this->load->view('templates/menu'); ?>
+			<?php $this->load->view($this->strategy_context->get_menu()); ?>
 			
             <section id="content">
                 <div class="container">
                     <div class="c-header">
-                        <h2 style="font-size: 25px;">Gestion de usuarios</h2> <!--TODO CC: Pass style inline to css class-->
+                        <h2 style="font-size: 25px;">Gestión de usuarios</h2> <!--TODO CC: Pass style inline to css class-->
                    		<!-- <?php $_SESSION['last_page'] = $_SERVER['PHP_SELF']?> -->
                     </div>
 
