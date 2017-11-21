@@ -38,7 +38,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $lang['ut_test_name'] = 'Nombre del test';
-$lang['ut_test_datatype'] = 'Tipo de dato del test';
+$lang['ut_test_datatype'] = 'Tipo de dato devuelto';
 $lang['ut_res_datatype'] = 'Tipo de dato esperado';
 $lang['ut_result'] = 'Resultado';
 $lang['ut_undefined'] = 'Nombre del test no definido';
