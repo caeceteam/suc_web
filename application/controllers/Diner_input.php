@@ -154,7 +154,7 @@ class Diner_input extends CI_Controller {
 			}
 			else
 			{
-				$response = $this->Input_type_model->edit($this->_get_post());
+				$response = $this->Diner_input_model->edit($this->_get_post());
 				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');

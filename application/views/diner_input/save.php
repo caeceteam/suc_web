@@ -69,7 +69,7 @@
 											<div class="col-sm-4">
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="genderType">
-														<input type="text" id="genderType" name="genderType" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('genderType', utf8_decode($this->form_data->genderType)); ?>">
+														<input type="text" id="genderType" name="genderType" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('genderType', utf8_decode($this->form_data->genderType)); ?>">
 														<label class="fg-label">Género</label>
 													</div>
 												</div>
