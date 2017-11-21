@@ -159,7 +159,8 @@ class Input_type extends CI_Controller {
 				{
 					$this->output->set_status_header('500');
 					$this->variables['error-type'] = 'unique';
-					$this->variables['error-fields'] = $response['fields'];
+					$this->variables['error-fields'] = array_map("utf8_encode", array(
+						'code' => isset($response['fields']['code']) ? 'Ya existe un tipo de insumo con el mismo código' : ''));
 				}
 			}
 			echo json_encode( $this->variables );
