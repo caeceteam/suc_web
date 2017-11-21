@@ -34,4 +34,8 @@ class Colaborator implements Role_interface
     {
     	return 'templates/menuColaborator';
     }
+    public function get_home()
+    {
+    	return 'errors/html/error_403';
+    }
 }

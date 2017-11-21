@@ -18,11 +18,6 @@
 						<div class="pull-left">
 							<img class="avatar-img" alt="">
 						</div>
-	
-						<div class="media-body">
-							<div class="lgi-heading">Comedor Los piletones</div>
-							<small class="lgi-text">Solicitud de frazadas</small>
-						</div>
 					</a>
 				</div>
 			</div>

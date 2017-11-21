@@ -34,4 +34,8 @@ class Guest implements Role_interface
     {
     	return 'templates/menuGuest';
     }
+    public function get_home()
+    {
+    	return 'errors/html/error_403';
+    }
 }

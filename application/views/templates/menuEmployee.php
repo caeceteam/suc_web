@@ -54,8 +54,7 @@
                         <li><a href="<?php echo base_url('assistant');?>"> Concurrentes</a></li>
                 	</ul>
                 </li>
-				<li><a href=""> Eventos</a></li>
-				<li><a href=""> Comedores Cercanos</a></li>
+				<li><a href="<?php echo base_url('map_diners');?>"> Comedores Cercanos</a></li>
 	        </ul>
 		</li>
 	</ul>
