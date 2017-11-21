@@ -35,14 +35,23 @@ class Diner_food_model extends CI_Model {
 	 */
 	private function search($url)
 	{
-		$response = $this->client->request('GET', $url);		
-		if($response->getStatusCode()==HTTP_OK)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try{
+			$response = $this->client->request('GET', $url);		
+			if($response->getStatusCode()==HTTP_OK)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
-			return NULL;		
+		catch (ServerException $e) {
+			return $this->errorMessage($e);
+		}
+		catch(Exception $e)
+		{
+			return NULL;
+		}
 	}
 	
 	/**
@@ -117,8 +126,12 @@ class Diner_food_model extends CI_Model {
 			else
 				return NULL;
 		}
-		catch (Exception $e) {
+		catch (ServerException $e) {
 			return $this->errorMessage($e);
+		}
+		catch (Exception $e)
+		{
+			return NULL;
 		}
 	}
 	
@@ -153,9 +166,12 @@ class Diner_food_model extends CI_Model {
 			else
 				return FALSE;
 		}
-		catch(Exception $e)
-		{
+		catch (ServerException $e) {
 			return $this->errorMessage($e);
+		}
+		catch (Exception $e)
+		{
+			return NULL;
 		}
 	}
 };
