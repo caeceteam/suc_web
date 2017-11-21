@@ -3356,8 +3356,9 @@ output {
 .form-control[disabled],
 .form-control[readonly],
 fieldset[disabled] .form-control {
-  background-color: #eeeeee;
-  opacity: 1;
+  color: #9d9d9d;
+  background: transparent;  
+  cursor: not-allowed;
 }
 
 .form-control[disabled],
