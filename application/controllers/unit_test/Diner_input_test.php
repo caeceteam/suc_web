@@ -47,10 +47,10 @@ class Diner_input_test extends CI_Controller {
 		//Test - Edición
 		$this->editar('T006 - Edición exitosa - Búsqueda y edición de un stock de insumo');
 		$this->editar_inc('T007 - Edición incorrecta - Búsqueda y edición de un stock sin un campo obligatorio');
-		/*
+		
 		//Test - Borrado
-		$this->baja_test('T008 - Baja correcta - Baja de un stock de comida');
-		$this->baja_inc_test('T009 - Baja incorrecta - Baja de un stock de comida inexistente');*/
+		$this->baja_test('T008 - Baja correcta - Baja de un stock de insumo');
+		$this->baja_inc_test('T009 - Baja incorrecta - Baja de un stock de insumo inexistente');
 				
 		echo $this->unit->report();
 	}
@@ -155,7 +155,7 @@ class Diner_input_test extends CI_Controller {
 		$diner_input->size 			= '';
 		$diner_input->genderType 	= 'U';
 		$diner_input->quantity 		= '12';
-		$diner_input->description 	= '12 libros de tabla blanda de misterio';
+		$diner_input->description 	= '12 libros de tapa blanda de misterio';
 		
 		//Inicio del Test
 	    $test      = $this->Diner_input_model->edit($diner_input);
@@ -175,9 +175,13 @@ class Diner_input_test extends CI_Controller {
 	
 	    //Inicialización variables Test
 	    $diner_input->id			= $this->id_test;
+		$diner_input->idDiner 		= null;
+		$diner_input->idInputType 	= null;
 		$diner_input->name 			= 'Libros de Agatha Christie';
 		$diner_input->size 			= '';
-		$diner_input->description 	= '12 libros de tabla blanda de misterio';
+		$diner_input->genderType 	= null;
+		$diner_input->quantity 		= null;
+		$diner_input->description 	= '12 libros de tapa blanda de misterio';
 		
 		//Inicio del Test
 	    $test      = $this->Diner_input_model->edit($diner_input);
@@ -192,8 +196,8 @@ class Diner_input_test extends CI_Controller {
 	*/
 	public function baja_test($name)
 	{
-		$test = $this->Diner_food_model->delete($this->id_test);
-		$expected_result  = 'is_bool';
+		$test = $this->Diner_input_model->delete($this->id_test);
+		$expected_result  = true;
 		$test_name        = $name;
 		$notes            = var_export($test, true);
 		$this->unit->run($test, $expected_result, $test_name, $notes);
@@ -205,9 +209,7 @@ class Diner_input_test extends CI_Controller {
 	*/
 	public function baja_inc_test($name)
 	{
-		try{
-	       $test = $this->Diner_food_model->delete($this->id_inc_test);
-	    }catch(Exception $e){}
+	    $test = $this->Diner_input_model->delete($this->id_inc_test);
 		
 		$expected_result  = 'is_null';
 		$test_name        = $name;

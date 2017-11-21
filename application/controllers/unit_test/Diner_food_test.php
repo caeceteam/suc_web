@@ -138,9 +138,7 @@ class Diner_food_test extends CI_Controller {
 	{
 	    $test = null;
 	    //Inicio del Test
-	    try{
-	       $test  = $this->Diner_food_model->search_by_id($this->id_inc_test);
-		}catch(Exception $e){}
+	    $test  = $this->Diner_food_model->search_by_id($this->id_inc_test);
 	    
 	    $expected_result  = 'is_null';
 		$test_name        = $name;
@@ -210,7 +208,7 @@ class Diner_food_test extends CI_Controller {
 	public function baja_test($name)
 	{
 		$test = $this->Diner_food_model->delete($this->id_test);
-		$expected_result  = 'is_bool';
+		$expected_result  = true;
 		$test_name        = $name;
 		$notes            = var_export($test, true);
 		$this->unit->run($test, $expected_result, $test_name, $notes);
@@ -222,9 +220,7 @@ class Diner_food_test extends CI_Controller {
 	*/
 	public function baja_inc_test($name)
 	{
-		try{
-	       $test = $this->Diner_food_model->delete($this->id_inc_test);
-	    }catch(Exception $e){}
+	    $test = $this->Diner_food_model->delete($this->id_inc_test);
 		
 		$expected_result  = 'is_null';
 		$test_name        = $name;
