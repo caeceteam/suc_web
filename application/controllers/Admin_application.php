@@ -40,8 +40,8 @@ class Admin_application extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->render_table(NULL, $this->Diner_application_model->search(NULL,DINER_PENDING)['diners']);
-		$this->load->view($this->strategy_context->get_url('admin_application/search'), $this->variables);	
+		$this->variables['data-request-url'] = site_url('admin_application/render_table_response');
+		$this->load->view($this->strategy_context->get_url('admin_application/search'), $this->variables);
 	}
 
 	/**
@@ -129,8 +129,7 @@ class Admin_application extends CI_Controller {
 				}
 			}			
 		}
-		$this->load->view($this->strategy_context->get_url('admin_application/save'), $this->variables);
-	}		
+			
 		echo json_encode( $this->variables );
 	}	
 	
@@ -147,21 +146,23 @@ class Admin_application extends CI_Controller {
 		$this->variables['reject-url'] = site_url('admin_application/reject');
 		
 		$diner = $this->Diner_application_model->search_by_id($id);
-		$this->form_data->id 				= $diner['idDiner'];
-		$this->form_data->photo				= isset($diner['photos'][0]) ? $diner['photos'][0]['url'] : '';
-		$this->form_data->id_user			= $diner['user']['idUser'];
-		$this->form_data->alias				= $diner['user']['alias'];
-		$this->form_data->user_name			= $diner['user']['name'];
-		$this->form_data->surname			= $diner['user']['surname'];
-		$this->form_data->user_mail			= $diner['user']['mail'];
-		$this->form_data->diner_name		= $diner['name'];
-		$this->form_data->street			= $diner['street'];
-		$this->form_data->streetNumber		= $diner['streetNumber'];
-		$this->form_data->floor				= $diner['floor'];
-		$this->form_data->door				= $diner['door'];
-		$this->form_data->diner_phone		= $diner['phone'];
-			
-		$this->load->view('admin_application/save', $this->variables);		
+		if ( $diner == !NULL )
+		{
+			$this->form_data->id 				= $diner['idDiner'];
+			$this->form_data->photo				= isset($diner['photos'][0]) ? $diner['photos'][0]['url'] : '';
+			$this->form_data->id_user			= $diner['user']['idUser'];
+			$this->form_data->alias				= $diner['user']['alias'];
+			$this->form_data->user_name			= $diner['user']['name'];
+			$this->form_data->surname			= $diner['user']['surname'];
+			$this->form_data->user_mail			= $diner['user']['mail'];
+			$this->form_data->diner_name		= $diner['name'];
+			$this->form_data->street			= $diner['street'];
+			$this->form_data->streetNumber		= $diner['streetNumber'];
+			$this->form_data->floor				= $diner['floor'];
+			$this->form_data->door				= $diner['door'];
+			$this->form_data->diner_phone		= $diner['phone'];
+		}	
+		$this->load->view($this->strategy_context->get_url('admin_application/save'), $this->variables);
 	}
 		
 	/**

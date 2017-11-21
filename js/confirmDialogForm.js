@@ -21,7 +21,7 @@ function showConfirmDialog(params) {
                           url: params.requestUrl, // target element(s) to be updated with server response 
                            cache : false,
                           success : function(response){ 
-                               successAction(params.successText, params.redirectUrl);
+                        	  successAction(params.successTitle, params.successText, params.redirectUrl);
                            },
                            error : function(response){
                                failedAction(response, params.failedText)                                   
@@ -50,7 +50,7 @@ function showConfirmDialog(params) {
 };
 			
 function successAction(successTitle, successText, redirectUrl) {
-   	swal({
+	swal({
    			title: successTitle != null ? successTitle : "Grabado", 
    			text: successText, 
    			type: "success"
