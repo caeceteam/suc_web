@@ -1,7 +1,7 @@
 <?php
-class Assitant_test extends CI_Controller {
+class Assistant_test extends CI_Controller {
 	/**
-	* Diner_input_test se usa para probar el ABM de Stock de insumos
+	* Assistant_test se usa para probar el ABM de Concurrentes
 	*
 	*/
     //Id
@@ -9,13 +9,25 @@ class Assitant_test extends CI_Controller {
 	public $id_inc_test    = 0;
 	
 	//Test Creación
-	public $idDiner_test  		= '1';//Obligatorio
-	public $idInputType_test  	= '2';//Obligatorio
-	public $name_test        	= 'Libros elige tu propia aventura';
-	public $size_test			= '';
-	public $genderType_test    	= 'U';//Obligatorio
-	public $quantity_test    	= '10';//Obligatorio
-	public $description_test	= '10 libros de tapa dura en muy buenas condiciones.';
+	public $idDiner_test  		= '2';//Obligatorio
+	public $name  				= 'Eze';//Obligatorio
+	public $surname        		= 'Fridman';
+	public $bornDate			= '1990-12-12';
+	public $street    			= 'Av. Cramer';//Obligatorio
+	public $streetNumber    	= '1222';//Obligatorio
+	public $floor				= '10';
+	public $door				= 'A';
+	public $zipcode				= '1638';
+	public $latitude			= '-34.603684';
+	public $longitude			= '-58.381559';
+	public $phone				= '123123123';
+	public $contactName			= 'Marco Cupo';
+	public $scholarship			= '4';
+	public $eatAtOwnHouse		= '0';
+	public $economicSituation	= 'Humilde';
+	public $celiac				= '1';
+	public $diabetic			= '1';
+	public $document			= '35185983';
 	
 	/**
 	* Unit Test - Constructor Diner Input
@@ -25,7 +37,7 @@ class Assitant_test extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library(array( 'login'));
-		$this->load->model(array('Diner_input_model'));
+		$this->load->model(array('Assistant_model'));
 		$this->load->library('unit_test');
 	}
 	
@@ -36,21 +48,21 @@ class Assitant_test extends CI_Controller {
 	public function index()
 	{  
 		//Test - Altas
-		$this->alta_test('T001 - Alta exitosa - Crea un stock de un insumo');
+		$this->alta_test('T001 - Alta exitosa - Crea un concurrente');
 		$this->alta_vacia_test('T002 - Alta incorrecta - Campos obligatorios vacios');
 		
 		//Test - Consultas
-		$this->consulta_todos_test('T003 - Búsqueda exitosa - Buscar todos los stocks de insumos');
-		$this->consulta_codigo_test('T004 - Búsqueda exitosa - Buscar un stock de insumo en particular ');
-		$this->consulta_incorrecta_test('T005 - Búsqueda incorrecta - Buscar un stock de insumo inexistente');
+		$this->consulta_todos_test('T003 - Búsqueda exitosa - Buscar todos los concurrentes');
+		$this->consulta_codigo_test('T004 - Búsqueda exitosa - Buscar un concurrentes en particular ');
+		$this->consulta_incorrecta_test('T005 - Búsqueda incorrecta - Buscar un concurrente inexistente');
 		
 		//Test - Edición
-		$this->editar('T006 - Edición exitosa - Búsqueda y edición de un stock de insumo');
-		$this->editar_inc('T007 - Edición incorrecta - Búsqueda y edición de un stock sin un campo obligatorio');
+		$this->editar('T006 - Edición exitosa - Búsqueda y edición de un concurrente');
+		$this->editar_inc('T007 - Edición incorrecta - Búsqueda y edición de un concurrente sin un campo obligatorio');
 		
 		//Test - Borrado
-		$this->baja_test('T008 - Baja correcta - Baja de un stock de insumo');
-		$this->baja_inc_test('T009 - Baja incorrecta - Baja de un stock de insumo inexistente');
+		$this->baja_test('T008 - Baja correcta - Baja de un concurrente');
+		$this->baja_inc_test('T009 - Baja incorrecta - Baja de un concurrente inexistente');
 				
 		echo $this->unit->report();
 	}
@@ -61,18 +73,32 @@ class Assitant_test extends CI_Controller {
 	*/
 	public function alta_test($name)
 	{
-		$diner_input = new stdClass();
+		$assistant = new stdClass();
 		
-		$diner_input->idDiner 		= $this->idDiner_test;
-		$diner_input->idInputType 	= $this->idInputType_test;
-		$diner_input->name 			= $this->name_test;
-		$diner_input->size 			= $this->size_test;
-		$diner_input->genderType 	= $this->genderType_test;
-		$diner_input->quantity 		= $this->quantity_test;
-		$diner_input->description 	= $this->description_test;
+		$assistant->idDiner 			= $this->idDiner_test		;
+		$assistant->name  				= $this->name  				;
+		$assistant->surname        		= $this->surname        	;
+		$assistant->bornDate			= $this->bornDate			;
+		$assistant->street    			= $this->street    			;
+		$assistant->streetNumber    	= $this->streetNumber    	;
+		$assistant->floor				= $this->floor				;
+		$assistant->door				= $this->door				;
+		$assistant->floor				= $this->floor				;
+		$assistant->zipcode				= $this->zipcode			;
+		$assistant->latitude			= $this->latitude			;
+		$assistant->longitude			= $this->longitude			;
+		$assistant->phone				= $this->phone				;
+		$assistant->contactName			= $this->contactName		;
+		$assistant->scholarship			= $this->scholarship		;
+		$assistant->eatAtOwnHouse		= $this->eatAtOwnHouse		;
+		$assistant->economicSituation	= $this->economicSituation	;
+		$assistant->celiac				= $this->celiac				;
+		$assistant->diabetic			= $this->diabetic			;
+		$assistant->document			= $this->document			;
 		
-		$test             = $this->Diner_input_model->add($diner_input);
-		$this->id_test    = $test['idDinerInput'];
+		
+		$test             = $this->Assistant_model->add($assistant);
+		$this->id_test    = $test['idAssistant'];
 		$test_name        = $name;
 		$notes            = var_export($test, true);
 		$this->unit->run($test, 'is_array' , $test_name, $notes);
@@ -84,13 +110,12 @@ class Assitant_test extends CI_Controller {
 	 */
 	public function alta_vacia_test($name)
 	{
-		$diner_input = new stdClass();
+		$assistant = new stdClass();
 		
-		$diner_input->name 			= $this->name_test;
-		$diner_input->size 			= $this->size_test;
-		$diner_input->description 	= $this->description_test;
+		$assistant->idDiner 			= $this->idDiner_test		;
+		$assistant->name  				= $this->name  				;
 		
-		$test             = $this->Diner_input_model->add($diner_input);
+		$test             = $this->Assistant_model->add($assistant);
 		$test_name        = $name;
 		$notes            = var_export($test, true);
 		$this->unit->run($test, 'is_array' , $test_name, $notes);
@@ -103,7 +128,7 @@ class Assitant_test extends CI_Controller {
 	public function consulta_todos_test($name)
 	{   
 	    //Inicio del Test
-	    $test             = $this->Diner_input_model->get_dinerinputs_by_page(0);
+	    $test             = $this->Assistant_model->get_assistants_by_page_and_idDiner(0, $this->idDiner_test);
 		$expected_result  = 'is_array';
 		$test_name        = $name;
 		$notes            = var_export($test, true);
@@ -117,7 +142,7 @@ class Assitant_test extends CI_Controller {
 	public function consulta_codigo_test($name)
 	{	
 	    //Inicio del Test
-	    $test             = $this->Diner_input_model->search_by_id($this->id_test);
+	    $test             = $this->Assistant_model->search_by_id($this->id_test);
 	    $expected_result  = 'is_array';
 		$test_name        = $name;
 		$notes            = var_export($test, true);
@@ -131,7 +156,7 @@ class Assitant_test extends CI_Controller {
 	public function consulta_incorrecta_test($name)
 	{
 	    //Inicio del Test
-		$test  = $this->Diner_input_model->search_by_id($this->id_inc_test);
+		$test  = $this->Assistant_model->get_assistants_by_idDiner($this->id_inc_test);
 	    
 	    $expected_result  = 'is_null';
 		$test_name        = $name;
@@ -145,20 +170,33 @@ class Assitant_test extends CI_Controller {
 	 */
 	public function editar($name)
 	{
-		$diner_input = new stdClass();
+		$assistant = new stdClass();
 	
 	    //Inicialización variables Test
-	    $diner_input->id			= $this->id_test;
-		$diner_input->idDiner 		= $this->idDiner_test;
-		$diner_input->idInputType 	= $this->idInputType_test;
-		$diner_input->name 			= 'Libros de Agatha Christie';
-		$diner_input->size 			= '';
-		$diner_input->genderType 	= 'U';
-		$diner_input->quantity 		= '12';
-		$diner_input->description 	= '12 libros de tapa blanda de misterio';
+	    $assistant->id					= $this->id_test;
+		$assistant->idDiner 			= $this->idDiner_test		;
+		$assistant->name  				= $this->name  				;
+		$assistant->surname        		= $this->surname        	;
+		$assistant->bornDate			= $this->bornDate			;
+		$assistant->street    			= $this->street    			;
+		$assistant->streetNumber    	= $this->streetNumber    	;
+		$assistant->floor				= $this->floor				;
+		$assistant->door				= $this->door				;
+		$assistant->floor				= $this->floor				;
+		$assistant->zipcode				= $this->zipcode			;
+		$assistant->latitude			= $this->latitude			;
+		$assistant->longitude			= $this->longitude			;
+		$assistant->phone				= $this->phone				;
+		$assistant->contactName			= $this->contactName		;
+		$assistant->scholarship			= $this->scholarship		;
+		$assistant->eatAtOwnHouse		= 1		;
+		$assistant->economicSituation	= $this->economicSituation	;
+		$assistant->celiac				= $this->celiac				;
+		$assistant->diabetic			= $this->diabetic			;
+		$assistant->document			= $this->document			;
 		
 		//Inicio del Test
-	    $test      = $this->Diner_input_model->edit($diner_input);
+	    $test      = $this->Assistant_model->edit($assistant);
 	    $test_name = $name;
 	    $notes     = var_export($test, true);
 	    $this->unit->run($test, 'is_array' , $test_name, $notes);
@@ -171,20 +209,16 @@ class Assitant_test extends CI_Controller {
 	 */
 	public function editar_inc($name)
 	{
-		$diner_input = new stdClass();
+		$assistant = new stdClass();
 	
 	    //Inicialización variables Test
-	    $diner_input->id			= $this->id_test;
-		$diner_input->idDiner 		= null;
-		$diner_input->idInputType 	= null;
-		$diner_input->name 			= 'Libros de Agatha Christie';
-		$diner_input->size 			= '';
-		$diner_input->genderType 	= null;
-		$diner_input->quantity 		= null;
-		$diner_input->description 	= '12 libros de tapa blanda de misterio';
+	    $assistant->id			= $this->id_test;
+		$assistant->idDiner 	= $this->idDiner_test;
+		$assistant->name 		= null;
+		$assistant->surname 	= null;
 		
 		//Inicio del Test
-	    $test      = $this->Diner_input_model->edit($diner_input);
+	    $test      = $this->Assistant_model->edit($assistant);
 	    $test_name = $name;
 	    $notes     = var_export($test, true);
 	    $this->unit->run($test, 'is_array' , $test_name, $notes);
@@ -196,7 +230,7 @@ class Assitant_test extends CI_Controller {
 	*/
 	public function baja_test($name)
 	{
-		$test = $this->Diner_input_model->delete($this->id_test);
+		$test = $this->Assistant_model->delete($this->id_test);
 		$expected_result  = true;
 		$test_name        = $name;
 		$notes            = var_export($test, true);
@@ -209,7 +243,7 @@ class Assitant_test extends CI_Controller {
 	*/
 	public function baja_inc_test($name)
 	{
-	    $test = $this->Diner_input_model->delete($this->id_inc_test);
+	    $test = $this->Assistant_model->delete($this->id_inc_test);
 		
 		$expected_result  = 'is_null';
 		$test_name        = $name;

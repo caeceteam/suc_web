@@ -58,14 +58,23 @@ class Assistant_model extends CI_Model {
 	 */
 	private function search($url)
 	{
-		$response = $this->client->request('GET', $url);		
-		if($response->getStatusCode()==HTTP_OK)
-		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+		try{
+			$response = $this->client->request('GET', $url);		
+			if($response->getStatusCode()==HTTP_OK)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
-			return NULL;		
+		catch (ServerException $e) {
+			return $this->errorMessage($e);
+		}
+		catch(Exception $e)
+		{
+			return NULL;
+		}
 	}
 	
 	/**
@@ -180,13 +189,22 @@ class Assistant_model extends CI_Model {
 	 */
 	public function delete($id)
 	{
-		$response = $this->client->request('DELETE', 'api/assistants/' . $id);
-		if($response->getStatusCode()==HTTP_OK)
-		{
-			return TRUE;
+		try{
+			$response = $this->client->request('DELETE', 'api/assistants/' . $id);
+			if($response->getStatusCode()==HTTP_OK || $response->getStatusCode()==HTTP_NO_CONTENT)
+			{
+				return TRUE;
+			}
+			else
+				return FALSE;
 		}
-		else
-			return FALSE;
+		catch (ServerException $e) {
+			return $this->errorMessage($e);
+		}
+		catch (Exception $e)
+		{
+			return NULL;
+		}
 	}
 };
 
