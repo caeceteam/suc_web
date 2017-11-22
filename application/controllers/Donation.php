@@ -50,7 +50,13 @@ class Donation extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data 		= $this->Donation_model->get_donations_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
+		if ($this->session->role == SYS_ADMIN){
+			$service_data 		= $this->Donation_model->get_donations_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
+		}
+		else {
+			$service_data 		= $this->Donation_model->get_donations_by_idDiner_page_and_search($this->session->idDiner, $this->input->post('current') - 1, $this->input->post('searchPhrase'));
+		}
+		
 		$pagination_data 	= $service_data['pagination'];
 		$donations_data 	= $service_data['donations'];
 	

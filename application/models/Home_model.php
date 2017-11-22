@@ -58,12 +58,10 @@ class Home_model extends CI_Model {
 	 * @param 		string 		$id
 	 * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
 	 */
-	public function donation_search($id=NULL, $status=NULL)
+	public function donation_search($idDiner=NULL, $status=NULL)
 	{
-		if(isset($id))
-			$response = $this->client->request('GET', 'api/donations/' . $id);
-		else
-			$response = $this->client->request('GET', $status !== NULL ? 'api/donations?status=' . $status : 'api/donations/');
+		$url = 'api/donations?status=' . $status . '&idDinerReceiver=' . $idDiner;
+		$response = $this->client->request('GET', $url);
 			if($response->getStatusCode()==HTTP_OK)
 			{
 				$body = $response->getBody();
