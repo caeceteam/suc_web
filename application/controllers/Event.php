@@ -119,7 +119,7 @@ class Event extends CI_Controller {
 						'street' 		=> form_error('street'),
 						'date' 			=> form_error('date'));
 				if (!$isImageSaved) {
-					$data['photo'] = 'Error al guardar la foto del comedor.';
+					$data['photo'] = 'Error al guardar la foto del evento.';
 				}
 				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
