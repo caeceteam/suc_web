@@ -75,6 +75,7 @@ class Diner_application extends CI_Controller {
 						'alias' => form_error('alias'));
 				$data['photo'] = $_FILES['photo']['tmp_name'] == "" ? '<p>Debe elegir una imagen</p>' : (!$isImageSaved ? '<p>Hubo un error al guardar la imagen</p>' : '');
 				$this->variables['error-fields'] =  array_map("utf8_encode", $data);
+				echo json_encode($this->variables, TRUE);
 			}
 			else
 			{
