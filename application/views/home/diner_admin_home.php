@@ -29,7 +29,7 @@
                         <!-- Todo Lists -->
                         <div class="card" id="todo-lists">
                             <div class="card-header ch-dark palette-Orange-400 bg">
-                                <h2>Lista de aprobaciones pendientes <small>Existe un total de <?php echo $this->form_data->diner_pending_approvals + $this->form_data->donation_pending_approvals; ?> aprobaciones pendientes	</small></h2>
+                                <h2>Lista de aprobaciones pendientes <small>Existe un total de <?php echo $this->form_data->donation_pending_approvals; ?> aprobaciones pendientes	</small></h2>
                             </div>
 
                             <div class="card-body">
