@@ -108,7 +108,7 @@ class Admin_application extends CI_Controller {
 			$this->output->set_status_header('500');
 			$this->variables['error-type'] = 'empty-field';
 			$data = array(
-					'reject_reason' 	=> 'Debe ingresar alg煤n motivo de rechazo'
+					'reject_reason' 	=> 'Debe ingresar alg鷑 motivo de rechazo'
 			);
 			$this->variables['error-fields'] = array_map("utf8_encode", $data);
 		} else {
@@ -134,7 +134,7 @@ class Admin_application extends CI_Controller {
 	}	
 	
 	/**
-	 * Funcion que muestra el formulario de edici贸n y guarda la misma cuando la validacion del formulario no arroja errores
+	 * Funcion que muestra el formulario de edici髇 y guarda la misma cuando la validacion del formulario no arroja errores
 	 * @param		string	$id
 	 * @return void
 	 */
@@ -167,7 +167,7 @@ class Admin_application extends CI_Controller {
 		
 	/**
 	 * Obtiene los datos del post y los devuelve en forma de objeto
-	 * @param 		integer 	$id id del diner para cuando se trata de una edici贸n
+	 * @param 		integer 	$id id del diner para cuando se trata de una edici髇
 	 * @return		object		$diner_application
 	 */
 	private function _get_post($accept, $id=NULL)
@@ -190,7 +190,7 @@ class Admin_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que inicializa las variables de los campos del formulario para la edici贸n
+	 * Funcion que inicializa las variables de los campos del formulario para la edici髇
 	 * @return void
 	 */
 	private function _initialize_fields()
@@ -237,7 +237,7 @@ class Admin_application extends CI_Controller {
 	}
 	
 	/**
-	 * Funci贸n que envia un mail a un destinatario indicando el estado de su solicitud
+	 * Funci髇 que envia un mail a un destinatario indicando el estado de su solicitud
 	 * @param    $diner_application 	array  array del diner application
 	 * @return   bool 					indica si el mail se pudo enviar
 	 */
