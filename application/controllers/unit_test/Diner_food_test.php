@@ -103,7 +103,7 @@ class Diner_food_test extends CI_Controller {
 	}
 	
 	/**
-	* Consulta - Cosntulta satisfactoria del todos los elementos existentes
+	* Consulta - Consulta satisfactoria del todos los elementos existentes
 	* @return void
 	*/
 	public function consulta_todos_test($name)
@@ -117,7 +117,7 @@ class Diner_food_test extends CI_Controller {
 	}
 	
 	/**
-	* Consulta - Cosntulta satisfactoria por codigo
+	* Consulta - Consulta satisfactoria por codigo
 	* @return void
 	*/
 	public function consulta_codigo_test($name)

@@ -40,14 +40,24 @@ class Diner_application_model extends CI_Model {
 	 */
 	public function search($url)
 	{
-		$response = $this->client->request('GET', $url);
-		if($response->getStatusCode()==HTTP_OK)
+		try
 		{
-			$body = $response->getBody();
-			return json_decode($body,TRUE);
+			$response = $this->client->request('GET', $url);
+			if($response->getStatusCode()==HTTP_OK)
+			{
+				$body = $response->getBody();
+				return json_decode($body,TRUE);
+			}
+			else
+				return NULL;
 		}
-		else
+		catch (ServerException $e) {
+			return $this->errorMessage($e);
+		}
+		catch(Exception $e)
+		{
 			return NULL;
+		}
 	}
 	
 	/**
@@ -79,7 +89,6 @@ class Diner_application_model extends CI_Model {
 		$url = 'api/diners?page=' . $page . '&state=0&name=' . $searchTxt;
 		return $this->search($url);
 	}
-	
 	
 	/**
 	 * Alta de comedor y usuario
@@ -124,8 +133,12 @@ class Diner_application_model extends CI_Model {
 			else
 				return NULL;			
 		}
-		catch (Exception $e) {
+		catch (ServerException $e) {
 			return $this->errorMessage($e);
+		}
+		catch (Exception $e)
+		{
+			return NULL;
 		}
 	}
 	
