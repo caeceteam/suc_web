@@ -41,6 +41,7 @@ class Assistant extends CI_Controller {
 	public function index($idDiner=NULL)
 	{		
 		$idDinerForSearch = $idDiner == NULL ? $this->session->idDiner : $idDiner;
+		$this->form_data->idDiner = $idDiner;
 		$this->variables['data-request-url'] = site_url('assistant/render_table_response/') . $idDinerForSearch;
 		$this->load->view($this->strategy_context->get_url('assistant/search'), $this->variables);
 	}	
@@ -83,7 +84,7 @@ class Assistant extends CI_Controller {
 		$this->_set_rules();
 		if ($this->input->method() == "get")
 		{
-			$this->input->idDiner = $idDiner;
+			$this->form_data->idDiner = $idDiner;
 			$this->load->view($this->strategy_context->get_url('assistant/save'), $this->variables);
 		}
 		else
@@ -165,8 +166,10 @@ class Assistant extends CI_Controller {
 				$this->output->set_status_header('500');
 				$this->variables['error-type'] = 'empty-field';
 				$data = array(
-						'code' => form_error('code'),
-						'name' => form_error('name'));
+						'surname' 	=> form_error('surname'),
+						'name' 		=> form_error('name'),
+						'bornDate' 	=> form_error('bornDate'),
+						'document' 	=> form_error('document'));
 				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
