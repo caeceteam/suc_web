@@ -38,7 +38,7 @@
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
 										<label>Nombre</label> <input type="text" class="form-control"
-											id="name" name="name" readonly="readonly"
+											id="name" name="name" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'readonly="readonly"' : ''; ?>
 											value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
 									</div>
 								</div>
@@ -47,7 +47,7 @@
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
 										<label>Apellido</label> <input type="text"
-											class="form-control" id="surname" name="surname" readonly="readonly"
+											class="form-control" id="surname" name="surname" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'readonly="readonly"' : ''; ?>
 											value="<?php echo ($reset) ? '' : set_value('surname', utf8_decode($this->form_data->surname)); ?>" >
 									</div>
 								</div>
@@ -55,7 +55,7 @@
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
 										<label>Alias</label> <input type="text" class="form-control"
-											id="alias" name="alias" readonly="readonly" placeholder="Alias en el sistema."
+											id="alias" name="alias" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'readonly="readonly"' : ''; ?> placeholder="Alias en el sistema."
 											value="<?php echo ($reset) ? '' : set_value('alias', utf8_decode($this->form_data->alias)); ?>" >
 									</div>
 								</div>
@@ -113,7 +113,7 @@
 								<div class="col-sm-6">
 									<div class="form-group fg-line">
 										<label>Email particular</label> <input type="email"
-											class="form-control" id="mail" name="mail" readonly="readonly"
+											class="form-control" id="mail" name="mail" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'readonly="readonly"' : ''; ?>
 											value="<?php echo ($reset) ? '' : set_value('mail', utf8_decode($this->form_data->mail)); ?>" >
 									</div>
 								</div>
