@@ -34,4 +34,8 @@ class Diner_admin implements Role_interface
     {
     	return 'templates/menuDinerAdmin';
     }
+    public function get_home()
+    {
+    	return 'home/diner_admin_home';
+    }
 }

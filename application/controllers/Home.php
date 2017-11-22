@@ -37,7 +37,7 @@ class Home extends CI_Controller {
 	
 	public function index()
 	{
-		$this->load->view($this->strategy_context->get_url('home/home'));
+		$this->load->view($this->strategy_context->get_home());
 	}
 	
 	/**
