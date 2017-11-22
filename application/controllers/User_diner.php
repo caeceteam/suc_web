@@ -85,12 +85,35 @@ class User_diner extends CI_Controller
      * @return void
      */
     public function render_table_response ()
-    {
+    { $data = array();
+    
+    
+    /*
         $service_data = $this->User_diner_model->get_user_diner_by_page_and_searchTxt(
                 $this->input->post('current') - 1, $this->input->post('searchPhrase'));
-        $pagination_data = $service_data['pagination'];
-        $user_diner_data = $service_data['users'];
-        
+       */ 
+    	if($this->session->userdata['role'] != SYS_ADMIN){
+    		 
+    		$service_data = $this->User_diner_model->get_user_diner_by_page_and_searchTxt(
+    				$this->input->post('current') - 1, $this->input->post('searchPhrase'));
+    		 
+    		$pagination_data = $service_data['pagination'];
+    		$user_diner_data = $service_data['users'];
+    		 
+    	}else{
+    		 
+    		$service_data = $this->User_diner_model->get_userdiner_by_diner( $this->input->post('current') - 1,
+    																		 $this->session->userdata['idDiner']);
+    		$pagination_data       = $service_data['pagination'];
+    		$user_diner_data_aux   = $service_data['usersDiners'];
+    		 
+    		foreach ($user_diner_data_aux as $user_diner) {
+    		 			array_push($data, $user_diner['user']);
+    		}
+    		$user_diner_data = $data;
+    		
+    	}
+       
         $render_data['current'] = (int) $this->input->post('current');
         $render_data['total'] = $pagination_data['total_elements'];
         

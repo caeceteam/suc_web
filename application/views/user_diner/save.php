@@ -38,7 +38,7 @@
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
 										<label>Nombre</label> <input type="text" class="form-control"
-											id="name" name="name" readonly="readonly"
+											id="name" name="name" 
 											value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
 									</div>
 								</div>
@@ -47,7 +47,7 @@
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
 										<label>Apellido</label> <input type="text"
-											class="form-control" id="surname" name="surname" readonly="readonly"
+											class="form-control" id="surname" name="surname" 
 											value="<?php echo ($reset) ? '' : set_value('surname', utf8_decode($this->form_data->surname)); ?>" >
 									</div>
 								</div>
@@ -55,7 +55,7 @@
 								<div class="col-sm-4">
 									<div class="form-group fg-line">
 										<label>Alias</label> <input type="text" class="form-control"
-											id="alias" name="alias" readonly="readonly" placeholder="Alias en el sistema."
+											id="alias" name="alias"  placeholder="Alias en el sistema."
 											value="<?php echo ($reset) ? '' : set_value('alias', utf8_decode($this->form_data->alias)); ?>" >
 									</div>
 								</div>
@@ -82,38 +82,23 @@
 								</div>
 
 								<!-- FINAL 03 - ROL DE LA PERSONA -->
-								<div class="col-sm-4">
-									<label>Rol</label> <select class="chosen"
-										data-placeholder="<?php echo ($reset) ? 'Tareas en el comedor' : set_value('rol', utf8_decode($this->form_data->role)); ?>"
-										id="role" name="role">
-										<option value="99"></option>
-										<option value="00"
-											<?php if ($this->form_data->role == '00'){echo 'selected';} ?>>Administrador</option>
-										<option value="01"
-											<?php if ($this->form_data->role == '01'){echo 'selected';}; ?>>Portero</option>
-										<option value="02"
-											<?php if ($this->form_data->role == '02'){echo 'selected';}; ?>>Cocinero</option>
-										<option value="03"
-											<?php if ($this->form_data->role == '03'){echo 'selected';}; ?>>Docente</option>
-										<option value="04"
-											<?php if ($this->form_data->role == '04'){echo 'selected';}; ?>>Cereno</option>
-										<option value="05"
-											<?php if ($this->form_data->role == '05'){echo 'selected';}; ?>>Psicopedagogo</option>
-										<option value="06"
-											<?php if ($this->form_data->role == '06'){echo 'selected';}; ?>>Psicologo</option>
-										<option value="07"
-											<?php if ($this->form_data->role == '07'){echo 'selected';}; ?>>Acompañante</option>
-										<option value="08"
-											<?php if ($this->form_data->role == '08'){echo 'selected';}; ?>>Tareas
-											Varias</option>
-									</select>
-								</div>
+                                <div class="col-sm-4">
+                                    <label>Rol</label> <select class="chosen"
+                                        data-placeholder="<?php echo ($reset) ? 'Tareas en el comedor' : set_value('rol', utf8_decode($this->form_data->role)); ?>"
+                                        id="role" name="role">
+                                        <option value="99"></option>
+                                        <option value="00"
+                                            <?php if ($this->form_data->role == DINER_ADMIN){echo 'selected';} ?>>Administrador</option>
+                                        <option value="01"
+                                            <?php if ($this->form_data->role == EMPLOYEE){echo 'selected';}; ?>>Colaborador del comedor</option>
+                                    </select>
+                                </div>
 
 								<!-- FINAL 04 - MAIL -->
 								<div class="col-sm-6">
 									<div class="form-group fg-line">
 										<label>Email particular</label> <input type="email"
-											class="form-control" id="mail" name="mail" readonly="readonly"
+											class="form-control" id="mail" name="mail" 
 											value="<?php echo ($reset) ? '' : set_value('mail', utf8_decode($this->form_data->mail)); ?>" >
 									</div>
 								</div>

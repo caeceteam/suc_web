@@ -94,6 +94,17 @@ class User_diner_model extends CI_Model
     }
     
     /**
+     * Usuarios por comedor
+     *
+     * @param string $page
+     */
+    public function get_userdiner_by_diner ($page, $diner)
+    {
+    	$url = 'api/usersDiners?idDiner=' . $diner .  '&page=' . $page ;
+    	return $this->search($url);
+    }
+    
+    /**
      * Consulta los usuarios segun criterio de paginación
      * @param 	string 	$page
      */
@@ -135,7 +146,7 @@ class User_diner_model extends CI_Model
      * @return array Si el alta fue exitosa, devuelve un array con el input
      *         type, sino devuelve NULL
      */
-    public function add ($user_diner)
+  /*  public function add ($user_diner)
     {
         try {
             $response = $this->client->request('POST', 'api/users', 
@@ -154,7 +165,39 @@ class User_diner_model extends CI_Model
             return $this->errorMessage($e);
         }
     }
-
+*/
+            public function add ($user_diner)
+            {
+            	
+            	try {
+            		$response = $this->client->request('POST', 'api/users',
+            				[
+            						'json' => $user_diner
+            				]);
+            		$body_user = $response->getBody();
+            		$user_new = json_decode($body_user, TRUE);
+            		if ($response->getStatusCode() == HTTP_CREATED) {
+            			 
+            			//Agregadp
+            			$responseDinerUser = $this->client->request('PUT',
+            					'usersDiners/' . $user_new['idUser']  . '/' . $this->session->userdata['idDiner'] ,
+            					[
+            							'json' => '"active": true'
+            					]);
+            			 
+            			 
+            			$body = $response->getBody();
+            			return json_decode($body, TRUE);
+            		} else
+            			return NULL;
+            	} catch (Exception $e) {
+            		return $this->errorMessage($e);
+            	}
+            	catch (ClientException $e) {
+            		return $this->errorMessage($e);
+            	}
+            }           
+            
     /**
      * Edición de input type
      *
