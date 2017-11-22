@@ -99,7 +99,7 @@
 											
 											<div id="photo-gallery-container" class="row">
 												<?php 
-													if ( isset($this->form_data->photos) && count($this->form_data->photos) == 0)
+													if ( isset($this->form_data->photos) && count($this->form_data->photos) > 0)
 													{
 														echo '<div class="lightbox">';
 														foreach($this->form_data->photos as $photo)

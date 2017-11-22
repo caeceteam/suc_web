@@ -51,8 +51,7 @@ class Event extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data = $this->Event_model->get_events_by_page_and_searchTxt($this->input->post('current') - 1, $this->input->post('searchPhrase'));
-		//$service_data 		= $this->Event_model->get_events_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
+		$service_data = $this->Event_model->get_events_by_idDiner_page_and_searchTxt($this->session->idDiner, $this->input->post('current') - 1, $this->input->post('searchPhrase'));
 		$pagination_data 	= $service_data['pagination'];
 		$events_data 		= $service_data['events'];
 	
@@ -122,11 +121,11 @@ class Event extends CI_Controller {
 				if (!$isImageSaved) {
 					$data['photo'] = 'Error al guardar la foto del comedor.';
 				}
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
-				$response = $this->Event_model->add($this->_get_post());
+				$response = $this->Event_model->add($this->_get_post($this->variables['request-action']));
 				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');
@@ -171,7 +170,7 @@ class Event extends CI_Controller {
 				$this->form_data->link 				= $event['link'];
 				$this->form_data->date 				= nice_date($event['date'], 'Y-m-d');
 				$this->form_data->time				= substr($event['date'], -13, 5);
-				$this->form_data->photos			= $event ['photos'];
+				$this->form_data->photos			= $event['photos'];
 			}
 			$this->load->view($this->strategy_context->get_url('event/save'), $this->variables);
 		}
@@ -192,7 +191,7 @@ class Event extends CI_Controller {
 				if (!$isImageSaved) {
 					$data['photo'] = 'Error al guardar la foto del evento.';
 				}
-				$this->variables['error-fields'] = $data;
+				$this->variables['error-fields'] = array_map("utf8_encode", $data);
 			}
 			else
 			{
@@ -207,7 +206,7 @@ class Event extends CI_Controller {
 					}
 				}
 				
-				$response = $this->Event_model->edit($this->_get_post());
+				$response = $this->Event_model->edit($this->_get_post($this->variables['request-action']));
 				if (isset($response['errors']))
 				{
 					$this->output->set_status_header('500');
@@ -253,7 +252,7 @@ class Event extends CI_Controller {
 	 * @param 		integer 	$id id del event para cuando se trata de una edición
 	 * @return		object		$event
 	 */
-	private function _get_post($id=NULL)
+	private function _get_post($action, $id=NULL)
 	{
  		$event 					= new stdClass();
 		$event->id 				= $id != NULL ? $id : $this->input->post('id');
@@ -268,11 +267,16 @@ class Event extends CI_Controller {
 		$event->zipCode			= $this->input->post('zipCode');
 		$event->link			= $this->input->post('link');		
 		$event->description		= $this->input->post('description');
-		$event->idDiner 		= 1;//$this->input->post('idDiner');
+		$event->idDiner 		= $this->session->idDiner;
  		$event->date			= $this->input->post('date') . "T" . $this->input->post('time') . "Z";
  		
  		if ($this->form_data->photo != "") {
- 			$event->photos[0]->url 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+ 			if ($action == 'PUT') {
+ 				$event->photos[0]->url 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+ 			}
+ 			if ($action == 'POST') {
+ 				$event->photos[0]	= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
+ 			}
  		}
  		return $event;
 	}
