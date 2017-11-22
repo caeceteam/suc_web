@@ -68,7 +68,7 @@
                             <div class="card-body card-padding">
                                 <div class="pmo-contact">
                                     <ul>
-                                    	<li class="ng-binding"><i class="zmdi zmdi-cutlery"></i> Comedor: <?php echo $this->form_data->diner_name; ?></li>
+                                    	<li class="ng-binding"><i class="zmdi zmdi-cutlery"></i> Comedor: <?php echo utf8_decode($this->form_data->diner_name); ?></li>
                                         <li>
                                             <i class="zmdi zmdi-pin"></i>
                                             <address class="m-b-0 ng-binding">

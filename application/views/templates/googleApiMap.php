@@ -64,6 +64,12 @@
 			$('input[name="longitude"]').val(place.geometry.location.lng());
 			$('input[name="latitude"]').val(place.geometry.location.lat());
 		} catch (error) {
+			$("#autocomplete").val("");
+			$('input[name="street"]').val("");
+			$('input[name="streetNumber"]').val("");
+			$('input[name="zipCode"]').val("");
+			$('input[name="longitude"]').val("");
+			$('input[name="latitude"]').val("");
 		   	swal({
 		   		title: "Error", 
 		   		text: "Ha habido un error al cargar la dirección, por favor carguela nuevamente", 
