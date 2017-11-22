@@ -91,6 +91,18 @@ class Event_model extends CI_Model {
 	}
 	
 	/**
+	 * Consulta de Eventos por página y comedor para el listado
+	 * @param 	string 	$idDiner
+	 * 			string  $page
+	 * 			string	$searchTxt
+	 */
+	public function get_events_by_idDiner_page_and_searchTxt($idDiner, $page, $searchTxt)
+	{
+		$url = 'api/events?idDiner=' . $idDiner . '&page='. $page . '&name=' . $searchTxt;
+		return $this->search($url);
+	}	
+	
+	/**
 	 * Alta de comedor y usuario
 	 * @param		object	$event
 	 * @return 		array   Si el alta fue exitosa, devuelve un array con el comedor y usuario, sino devuelve NULL
