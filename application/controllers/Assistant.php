@@ -41,6 +41,7 @@ class Assistant extends CI_Controller {
 	public function index($idDiner=NULL)
 	{		
 		$idDinerForSearch = $idDiner == NULL ? $this->session->idDiner : $idDiner;
+		$this->form_data->idDiner = $idDiner;
 		$this->variables['data-request-url'] = site_url('assistant/render_table_response/') . $idDinerForSearch;
 		$this->load->view($this->strategy_context->get_url('assistant/search'), $this->variables);
 	}	
