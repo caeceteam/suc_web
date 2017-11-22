@@ -73,7 +73,7 @@ class Home extends CI_Controller {
 	 */
 	public function get_donation_pending_approvals()
 	{
-		$response = $this->Home_model->donation_search(NULL,DONATION_PENDING);
+		$response = $this->Home_model->donation_search($this->session->role == SYS_ADMIN ? NULL : $this->session->idDiner,DONATION_PENDING);
 		return $response['pagination']['total_elements'];
 	}
 	

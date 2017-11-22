@@ -83,7 +83,18 @@ class Donation_model extends CI_Model {
 	{
 		$url = 'api/donations?page=' . $page . '&title=' . $searchTxt;
 		return $this->search($url);
+	}
+	/**
+	 * Consulta de donaciones por página y búsqueda para el listado
+	 * @param 	string 	$page
+	 * 			string	$searchTxt
+	 */
+	public function get_donations_by_idDiner_page_and_search($idDiner, $page, $searchTxt)
+	{
+		$url = 'api/donations?idDinerReceiver=' . $idDiner . '&page=' . $page . '&title=' . $searchTxt;
+		return $this->search($url);
 	}	
+	
 	/**
 	 * Alta de donations
 	 * @param		object	$donations
