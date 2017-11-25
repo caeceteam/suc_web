@@ -50,7 +50,6 @@
                         <li><a href="<?php echo base_url('diner_food');?>"> Almacén </a></li>
                         <li><a href="<?php echo base_url('diner_input');?>"> Insumos </a></li>
             			<li><a href="<?php echo base_url('event');?>"> Eventos</a></li>
-						<li><a href="<?php echo base_url('user_diner');?>"> Alta de personal</a></li>
                         <li><a href="<?php echo base_url('assistant');?>"> Concurrentes</a></li>
                 	</ul>
                 </li>
