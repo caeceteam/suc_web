@@ -65,7 +65,7 @@ class Assistant extends CI_Controller {
 			$row_data['idDiner'] 	= $this->session->idDiner;
 			$row_data['name'] 		= $assistant['name'];
 			$row_data['surname'] 	= $assistant['surname'];
-			$row_data['address'] 	= $assistant['street'] . ' ' . $assistant['streetNumber'];
+			$row_data['address'] 	= $assistant['street'] != '' ? $assistant['street'] . ' ' . $assistant['streetNumber'] : '';
 			$row_data['phone'] 		= $assistant['phone'];
 			array_push($render_data['rows'], $row_data);
 		}
@@ -224,8 +224,8 @@ class Assistant extends CI_Controller {
 		$assistant->celiac				= $this->input->post('celiac') == 1;
 		$assistant->diabetic			= $this->input->post('diabetic') == 1;
 		$assistant->document			= $this->input->post('document');
-		$assistant->latitude			= $this->input->post('latitude');
-		$assistant->longitude			= $this->input->post('longitude');
+		$assistant->latitude			= $this->input->post('latitude') == '' ? null : $this->input->post('latitude') == '';
+		$assistant->longitude			= $this->input->post('longitude') == '' ? null : $this->input->post('latitude') == '';
 		return $assistant;
 	}
 	
