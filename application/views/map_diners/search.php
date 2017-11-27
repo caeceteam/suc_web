@@ -16,7 +16,7 @@
 		<section id="content">
 			<div class="container">
 				<div class="c-header">
-					<h2>Comedores cercanos.</h2>
+					<h2>Comedores cercanos</h2>
 				</div>
 				<div class="card">
 					<div class="card-header">

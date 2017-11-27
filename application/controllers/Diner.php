@@ -50,23 +50,24 @@ class Diner extends CI_Controller {
 	 */
 	public function render_table_response()
 	{
-		$service_data 		= $this->Diner_model->get_diners_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
-		$pagination_data 	= $service_data['pagination'];
-		$diners_data 		= $service_data['diners'];
-	
-		$render_data['current'] = (int)$this->input->post('current');
-		if ($pagination_data['number_of_elements'] < $pagination_data['size']) {
-			$render_data['total'] = $pagination_data['number_of_elements'];
-		}
-		else {
-			$render_data['total'] = $pagination_data['total_elements'];
-		}
-	
-		$render_data['rows'] = [];
-		
-		if ( $this->session->role == SYS_ADMIN ) 
+		if ( $this->session->role == SYS_ADMIN )
 		{
 			// Administrador del sistema, puede ver todos los comedores
+			$service_data 		= $this->Diner_model->get_diners_by_page_and_search($this->input->post('current') - 1, $this->input->post('searchPhrase'));
+			
+			$pagination_data 	= $service_data['pagination'];
+			$diners_data 		= $service_data['diners'];
+			
+			$render_data['current'] = (int)$this->input->post('current');
+			if ($pagination_data['number_of_elements'] < $pagination_data['size']) {
+				$render_data['total'] = $pagination_data['number_of_elements'];
+			}
+			else {
+				$render_data['total'] = $pagination_data['total_elements'];
+			}
+			
+			$render_data['rows'] = [];
+			
 			foreach ($diners_data as $diner)
 			{
 				$row_data['id'] 	= $diner['idDiner'];
@@ -74,23 +75,22 @@ class Diner extends CI_Controller {
 				$row_data['street'] = $diner['street'] . ' ' . $diner['streetNumber'];
 				array_push($render_data['rows'], $row_data);
 			}
-			echo json_encode($render_data, TRUE);
-		}else{
-			// Es administrador del comedor, traer el/los comedores 
+		}
+		else 
+		{
+			// Es administrador del comedor, traer el/los comedores
 			// que administra
-			foreach ($diners_data as $diner)
-			{	
-				if ( $diner['idDiner'] == $this->session->idDiner )
-				{
-					$row_data['id'] 	= $diner['idDiner'];
-					$row_data['name'] 	= $diner['name'];
-					$row_data['street'] = $diner['street'] . ' ' . $diner['streetNumber'];
-					array_push($render_data['rows'], $row_data);
-				}
-			}
-			echo json_encode($render_data, TRUE);
+			$diners_data 		= $this->Diner_model->search_by_id($this->session->idDiner);
+			$render_data['current'] = 1;
+			$render_data['total'] = 1;
+			
+			$render_data['rows'] = [];
+			$render_data['rows'][0]['id'] 		= $diners_data['idDiner'];
+			$render_data['rows'][0]['name'] 	= $diners_data['name'];
+			$render_data['rows'][0]['street'] 	= $diners_data['street'] . ' ' . $diners_data['streetNumber'];
 		}
 		
+		echo json_encode($render_data, TRUE);
 	}
 	
 	/**
