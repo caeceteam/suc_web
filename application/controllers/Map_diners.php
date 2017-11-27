@@ -38,6 +38,7 @@ class Map_diners extends CI_Controller
         
         //Cargo el modelo
         $this->load->model('Map_diners_model');
+        $this->load->model('Diner_model');
         
         //Objeto persistente usado para la carga de datos
         $this->form_data = new stdClass();
@@ -95,9 +96,9 @@ class Map_diners extends CI_Controller
      */
     private function set_map ($id = NULL)
     {   
-        $user_and_diner   = $this->Map_diners_model->get_diner($this->form_data->idDiner);
-        $this->map_data['dinLog'] = $this->get_diner_log($user_and_diner);
-        $this->map_data['dinSer'] = $this->get_diner_ser($user_and_diner);
+        $diner_data				  = $this->Map_diners_model->search_diner_by_id($this->session->idDiner);
+        $this->map_data['dinLog'] = $this->get_diner_log($diner_data);
+        $this->map_data['dinSer'] = $this->get_diner_near($diner_data);
         $this->set_map_diners($this->map_data['dinLog'],$this->map_data['dinSer'] );
     }
     
@@ -108,58 +109,35 @@ class Map_diners extends CI_Controller
      */
     private function get_diner_log ($diners_data)
     {                        
-        foreach ($diners_data['diners'] as $diner)
-        {   
-            if($diner['idDiner'] == $this->form_data->idDiner)
-            {
-                $data = array(
-                        'street'        => $diner['street'],
-                        'streetNumber'  => $diner['streetNumber'],
-                        'mail'          => $diner['mail'],
-                        'phone'         => $diner['phone'],
-                        'description'   => $diner['description'],
-                        'name'          => $diner['name'],
-                        'link'          => $diner['link'],
-                        'latitude'      => $diner['latitude'],
-                        'longitude'     => $diner['longitude']
-                );
-            }
-       }
+       $this->form_data->street        = $diners_data['street'];
+       $this->form_data->streetNumber  = $diners_data['streetNumber'];
+       $this->form_data->mail          = $diners_data['mail'];
+       $this->form_data->phone         = $diners_data['phone'];
+       $this->form_data->description   = $diners_data['description'];
+       $this->form_data->name          = $diners_data['name'];
+       $this->form_data->link          = $diners_data['link'];
+       $this->form_data->latitude      = $diners_data['latitude'];
+       $this->form_data->longitude     = $diners_data['longitude'];
        
-       $this->form_data->street        = $data['street'];
-       $this->form_data->streetNumber  = $data['streetNumber'];
-       $this->form_data->mail          = $data['mail'];
-       $this->form_data->phone         = $data['phone'];
-       $this->form_data->description   = $data['description'];
-       $this->form_data->name          = $data['name'];
-       $this->form_data->link          = $data['link'];
-       $this->form_data->latitude      = $data['latitude'];
-       $this->form_data->longitude     = $data['longitude'];
-       
-       return $data;
+       return $diners_data;
     }
     
     /**
-     * Obtengo todos los comedores cercanos (No funciona en esta vercion de la API Modifcar)
-     * @param  array con datos de logue, usuario y comedores
+     * Obtengo todos los comedores cercanos (No funciona en esta version de la API Modifcar)
+     * @param  latitude y longitude
      * @return object Array datos de comedor distintos al de logueo 
      */
-    private function get_diner_ser ($diners_data)
-    {   $data = array();
-      //Comedores en sistema excluyendo el comedor logueado
-       foreach ($diners_data['diners'] as $diner)
-        {
-            if($diner['idDiner'] != $this->form_data->idDiner)
-            {       
-                array_push($data, $diner);
-            }
-        }
-       
-        //Si hay comedores devuelvo el listado en formato Array
-        if ($data != null){
-            return $data;
-        }
-       
+    private function get_diner_near ($diner_data)
+    {   
+    	$near_diners = array();
+    	
+    	foreach ($this->Map_diners_model->get_near_diners($diner_data['latitude'], $diner_data['longitude'])['diners'] as $key => $diner) {
+    		if ($diner['idDiner'] != $this->session->idDiner) {
+    			array_push($near_diners, $diner);
+    		}
+    	}
+    	
+    	return $near_diners;
     }
     
     /**

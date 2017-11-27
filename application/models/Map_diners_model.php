@@ -26,7 +26,7 @@ class Map_diners_model extends CI_Model
         parent::__construct();
         $this->client = new Client(
                 [
-                        'headers'   => ['x-access-token' => $this->session->token],
+                        'headers'   => ['x-access-token' => $this->session->token, 'x-geo-enabled' => 'true'],
                         'base_uri'  => $this->base_uri,
                         'timeout'   => $this->timeout
                 ]);
@@ -41,46 +41,26 @@ class Map_diners_model extends CI_Model
      *
      */
     private function search($url)
-    {    $response = $this->client->request('GET', $url);
-    if($response->getStatusCode()==HTTP_OK)
-    {
-        $body = $response->getBody();
-        return json_decode($body,TRUE);
-    }
-    else
-        return NULL;
+    {    
+    	$response = $this->client->request('GET', $url);
+	    if($response->getStatusCode()==HTTP_OK)
+	    {
+	        $body = $response->getBody();
+	        return json_decode($body,TRUE);
+	    }
+	    else
+	        return NULL;
     }
     
     /**
-     * Consulta la cantidad de paginas que devuelve la consulta
+     * Consulta por los mapas cercanos
      *
      * @param string $page            
      */
-    public function get_diner ($page)
+    public function get_near_diners ($latitude, $longitude)
     {
-        $url = 'api/diners?id=' . $page;
+        $url = 'api/diners?latitude=' .$latitude. '&longitude=' . $longitude;
         return $this->search($url);
-    }
-
-
-    /**
-     * Busco todos los comedores que se encuentran cargados en sistema
-     * Busca todos los comedores en sistema
-     * 
-     * @return array Si la consulta fue exitosa devuelve un array, sino devuelve
-     *         NULL
-     *        
-     */
-    private function search_all()
-    {
-        $response = $this->client->request('GET', 'diners');
-        if ($response->getStatusCode()==HTTP_OK){
-            $body = $response->getBody();
-            return json_decode($body, TRUE);
-        } 
-        else{ 
-            return NULL;
-        }
     }
 
     /**
@@ -91,18 +71,10 @@ class Map_diners_model extends CI_Model
      * @return 		array 		Si la consulta fue exitosa devuelve un array, sino devuelve NULL
      *
      */
-    private function search_by_id($id)
+    public function search_diner_by_id($id)
     {    
-        $url = 'api/diners/?idDiner=' . $id;
-        $response = $this->client->request('GET', $url);
-        if($response->getStatusCode()==HTTP_OK)
-        {
-            $body = $response->getBody();
-            return json_decode($body,TRUE);
-        }
-        else{
-            return NULL;
-        }
+        $url = 'api/diners/' . $id;
+		return $this->search($url);
     }
 
     
