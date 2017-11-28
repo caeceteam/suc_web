@@ -1,6 +1,5 @@
 <?php
  defined('BASEPATH') OR exit('No direct script access allowed');
-
  /******************************************************************************************************
  * CLASE USER_DINER
  *******************************************************************************************************
@@ -10,16 +9,13 @@
  */
 class User_diner extends CI_Controller
 {
-
     /**
      * Array para guardar todas las variables de la pagina
-
      *
      * @var array
      */
     private $variables;
     private $dinerUser;
-
     /**
      * Array para guardar exclusivamente los values del formulario
      *
@@ -66,7 +62,6 @@ class User_diner extends CI_Controller
         $this->variables['controller-name'] = 'user_diner';
         $this->_initialize_fields();
     }
-
     /**
      * Funcion que se carga por default al invocar al controlador sin
      * especificar la URL completa
@@ -78,19 +73,36 @@ class User_diner extends CI_Controller
         $this->variables['data-request-url'] = site_url( 'user_diner/render_table_response');
         $this->load->view('user_diner/search', $this->variables);
     }
-
     /**
      * Funcion que retorna la tabla con la informacion de usuarios
      *
      * @return void
      */
     public function render_table_response ()
-    {
-        $service_data = $this->User_diner_model->get_user_diner_by_page_and_searchTxt(
-                $this->input->post('current') - 1, $this->input->post('searchPhrase'));
-        $pagination_data = $service_data['pagination'];
-        $user_diner_data = $service_data['users'];
-        
+    { $data = array();
+       
+       	if($this->session->userdata['role'] == SYS_ADMIN){
+    		 
+    		$service_data = $this->User_diner_model->get_user_diner_by_page_and_searchTxt(
+    				$this->input->post('current') - 1, $this->input->post('searchPhrase'));
+    		 
+    		$pagination_data = $service_data['pagination'];
+    		$user_diner_data = $service_data['users'];
+    		 
+    	}else{
+    		 
+    		$service_data = $this->User_diner_model->get_userdiner_by_diner( $this->input->post('current') - 1,
+    																		 $this->session->userdata['idDiner']);
+    		$pagination_data       = $service_data['pagination'];
+    		$user_diner_data_aux   = $service_data['usersDiners'];
+    		 
+    		foreach ($user_diner_data_aux as $user_diner) {
+    		 			array_push($data, $user_diner['user']);
+    		}
+    		$user_diner_data = $data;
+    		
+    	}
+       
         $render_data['current'] = (int) $this->input->post('current');
         $render_data['total'] = $pagination_data['total_elements'];
         
@@ -115,7 +127,6 @@ class User_diner extends CI_Controller
         $this->User_diner_model->delete($id);
         $this->index();
     }
-
     /**
      * Funcion que muestra el formulario de alta y guarda la misma cuando la
      * validacion del formulario no arroja errores
@@ -128,11 +139,10 @@ class User_diner extends CI_Controller
         $this->variables['action'] = site_url('user_diner/add');
         $this->variables['request-action'] = 'POST';
         $this->variables['redirect-url']   = site_url('user_diner');
-        $this->form_data->redirect         = site_url('user_diner');
+        $this->form_data->redirect         = 'user_diner';
         $seccion;
         
         // Redirijo la url para que no se vea la de origen
-        //$this->variables['redirect-url'] = $this->get_redirect();
         $this->_set_rules();
         
         if ($this->input->method() == "get") {
@@ -148,10 +158,10 @@ class User_diner extends CI_Controller
                                   'alias'   => form_error('alias'),
                                   'docNum'  => form_error('ducNum'),
                                   'mail'    => form_error('mail'));
-
                 $this->variables['error-fields'] = array_map("utf8_encode", $data);
             } else {
-                $response = $this->User_diner_model->add($this->_get_post());
+            	$new_user = $this->_get_post();
+                $response = $this->User_diner_model->add($new_user);
                 
                 if ((isset($response['errors'])) && ($response['errors'] != null)) {
                     $this->output->set_status_header('500');
@@ -162,16 +172,25 @@ class User_diner extends CI_Controller
                     $this->variables['message'] = form_error($msj_erro_500);
                     
                 } else {
-                    $user_diner = $this->_get_post();
+                    //$user_diner = $this->_get_post();
                     $mail_user = array(
-                            'mail'  => $user_diner['mail'],
-                            'name'  => $user_diner['name'],
-                            'alias' => $user_diner['alias'],
-                            'pass'  => $user_diner['docNum']
+                            'mail'  	=> $response['mail'],
+                            'name'  	=> $response['name'],
+                            'alias' 	=> $response['alias'],
+                            'password'  => $new_user->pass,
                     );
                     try {
-                        //$this->Notification->_send_mail($mail_user, 'html', $this->variables['request-action'], $this->load);
-                    } catch (Exceptionn $exs) {
+                       
+                        if( $this->_send_mail_newUser($mail_user['mail'], $mail_user['alias'], $mail_user['password']))
+                        {
+                        	$this->variables['message'] = $html_ok . 'Se envió un mail con su contraseña!' . $html_close;
+                        }
+                        else
+                        {
+                        	$this->variables['error-fields'] = array('send_mail' => 'Hubo un error al enviar el mail con su contraseña');
+                        }
+                    
+                    } catch (Exception $exs) {
                         $msj_erro_500 = '<p>' . $exs->getmessage() . '</p>';
                         $this->variables['message']     = $msj_erro_500;
                         $this->variables['error-type']  = 'unique';
@@ -183,7 +202,6 @@ class User_diner extends CI_Controller
             echo json_encode($this->variables);
         }
     }
-
     /**
      * Funcion que muestra el formulario de edición y guarda la misma cuando la
      * validacion del formulario no arroja errores
@@ -195,11 +213,18 @@ class User_diner extends CI_Controller
     {
         $this->variables['action'] = site_url('user_diner/edit');
         $this->variables['request-action'] = 'PUT';
-        $this->variables['redirect-url']   = $this->get_redirect();
-        $this->form_data->redirect         = $this->variables['redirect-url'];
-        //$this->variables['redirect-url']   = site_url('user_diner');
         $page = $this->session->get_userdata();
         
+        //Si el usuario ve sus datos puede cambiar su nombre no así si no lo es
+        //De igual manere si es el usuario logueado el que ve los datos Calcelar vuelve el Home
+        if($id != $page['idUser']){
+        	$this->form_data->redirect         = 'user_diner';
+        	$this->form_data->block			   = 'readonly';
+        	
+    	}else{
+    		$this->form_data->redirect         = 'home';
+    	}
+                
         //Si no es un post, no se llama al editar y solo se muestran los campos para editar
         if ($this->input->method() == "get") {
             $user_and_diner             = $this->User_diner_model->search_by_id($id);
@@ -241,12 +266,10 @@ class User_diner extends CI_Controller
                                   'alias'   => form_error('alias'),
                                   'docNum'  => form_error('ducNum'),
                                   'mail'    => form_error('mail'));
-
                 $this->variables['error-fields'] = array_map("utf8_encode", $data);
             } else {
                     $user_diner = $this->_get_post();
                     $response   = $this->User_diner_model->edit($user_diner);
-
                     if (isset($response['errors']) && $response['errors']) {
                         $this->output->set_status_header('500');
                         $this->variables['error-type']   = 'unique';
@@ -261,8 +284,8 @@ class User_diner extends CI_Controller
                                     'pass'  => $user_diner->docNum
                             );
                             try {
-                               // $this->Notification->_send_mail($mail_user, 'html', $this->variables['request-action'], $this->load);
-                            }catch (Exceptionn $exs) {
+                               $this->_send_mail($mail_user, 'html', $this->variables['request-action'], $this->load);
+                            }catch (Exception $exs) {
                                     $msj_erro_500 = '<p>' . $exs->getmessage() . '</p>';
                                     $this->variables['message']     = $msj_erro_500;
                                     $this->variables['error-type']  = 'unique';
@@ -271,10 +294,8 @@ class User_diner extends CI_Controller
                            }
                     }
             echo json_encode($this->variables);
-            // $this->load->view('user_diner/save', $this->variables);
             }
     }
-
     /**
      * Funcion que muestra el formulario de datos seleccionados
      *
@@ -299,12 +320,11 @@ class User_diner extends CI_Controller
             $this->form_data->streetNumber  = $user_diner['streetNumber'];
             $this->form_data->floor         = $user_diner['floor'];
             $this->form_data->door          = $user_diner['door'];
-            
+
             $this->load->view('user_diner/view', $this->variables);
         }
         // echo json_encode($this->variables);
     }
-
     public function valid_password ($oldPass, $newPass, $confPass)
     {
         // Si no se cargan se mantiene la clave
@@ -339,7 +359,6 @@ class User_diner extends CI_Controller
             }
         }
     }
-
     public function valid_single_password ($password = '')
     {
         // Caracteres de validación
@@ -388,7 +407,6 @@ class User_diner extends CI_Controller
         }
         return TRUE;
     }
-
      /**
      * Función que genera una contraseña en forma aleatorio
      *
@@ -425,7 +443,6 @@ class User_diner extends CI_Controller
         }
         return $password;
     }
-
     /**
      * Obtiene los datos del post y los devuelve en forma de objeto
      *
@@ -455,7 +472,6 @@ class User_diner extends CI_Controller
         $user_diner->diner        = $this->input->post('diner');
         return $user_diner;
     }
-
     /**
      * Funcion que inicializa las variables de los campos del formulario para la
      * edicion
@@ -483,8 +499,8 @@ class User_diner extends CI_Controller
         $this->form_data->newPassConf   = '';
         $this->form_data->newPass       = '';
         $this->form_data->idDiner       = '';
+        $this->form_data->block			= '';
     }
-
     /**
      * Funcion que setea las reglas de validacion del formulario y sus mensajes
      * de errores
@@ -496,30 +512,17 @@ class User_diner extends CI_Controller
         
         $this->form_validation->set_rules('bornDate', 'Fecha Nacimiento', 'trim|required');
         $this->form_validation->set_rules('role', 'Puesto', 'trim');
-        //$this->form_validation->set_rules('alias', 'Alias', 'trim');
-        //$this->form_validation->set_rules('name', 'Nombre', 'trim|required');
-        //$this->form_validation->set_rules('surname', 'Apellido', 'trim|required');
-        //$this->form_validation->set_rules('mail', 'Mail', 'trim|required');
         $this->form_validation->set_rules('docNum', 'Documento', 'trim');
         $this->form_validation->set_rules('street', 'Calle', 'trim|required');
         $this->form_validation->set_rules('streetNumber', 'Numero', 'trim|required');
     }
-
     /**
      * Funcion que define donde redireccionar la pagina
      *
      * @return redirect
      */
    private function get_redirect() {
-        //if ( $this->session->userdata['lastpage'] != 'user_diner'){
-       /*if( $_SESSION['last_page'] != null && ! strpos($_SESSION['last_page'],'user_diner/edit')){
-            if (strpos($_SESSION['last_page'],'user_diner')){
-                return site_url('user_diner');
-            }else{
-                return site_url($_SESSION['last_page']);
-            }
-        }*/
-       
+      
        if( $_SERVER['PHP_SELF'] != null && ! strpos($_SERVER['PHP_SELF'],'user_diner/edit')){
            if (strpos($_SERVER['PHP_SELF'],'user_diner')){
                return site_url('user_diner');
@@ -530,4 +533,23 @@ class User_diner extends CI_Controller
            return site_url('home');          
        }
    } 
+   
+   /**
+    * Función que envia un mail a un destinatario con su contraseña
+    * @param    $to 		string destinatario
+    * @param	 $user		string usuario
+    * @param    $password 	string password
+    * @return   bool 		indica si el mail se pudo enviar
+    */
+   private function _send_mail_newUser($to, $user, $password){
+   	$data = array(
+   			'mail_type' 		=> REGISTRATION_MAIL,
+   			'destination_email' => $to,
+   			'user_name'			=> $user,
+   			'password'			=> $password,
+   			'url'				=> site_url('')
+   	);
+   	return $this->Emails_model->send_mail_api($data);
+   }
+   
 }
