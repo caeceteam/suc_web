@@ -69,7 +69,20 @@ class Event extends CI_Controller {
 			$row_data['id'] 			= $event['idEvent'];
 			$row_data['idDiner'] 		= $event['idDiner'];
 			$row_data['name'] 			= $event['name'];
-			$row_data['date']			= nice_date($event['date'], 'Y-m-d') . ', ' . substr($event['date'], -13, 5) . 'hs' ;
+			if ( $event['date'] == NULL )
+			{
+				$row_data['date']		= "Evento sin fecha";
+			}else{
+				
+				$time = substr($event['date'], -13, 5);
+				if ( $time == "00:01" ){
+					//significa que la fecha no fue seteada
+					$row_data['date']	= nice_date($event['date'], 'Y-m-d');
+				}else{
+					$row_data['date']	= nice_date($event['date'], 'Y-m-d') . ', ' . substr($event['date'], -13, 5) . 'hs' ;
+				}
+			}
+			
 			$row_data['street'] 		= $event['street'] . ' ' . $event['streetNumber'];
 			$row_data['phone'] 			= $event['phone'];
 			array_push($render_data['rows'], $row_data);
@@ -169,7 +182,15 @@ class Event extends CI_Controller {
 				$this->form_data->description 		= $event['description'];
 				$this->form_data->link 				= $event['link'];
 				$this->form_data->date 				= nice_date($event['date'], 'Y-m-d');
-				$this->form_data->time				= substr($event['date'], -13, 5);
+				
+				$time 								= substr($event['date'], -13, 5);
+				if ($time == "00:01")
+				{
+					$this->form_data->time			= NULL;
+				}else{
+					$this->form_data->time			= substr($event['date'], -13, 5);
+				}
+				
 				$this->form_data->photos			= $event['photos'];
 			}
 			$this->load->view($this->strategy_context->get_url('event/save'), $this->variables);
@@ -268,8 +289,13 @@ class Event extends CI_Controller {
 		$event->link			= $this->input->post('link');		
 		$event->description		= $this->input->post('description');
 		$event->idDiner 		= $this->session->idDiner;
- 		$event->date			= $this->input->post('date') . "T" . $this->input->post('time') . "Z";
- 		
+		
+		if ( $this->input->post('time') == NULL ){
+			$event->date		= $this->input->post('date') . "T" . "00:01" . "Z";
+		}else{
+ 			$event->date		= $this->input->post('date') . "T" . $this->input->post('time') . "Z";
+		}
+		
  		if ($this->form_data->photo != "") {
  			if ($action == 'PUT') {
  				$event->photos[0]->url 		= $this->form_data->photo;//URL que devuelve la API de cloudinary, no se obtiene por post
