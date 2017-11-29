@@ -363,91 +363,6 @@ class User_diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion Para validar el Password
-	 *
-	 * @param $oldPass:  Viejo Pass
-	 * @param $newPass:  Nuevo Pass
-	 * @param $confPass: Confirmacion del Pass
-	 * @return void
-	 */	
-	public function valid_password($oldPass, $newPass, $confPass) {
-		// Si no se cargan se mantiene la clave
-		if (empty ( $oldPass ) && empty ( $oldPass ) && empty ( $oldPass )) {
-			return TRUE;
-		} 
-		// Si alguno esta vacio debe caragarse
-		elseif (empty ( $oldPass ) || empty ( $oldPass ) || empty ( $oldPass )) {
-			return FALSE;
-		}
-		// Es erronea la confirmación
-		else {
-			if ($newPass != $confPass) {
-				return FALSE;
-			}
-			// Es erronea la confirmación
-			if ($oldPass != $this->form_data->pass || $this->form_data->pass == $newPass) {
-				return FALSE;
-			}
-			//Valido que la clave cumpla condiciones
-			if (! $this->valid_single_password ( $newPass )) {
-				return FALSE;
-			}
-			if (! $this->valid_single_password ( $confPass )) {
-				return FALSE;
-			}
-		}
-	}
-	
-	/**
-	 * Funcion Para validar el valid_single_password
-	 *
-	 * @param $password:  Pass
-	 * @return Bool
-	 */
-	public function valid_single_password($password) {
-		// Caracteres de validación
-		$lower_case = '/[a-z]/';
-		$upper_case = '/[A-Z]/';
-		$number 	= '/[0-9]/';
-		$special 	= '/[!@#$%^&*()\-_=+{};:,<.>]/';
-		
-		// Contiene caracteres minuscula
-		if (preg_match_all ( $lower_case, $password ) < 1) {
-			$this->form_validation->set_message ( 'valid_password', 'Por lo menos debe contener una letra mayuscula.' );
-			return FALSE;
-		}
-		// Contiene caracteres mayuscula
-		if (preg_match_all ( $upper_case, $password ) < 1) {
-			$this->form_validation->set_message ( 'valid_password', 'Contener al menos una letra.' );
-			return FALSE;
-		}
-		
-		// Almenos un numero
-		if (preg_match_all ( $number, $password ) < 1) {
-			$this->form_validation->set_message ( 'valid_password', 'Contener al menos un numero.' );
-			return FALSE;
-		}
-		
-		// Almenos un caracter especial
-		if (preg_match_all ( $special, $password ) < 1) {
-			$this->form_validation->set_message ( 'valid_password', 'Contener alguno de los siguieneste caracteres.' . ' ' . htmlentities ( '/[!@#$%^&*()\-_=+{};:,<.>]/' ) );
-			return FALSE;
-		}
-		
-		// Longitud minima
-		if (strlen ( $password ) < 5) {
-			$this->form_validation->set_message ( 'valid_password', 'La clave debe tener una longitud minima de 6 caracteres.' );
-			return FALSE;
-		}
-		
-		// Longitud maxima
-		if (strlen ( $password ) > 32) {
-			$this->form_validation->set_message ( 'valid_password', 'La clave no puede superar los 32 caracteres.' );
-			return FALSE;
-		}
-		return TRUE;
-	}
-	/**
 	 * Función que genera una contraseña en forma aleatorio
 	 *
 	 * @param $chars_min largo
@@ -560,23 +475,6 @@ class User_diner extends CI_Controller {
 	}
 	
 	/**
-	 * Funcion que define donde redireccionar la pagina
-	 *
-	 * @return redirect
-	 */
-	private function get_redirect() {
-		if ($_SERVER ['PHP_SELF'] != null && ! strpos ( $_SERVER ['PHP_SELF'], 'user_diner/edit' )) {
-			if (strpos ( $_SERVER ['PHP_SELF'], 'user_diner' )) {
-				return site_url ( 'user_diner' );
-			} else {
-				return site_url ( $_SERVER ['PHP_SELF'] );
-			}
-		} elseif ($_SERVER ['PHP_SELF'] == null) {
-			return site_url ( 'home' );
-		}
-	}
-	
-	/**
 	 * Función que envia un mail a un destinatario con su contraseña
 	 * 
 	 * @param $to string
@@ -606,21 +504,6 @@ class User_diner extends CI_Controller {
 	private function _send_mail_changeUser($to) {
 		$data = array (
 				'mail_type' 		=> CHANGE_PERSON_INFORMATION,
-				'destination_email' => $to 
-		)
-		;
-		return $this->Emails_model->send_mail_api ( $data );
-	}
-	
-	/**
-	 * Función que envia un mail a un destinatario con su contraseña
-	 * 
-	 * @param $to string
-	 *        	destinatario
-	 */
-	private function _send_mail_changePass($to) {
-		$data = array (
-				'mail_type' 		=> CHANGE_PERSON_PASS,
 				'destination_email' => $to 
 		)
 		;
