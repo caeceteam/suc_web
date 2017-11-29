@@ -50,7 +50,7 @@
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="name">
 														<input type="text" id="name" name="name" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
-														<label class="fg-label">Nombre</label>
+														<label class="fg-label">Nombre (opcional)</label>
 													</div>
 												</div>
 											</div>
@@ -59,7 +59,7 @@
 												<div class="form-group fg-float">
 													<div class="fg-line" data-id="size">
 														<input type="text" id="size" name="size" class="input-sm form-control fg-input" <?php echo ($_ci_vars['request-action'] == "PUT") ? 'disabled=""' : ''; ?> value="<?php echo ($reset) ? '' : set_value('size', utf8_decode($this->form_data->size)); ?>">
-														<label class="fg-label">Talle</label>
+														<label class="fg-label">Talle (opcional)</label>
 													</div>
 												</div>
 											</div>
@@ -88,7 +88,7 @@
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="description">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description', utf8_decode($this->form_data->description)); ?></textarea>
-												<label class="fg-label">Descripción</label>
+												<label class="fg-label">Descripción (opcional)</label>
 											</div>
 										</div>
 										

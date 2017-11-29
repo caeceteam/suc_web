@@ -66,20 +66,20 @@
 											<div class="form-group fg-float col-sm-3">
 												<div class="fg-line" data-id="scholarship">
 													<input type="text" id="scholarship" name="scholarship" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('scholarship', utf8_decode($this->form_data->scholarship)); ?>">
-													<label class="fg-label">Año escolar</label>
+													<label class="fg-label">Año escolar (opcional)</label>
 												</div>
 											</div>
 											<div class="form-group fg-float col-sm-3">
 												<div class="fg-line" data-id="economicSituation">
 													<input type="text" id="economicSituation" name="economicSituation" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('economicSituation', utf8_decode($this->form_data->economicSituation)); ?>">
-													<label class="fg-label">Situación ecónimica familiar</label>
+													<label class="fg-label">Situación económica familiar (opcional)</label>
 												</div>
 											</div>
 											<br/>
 											<div class="fg-float form-group col-sm-6">
 												<div class="fg-line">
 													<input id="autocomplete" placeholder="" type="text" name="address" class="input-sm form-control fg-input">
-													<label class="fg-label">Dirección</label>
+													<label class="fg-label">Dirección (opcional)</label>
 													<?php echo form_hidden('street', ($reset) ? '' : set_value('street',$this->form_data->street)); ?>
 													<?php echo form_hidden('streetNumber', ($reset) ? '' : set_value('streetNumber',$this->form_data->streetNumber)); ?>
 													<?php echo form_hidden('latitude', ($reset) ? '' : set_value('latitude',$this->form_data->latitude)); ?>
@@ -91,13 +91,13 @@
 											<div class="form-group fg-float col-sm-9">
 												<div class="fg-line" data-id="contactName">
 													<input type="text" id="contactName" name="contactName" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('contactName', utf8_decode($this->form_data->contactName)); ?>">
-													<label class="fg-label">Nombre del contacto</label>
+													<label class="fg-label">Nombre del contacto (opcional)</label>
 												</div>
 											</div>	
 											<div class="form-group fg-float col-sm-3">
 												<div class="fg-line" data-id="phone">
 													<input type="text" id="phone" name="phone" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('phone', utf8_decode($this->form_data->phone)); ?>">
-													<label class="fg-label">Télefono del contacto</label>
+													<label class="fg-label">Télefono del contacto (opcional)</label>
 												</div>
 											</div>										
 											<br/>

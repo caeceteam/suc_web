@@ -99,7 +99,7 @@
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="description">
 												<textarea class="form-control auto-size" id="description" name="description"><?php echo ($reset) ? '' : set_value('description', utf8_decode($this->form_data->description)); ?></textarea>
-												<label class="fg-label">Descripción</label>
+												<label class="fg-label">Descripción (opcional)</label>
 											</div>
 										</div>
 										
