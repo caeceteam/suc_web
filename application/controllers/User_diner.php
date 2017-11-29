@@ -56,8 +56,7 @@ class User_diner extends CI_Controller {
 		// Instancio una clase vacia para evitar el warning "Creating default object from empty value"
 		$this->form_data = new stdClass ();
 		$this->variables ['idUser'] = '';
-		$this->pass_view 	= 'display:block;';
-		$this->pass_no_view = 'display:none;';
+
 		
 		// Variable para indicar si hay que resetear los campos del formulario
 		$this->variables ['reset'] = FALSE;
@@ -160,14 +159,17 @@ class User_diner extends CI_Controller {
 				$this->variables ['error-type'] = 'empty-field';
 				
 				$data = array (
-						'name' 		=> form_error ( 'name' ),
-						'surname' 	=> form_error ( 'surname' ),
-						'role' 		=> form_error ( 'role' ),
-						'alias' 	=> form_error ( 'alias' ),
-						'docNum' 	=> form_error ( 'ducNum' ),
-						'mail' 		=> form_error ( 'mail' ) 
+						'name' 			=> form_error ( 'name' ),
+						'surname' 		=> form_error ( 'surname' ),
+						'alias' 		=> form_error ( 'alias' ),
+						'docNum'		=> form_error ( 'docNum' ),
+						'bornDate' 		=> form_error ( 'bornDate' ),
+						'role' 			=> form_error ( 'role' ),
+						'mail' 			=> form_error ( 'mail' ),
+						'phone'			=> form_error ( 'phone' ),
+						'street' 		=> form_error ( 'street' ),
+						'streetNumber' 	=> form_error ( 'streetNumber')
 				);
-				
 				$this->variables ['error-fields'] = array_map ( "utf8_encode", $data );
 			}else {
 				$new_user = $this->_get_post ();
@@ -181,7 +183,6 @@ class User_diner extends CI_Controller {
 					$msj_erro_500 = '<p>' . $response ['result'] . '</p>';
 					$this->variables ['message'] = form_error ( $msj_erro_500 );
 				} else {
-					// $user_diner = $this->_get_post();
 					$mail_user = array (
 							'mail' 		=> $response ['mail'],
 							'name' 		=> $response ['name'],
@@ -196,10 +197,13 @@ class User_diner extends CI_Controller {
 							$this->variables ['message'] = $html_ok . 'No pudo enviarse el mail de alta, pero fue registrado el usuario!' . $html_close;
 						}
 					} catch ( Exception $exs ) {
-						$msj_erro_500 = '<p>' . $exs->getmessage () . '</p>';
+						$this->variables ['message'] = $html_ok . 'No pudo enviarse el mail de alta, pero fue registrado el usuario!' . $html_close;
+						
+						/*$msj_erro_500 = '<p>' . $exs->getmessage () . '</p>';
 						$this->variables ['message'] = $msj_erro_500;
 						$this->variables ['error-type'] = 'unique';
 						$this->output->set_status_header ( '500' );
+					*/
 					}
 				}
 			}
@@ -262,10 +266,12 @@ class User_diner extends CI_Controller {
 			$idDiner 						= $this->session->userdata ['idDiner'];
 			$this->form_data->idDiner 		= $idDiner ['Diner'] ['idDiner'];
 			
-			if ($this->session->userdata ['role'] != SYS_ADMIN){
+			if ($id != $page ['idUser'] && $this->session->userdata ['role'] != SYS_ADMIN){
 				$this->form_data->template      = 'templates/userDinerRol';
-			}else{
+			}elseif($id != $page ['idUser']){
 				$this->form_data->template      = 'templates/userDinerRolSysAdm';
+			}else{
+				$this->form_data->template 	    = '';
 			}
 			
 			$this->load->view ( 'user_diner/save', $this->variables );
@@ -281,12 +287,16 @@ class User_diner extends CI_Controller {
 				$this->variables ['error-type'] = 'empty-field';
 				
 				$data = array (
-						'name' 		=> form_error ( 'name' ),
-						'surname' 	=> form_error ( 'surname' ),
-						'role' 		=> form_error ( 'role' ),
-						'alias' 	=> form_error ( 'alias' ),
-						'docNum' 	=> form_error ( 'ducNum' ),
-						'mail' 		=> form_error ( 'mail' ) 
+						'name' 			=> form_error ( 'name' ),
+						'surname' 		=> form_error ( 'surname' ),
+						'alias' 		=> form_error ( 'alias' ),
+						'docNum'		=> form_error ( 'docNum' ),
+						'bornDate' 		=> form_error ( 'bornDate' ),
+						'role' 			=> form_error ( 'role' ),
+						'mail' 			=> form_error ( 'mail' ),
+						'phone'			=> form_error ( 'phone' ),
+						'street' 		=> form_error ( 'street' ),
+						'streetNumber' 	=> form_error ( 'streetNumber')
 				);
 				
 				$this->variables ['error-fields'] = array_map ( "utf8_encode", $data );
@@ -452,6 +462,7 @@ class User_diner extends CI_Controller {
 		$this->form_data->newPass 		= '';
 		$this->form_data->idDiner 		= '';
 		$this->form_data->block 		= '';
+		$this->form_data->blockRol 		= '';
 		
 		if ($this->session->userdata ['role'] != SYS_ADMIN){
 			$this->form_data->template      = 'templates/userDinerRol';
@@ -467,11 +478,16 @@ class User_diner extends CI_Controller {
 	 * @return void
 	 */
 	private function _set_rules() {
-		$this->form_validation->set_rules ( 'bornDate', 'Fecha Nacimiento', 'trim|required' );
-		$this->form_validation->set_rules ( 'role', 'Puesto', 'trim' );
-		$this->form_validation->set_rules ( 'docNum', 'Documento', 'trim' );
-		$this->form_validation->set_rules ( 'street', 'Calle', 'trim|required' );
-		$this->form_validation->set_rules ( 'streetNumber', 'Numero', 'trim|required' );
+		$this->form_validation->set_rules ( 'name', 		'Nombre', 			'trim|required' );
+		$this->form_validation->set_rules ( 'surname', 		'Apellido', 		'trim|required' );
+		$this->form_validation->set_rules ( 'alias', 		'Alias', 			'trim|required' );
+		$this->form_validation->set_rules ( 'bornDate', 	'Fecha Nacimiento', 'trim|required' );
+		$this->form_validation->set_rules ( 'mail',     	'Mail',       		'trim|required' );
+		$this->form_validation->set_rules ( 'phone',     	'Telefono',     	'trim|required' );
+		$this->form_validation->set_rules ( 'role',     	'Puesto',     		'trim|required' );
+		$this->form_validation->set_rules ( 'docNum',   	'Documento',  		'trim|required' );
+		$this->form_validation->set_rules ( 'street',     	'Calle',      		'trim|required' );
+		$this->form_validation->set_rules ( 'streetNumber', 'Numero',	  		'trim|required' );
 	}
 	
 	/**

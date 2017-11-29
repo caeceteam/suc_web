@@ -82,8 +82,8 @@
 								</div>
 
 								<!-- FINAL 03 - ROL DE LA PERSONA -->
-									<?php $this->load->view($this->form_data->template); ?>
-
+									<?php $rol = ($this->form_data->template != '') ? $this->load->view($this->form_data->template) : '' ?>
+									
                                 
 								<!-- FINAL 04 - MAIL -->
 								<div class="col-sm-6">
@@ -121,11 +121,11 @@
 									</div>
 								</div>
 								
-								<!--FILA Pisi-->
+								<!--FILA Piso-->
 								<div class="col-sm-2">
 									<div class="form-group fg-line">
 										<label>Piso</label> 
-										<input class="form-control" id="floor" name="floor"
+										<input class="form-control" id="floor" name="floor" placeholder="Opcional"
 											value="<?php echo ($reset) ? '' : set_value('floor', utf8_decode($this->form_data->floor)); ?>">
 									</div>
 								</div>
@@ -133,7 +133,7 @@
 								<div class="col-sm-2">
 									<div class="form-group fg-line">
 										<label>Puerta</label> 
-										<input class="form-control" id="door" name="door"
+										<input class="form-control" id="door" name="door"  placeholder="Opcional"
 											value="<?php echo ($reset) ? '' : set_value('door', utf8_decode($this->form_data->door)); ?>">
 									</div>
 								</div>
@@ -147,8 +147,6 @@
 								 <a href="<?php echo site_url($this->form_data->redirect); ?>"
 									class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
 										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?> 
-
-
 
 							</div>
 							<div class="pmb-block">

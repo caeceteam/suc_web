@@ -27,8 +27,8 @@ class Password extends CI_Controller {
 		$this->load->helper(array('url', 'form'));
 		$this->load->model(array('Login_model'));
 		$this->form_data = new stdClass();//Instancio una clase vacia para evitar el warning "Creating default object from empty value"
-		$this->variables['id'] = '';
-		$this->variables['reset'] = FALSE;//Variable para indicar si hay que resetear los campos del formulario
+		$this->variables['id'] 		= '';
+		$this->variables['reset'] 	= FALSE;//Variable para indicar si hay que resetear los campos del formulario
 		$this->variables['controller-name'] = 'password';
 		$this->_initialize_fields();
 		$this->login->is_logged_in();
