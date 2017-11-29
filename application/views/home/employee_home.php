@@ -36,7 +36,7 @@
                                         <li>
                                             <i class="zmdi zmdi-pin"></i>
                                             <address class="m-b-0 ng-binding">
-                                                Dirección: <?php echo $this->form_data->diner_address; ?>
+                                                Dirección: <?php echo utf8_decode($this->form_data->diner_address); ?>
                                             </address>
                                         </li>
                                         <li class="ng-binding"><i class="zmdi zmdi-phone"></i> Teléfono: <?php echo $this->form_data->diner_phone; ?></li>
