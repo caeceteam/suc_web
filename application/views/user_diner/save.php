@@ -82,18 +82,9 @@
 								</div>
 
 								<!-- FINAL 03 - ROL DE LA PERSONA -->
-                                <div class="col-sm-4">
-                                    <label>Rol</label> <select class="chosen"
-                                        data-placeholder="<?php echo ($reset) ? 'Tareas en el comedor' : set_value('rol', utf8_decode($this->form_data->role)); ?>"
-                                        id="role" name="role">
-                                        <option value="99"></option>
-                                        <option value="00"
-                                            <?php if ($this->form_data->role == DINER_ADMIN){echo 'selected';} ?>>Administrador</option>
-                                        <option value="01"
-                                            <?php if ($this->form_data->role == EMPLOYEE){echo 'selected';}; ?>>Colaborador del comedor</option>
-                                    </select>
-                                </div>
+									<?php $this->load->view($this->form_data->template); ?>
 
+                                
 								<!-- FINAL 04 - MAIL -->
 								<div class="col-sm-6">
 									<div class="form-group fg-line">
