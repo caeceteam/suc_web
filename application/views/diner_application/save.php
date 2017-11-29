@@ -56,13 +56,13 @@
 										<div class="fg-float form-group col-xs-2" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 											<div class="fg-line">
 												<input value="<?php echo ($reset) ? '' : set_value('floor',$this->form_data->floor); ?>" type="text" name="floor" class="input-sm form-control fg-input">
-												<label class="fg-label">Piso</label>
+												<label class="fg-label">Piso (opcional)</label>
 											</div>
 										</div>
 										<div class="fg-float form-group col-xs-2" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 											<div class="fg-line">
 												<input value="<?php echo ($reset) ? '' : set_value('door',$this->form_data->door); ?>" type="text" name="door" class="input-sm form-control fg-input">
-												<label class="fg-label">Departamento</label>
+												<label class="fg-label">Departamento (opcional)</label>
 											</div>
 										</div>
 										<div class="fg-float form-group col-xs-2" style="padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
@@ -74,14 +74,14 @@
 										<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->
 											<div class="fg-line">
 												<input value="<?php echo ($reset) ? '' : set_value('link',$this->form_data->link); ?>" type="text" name="link" class="input-sm form-control fg-input">
-												<label class="fg-label">Página del comedor</label>
+												<label class="fg-label">Página del comedor (opcional)</label>
 											</div>
 										</div>
 										<div class="fg-float form-group col-xs-6" style="padding-right: 0;"></div>
 										<div class="fg-float form-group col-xs-12" style="padding-left: 0;padding-right: 0;"> <!--TODO CC: Pass style inline to css class-->
 											<div class="fg-line">
 												<textarea class="form-control auto-size" name="description"><?php echo ($reset) ? '' : set_value('description',$this->form_data->description); ?></textarea>
-												<label class="fg-label">Descripción del comedor</label>
+												<label class="fg-label">Descripción del comedor (opcional)</label>
 											</div>
 										</div>
 										<div class="fg-float form-group col-xs-6" style="padding-left: 0;"> <!--TODO CC: Pass style inline to css class-->

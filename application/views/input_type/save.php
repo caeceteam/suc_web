@@ -37,14 +37,14 @@
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="name">
 												<input type="text" id="name" name="name" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('name', utf8_decode($this->form_data->name)); ?>">
-												<label class="fg-label">Nombre</label>
+												<label class="fg-label">Nombre (opcional)</label>
 											</div>
 										</div>
 										<br/>
 										<div class="form-group fg-float">
 											<div class="fg-line" data-id="code">
 												<input type="text" id="code" name="code" class="input-sm form-control fg-input" value="<?php echo ($reset) ? '' : set_value('code', utf8_decode($this->form_data->code)); ?>">
-												<label class="fg-label">Código</label>
+												<label class="fg-label">Código (opcional)</label>
 											</div>
 										</div>
 										<br/>
