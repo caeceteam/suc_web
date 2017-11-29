@@ -1,48 +1,34 @@
 <?php
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
-
 class User_diner_model extends CI_Model
 {
-
     /**
      * Variables para el rest client
      *
      * @var string
      */
     private $base_uri = 'http://localhost:3000';
-
     private $client;
-
     private $timeout = 5.0;
-
     /**
      * Variables para los atributos del modelo
      *
      * @var string
      */
     public $idUser;
-
     public $name;
-
     public $surname;
-
     public $alias;
-
     public $pass;
     // public $chekPass;
     public $mail;
-
     public $idDiner;
-
     public $phone;
     // public $state;
     public $role;
-
     public $docNumber;
-
     public $bornDate;
-
     /**
      * Comunico con la API
      *
@@ -58,7 +44,6 @@ class User_diner_model extends CI_Model
                         'timeout'  => $this->timeout
                 ]);
     }
-
     /**
      * ********************************************************************************************
      * BUSQUEDAS
@@ -91,6 +76,17 @@ class User_diner_model extends CI_Model
     {
         $url = 'api/users/' . $id;
         return $this->search($url);
+    }
+    
+    /**
+     * Usuarios por comedor
+     *
+     * @param string $page
+     */
+    public function get_userdiner_by_diner ($page, $diner)
+    {
+    	$url = 'api/usersDiners?idDiner=' . $diner .  '&page=' . $page ;
+    	return $this->search($url);
     }
     
     /**
@@ -135,7 +131,7 @@ class User_diner_model extends CI_Model
      * @return array Si el alta fue exitosa, devuelve un array con el input
      *         type, sino devuelve NULL
      */
-    public function add ($user_diner)
+  /*  public function add ($user_diner)
     {
         try {
             $response = $this->client->request('POST', 'api/users', 
@@ -154,7 +150,44 @@ class User_diner_model extends CI_Model
             return $this->errorMessage($e);
         }
     }
-
+*/
+            public function add ($user_diner)
+            {
+            	
+            	try {
+            		$response = $this->client->request('POST', 'api/users',
+            				[
+            						'json' => $user_diner
+            				]);
+            		$body_user = $response->getBody();
+            		$user_new = json_decode($body_user, TRUE);
+            		if ($response->getStatusCode() == HTTP_CREATED) {
+            			 
+            			$userDiner = array(
+            					'active'  		  => 1,
+            					'isCollaborator'  => 0,
+            			);
+            			
+            			//Agregad0
+            			$responseDinerUser = $this->client->request('PUT',
+            					'api/usersDiners/' . $this->session->userdata['idDiner']  . '/' .  $user_new['idUser'] ,
+            					[
+            							'json' => $userDiner
+            					]);
+            			 
+            			 
+            			$body = $response->getBody();
+            			return json_decode($body, TRUE);
+            		} else
+            			return NULL;
+            	} catch (Exception $e) {
+            		return $this->errorMessage($e);
+            	}
+            	catch (ClientException $e) {
+            		return $this->errorMessage($e);
+            	}
+            }           
+            
     /**
      * Edición de input type
      *
@@ -175,7 +208,6 @@ class User_diner_model extends CI_Model
         } else
             return NULL;
     }
-
     /**
      * Delete de input type
      *
@@ -193,7 +225,6 @@ class User_diner_model extends CI_Model
         } else
             return FALSE;
     }
-
     /**
      * Consulta la cantidad de paginas que devuelve la consulta
      * 
@@ -204,7 +235,6 @@ class User_diner_model extends CI_Model
         $url = 'api/users?page=' . $page;
         return $this->search($url);
     }
-
     /**
      * Función que mapea el mensaje de error desde la API usado en los editores
      * 

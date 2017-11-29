@@ -157,7 +157,10 @@ defined('GUEST')      			OR define('GUEST', 4);
  | Usados para manejar los tipos de mail de la api /emails/
  |
  */
-defined('REGISTRATION_MAIL')     	OR define('REGISTRATION_MAIL', 0);
-defined('APPROVAL_MAIL')      		OR define('APPROVAL_MAIL', 1);
-defined('REJECTION_MAIL')      		OR define('REJECTION_MAIL', 2);
-defined('FORGOT_YOUR_PASSWORD')		OR define('FORGOT_YOUR_PASSWORD', 3);
+defined('REGISTRATION_MAIL')     	 OR define('REGISTRATION_MAIL', 0);
+defined('APPROVAL_MAIL')      		 OR define('APPROVAL_MAIL', 1);
+defined('REJECTION_MAIL')      		 OR define('REJECTION_MAIL', 2);
+//defined('FORGOT_YOUR_PASSWORD')		 OR define('FORGOT_YOUR_PASSWORD', 3);
+defined('NEW_DINER_USER')			 OR define('NEW_DINER_USER', 3);
+defined('CHANGE_PERSON_INFORMATION') OR define('CHANGE_PERSON_INFORMATION', 4);
+defined('CHANGE_PERSON_PASS') 		 OR define('CHANGE_PERSON_PASS', 5);
