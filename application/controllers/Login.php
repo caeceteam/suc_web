@@ -65,6 +65,7 @@ class Login extends CI_Controller {
 				        'idUser'        => $response['user']['idUser'],
 						'token'			=> $response['token'],
 						'idDiner'		=> $response['diners'][0]['idDiner'],
+						'dinerName'		=> $response['diners'][0]['name'],
 						'is_logged_in' 	=> true,
 						'role'			=> $response['user']['role'] 
 				);				
