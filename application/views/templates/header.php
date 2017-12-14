@@ -19,7 +19,7 @@
 		<li class="dropdown hm-profile">
 			<?php 	if (isset($this->session->userName)) {
 						echo '	<a data-toggle="dropdown" href="">
-        							<span class="user-name">' . $this->session->userName . ' - ' . $this->login->get_role_description($this->session->role) . '</span>
+        							<span class="user-name">' . $this->session->userName . ' - ' . ($this->session->role == 0 ? $this->login->get_role_description($this->session->role) : $this->login->get_role_description($this->session->role) . ' - ' . $this->session->dinerName) . '</span>
             						<img src="' . base_url("img/profile-pics/2.gif") . '?>" alt="">
             					</a>';
 					} else {
