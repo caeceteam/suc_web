@@ -106,7 +106,7 @@
 												<div class="btn-colors btn-demo">
 													<button type="submit" name="aprobar" value="aprobar" id="approve-button" class="btn palette-Green bg">Aprobar</button>
 													<a id="reject-button" class="btn palette-Red bg">Rechazar</a>
-													<a id="cancel-button" href="<?php echo site_url('donation')?>" class="btn btn-primary">Cancelar</a>
+													<a id="cancel-button" href="<?php echo site_url('donation')?>" class="btn btn-danger">Cancelar</a>
 												</div>
 					                        </div>
 										</form> 

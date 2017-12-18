@@ -145,7 +145,7 @@
 									class="btn btn-primary btn-sm m-t-10 waves-effect">Grabar</button>
 								
 								 <a href="<?php echo site_url($this->form_data->redirect); ?>"
-									class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>
+									class="btn btn-danger btn-sm m-t-10 waves-effect">Cancelar</a>
 										<?php echo form_hidden('id', ($reset) ? '' : set_value('id',$this->form_data->id)); ?> 
 
 							</div>

@@ -128,7 +128,7 @@
 											<br/>
 											<div class="pmb-block">
 												<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Crear</button>
-												<a href="<?php echo site_url('home'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>	
+												<a href="<?php echo site_url('home'); ?>" class="btn btn-danger btn-sm m-t-10 waves-effect">Cancelar</a>	
 											</div>											
 										</div>
 										<br>

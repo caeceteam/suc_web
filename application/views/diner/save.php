@@ -137,7 +137,7 @@
 												<?php echo form_hidden('id', ($reset) ? '' : set_value('id', $this->form_data->id)); ?>
 												<?php echo form_hidden('state', ($reset) ? '' : set_value('state', $this->form_data->state)); ?>
 												<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Editar</button>
-												<a href="<?php echo site_url('diner'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>	
+												<a href="<?php echo site_url('diner'); ?>" class="btn btn-danger btn-sm m-t-10 waves-effect">Cancelar</a>	
 											</div>
 
 											</br>

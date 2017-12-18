@@ -145,7 +145,7 @@
 												<?php echo form_hidden('id', ($reset) ? '' : set_value('id', $this->form_data->id)); ?>
 												
 												<button type="submit" class="btn btn-primary btn-sm m-t-10 waves-effect">Guardar</button>
-												<a href="<?php echo site_url('event'); ?>" class="btn btn-primary btn-sm m-t-10 waves-effect">Cancelar</a>	
+												<a href="<?php echo site_url('event'); ?>" class="btn btn-danger btn-sm m-t-10 waves-effect">Cancelar</a>	
 											</div>
 
 											</br>
